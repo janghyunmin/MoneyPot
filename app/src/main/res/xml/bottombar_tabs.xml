@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <tabs>
+        <tab
+            id="@+id/tab1"
+            icon="@drawable/ic_bottom_target_off"
+            title="맞춤포트"
+            />
+        <tab
+            id="@+id/tab2"
+            icon="@drawable/ic_bottom_search_off"
+            title="포트요리"
+            />
+        <tab
+            id="@+id/tab3"
+            icon="@drawable/ic_bottom_rank_off"
+            title="포트마켓"/>
+        <tab
+            id="@+id/tab4"
+            icon="@drawable/ic_bottom_cart_off"
+            title="찜한포트"
+            />
+        <tab
+            id="@+id/tab5"
+            icon="@drawable/ic_bottom_all_off"
+            title="전체보기"
+            />
+    </tabs>
+</PreferenceScreen>

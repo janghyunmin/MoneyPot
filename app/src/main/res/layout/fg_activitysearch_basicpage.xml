@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
+    >
+
+    <LinearLayout
+        android:id="@+id/port_search_page_recommend_result_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:paddingBottom="10dp"
+        android:gravity="center"
+        >
+        <RelativeLayout
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_gray_search_page"
+            >
+            <TextView
+                android:id="@+id/port_search_page_recently_search_tab"
+                android:layout_width="116dp"
+                android:layout_height="32dp"
+                android:text="최근 검색어"
+                android:background="@drawable/bt_red_search_page"
+                android:textSize="11dp"
+                android:textColor="@color/normal_title_color"
+                android:textStyle="bold"
+                android:gravity="center"
+                />
+            <TextView
+                android:id="@+id/port_search_page_recommend_tab"
+                android:layout_width="116dp"
+                android:layout_height="32dp"
+                android:text="지금 뜨는 상품"
+                android:textSize="11dp"
+                android:textColor="@color/dark_gray_color"
+                android:textStyle="bold"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/port_search_page_recommend_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/port_search_page_recommend_result_tabs"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <quantec.com.moneypot.CustomView.SwipeViewPager
+            android:id="@+id/port_search_page_recommendviewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="DescPageTab"
+            type="quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.DescPageTab.Adapter.AdapterDescPage"/>
+
+    </data>
+
+
+<RelativeLayout
+    android:id="@+id/descPage_tab_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64.5dp"
+    android:paddingLeft="25dp"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        >
+        <TextView
+            android:id="@+id/descPage_tab_desc_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/normal_text_color"
+            android:textSize="15dp"
+            />
+        <TextView
+            android:id="@+id/descPage_tab_desc_descript"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:textColor="@color/gray_brown_color"
+            android:layout_below="@+id/descPage_tab_desc_name"
+            android:layout_marginTop="3dp"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:maxWidth="170dp"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/descPage_tab_desc_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/descPage_tab_desc_per"
+        android:textSize="18.3dp"
+        />
+
+    <TextView
+        android:id="@+id/descPage_tab_desc_per"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/descPage_tab_desc_check_bt"
+        android:layout_marginRight="10dp"
+        android:textSize="12.3dp"
+        android:layout_alignBaseline="@+id/descPage_tab_desc_rate"
+        />
+
+    <LinearLayout
+        android:id="@+id/descPage_tab_desc_check_bt"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        >
+        <ImageView
+            android:id="@+id/descPage_tab_desc_check_image"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="1dp"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#f2f2f2"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="15dp"
+        />
+</RelativeLayout>
+</layout>

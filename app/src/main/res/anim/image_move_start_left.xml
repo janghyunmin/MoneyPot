@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate xmlns:android="http://schemas.android.com/apk/res/android"
+        android:duration="1400"
+        android:fromXDelta="-10%p"
+        android:toXDelta="0%p"
+        >
+    </translate>
+</set>
+<!--<set xmlns:android="http://schemas.android.com/apk/res/android">-->
+    <!--<translate xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:duration="2000"-->
+        <!--android:fromXDelta="-40%p"-->
+        <!--android:toXDelta="0%p"-->
+        <!--android:repeatCount="2"-->
+        <!--android:fillAfter="true"-->
+        <!--android:repeatMode="reverse"-->
+        <!--&gt;&lt;!&ndash;4&ndash;&gt;-->
+    <!--</translate>-->
+<!--</set>-->

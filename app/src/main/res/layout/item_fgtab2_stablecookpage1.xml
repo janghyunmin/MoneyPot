@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="StableCookpage1"
+            type="quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Adapter.AdapterStable"/>
+
+    </data>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    android:layout_marginTop="10dp"
+    android:background="#FFFFFF"
+    android:layout_marginRight="15dp"
+    android:layout_marginLeft="15dp"
+    >
+    <RelativeLayout
+        android:id="@+id/item_stable_layout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        >
+        <TextView
+            android:id="@+id/item_stable_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/normal_text_color"
+            android:textSize="13dp"
+            />
+
+        <View
+            android:id="@+id/item_stable_line"
+            android:layout_width="0.5dp"
+            android:layout_height="5.5dp"
+            android:background="#cccccc"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/item_stable_title"
+            android:layout_marginLeft="11dp"
+            />
+        <LinearLayout
+            android:id="@+id/item_stable_cookbasket_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/item_stable_line"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/item_stable_cookbasket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="재료에 담기"
+                android:textSize="9dp"
+                />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/item_stable_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/item_stable_per"
+            android:textSize="16dp"
+            />
+
+        <TextView
+            android:id="@+id/item_stable_per"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/item_stable_zzim_layout"
+            android:textSize="13dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignBaseline="@+id/item_stable_rate"
+            />
+
+        <LinearLayout
+            android:id="@+id/item_stable_zzim_layout"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            >
+            <ImageView
+                android:id="@+id/item_stable_zzim"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+</layout>

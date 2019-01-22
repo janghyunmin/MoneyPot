@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="AllPageTab"
+            type="quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Fg_AllPageTab"/>
+
+    </data>
+
+<ScrollView
+    android:id="@+id/allPage_tab_title_scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFFFFF"
+    android:overScrollMode="never"
+    >
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="#FFFFFF">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/allPage_tab_title_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/allPage_tab_desc_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@+id/allPage_tab_title_recyclerView"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/allPage_tab_stock_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toBottomOf="@+id/allPage_tab_desc_recyclerView"
+            />
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
+</layout>

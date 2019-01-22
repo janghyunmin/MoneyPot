@@ -1,0 +1,38 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/TabColor</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@fonts/noto_sans</item>
+        <item name="android:buttonStyle">@style/ButtonStyle</item>
+    </style>
+
+    <style name="ButtonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">@fons/noto_sans</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="MainStatus" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#E5E5E5</item>
+        <item name="android:textColorSecondary">@android:color/black</item>
+        <item name="colorAccent">#FF0000</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="TabTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#FFFFFF</item>                                <!-- 배경 -->
+        <item name="android:textColorPrimary">#FF0000</item>       <!-- 탭바 선택된 텍스트 -->
+        <!--<item name="android:textColorSecondary">@android:color/black</item>     &lt;!&ndash; 탭바 텍스트 &ndash;&gt;-->
+        <item name="colorAccent">#FF0000</item>                    <!-- 하단 움직이는 바 색-->
+    </style>
+
+</resources>

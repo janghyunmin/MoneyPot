@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="PortDetailPage"
+            type="quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort"/>
+
+    </data>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ConstraintLayout_Chart"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+    <RelativeLayout
+
+        android:id="@+id/port_detail_page_top"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@drawable/grade_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+        <ImageView
+            android:id="@+id/port_detail_page_back_bt"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_top_back_white"
+            />
+        <TextView
+            android:id="@+id/port_detail_page_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="작지만 강한 세계의 기업"
+            android:textColor="#ffffff"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:id="@+id/port_detail_page_check"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            />
+
+        <ImageView
+            android:id="@+id/port_detail_page_NoCheck"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/port_detail_page_top_test"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/port_detail_page_top"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/port_detail_page_top_test_shareBT"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="공유하기"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="#44bdc4d4"
+            />
+        <TextView
+            android:id="@+id/port_detail_page_top_test_basketBT"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="재료에 담기"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="#ccdfd6"
+            />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/port_detail_page_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/port_detail_page_top_test"
+        app:layout_constraintBottom_toTopOf="@+id/port_detail_page_invest_bt"
+        android:background="#FFFFFF"
+        android:overScrollMode="never"
+        />
+    <ImageButton
+        android:id="@+id/port_detail_page_invest_btnTop"
+        android:layout_width="50.5dp"
+        android:layout_height="50.5dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="15dp"
+        android:background="@android:color/transparent"
+        android:fadingEdge="none"
+        app:layout_constraintBottom_toTopOf="@+id/port_detail_page_invest_bt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_go_top_btn"
+        android:visibility="gone"
+        />
+    <Button
+        android:id="@+id/port_detail_page_invest_bt"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/grade_bg"
+        android:text="투자하기"
+        android:textColor="@color/normal_title_color"
+        android:textSize="14sp"
+        />
+    <LinearLayout
+        android:id="@+id/port_detail_page_loading"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/port_detail_page_top"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        >
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+</layout>

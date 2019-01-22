@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#fe2f2f</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="TabColor">#F02626</color>
+    <color name="warning_color">#f4511e</color>
+    <color name="hint_color">#42000000</color>
+    <color name="success_color">#009688</color>
+    <color name="normal_text_color">#000000</color>
+    <color name="normal_title_color">#FFFFFF</color>
+    <color name="normal_hint_color">#9a9a9a</color>
+    <color name="normal_EditText_Line_color">#cecece</color>
+    <color name="normal_EditText_cancle_color">#f02626</color>
+    <color name="backgroundDim">#3d000000</color>
+    <color name="delete_pressed_text">#f02626</color>
+    <color name="searchview_background_open_color">#f7f6f6</color>
+    <color name="searchview_background_normal_color">#ffffff</color>
+    <color name="tab1_dialog_text">#010101</color>
+    <color name="delete_normal_text">#666666</color>
+    <color name="make_port_normal_bt_color">#9a9a9a</color>
+    <color name="make_port_blue_color">#0081f5</color>
+    <color name="chart_dur_bt_color">#959595</color>
+    <color name="chart_limit_line_color">#666666</color>
+    <color name="first_port_page_title_layout_color">#FFFFFF</color>
+    <color name="first_port_page_addview_color">#0081f5</color>
+    <color name="first_port_page_middle_layout_addview_color">#0081f5</color>
+    <color name="main_page_status_bar_color">#FFFFFF</color>
+    <color name="chart_bt_normal_color">#666666</color>
+    <color name="chart_point_color">#f02626</color>
+    <color name="blue_color">#0081f5</color>
+    <color name="dark_gray_color">#9a9a9a</color>
+    <color name="red_text_color">#f02626</color>
+    <color name="gray_brown_color">#505050</color>
+    <color name="green_basket_color">#09A9A9</color>
+    <color name="greyish_brown">#505050</color>
+</resources>

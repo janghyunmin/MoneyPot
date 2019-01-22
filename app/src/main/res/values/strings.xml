@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MoneyPot</string>
+
+    <string name="makePortInfo0">수익률 보다 안정성을 생각하는 방법</string>
+    <string name="makePortInfo1">수익률과 안정성 모두를 고려하는 방법</string>
+    <string name="makePortInfo2">다소 위험하지만 수익률이 높은 방법</string>
+</resources>
