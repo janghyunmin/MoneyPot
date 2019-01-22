@@ -24,8 +24,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Dialog.DialogCookpage2AllDelete;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Fg_CookPage1;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Adapter.AdapterCookPage2;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Fg_CookPage2;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Fg_CookPage3;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage4.Fg_CookPage4;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Activity.Myinfo.ActivityMyinfo;
 import quantec.com.moneypot.Activity.SearchPort.ActivitySearchPort;
@@ -283,7 +285,7 @@ public class Fg_tab2 extends Fragment {
 
                                 fgTab2Binding.SearchBackBT.setVisibility(View.VISIBLE);
 
-//                                AdapterCookPage2.ACook = false;
+                                AdapterCookPage2.ACook = false;
 
                                 // ViewMargin : 0 -> 마진 없애기 / 1 - > 마진 주기
                                 cookPageMarginState.putInt("ViewMargin", 0);
@@ -344,7 +346,7 @@ public class Fg_tab2 extends Fragment {
                 fgTab2Binding.SearchTopMakePortOk.setVisibility(View.VISIBLE);
                 v.setTag("Fg2_cookBT");
                 MainActivity.viewPublishSubject.onNext(v);
-//                AdapterCookPage2.ACook = true;
+                AdapterCookPage2.ACook = true;
 
                 cookPageMarginState.putInt("ViewMargin", 1);
                 RxEventBus.getInstance().post(new RxEvent(RxEvent.REFRESH_COOKP2, cookPageMarginState));
@@ -397,7 +399,7 @@ public class Fg_tab2 extends Fragment {
 
     //포트만들기시 완료버튼 클릭
     void MakeOkButtonAnim(){
-//        AdapterCookPage2.ACook = false;
+        AdapterCookPage2.ACook = false;
 
         cookPageMarginState.putInt("ViewMargin", 0);
         RxEventBus.getInstance().post(new RxEvent(RxEvent.REFRESH_COOKP2, cookPageMarginState));
@@ -525,8 +527,10 @@ public class Fg_tab2 extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getChildFragmentManager());
         adapter.addFragment(new Fg_CookPage1(), "HOME");
-        adapter.addFragment(new Fg_CookPage2(), "내가 담은 포트");
-        adapter.addFragment(new Fg_CookPage3(), "내가 만든 포트");
+        adapter.addFragment(new Fg_CookPage2(), "담은 재료");
+        adapter.addFragment(new Fg_CookPage3(), "만든 포트");
+        adapter.addFragment(new Fg_CookPage4(), "포트리그");
+
         viewPager.setAdapter(adapter);
     }
     static class Adapter extends FragmentPagerAdapter {

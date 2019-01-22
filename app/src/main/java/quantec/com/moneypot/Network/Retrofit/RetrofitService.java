@@ -5,6 +5,7 @@ import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelInvestItem;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelTop10Item;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Model.nModel.ModelCookpage1Item;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Model.nModel.ModelCookPage2;
 import quantec.com.moneypot.Activity.SearchPort.BasicPage.Fragment.Model.nModel.ModelRecommendHotPort;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Model.nModel.ModelSearchPage;
@@ -69,4 +70,8 @@ public interface RetrofitService {
     @FormUrlEncoded
     @POST("send_res_pot_list.php")
     Call<Object> getCookBasketData(@Field("pcode") int pcode, @Field("del") int del);
+
+    //포트요리 전체 데이터
+    @GET("recv_res_pot_list.php")
+    Call<ModelCookPage2> getCookData(@Query("opt") int opt);
 }

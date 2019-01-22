@@ -11,30 +11,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.rd.PageIndicatorView;
-
 import java.util.ArrayList;
 
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.AllCookList.ActivityAllCookList;
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Dialog.DialogCookpage1PopUp;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Adapter.AdapterBest;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Adapter.AdapterHot;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Adapter.AdapterStable;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Fragment.Fg_NewItem;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Fragment.Fg_StoryImage;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Model.dModel.ModelBestList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Model.dModel.ModelHotList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Model.dModel.ModelStableList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Model.nModel.ModelCookpage1Item;
@@ -53,20 +44,14 @@ import retrofit2.Response;
 
 public class Fg_CookPage1 extends Fragment {
 
-    LinearLayoutManager HotlayoutManager, BestlayoutManager, StablelayoutManager;
+    LinearLayoutManager HotlayoutManager, StablelayoutManager;
     AdapterHot adapterHot;
-    AdapterBest adapterBest;
     AdapterStable adapterStable;
 
     ArrayList<ModelHotList> modelHotLists;
-    ArrayList<ModelBestList> modelBestLists;
     ArrayList<ModelStableList> modelStableLists;
 
-    private DialogCookpage1PopUp popUpCookpage1;
-
     private MainActivity mainActivity;
-
-    int BestSelectPosition;
 
     FragmentAdapter fragmentAdapter;
     AdapterNewItem adapterNewItem;
@@ -101,29 +86,21 @@ public class Fg_CookPage1 extends Fragment {
         fgcookpage1Binding.fgCookpage1StoryImageViewPager.setPageMargin(getActivity().getResources().getDisplayMetrics().widthPixels / -30);
 
         fgcookpage1Binding.fgCookpage1HotRecyclerview.setHasFixedSize(true);
-        fgcookpage1Binding.fgCookpage1BestRecyclerview.setHasFixedSize(true);
         fgcookpage1Binding.fgCookpage1StableRecyclerview.setHasFixedSize(true);
 
         HotlayoutManager = new LinearLayoutManager(getContext());
         fgcookpage1Binding.fgCookpage1HotRecyclerview.setLayoutManager(HotlayoutManager);
 
-        BestlayoutManager = new LinearLayoutManager(getContext());
-        BestlayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        fgcookpage1Binding.fgCookpage1BestRecyclerview.setLayoutManager(BestlayoutManager);
-
         StablelayoutManager = new LinearLayoutManager(getContext());
         fgcookpage1Binding.fgCookpage1StableRecyclerview.setLayoutManager(StablelayoutManager);
 
         modelHotLists = new ArrayList<>();
-        modelBestLists = new ArrayList<>();
         modelStableLists = new ArrayList<>();
 
         adapterHot = new AdapterHot(modelHotLists, getContext());
-        adapterBest = new AdapterBest(modelBestLists, getContext());
         adapterStable = new AdapterStable(modelStableLists, getContext());
 
         fgcookpage1Binding.fgCookpage1HotRecyclerview.setAdapter(adapterHot);
-        fgcookpage1Binding.fgCookpage1BestRecyclerview.setAdapter(adapterBest);
         fgcookpage1Binding.fgCookpage1StableRecyclerview.setAdapter(adapterStable);
 
         return fgcookpage1Binding.getRoot();
@@ -147,7 +124,7 @@ public class Fg_CookPage1 extends Fragment {
 
         initData();
 
-//         FragmentAdapter에 Fragment 추가, Image 개수만큼 추가
+//      FragmentAdapter에 Fragment 추가, Image 개수만큼 추가
         for (int i = 0; i < 4; i++) {
             Fg_StoryImage imageFragment = new Fg_StoryImage();
             Bundle bundle = new Bundle();
@@ -308,27 +285,6 @@ public class Fg_CookPage1 extends Fragment {
             }
         });
 
-        //랭킹 포트 더보기 클릭
-        adapterBest.setMoreViewClick(new AdapterBest.MoreViewClick() {
-            @Override
-            public void onClick(int position) {
-
-                BestSelectPosition = position;
-
-                popUpCookpage1 = new DialogCookpage1PopUp(getContext(), modelBestLists.get(position).getZzim(),ZzimClickListener
-                        ,ShareClickListener, CloseClickListener);
-                popUpCookpage1.show();
-            }
-        });
-
-        //랭킹 포트 클릭시 상세페이지 이동
-        adapterBest.setMoreItemClick(new AdapterBest.MoreItemClick() {
-            @Override
-            public void onClick(int position) {
-                MovedDetailPage(modelBestLists.get(position).getCode(), modelBestLists.get(position).getTitle(), position,800);
-            }
-        });
-
         //모든 재료 클릭
         fgcookpage1Binding.fgCookpage1AllListLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -440,7 +396,6 @@ public class Fg_CookPage1 extends Fragment {
 
                             modelHotLists.clear();
                             modelStableLists.clear();
-                            modelBestLists.clear();
 
                             for(int index = 0 ; index < response.body().getNum() ; index++){
                                 if(index > 2 && index < 6) {
@@ -452,14 +407,9 @@ public class Fg_CookPage1 extends Fragment {
                                     modelStableLists.add(new ModelStableList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
                                             response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
                                             response.body().getProduct().get(index).getCode()));
-                                }else{
-                                    modelBestLists.add(new ModelBestList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
-                                            response.body().getProduct().get(index).getSelect(),response.body().getProduct().get(index).getPut(),
-                                            response.body().getProduct().get(index).getCode(),1, (index+1)+"위"));
                                 }
                             }
                             adapterHot.notifyDataSetChanged();
-                            adapterBest.notifyDataSetChanged();
                             adapterStable.notifyDataSetChanged();
 
                             fgcookpage1Binding.fgCookpage1LoadingBar.setVisibility(View.GONE);
@@ -511,22 +461,6 @@ public class Fg_CookPage1 extends Fragment {
                 DupliCheckedItem(2, 0, modelStableLists.get(data.getIntExtra("ZzimPositionD",0)).getCode());
             }
         }
-        //베스트 재료 찜 결과
-        else if(requestCode == 800) {
-            if(resultCode == 500) {
-                modelBestLists.get(data.getIntExtra("ZzimPositionD",0)).setZzim(1);
-                adapterBest.notifyItemChanged(data.getIntExtra("ZzimPositionD",0));
-                DataManager.get_INstance().setCheckTab1(true);
-
-                DupliCheckedItem(1, 1, modelBestLists.get(data.getIntExtra("ZzimPositionD",0)).getCode());
-            }else if(resultCode == 501) {
-                modelBestLists.get(data.getIntExtra("ZzimPositionD",0)).setZzim(0);
-                adapterBest.notifyItemChanged(data.getIntExtra("ZzimPositionD",0));
-                DataManager.get_INstance().setCheckTab1(true);
-
-                DupliCheckedItem(1, 0, modelBestLists.get(data.getIntExtra("ZzimPositionD",0)).getCode());
-            }
-        }
     }
 
     // 찜을 하는 경우 다른 카테고리의 리스트에 중복되는 값 있을때 체크
@@ -536,36 +470,21 @@ public class Fg_CookPage1 extends Fragment {
         switch (duplication) {
             case 0:
                 if(check == 1) {
-                    //베스트 리스트
-                    for(int index = 0 ; index < modelBestLists.size() ; index++) {
-                        if(modelBestLists.get(index).getCode() == code) {
-                            modelBestLists.get(index).setZzim(1);
-                        }
-                    }
                     //안정 리스트
                     for(int index = 0 ; index < modelStableLists.size() ; index++){
                         if(modelStableLists.get(index).getCode() == code) {
                             modelStableLists.get(index).setZzim(1);
                         }
                     }
-                    adapterBest.notifyDataSetChanged();
                     adapterStable.notifyDataSetChanged();
 
                 }else{
-
-                    //베스트 리스트
-                    for(int index = 0 ; index < modelBestLists.size() ; index++) {
-                        if(modelBestLists.get(index).getCode() == code) {
-                            modelBestLists.get(index).setZzim(0);
-                        }
-                    }
                     //안정 리스트
                     for(int index = 0 ; index < modelStableLists.size() ; index++){
                         if(modelStableLists.get(index).getCode() == code) {
                             modelStableLists.get(index).setZzim(0);
                         }
                     }
-                    adapterBest.notifyDataSetChanged();
                     adapterStable.notifyDataSetChanged();
                 }
                 break;
@@ -612,14 +531,7 @@ public class Fg_CookPage1 extends Fragment {
                             modelHotLists.get(index).setZzim(1);
                         }
                     }
-                    //베스트 리스트
-                    for(int index = 0 ; index < modelBestLists.size() ; index++) {
-                        if(modelBestLists.get(index).getCode() == code) {
-                            modelBestLists.get(index).setZzim(1);
-                        }
-                    }
                     adapterHot.notifyDataSetChanged();
-                    adapterBest.notifyDataSetChanged();
                 }else{
 
                     //뜨거운 리스트
@@ -628,14 +540,7 @@ public class Fg_CookPage1 extends Fragment {
                             modelHotLists.get(index).setZzim(0);
                         }
                     }
-                    //베스트 리스트
-                    for(int index = 0 ; index < modelBestLists.size() ; index++) {
-                        if(modelBestLists.get(index).getCode() == code) {
-                            modelBestLists.get(index).setZzim(0);
-                        }
-                    }
                     adapterHot.notifyDataSetChanged();
-                    adapterBest.notifyDataSetChanged();
                 }
                 break;
             default:
@@ -650,36 +555,21 @@ public class Fg_CookPage1 extends Fragment {
         switch (duplication) {
             case 0:
                 if(check == 1) {
-                    //베스트 리스트
-                    for(int index = 0 ; index < modelBestLists.size() ; index++) {
-                        if(modelBestLists.get(index).getCode() == code) {
-                            modelBestLists.get(index).setBasket(1);
-                        }
-                    }
                     //안정 리스트
                     for(int index = 0 ; index < modelStableLists.size() ; index++){
                         if(modelStableLists.get(index).getCode() == code) {
                             modelStableLists.get(index).setBasket(1);
                         }
                     }
-                    adapterBest.notifyDataSetChanged();
                     adapterStable.notifyDataSetChanged();
 
                 }else{
-
-                    //베스트 리스트
-                    for(int index = 0 ; index < modelBestLists.size() ; index++) {
-                        if(modelBestLists.get(index).getCode() == code) {
-                            modelBestLists.get(index).setBasket(0);
-                        }
-                    }
                     //안정 리스트
                     for(int index = 0 ; index < modelStableLists.size() ; index++){
                         if(modelStableLists.get(index).getCode() == code) {
                             modelStableLists.get(index).setBasket(0);
                         }
                     }
-                    adapterBest.notifyDataSetChanged();
                     adapterStable.notifyDataSetChanged();
                 }
                 break;
@@ -726,14 +616,7 @@ public class Fg_CookPage1 extends Fragment {
                             modelHotLists.get(index).setBasket(1);
                         }
                     }
-                    //베스트 리스트
-                    for(int index = 0 ; index < modelBestLists.size() ; index++) {
-                        if(modelBestLists.get(index).getCode() == code) {
-                            modelBestLists.get(index).setBasket(1);
-                        }
-                    }
                     adapterHot.notifyDataSetChanged();
-                    adapterBest.notifyDataSetChanged();
                 }else{
 
                     //뜨거운 리스트
@@ -742,14 +625,7 @@ public class Fg_CookPage1 extends Fragment {
                             modelHotLists.get(index).setBasket(0);
                         }
                     }
-                    //베스트 리스트
-                    for(int index = 0 ; index < modelBestLists.size() ; index++) {
-                        if(modelBestLists.get(index).getCode() == code) {
-                            modelBestLists.get(index).setBasket(0);
-                        }
-                    }
                     adapterHot.notifyDataSetChanged();
-                    adapterBest.notifyDataSetChanged();
                 }
                 break;
             default:
@@ -787,26 +663,6 @@ public class Fg_CookPage1 extends Fragment {
                                 NotifiedZzim(0, code);
                             }
                             adapterHot.notifyItemChanged(position);
-                        }else if(category == 1) {
-
-                            //찜 안된 상태 -> 찜 하기
-                            if (del == 0) {
-                                modelBestLists.get(position).setZzim(1);
-
-                                DupliCheckedItem(1, 1, code);
-                                NotifiedZzim(1, code);
-                            }
-                            //찜 된 상태 -> 찜 해제 하기
-                            else {
-                                modelBestLists.get(position).setZzim(0);
-
-                                DupliCheckedItem(1, 0, code);
-                                NotifiedZzim(0, code);
-                            }
-
-                            RxEventBus.getInstance().post(new RxEvent(RxEvent.COOK_DIOLOG, null));
-                            adapterBest.notifyItemChanged(position);
-
                         }else if(category == 2){
                             //찜 안된 상태 -> 찜 하기
                             if (del == 0) {
@@ -846,7 +702,6 @@ public class Fg_CookPage1 extends Fragment {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (response.code() == 200) {
-
                     // 뜨거운 담기
                     if(category == 0) {
                         if (del == 0) {
@@ -859,12 +714,7 @@ public class Fg_CookPage1 extends Fragment {
                             DupliCheckedBasket(0, 0, code);
                             NotifiedBasket();
                         }
-
                         adapterHot.notifyItemChanged(position);
-                    }
-                    // 베스트 담기
-                    else if(category == 1) {
-
                     }
                     // 안정적 담기
                     else if(category == 2) {
@@ -879,7 +729,6 @@ public class Fg_CookPage1 extends Fragment {
                             DupliCheckedBasket(2, 0, code);
                             NotifiedBasket();
                         }
-
                         adapterStable.notifyItemChanged(position);
                     }
                 }
@@ -889,33 +738,5 @@ public class Fg_CookPage1 extends Fragment {
             }
         });
     }
-
-    //베스트 리스트에서 찜하기
-    private View.OnClickListener ZzimClickListener = new View.OnClickListener() {
-        public void onClick(View v) {
-
-            if(modelBestLists.get(BestSelectPosition).getZzim() == 0) {
-                CookZzim(1, modelBestLists.get(BestSelectPosition).getCode(), BestSelectPosition, 0);
-            }else{
-                CookZzim(1, modelBestLists.get(BestSelectPosition).getCode(), BestSelectPosition, 1);
-            }
-        }
-    };
-
-    //공유하기
-    private View.OnClickListener ShareClickListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(getContext(), "공유 하기", Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    //닫기
-    private View.OnClickListener CloseClickListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            popUpCookpage1.dismiss();
-        }
-    };
-
-
 }
 

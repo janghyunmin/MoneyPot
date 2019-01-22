@@ -21,8 +21,8 @@
             android:id="@+id/fg_cookpage1_hotRecyclerview_title"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/fg_cookpage1_BestRecyclerview"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toTopOf="parent"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -51,56 +51,11 @@
             />
 
         <RelativeLayout
-            android:id="@+id/fg_cookpage1_BestRecyclerview_title"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="37dp"
-            >
-            <TextView
-                android:id="@+id/fg_cookpage1_BestRecyclerview_title_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="랭킹 도전, 포트 만들기 대회"
-                android:textColor="@color/normal_text_color"
-                android:layout_marginLeft="22dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="매 달, 총 상금 천만원!"
-                android:textSize="12dp"
-                android:layout_below="@+id/fg_cookpage1_BestRecyclerview_title_name"
-                android:layout_marginLeft="25dp"
-                android:textColor="@color/green_basket_color"
-                />
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_more_plus_gray"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="15dp"
-                />
-        </RelativeLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/fg_cookpage1_BestRecyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/fg_cookpage1_BestRecyclerview_title"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            />
-
-        <RelativeLayout
             android:id="@+id/fg_cookpage1_NewItemViewPager_title"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             app:layout_constraintTop_toBottomOf="@+id/fg_cookpage1_hotRecyclerview"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -129,6 +84,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="#efedbf"
+            android:layout_marginTop="10dp"
             />
 
         <com.rd.PageIndicatorView
@@ -154,7 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             app:layout_constraintTop_toBottomOf="@+id/fg_cookpage1_NewItemViewPager"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             >
             <TextView
                 android:layout_width="wrap_content"

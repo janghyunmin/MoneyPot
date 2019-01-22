@@ -41,7 +41,8 @@
         <activity android:name=".Activity.SearchPort.ActivitySearchPort" />
         <activity android:name=".Activity.DetailPort.ActivityDetailPort" />
         <activity android:name=".Activity.Payment.ActivityPayment" />
-        <activity android:name=".Activity.AllCookList.ActivityAllCookList"></activity>
+        <activity android:name=".Activity.AllCookList.ActivityAllCookList" />
+        <activity android:name=".Activity.FinishMakePort.ActivityFinishMakePort"></activity>
     </application>
 
 </manifest>
