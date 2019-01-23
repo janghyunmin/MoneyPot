@@ -170,8 +170,6 @@ public class AdapterDetailPort extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             lineDataSet = new LineDataSet(entries, null);
             lineDataSet.setLineWidth(1.5f);
-            lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));
-            lineDataSet.setCircleColorHole(Color.GREEN);
             lineDataSet.setColor(Color.parseColor("#FFFF0000"));
             lineDataSet.setDrawHorizontalHighlightIndicator(false);
             lineDataSet.setDrawValues(false);
@@ -180,11 +178,7 @@ public class AdapterDetailPort extends RecyclerView.Adapter<RecyclerView.ViewHol
             lineDataSet.setDrawHorizontalHighlightIndicator(false);
             lineDataSet.setHighLightColor(R.color.chart_limit_line_color);
             lineDataSet.setHighlightLineWidth(1f);
-            lineDataSet.setCircleHoleRadius(5f);
-            lineDataSet.setDrawCircleHole(true);
             lineDataSet.setDrawCircles(false);
-
-            lineDataSet.setLabel("");
 
             lineData = new LineData(lineDataSet);
             lineData.setHighlightEnabled(true);

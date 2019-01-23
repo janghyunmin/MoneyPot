@@ -76,7 +76,8 @@ public class Fg_tab2 extends Fragment {
                 }
 
                 fgTab2Binding.cookpage1Bt.setTranslationY(-Math.abs(positionOffset-position)*200);
-                if(position == 2) {
+                // 포트만들기 만든포트 페이지와 포트리스 페이지에서는 숨김
+                if(position == 2 || position == 3) {
                     fgTab2Binding.cookpage1Bt.setVisibility(View.GONE);
                 }else{
                     fgTab2Binding.cookpage1Bt.setVisibility(View.VISIBLE);
@@ -84,7 +85,7 @@ public class Fg_tab2 extends Fragment {
             }
             @Override
             public void onPageSelected(int position) {
-                if(position == 0){
+                if(position == 0 || position == 3){
                     fgTab2Binding.fragmentTab2ModifyLayout.setVisibility(View.GONE);
                 }else{
                     fgTab2Binding.fragmentTab2ModifyLayout.setVisibility(View.VISIBLE);

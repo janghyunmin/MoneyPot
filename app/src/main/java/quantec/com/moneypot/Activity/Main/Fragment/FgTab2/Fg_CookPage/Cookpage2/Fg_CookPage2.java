@@ -50,14 +50,12 @@ public class Fg_CookPage2 extends Fragment {
 
     public static boolean CookDeleteState = false;
     private DialogCookPage2Delete customDialog;
-    //포트 삭제시 해당 포지션
-    int DeletePosition;
-    //포트 선택시 포지션
-    int SelectPosition;
-    //포트만들기 아이템 선택 포지션 저장 ( 클릭 온 오프에 따른 선택 및 취소 )
-    ArrayList<Integer> savePosition;
+    //포트 삭제시 해당 포지션 //포트 선택시 포지션
+    int DeletePosition, SelectPosition;
     //포트만들기 아이템 선택 갯수 ( 5개 이하 선택 가능 )
     int ItemCount = 0;
+    //포트만들기 아이템 선택 포지션 저장 ( 클릭 온 오프에 따른 선택 및 취소 )
+    ArrayList<Integer> savePosition;
     //차트
     List<Entry> entries;
     LineDataSet lineDataSet;
@@ -357,7 +355,6 @@ public class Fg_CookPage2 extends Fragment {
         adapterCookPage2.setCookP2ShareClick(new AdapterCookPage2.CookP2ShareClick() {
             @Override
             public void onClick(int position) {
-
             }
         });
 

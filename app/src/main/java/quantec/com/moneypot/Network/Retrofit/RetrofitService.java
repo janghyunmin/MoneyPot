@@ -2,10 +2,15 @@ package quantec.com.moneypot.Network.Retrofit;
 
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailPage;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelInvestItem;
+import quantec.com.moneypot.Activity.FinishMakePort.Model.nModel.ModelPortSavedInfo;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelTop10Item;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Model.nModel.ModelCookpage1Item;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Model.nModel.ModelCookPage2;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelDeleteMyPort;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelMyChartItem;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelgetMyPortList;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
 import quantec.com.moneypot.Activity.SearchPort.BasicPage.Fragment.Model.nModel.ModelRecommendHotPort;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Model.nModel.ModelSearchPage;
@@ -74,4 +79,37 @@ public interface RetrofitService {
     //포트요리 전체 데이터
     @GET("recv_res_pot_list.php")
     Call<ModelCookPage2> getCookData(@Query("opt") int opt);
+
+    //내포트 차트 데이터
+    @FormUrlEncoded
+    @POST("get_my_chart_data.php")
+    Call<ModelMyChartItem> getChartMyPortData(@Field("ucode") int ucode, @Field("dur") String dur);
+
+
+    //내 포트 삭제
+    //하나지울때는 opt=0
+    //전체 지울 때는 opt=1
+    @FormUrlEncoded
+    @POST("del_my_product.php")
+    Call<ModelDeleteMyPort> getDeleteMyPortData(@Field("ucode") int ucode, @Field("opt") int opt);
+
+    //내 포트 데이터 불러오기
+    //받아오는 데이터
+    // photo = 0 -> 초기이미지 / photo = 1 -> 커스텀 이미지
+    @GET("get_my_product.php")
+    Call<ModelgetMyPortList> getMyPortData();
+
+    //내포트 만들기 저장
+    @FormUrlEncoded
+    @POST("mypot_insert.php")
+    Call<ModelPortSavedInfo> getMyportInsert(@Field("mpName") String mpName, @Field("wch") String wch);
+
+    //내포트 만들기 취소
+    @POST("mypot_del.php")
+    Call<Object> getMyportCancle();
+
+
+    // 포트마켓 랭킹 3개월 리스트
+    @GET("get_product_list.php")
+    Call<ModelTab13mRank> getRankData(@Query("dur") int pcode, @Query("bIdx") int bidx);
 }
