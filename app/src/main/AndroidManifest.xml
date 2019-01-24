@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="quantec.com.moneypot">
 
-    <uses-permission android:name="com.android.vending.BILLING" />
-    <!-- naver app을 통한 인증을 위해 필요한 permission -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -27,7 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.Main.MainActivity" />
+        <activity android:name=".Activity.Main.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".Activity.Intro.ActivityIntro"
             android:screenOrientation="portrait">
@@ -37,13 +37,35 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Myinfo.ActivityMyinfo" />
-        <activity android:name=".Activity.SearchPort.ActivitySearchPort" />
-        <activity android:name=".Activity.DetailPort.ActivityDetailPort" />
-        <activity android:name=".Activity.Payment.ActivityPayment" />
-        <activity android:name=".Activity.AllCookList.ActivityAllCookList" />
-        <activity android:name=".Activity.FinishMakePort.ActivityFinishMakePort" />
-        <activity android:name=".Activity.PortProfileModify.ActivityPortProfileModify"></activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="quantec.com.moneypot.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity android:name=".Activity.Myinfo.ActivityMyinfo"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.SearchPort.ActivitySearchPort"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.DetailPort.ActivityDetailPort"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.Payment.ActivityPayment"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.AllCookList.ActivityAllCookList"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.FinishMakePort.ActivityFinishMakePort"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.PortProfileModify.ActivityPortProfileModify"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.PortProfileModify.Activity.ActivityPortProfileNameModify"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.PortProfileModify.Activity.ActivityPortProfileDescModify"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

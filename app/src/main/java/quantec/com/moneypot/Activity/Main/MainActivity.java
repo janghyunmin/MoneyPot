@@ -21,6 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -57,15 +58,14 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    ActivityMainBinding activityMainBinding;
     //포트만들기 로딩시 뒤로가기 막아둠
     public static boolean MyPortMakingState = false;
-
     Fg_tab1 fragment_tab1;
     Fg_tab2 fragment_tab2;
     Fg_tab3 fragment_tab3;
     Fg_tab4 fragment_tab4;
     Fg_tab5 fragment_tab5;
-
     //portCaterogy ( 0 : 안전형, 1 : 중립형 , 2 : 수익형 )
     long pre_cash, update_cash, portCount, Total_Cash;
     int portCaterogy = 1;
@@ -73,24 +73,17 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> portName = new ArrayList<>();
 
     private DialogLoadingMakingPort loadingCustomMakingPort;
-
     //카테고리 입력 ( 중립, 공격, 안정 )
     String cate;
-
     //포트 만들기 조건 충족
     Boolean[] SelectItemFinishState = new Boolean[]{false, false};
     Fragment currentFragment;
 
     private BackPressCloseHandler backPressCloseHandler;
-
     //포트만들기시 열린 바텀 화면 여부
     boolean PortMakeVisible = false;
 
     Animation image_anim;
-
-    ActivityMainBinding activityMainBinding;
-
-
     //포트만들기 삭제 여부
     boolean PortMakeDeleteOpen = false;
     //내포트 삭제 여부
@@ -102,12 +95,12 @@ public class MainActivity extends AppCompatActivity {
     public static boolean preMakePortPannelState = false;
 
     public static boolean postMakePortPannelState = false;
-
     ////
     private static final long THRESHOLD_MILLIS = 300L;
     public static final PublishSubject<View> viewPublishSubject = PublishSubject.create();
     FragmentTransaction transaction;
     ///
+    Button currentSelectedBT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         activityMainBinding.setMainActivity(this);
-
 
         activityMainBinding.makePortLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -127,68 +119,35 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding.makePortNumber.setText("0개");
         activityMainBinding.makePortPreNumber.setText("0개");
         backPressCloseHandler = new BackPressCloseHandler(this);
-
         finishChart = new ArrayList<>();
-
         activityMainBinding.makePortInfoTextBottom.setText(R.string.makePortInfo1);
+        currentSelectedBT = activityMainBinding.makePortCenterBt;
 
         //안정형
         activityMainBinding.makePortUpBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 activityMainBinding.makePortInfoTextBottom.setText(R.string.makePortInfo0);
-
                 portCaterogy = 0;
-
-                activityMainBinding.makePortUpBt.setBackgroundResource(R.drawable.make_port_bt_pressed_round);
-                activityMainBinding.makePortUpBt.setTextColor(getResources().getColor(R.color.normal_title_color));
-
-                activityMainBinding.makePortStableBt.setBackgroundResource(R.drawable.make_port_bt_normal_round);
-                activityMainBinding.makePortStableBt.setTextColor(getResources().getColor(R.color.make_port_normal_bt_color));
-
-                activityMainBinding.makePortCenterBt.setBackgroundResource(R.drawable.make_port_bt_normal_round);
-                activityMainBinding.makePortCenterBt.setTextColor(getResources().getColor(R.color.make_port_normal_bt_color));
+                SelectedCategoryBT(activityMainBinding.makePortUpBt);
             }
         });
-
         //중립형
         activityMainBinding.makePortCenterBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 activityMainBinding.makePortInfoTextBottom.setText(R.string.makePortInfo1);
-
                 portCaterogy = 1;
-
-                activityMainBinding.makePortCenterBt.setBackgroundResource(R.drawable.make_port_bt_pressed_round);
-                activityMainBinding.makePortCenterBt.setTextColor(getResources().getColor(R.color.normal_title_color));
-
-                activityMainBinding.makePortStableBt.setBackgroundResource(R.drawable.make_port_bt_normal_round);
-                activityMainBinding.makePortStableBt.setTextColor(getResources().getColor(R.color.make_port_normal_bt_color));
-
-                activityMainBinding.makePortUpBt.setBackgroundResource(R.drawable.make_port_bt_normal_round);
-                activityMainBinding.makePortUpBt.setTextColor(getResources().getColor(R.color.make_port_normal_bt_color));
+                SelectedCategoryBT(activityMainBinding.makePortCenterBt);
             }
         });
-
         //수익형
         activityMainBinding.makePortStableBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 activityMainBinding.makePortInfoTextBottom.setText(R.string.makePortInfo2);
-
                 portCaterogy = 2;
-
-                activityMainBinding.makePortStableBt.setBackgroundResource(R.drawable.make_port_bt_pressed_round);
-                activityMainBinding.makePortStableBt.setTextColor(getResources().getColor(R.color.normal_title_color));
-
-                activityMainBinding.makePortCenterBt.setBackgroundResource(R.drawable.make_port_bt_normal_round);
-                activityMainBinding.makePortCenterBt.setTextColor(getResources().getColor(R.color.make_port_normal_bt_color));
-
-                activityMainBinding.makePortUpBt.setBackgroundResource(R.drawable.make_port_bt_normal_round);
-                activityMainBinding.makePortUpBt.setTextColor(getResources().getColor(R.color.make_port_normal_bt_color));
+                SelectedCategoryBT(activityMainBinding.makePortStableBt);
             }
         });
 
@@ -241,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         activityMainBinding.makePortCash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -257,9 +215,7 @@ public class MainActivity extends AppCompatActivity {
                 if (s.length() == 13) {
                     Toast.makeText(MainActivity.this, "허용치를 초과하였습니다.",Toast.LENGTH_SHORT).show();
                 }else{
-
                     if(!s.toString().equals("")) {
-
                         if (pre_cash <= Long.parseLong(s.toString())) {
                             Total_Cash = Long.parseLong(s.toString());
                             activityMainBinding.makePortTitleInfoText.setTextColor(getResources().getColor(R.color.normal_text_color));
@@ -291,7 +247,6 @@ public class MainActivity extends AppCompatActivity {
                 transaction = getSupportFragmentManager().beginTransaction();
 
                 if(tabId == R.id.tab1) {
-
 //                    스테이터스 바 색상 변경 -> 화이트
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                         Window w = getWindow(); // in Activity's onCreate() for instance
@@ -372,12 +327,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onNext(RxEvent rxEvent) {
 
                         switch (rxEvent.getActiion()) {
-
                             case RxEvent.ZZIM_PORT_MAKE_MYPORT:
                                 //이전 레이아웃 포트만들기 패널 업 상태
                                 preMakePortPannelState = true;
-                                //포트만들기 상단 닫기 버튼 활성화 이벤트 전달
-                                RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_PRE_OPEN, null));
                                 //포트만들기 버튼 활성화 여부 이벤트
                                 PortMakeButton();
 
@@ -411,34 +363,27 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     @Override
                                     public void onAnimationEnd(Animation animation) {
-//                                        AnimState = true;
                                     }
                                     @Override
                                     public void onAnimationRepeat(Animation animation) {
                                     }
                                 });
                                 activityMainBinding.makePortLayout.startAnimation(animation);
-
                                 break;
 
                             case RxEvent.ZZIM_PORT_PRE_CLOSE:
                                 makePortPreCloseBT();
                                 break;
 
-                            case RxEvent.ZZIM_PORT_SEARCH_TRANS_PORT:
-                                activityMainBinding.bottombar.selectTabAtPosition(1, true);
-                                break;
-
                             case RxEvent.ZZIM_PORT_SELECT_ITEM:
-
                                 if(rxEvent.getBundle().getBoolean("click")) {
                                     pre_cash = pre_cash+rxEvent.getBundle().getLong("mincost");
                                     Total_Cash = pre_cash;
                                     portCount = rxEvent.getBundle().getInt("count");
                                     code.add(rxEvent.getBundle().getInt("code"));
-                                    //
+
                                     portName.add(rxEvent.getBundle().getString("title"));
-                                    //
+
                                     activityMainBinding.makePortCash.setText(String.valueOf(pre_cash));
                                     activityMainBinding.makePortNumber.setText(String.valueOf(portCount)+"개");
                                     activityMainBinding.makePortPreNumber.setText(String.valueOf(portCount)+"개");
@@ -468,9 +413,8 @@ public class MainActivity extends AppCompatActivity {
                                     activityMainBinding.makePortCash.setText(String.valueOf(pre_cash));
                                     portCount = rxEvent.getBundle().getInt("count");
                                     code.remove(code.indexOf(rxEvent.getBundle().getInt("code")));
-                                    //
+
                                     portName.remove(portName.indexOf(rxEvent.getBundle().getString("title")));
-                                    //
 
                                     activityMainBinding.makePortNumber.setText(String.valueOf(portCount)+"개");
                                     activityMainBinding.makePortPreNumber.setText(String.valueOf(portCount)+"개");
@@ -485,7 +429,6 @@ public class MainActivity extends AppCompatActivity {
                                         SelectItemFinishState[0] = true;
                                         PortMakeButton();
                                     }
-
                                     if(portCount < 2) {
                                         activityMainBinding.makePortTitleInfoText.setText("포트 만들기는 2개 부터 가능합니다.");
                                         activityMainBinding.makePortTitlePreInfoText.setText("포트 만들기는 2개 부터 가능합니다.");
@@ -501,36 +444,6 @@ public class MainActivity extends AppCompatActivity {
                             case RxEvent.ZZIM_PORT_TRANS_PAGE:
                                 makePortPreCloseBT();
                                 break;
-
-                            case RxEvent.ZZIM_PORT_DELETE:
-                                PortMakeDeleteOpen = true;
-                                activityMainBinding.bottombar.setVisibility(View.GONE);
-                                image_anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.zzim_port_delete_bottom_down);
-                                activityMainBinding.bottombar.startAnimation(image_anim);
-                                break;
-
-                            case RxEvent.ZZIM_PORT_DELETE_FINISH:
-                                PortMakeDeleteOpen = false;
-                                activityMainBinding.bottombar.setVisibility(View.VISIBLE);
-                                image_anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.zzim_port_delete_bottom_up);
-                                activityMainBinding.bottombar.startAnimation(image_anim);
-                                break;
-
-                            case RxEvent.MY_PORT_DELETE:
-
-                                MyPortDeleteOprn = true;
-                                activityMainBinding.bottombar.setVisibility(View.GONE);
-                                image_anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.zzim_port_delete_bottom_down);
-                                activityMainBinding.bottombar.startAnimation(image_anim);
-                                break;
-
-                            case RxEvent.MY_PORT_DELETE_FINISH:
-
-                                MyPortDeleteOprn = false;
-                                activityMainBinding.bottombar.setVisibility(View.VISIBLE);
-                                image_anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.zzim_port_delete_bottom_up);
-                                activityMainBinding.bottombar.startAnimation(image_anim);
-                                break;
                         }
                     }
                     @Override
@@ -540,7 +453,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete() {
                     }
                 });
-
 
         //포트 만들기 ok 클릭
         activityMainBinding.makePortPostOkBt.setOnClickListener(new View.OnClickListener() {
@@ -566,9 +478,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     Bundle bundle = new Bundle();
                     bundle.putIntegerArrayList("transcode", code);
-                    //
                     bundle.putStringArrayList("transtitle",portName);
-                    //
                     bundle.putString("transcash", String.valueOf(Total_Cash));
                     bundle.putString("transcategory", cate);
 
@@ -593,7 +503,6 @@ public class MainActivity extends AppCompatActivity {
                                         loadingCustomMakingPort.dismiss();
 
                                         MyPortMakingState = false;
-
                                         RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_MAKE_OK, bundle));
                                     }
                                 }
@@ -638,7 +547,6 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding.makePortPreOkBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //이전 레이아웃 포트만들기 패널 다운 상태
                 preMakePortPannelState = false;
                 //다음 레이아웃 포트만들기 패널 업 상태
@@ -662,7 +570,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onAnimationStart(Animation animation) {}
                     @Override
                     public void onAnimationEnd(Animation animation) {
-//                        AnimState = true;
                     }
                     @Override
                     public void onAnimationRepeat(Animation animation) {}
@@ -690,7 +597,6 @@ public class MainActivity extends AppCompatActivity {
                 activityMainBinding.makePortPreOkBt.startAnimation(animation3);
             }
         });
-
         //다음 레이아웃 포트만들기 이전 버튼 클릭
         activityMainBinding.makePortPostNoBt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -698,7 +604,6 @@ public class MainActivity extends AppCompatActivity {
                 makePortPostNoBT();
             }
         });
-
         viewPublishSubject.throttleFirst(THRESHOLD_MILLIS, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subject<View>() {
@@ -706,12 +611,10 @@ public class MainActivity extends AppCompatActivity {
                     public boolean hasObservers() {
                         return false;
                     }
-
                     @Override
                     public boolean hasThrowable() {
                         return false;
                     }
-
                     @Override
                     public boolean hasComplete() {
                         return false;
@@ -729,25 +632,62 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onNext(View view) {
 
+//                        E/AndroidRuntime: FATAL EXCEPTION: main
+//                        Process: quantec.com.moneypot, PID: 32240
+//                        java.lang.IllegalStateException: Fatal Exception thrown on Scheduler.
+//                                at io.reactivex.android.schedulers.HandlerScheduler$ScheduledRunnable.run(HandlerScheduler.java:111)
+//                        at android.os.Handler.handleCallback(Handler.java:739)
+//                        at android.os.Handler.dispatchMessage(Handler.java:95)
+//                        at android.os.Looper.loop(Looper.java:148)
+//                        at android.app.ActivityThread.main(ActivityThread.java:5551)
+//                        at java.lang.reflect.Method.invoke(Native Method)
+//                        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:730)
+//                        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:620)
+//                        Caused by: java.lang.IllegalStateException: commit already called
+//                        at android.support.v4.app.BackStackRecord.commitInternal(BackStackRecord.java:664)
+//                        at android.support.v4.app.BackStackRecord.commit(BackStackRecord.java:632)
+//                        at quantec.com.moneypot.Activity.Main.MainActivity$21.onNext(MainActivity.java:737)
+//                        at quantec.com.moneypot.Activity.Main.MainActivity$21.onNext(MainActivity.java:704)
+//                        at io.reactivex.internal.operators.observable.ObservableObserveOn$ObserveOnObserver.drainNormal(ObservableObserveOn.java:200)
+//                        at io.reactivex.internal.operators.observable.ObservableObserveOn$ObserveOnObserver.run(ObservableObserveOn.java:252)
+//                        at io.reactivex.android.schedulers.HandlerScheduler$ScheduledRunnable.run(HandlerScheduler.java:109)
+//                        at android.os.Handler.handleCallback(Handler.java:739) 
+//                        at android.os.Handler.dispatchMessage(Handler.java:95) 
+//                        at android.os.Looper.loop(Looper.java:148) 
+//                        at android.app.ActivityThread.main(ActivityThread.java:5551) 
+//                        at java.lang.reflect.Method.invoke(Native Method) 
+//                        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:730) 
+//                        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:620) 
+
                         if(view.getTag().equals("tab1")){
+                            try {
                             transaction.hide(currentFragment).show(fragment_tab1).commit();
                             currentFragment = fragment_tab1;
+                            }catch (Exception e){}
                         }
                         else if(view.getTag().equals("tab2")){
+                            try {
                             transaction.hide(currentFragment).show(fragment_tab2).commit();
                             currentFragment = fragment_tab2;
+                            }catch (Exception e){}
                         }
                         else if(view.getTag().equals("tab3")){
+                            try {
                             transaction.hide(currentFragment).show(fragment_tab3).commit();
                             currentFragment = fragment_tab3;
+                            }catch (Exception e){}
                         }
                         else if(view.getTag().equals("tab4")){
+                            try {
                             transaction.hide(currentFragment).show(fragment_tab4).commit();
                             currentFragment = fragment_tab4;
+                            }catch (Exception e){}
                         }
                         else if(view.getTag().equals("tab5")){
+                            try {
                             transaction.hide(currentFragment).show(fragment_tab5).commit();
                             currentFragment = fragment_tab5;
+                            }catch (Exception e){}
                         }
                         else if(view.getTag().equals("Fg2_cookBT")){
                             RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_MAKE_MYPORT, null));
@@ -760,10 +700,18 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete() {
                     }
                 });
-
-
-
     }//onCreate 끝
+
+    // 포트만들기 중립/공격/안정 버튼 상태바꿈 이벤트
+    void SelectedCategoryBT(Button selectedBT) {
+        if(currentSelectedBT != null) {
+            currentSelectedBT.setBackgroundResource(R.drawable.make_port_bt_normal_round);
+            currentSelectedBT.setTextColor(getResources().getColor(R.color.make_port_normal_bt_color));
+        }
+        currentSelectedBT = selectedBT;
+        currentSelectedBT.setBackgroundResource(R.drawable.make_port_bt_pressed_round);
+        currentSelectedBT.setTextColor(getResources().getColor(R.color.normal_title_color));
+    }
 
     private BackPressEditText.OnBackPressListener onBackPressListener = new BackPressEditText.OnBackPressListener() {
         @Override
@@ -772,7 +720,6 @@ public class MainActivity extends AppCompatActivity {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         }
     };
-
 
     //포트만들기 버튼 활성 비활성화 판단
     void PortMakeButton() {
@@ -789,24 +736,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBackPressed() {
 
-        //포트만들기 패널 올라올때 뒤로가기 막기 ( 다 올라온뒤에 풀림 )
-//        if(!Tab1.UpPannelAnim) {
-
             if (!PortMakeDeleteOpen && !MyPortMakingState && !MyPortDeleteOprn && !preMakePortPannelState && !postMakePortPannelState) {
                 backPressCloseHandler.onBackPressed();
             }
             else {
-
                 if (PortMakeDeleteOpen) {
                     PortMakeDeleteOpen = false;
-                    RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_DELETE_FINISH_BACK_BT, null));
                     activityMainBinding.bottombar.setVisibility(View.VISIBLE);
                     image_anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.zzim_port_delete_bottom_up);
                     activityMainBinding.bottombar.startAnimation(image_anim);
 
                 } else if (MyPortDeleteOprn) {
                     MyPortDeleteOprn = false;
-                    RxEventBus.getInstance().post(new RxEvent(RxEvent.MY_PORT_DELETE_FINISH_BACK_BT, null));
                 }
                 //이전 레이아웃 포트만들기 패널 업 상태 일때 뒤로가기 이벤트
                 else if(preMakePortPannelState){
@@ -820,9 +761,7 @@ public class MainActivity extends AppCompatActivity {
                     makePortPostNoBT();
                 }
             }
-//        }
     }//onBackPressed 끝
-
 
     public class BackPressCloseHandler {
         private long backKeyPressedTime = 0;
@@ -849,8 +788,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //다음 레이아웃 포트만들기 이전 버튼 클릭 이벤트
-    public void makePortPostNoBT(){
-
+    public void makePortPostNoBT() {
         //이전 레이아웃 포트만들기 패널 업 상태
         preMakePortPannelState = true;
         //포트만들기 다음 레이아웃 시 백 단 막는 이벤트 종료
@@ -859,7 +797,6 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding.makePortLayoutContainer.setVisibility(View.GONE);
         //이전 레이아웃 포트만들기 패널 보임
         activityMainBinding.makePortLayoutPre.setVisibility(View.VISIBLE);
-
         //이전 레이아웃 포트만들기 버튼 보임 후 왼쪽 이동 애니메이션
         activityMainBinding.makePortPreOkBt.setVisibility(View.VISIBLE);
         TranslateAnimation animation3 = new TranslateAnimation(
@@ -934,19 +871,11 @@ public class MainActivity extends AppCompatActivity {
                 activityMainBinding.makePortLayoutPre.setVisibility(View.VISIBLE);
                 //이전 레이아웃 포트만들기 버튼 보임
                 activityMainBinding.makePortPreOkBt.setVisibility(View.VISIBLE);
-
-//                AnimState = false;
             }
             @Override
             public void onAnimationRepeat(Animation animation) {
             }
         });
         activityMainBinding.makePortLayout.startAnimation(animation);
-    }
-
-    public NetworkInfo getNetworkState() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo;
     }
 }

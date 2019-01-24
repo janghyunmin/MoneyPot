@@ -53,7 +53,7 @@ public class Fg_StoryImage extends Fragment {
             fg_storyimage_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "그림 번호 : "+ page, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "준비중 입니다", Toast.LENGTH_SHORT).show();
                 }
             });
         }

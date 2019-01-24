@@ -51,6 +51,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Fg_CookPage3 extends Fragment {
 
+    FgFgtab2Fgcookpage3Binding fgcookpage3Binding;
+
     LinearLayoutManager linearLayoutManager;
     ArrayList<ModelMyCookList> modelMyCookLists;
     AdapterCookPage3 adapterCookPage3;
@@ -70,8 +72,6 @@ public class Fg_CookPage3 extends Fragment {
     //데이터 리프레쉬 할때 딜레이 줌 ( 반복적인 딜레이 막음 )
     boolean DelayedRefresh = false;
 
-    FgFgtab2Fgcookpage3Binding fgcookpage3Binding;
-
     public Fg_CookPage3() {
     }
 
@@ -85,7 +85,6 @@ public class Fg_CookPage3 extends Fragment {
         fgcookpage3Binding.fgCookpage3Recyclerview.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
         fgcookpage3Binding.fgCookpage3Recyclerview.setLayoutManager(linearLayoutManager);
-
         modelMyCookLists = new ArrayList<>();
 
         entries3 = new ArrayList<>();
@@ -94,7 +93,6 @@ public class Fg_CookPage3 extends Fragment {
 
         adapterCookPage3 = new AdapterCookPage3(modelMyCookLists, getContext(), entries3, lineDataSet3, lineData3);
         fgcookpage3Binding.fgCookpage3Recyclerview.setAdapter(adapterCookPage3);
-
         fgcookpage3Binding.fgCookpage3LoadingBar.setVisibility(View.GONE);
 
         return fgcookpage3Binding.getRoot();
@@ -112,7 +110,6 @@ public class Fg_CookPage3 extends Fragment {
             mainActivity = (MainActivity) context;
         }
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -132,6 +129,7 @@ public class Fg_CookPage3 extends Fragment {
             }
         });
 
+        // 데이터 초기화
         initData();
 
         adapterCookPage3.setCookPage3ItemClick(new AdapterCookPage3.CookPage3ItemClick() {
@@ -258,13 +256,6 @@ public class Fg_CookPage3 extends Fragment {
 
                         switch (rxEvent.getActiion()) {
 
-                            case RxEvent.MY_PORT_DELETE_FINISH:
-                                ChangedVisibleView();
-
-                                ImageAnimState = false;
-                                adapterCookPage3.notifyDataSetChanged();
-                                break;
-
                             case RxEvent.COOK_PAGE3_MODIFY:
                                 if(rxEvent.getBundle().getInt("page") == 2) {
                                     AdapterCookPage3.CookPage3_DeleteAnimState = false;
@@ -282,7 +273,6 @@ public class Fg_CookPage3 extends Fragment {
                                 break;
 
                             case RxEvent.ZZIM_PORT_TRANS_PAGE:
-
                                 modelMyCookLists.add(new ModelMyCookList(rxEvent.getBundle().getString("myportname"), rxEvent.getBundle().getDouble("myportDrate"),
                                         rxEvent.getBundle().getInt("myportcode"), false, rxEvent.getBundle().getLong("myportcash"), null, 0, "", 1));
                                 adapterCookPage3.notifyDataSetChanged();
@@ -383,7 +373,6 @@ public class Fg_CookPage3 extends Fragment {
         });
     }
 
-
     void initData(){
 
         fgcookpage3Binding.fgCookpage3LoadingBar.setVisibility(View.VISIBLE);
@@ -396,7 +385,6 @@ public class Fg_CookPage3 extends Fragment {
                     e.printStackTrace();
                 }
                 DelayedRefresh = false;
-
                 //내가 만든 포트 데이터 초기 불러옴
                 Call<ModelgetMyPortList> getData = RetrofitClient.getInstance().getService().getMyPortData();
                 getData.enqueue(new Callback<ModelgetMyPortList>() {
@@ -412,7 +400,6 @@ public class Fg_CookPage3 extends Fragment {
                             }
                             adapterCookPage3.notifyDataSetChanged();
                             fgcookpage3Binding.fgCookpage3LoadingBar.setVisibility(View.GONE);
-                            ChangedVisibleView();
                         }
                     }
                     @Override
@@ -435,20 +422,5 @@ public class Fg_CookPage3 extends Fragment {
             adapterCookPage3.notifyDataSetChanged();
         }
     }
-
-    //찜포트가 0개일때 삭제, 포트만들기 버튼 안보임/보임
-    void ChangedVisibleView(){
-//        mainActivity.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if(modelMyCookLists.size() == 0) {
-//                    fg_cookpage3_top_layout.setVisibility(View.INVISIBLE);
-//                }else{
-//                    fg_cookpage3_top_layout.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
-    }
-
 
 }

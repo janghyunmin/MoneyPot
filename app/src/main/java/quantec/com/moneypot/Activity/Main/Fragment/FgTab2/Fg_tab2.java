@@ -335,7 +335,6 @@ public class Fg_tab2 extends Fragment {
                     }
                 });
 
-
         //포트만들기 버튼
         fgTab2Binding.cookpage1Bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -356,7 +355,6 @@ public class Fg_tab2 extends Fragment {
         });
 
     }//onViewCreate 끝
-
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -396,7 +394,6 @@ public class Fg_tab2 extends Fragment {
             customDialogAll.dismiss();
         }
     };
-
 
     //포트만들기시 완료버튼 클릭
     void MakeOkButtonAnim(){
@@ -439,7 +436,6 @@ public class Fg_tab2 extends Fragment {
         });
     }
 
-
     //category : 0 -> 포트만들기 클릭 / 1 -> 편집클릭
     void PageAnimation(int category){
 
@@ -452,7 +448,6 @@ public class Fg_tab2 extends Fragment {
             fgTab2Binding.SearchTopCookpage2Ok.setVisibility(View.VISIBLE);
             Animation();
         }else{
-
             if (currentPage == 1) {
                 fgTab2Binding.cookpage1Bt.setVisibility(View.GONE);
 
@@ -482,7 +477,7 @@ public class Fg_tab2 extends Fragment {
 
         fgTab2Binding.SearchTabLayout.setVisibility(View.GONE);
         fgTab2Binding.fragmentTab2Viewpager.setPagingEnabled(false);
-        pageAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.cookpage_up);
+        pageAnim = AnimationUtils.loadAnimation(mainActivity, R.anim.cookpage_up);
 
         fgTab2Binding.fragment2ContainerLayout.startAnimation(pageAnim);
         pageAnim.setAnimationListener(new Animation.AnimationListener() {
@@ -506,7 +501,7 @@ public class Fg_tab2 extends Fragment {
 
         fgTab2Binding.SearchTabLayout.setVisibility(View.GONE);
         fgTab2Binding.fragmentTab2Viewpager.setPagingEnabled(false);
-        pageAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.cookpage_delete_up);
+        pageAnim = AnimationUtils.loadAnimation(mainActivity, R.anim.cookpage_delete_up);
 
         fgTab2Binding.fragment2ContainerLayout.startAnimation(pageAnim);
         pageAnim.setAnimationListener(new Animation.AnimationListener() {

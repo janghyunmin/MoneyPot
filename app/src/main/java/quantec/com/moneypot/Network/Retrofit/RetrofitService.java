@@ -1,5 +1,6 @@
 package quantec.com.moneypot.Network.Retrofit;
 
+import okhttp3.MultipartBody;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailPage;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelInvestItem;
 import quantec.com.moneypot.Activity.FinishMakePort.Model.nModel.ModelPortSavedInfo;
@@ -11,6 +12,7 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelMyChartItem;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelgetMyPortList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
+import quantec.com.moneypot.Activity.PortProfileModify.Model.nModel.ModelImageSavedData;
 import quantec.com.moneypot.Activity.SearchPort.BasicPage.Fragment.Model.nModel.ModelRecommendHotPort;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Model.nModel.ModelSearchPage;
@@ -20,7 +22,9 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface RetrofitService {
@@ -76,7 +80,7 @@ public interface RetrofitService {
     @POST("send_res_pot_list.php")
     Call<Object> getCookBasketData(@Field("pcode") int pcode, @Field("del") int del);
 
-    //포트요리 전체 데이터
+    //내가 담은 포트요리 전체 데이터
     @GET("recv_res_pot_list.php")
     Call<ModelCookPage2> getCookData(@Query("opt") int opt);
 
@@ -108,8 +112,34 @@ public interface RetrofitService {
     @POST("mypot_del.php")
     Call<Object> getMyportCancle();
 
-
     // 포트마켓 랭킹 3개월 리스트
     @GET("get_product_list.php")
-    Call<ModelTab13mRank> getRankData(@Query("dur") int pcode, @Query("bIdx") int bidx);
+    Call<ModelTab13mRank> getRankData(@Query("dur") String pcode, @Query("bIdx") int bidx);
+
+
+    //내포트 이미지 업로드+이름
+    //opt = 0
+    //이미지 + 이름 + 설명
+    //opt = 1
+    //이름 + 설명
+    //opt = 2
+    //이미지 초기화 + 이름 + 설명
+    @Multipart
+    @POST("icon_upload.php")
+    Call<ModelImageSavedData> getImageTextUpload(@Part MultipartBody.Part opt, @Part MultipartBody.Part ucode, @Part MultipartBody.Part name, @Part MultipartBody.Part desc, @Part MultipartBody.Part file, @Part MultipartBody.Part wch);
+
+
+    //내포트 이름 업로드
+    //opt = 0
+    //이미지 + 이름 + 설명
+    //opt = 1
+    //이름 + 설명
+    //opt = 2
+    //이미지 초기화 + 이름 + 설명
+    @Multipart
+    @POST("icon_upload.php")
+    Call<ModelImageSavedData> getTextUpload(@Part MultipartBody.Part opt, @Part MultipartBody.Part ucode, @Part MultipartBody.Part name, @Part MultipartBody.Part desc, @Part MultipartBody.Part wch);
+
+
+
 }

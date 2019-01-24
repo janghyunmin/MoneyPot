@@ -39,16 +39,13 @@ public class AdapterFgTab13m extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private ArrayList<ModelTab13m> tab1_3mItems;
 
-    private OnLoadMoreListener onLoadMoreListener;
-
     Context context;
     List<Entry> entries;
     LineDataSet lineDataSet;
     LineData lineData;
     XAxis xAxis;
 
-    float currentX;
-    float maxX;
+    float currentX, maxX;
 
     int checkedPosition;
 
@@ -223,7 +220,7 @@ public class AdapterFgTab13m extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mImage.setImageResource(singleItem.getImage());
 
-            if(singleItem.isCheck()){
+            if(singleItem.getCheck() == 1){
                 ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mCheckImage.setImageResource(R.drawable.start_on);
             }else{
                 ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mCheckImage.setImageResource(R.drawable.start_off);

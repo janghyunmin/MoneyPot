@@ -2,12 +2,15 @@ package quantec.com.moneypot.Activity.DetailPort;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.data.Entry;
@@ -52,36 +55,29 @@ public class ActivityDetailPort extends AppCompatActivity {
     LineData lineData;
     //DetailPageAdapter 는 이전 버전이고 수정버전이 2임 ( 로딩 느려지는 부분 및 스크롤 느림 현상 해결 )
     AdapterDetailPort detailPageAdapter2;
-
     //메인 리사이클러뷰 아이템
     ArrayList<Integer> Detail;
     ArrayList<Double> Drate;
     ArrayList<String> infoItem;
-
     //메인 리사이클러뷰 갯수에 맞추기 위해서
     int CountSize;
     //스크롤 위치값 받아서 탑 이동 버튼 상태 변경
     int TopCount;
     //스크롤 위치값 받아서 탑 이동 버튼 상태 변경 ( 더보기 시 스크롤 범위 늘어나면 적용 )
     int TopCount2;
-
     //찜한포트에서 찜 체크 변화줄 포지션
     int ZzimDPosition;
-
     //내가 만든 포트일 경우 = false / 아닐 경우 = true
     // false -> 찜 불가능 / true -> 찜 가능
     boolean PortType = true;
-
     //포트 찜한 상태 체크
     boolean PortZzimState = false;
     //포트 찜 버튼 활성 여부 ( 1번이라도 터치시 연관 페이지 갱신 함)
     boolean PortZzimRefresh = false;
-
     //찜하기 초과시 토스트 알림
     Toast toast;
 
     int basketState;
-
 
     ActivityDetailPortBinding detailPageBinding;
 
@@ -91,6 +87,19 @@ public class ActivityDetailPort extends AppCompatActivity {
         detailPageBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail_port);
         detailPageBinding.setPortDetailPage(this);
 
+        // 스테이터스 바 색상 변경 -> 화이트
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }else{
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.main_page_status_bar_color));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
 
         detailPageBinding.portDetailPageLoading.setEnabled(false);
 
@@ -254,10 +263,8 @@ public class ActivityDetailPort extends AppCompatActivity {
             public void onClick(View v) {
 
                 PortZzimRefresh = true;
-
                 //찜 헤제
                 if(PortZzimState) {
-
                     Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(PortCode, 1);
                     getData.enqueue(new Callback<ModelPortZzim>() {
                         @Override
@@ -276,11 +283,9 @@ public class ActivityDetailPort extends AppCompatActivity {
                             Toast.makeText(ActivityDetailPort.this,"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
                         }
                     });
-
                     PortZzimState = false;
-                    detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.star_off_white);
+                    detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.ic_star_gray_off);
                 }else {
-
                     if(SharedPreferenceUtil.getInstance(ActivityDetailPort.this).getIntExtra("PortZzimCount") >= 25){
                         //초과시 토스트
                         toast.show();
@@ -298,7 +303,6 @@ public class ActivityDetailPort extends AppCompatActivity {
                                     RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_OK, bundle));
 
                                     SharedPreferenceUtil.getInstance(ActivityDetailPort.this).putIntZzimCount("PortZzimCount", response.body().getNum());
-
                                 }
                             }
                             @Override
@@ -306,7 +310,6 @@ public class ActivityDetailPort extends AppCompatActivity {
                                 Toast.makeText(ActivityDetailPort.this, "네트워크가 불안정 합니다\n 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                             }
                         });
-
                         PortZzimState = true;
                         detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.start_on);
                     }
@@ -323,21 +326,21 @@ public class ActivityDetailPort extends AppCompatActivity {
         toast.setDuration(Toast.LENGTH_SHORT);
 
 
-        // 담기 클릭 이벤트
-        // basketState : 0 -> 안담긴 상품 / 1 -> 담긴 상품
-        detailPageBinding.portDetailPageTopTestBasketBT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 재료 담기
-                if(basketState == 0){
-                    basketClickEvent(PortCode, 0);
-                }
-                //재료 담기 해제
-                else{
-                    basketClickEvent(PortCode, 1);
-                }
-            }
-        });
+//        // 담기 클릭 이벤트
+//        // basketState : 0 -> 안담긴 상품 / 1 -> 담긴 상품
+//        detailPageBinding.portDetailPageTopTestBasketBT.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // 재료 담기
+//                if(basketState == 0){
+//                    basketClickEvent(PortCode, 0);
+//                }
+//                //재료 담기 해제
+//                else{
+//                    basketClickEvent(PortCode, 1);
+//                }
+//            }
+//        });
     }
 
     // 포트 담기 이벤트
@@ -410,7 +413,7 @@ public class ActivityDetailPort extends AppCompatActivity {
                                     PortZzimState = true;
                                 }
                                 else {
-                                    detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.star_off_white);
+                                    detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.ic_star_gray_off);
                                     PortZzimState = false;
                                 }
                             }
@@ -418,18 +421,18 @@ public class ActivityDetailPort extends AppCompatActivity {
                             else{
                                 detailPageBinding.portDetailPageCheck.setVisibility(View.GONE);
                                 detailPageBinding.portDetailPageNoCheck.setVisibility(View.VISIBLE);
-                                detailPageBinding.portDetailPageNoCheck.setImageResource(R.drawable.star_off_white);
+                                detailPageBinding.portDetailPageNoCheck.setImageResource(R.drawable.ic_star_gray_off);
                             }
 
-                            if(response.body().getElements().get(0).getPut() == 0){
-
-                                detailPageBinding.portDetailPageTopTestBasketBT.setTextColor(getResources().getColor(R.color.dark_gray_color));
-                                basketState = 0;
-
-                            }else{
-                                detailPageBinding.portDetailPageTopTestBasketBT.setTextColor(getResources().getColor(R.color.green_basket_color));
-                                basketState = 1;
-                            }
+//                            if(response.body().getElements().get(0).getPut() == 0){
+//
+//                                detailPageBinding.portDetailPageTopTestBasketBT.setTextColor(getResources().getColor(R.color.dark_gray_color));
+//                                basketState = 0;
+//
+//                            }else{
+//                                detailPageBinding.portDetailPageTopTestBasketBT.setTextColor(getResources().getColor(R.color.green_basket_color));
+//                                basketState = 1;
+//                            }
 
                         }
                     }

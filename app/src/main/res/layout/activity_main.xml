@@ -51,7 +51,6 @@
             android:visibility="gone"
             android:background="#3d000000"
             />
-
         <LinearLayout
             android:id="@+id/Frizon_layout"
             android:layout_width="match_parent"
@@ -125,7 +124,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/make_port_number"
-                    android:text="선택하신 포트의 최소 투자 금액은 30만원 입니다."
                     android:textSize="11sp"
                     android:layout_marginTop="13dp"
                     android:textColor="#9a9a9a"
@@ -261,7 +259,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     >
-
                     <Button
                         android:id="@+id/make_port_up_bt"
                         android:layout_width="0dp"
@@ -311,7 +308,6 @@
                         android:textColor="#9a9a9a"
                         />
                 </LinearLayout>
-
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="10dp"
@@ -320,7 +316,6 @@
                     android:layout_below="@+id/make_port_bt_bottom"
                     android:layout_marginTop="5dp"
                     />
-
                 <TextView
                     android:id="@+id/make_port_info_text_bottom"
                     android:layout_width="wrap_content"
@@ -332,13 +327,11 @@
                     android:textSize="12sp"
                     android:layout_marginLeft="2dp"
                     />
-
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="303dp"
+    android:layout_height="187dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/tab1_dialog_layout_round"
+    android:layout_gravity="center"
+    >
+    <TextView
+        android:id="@+id/tab1_dialog_all_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="삭제"
+        android:textColor="#666666"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="21dp"
+        />
+
+    <TextView
+        android:id="@+id/tab1_dialog_all_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/tab1_dialog_text"
+        android:text="찜 하신 모든 포트가 삭제됩니다."
+        app:layout_constraintTop_toBottomOf="@+id/tab1_dialog_all_title"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tab1_dialog_all_item"
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="19dp"
+        android:layout_marginTop="25dp"
+        >
+
+        <Button
+            android:id="@+id/tab1_dialog_all_cancle_bt"
+            android:layout_width="130dp"
+            android:layout_height="43dp"
+            android:background="@drawable/tab1_dialog_round_cancle_bt"
+            android:text="취소"
+            android:textColor="@color/normal_title_color"
+            />
+
+        <Space
+            android:layout_width="6dp"
+            android:layout_height="0dp" />
+
+        <Button
+            android:id="@+id/tab1_dialog_all_ok_bt"
+            android:layout_width="130dp"
+            android:layout_height="43dp"
+            android:background="@drawable/tab1_dialog_round_ok_bt"
+            android:text="확인"
+            android:textColor="@color/normal_title_color"
+            />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

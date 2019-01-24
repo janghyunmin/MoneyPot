@@ -31,15 +31,23 @@ public class Fg_NewItem extends Fragment {
             if (args.getInt("imgRes") == 0) {
                 Glide.with(getContext())
                         .load("11")
-                        .placeholder(R.drawable.banner_01)
-                        .error(R.drawable.banner_01)
+                        .placeholder(R.drawable.cookpage1img2)
+                        .error(R.drawable.cookpage1img2)
                         .crossFade()
                         .into(Fg_NewItem_Image);
-            } else {
+            } else if(args.getInt("imgRes") == 1){
                 Glide.with(getContext())
                         .load("11")
-                        .placeholder(R.drawable.item_banner_tuto)
-                        .error(R.drawable.item_banner_tuto)
+                        .placeholder(R.drawable.cookpage1img1)
+                        .error(R.drawable.cookpage1img1)
+                        .crossFade()
+                        .into(Fg_NewItem_Image);
+            }
+            else{
+                Glide.with(getContext())
+                        .load("11")
+                        .placeholder(R.drawable.cookpage1img3)
+                        .error(R.drawable.cookpage1img3)
                         .crossFade()
                         .into(Fg_NewItem_Image);
             }
@@ -47,7 +55,7 @@ public class Fg_NewItem extends Fragment {
             Fg_NewItem_Image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "그림 번호 : " + page, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "준비중 입니다", Toast.LENGTH_SHORT).show();
                 }
             });
         }

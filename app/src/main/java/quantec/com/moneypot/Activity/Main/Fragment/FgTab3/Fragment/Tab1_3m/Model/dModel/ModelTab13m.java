@@ -5,12 +5,12 @@ public class ModelTab13m {
     String title;
     int code;
     String rate;
-    boolean check;
+    int check;
     int image;
     boolean onenChart;
     Long mincost;
 
-    public ModelTab13m(String title, int code, String rate, boolean check, int image, boolean onenChart, Long mincost) {
+    public ModelTab13m(String title, int code, String rate, int check, int image, boolean onenChart, Long mincost) {
         this.title = title;
         this.code = code;
         this.rate = rate;
@@ -44,11 +44,11 @@ public class ModelTab13m {
         this.rate = rate;
     }
 
-    public boolean isCheck() {
+    public int getCheck() {
         return check;
     }
 
-    public void setCheck(boolean check) {
+    public void setCheck(int check) {
         this.check = check;
     }
 

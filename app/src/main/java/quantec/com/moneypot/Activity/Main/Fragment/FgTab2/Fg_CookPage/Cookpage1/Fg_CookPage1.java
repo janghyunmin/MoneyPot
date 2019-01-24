@@ -289,8 +289,9 @@ public class Fg_CookPage1 extends Fragment {
         fgcookpage1Binding.fgCookpage1AllListLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ActivityAllCookList.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), ActivityAllCookList.class);
+//                startActivity(intent);
+                Toast.makeText(getActivity(), "준비중 입니다", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -398,16 +399,34 @@ public class Fg_CookPage1 extends Fragment {
                             modelStableLists.clear();
 
                             for(int index = 0 ; index < response.body().getNum() ; index++){
-                                if(index > 2 && index < 6) {
-                                    modelHotLists.add(new ModelHotList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
-                                            response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
-                                            response.body().getProduct().get(index).getCode()));
+                                    if(response.body().getProduct().get(index).getCode() == 15) {
+                                        modelHotLists.add(new ModelHotList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
+                                                response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
+                                                response.body().getProduct().get(index).getCode()));
+                                    }else if(response.body().getProduct().get(index).getCode() == 18){
+                                        modelHotLists.add(new ModelHotList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
+                                                response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
+                                                response.body().getProduct().get(index).getCode()));
+                                    }else if(response.body().getProduct().get(index).getCode() == 3){
+                                        modelHotLists.add(new ModelHotList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
+                                                response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
+                                                response.body().getProduct().get(index).getCode()));
+                                    }
 
-                                }else if(index > 5) {
-                                    modelStableLists.add(new ModelStableList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
-                                            response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
-                                            response.body().getProduct().get(index).getCode()));
-                                }
+                                    if(response.body().getProduct().get(index).getCode() == 15){
+                                        modelStableLists.add(new ModelStableList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
+                                                response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
+                                                response.body().getProduct().get(index).getCode()));
+                                    }else if(response.body().getProduct().get(index).getCode() == 13){
+                                        modelStableLists.add(new ModelStableList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
+                                                response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
+                                                response.body().getProduct().get(index).getCode()));
+                                    }else if(response.body().getProduct().get(index).getCode() == 11){
+                                        modelStableLists.add(new ModelStableList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
+                                                response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
+                                                response.body().getProduct().get(index).getCode()));
+                                    }
+
                             }
                             adapterHot.notifyDataSetChanged();
                             adapterStable.notifyDataSetChanged();

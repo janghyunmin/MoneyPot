@@ -133,7 +133,7 @@ public class Fg_Tab1_3m extends Fragment {
     }
 
     private void loadData() {
-        Call<ModelTab13mRank> getData = RetrofitClient.getInstance().getService().getRankData(3, countPage);
+        Call<ModelTab13mRank> getData = RetrofitClient.getInstance().getService().getRankData("3", countPage);
         getData.enqueue(new Callback<ModelTab13mRank>() {
             @Override
             public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
@@ -151,13 +151,8 @@ public class Fg_Tab1_3m extends Fragment {
                         }
                         resID = mainActivity.getResources().getIdentifier(name,"drawable",packName);
 
-                        if(response.body().getProduct().get(a).getSelect() == 1) {
-                            checkState = true;
-                        }else{
-                            checkState = false;
-                        }
                         tab1_3mItems.add(new ModelTab13m(response.body().getProduct().get(a).getName(),
-                                response.body().getProduct().get(a).getCode(), String.format("%.2f",response.body().getProduct().get(a).getRate()),checkState, resID, false, 50L
+                                response.body().getProduct().get(a).getCode(), String.format("%.2f",response.body().getProduct().get(a).getRate()),response.body().getProduct().get(a).getSelect(), resID, false, 50L
                         ));
                     }
                     countPage++;
@@ -222,7 +217,7 @@ public class Fg_Tab1_3m extends Fragment {
                     new AsyncTask<Void, Void, List<ModelTab13m>>() {
                         @Override
                         protected List<ModelTab13m> doInBackground(Void... voids) {
-                            Call<ModelTab13mRank> getData = RetrofitClient.getInstance().getService().getRankData(3, countPage);
+                            Call<ModelTab13mRank> getData = RetrofitClient.getInstance().getService().getRankData("3", countPage);
                             getData.enqueue(new Callback<ModelTab13mRank>() {
                                 @Override
                                 public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
@@ -239,14 +234,8 @@ public class Fg_Tab1_3m extends Fragment {
                                             }
                                             resID = mainActivity.getResources().getIdentifier(name,"drawable",packName);
 
-                                            if(response.body().getProduct().get(a).getSelect() == 1) {
-                                                checkState = true;
-                                            }else{
-                                                checkState = false;
-                                            }
-
                                             list.add(new ModelTab13m(response.body().getProduct().get(a).getName(),
-                                                    response.body().getProduct().get(a).getCode(), String.format("%.2f",response.body().getProduct().get(a).getRate()),checkState, resID,false, 50L
+                                                    response.body().getProduct().get(a).getCode(), String.format("%.2f",response.body().getProduct().get(a).getRate()),response.body().getProduct().get(a).getSelect(), resID,false, 50L
                                             ));
                                         }
                                         if(!(response.body().getNum() < response.body().getTotalNum() && response.body().getNum() >= 15)){
@@ -372,7 +361,7 @@ public class Fg_Tab1_3m extends Fragment {
             @Override
             public void onClick(int position) {
 
-                if(tab1_3mItems.get(position).isCheck()) {
+                if(tab1_3mItems.get(position).getCheck() == 1) {
 
                     Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(tab1_3mItems.get(position).getCode(), 1);
                     getData.enqueue(new Callback<ModelPortZzim>() {
@@ -382,7 +371,7 @@ public class Fg_Tab1_3m extends Fragment {
 
                                 CheckDataAnim = true;
 
-                                tab1_3mItems.get(position).setCheck(false);
+                                tab1_3mItems.get(position).setCheck(0);
                                 tab1_3mAdapter.notifyItemChanged(position);
 
                                 DataManager.get_INstance().setCheckTab1(true);
@@ -415,7 +404,7 @@ public class Fg_Tab1_3m extends Fragment {
 
                                     CheckDataAnim = true;
 
-                                    tab1_3mItems.get(position).setCheck(true);
+                                    tab1_3mItems.get(position).setCheck(1);
                                     tab1_3mAdapter.notifyItemChanged(position);
 
                                     DataManager.get_INstance().setCheckTab1(true);
@@ -513,7 +502,7 @@ public class Fg_Tab1_3m extends Fragment {
                                 int Gcode = rxEvent.getBundle().getInt("rankcode");
                                 for(int a = 0 ; a < tab1_3mItems.size() ; a++) {
                                     if(tab1_3mItems.get(a).getCode() == Gcode) {
-                                        tab1_3mItems.get(a).setCheck(true);
+                                        tab1_3mItems.get(a).setCheck(1);
                                         tab1_3mAdapter.notifyItemChanged(a);
                                         break;
                                     }
@@ -535,7 +524,7 @@ public class Fg_Tab1_3m extends Fragment {
                                 int Gcode2 = rxEvent.getBundle().getInt("rankcode");
                                 for(int a = 0 ; a < tab1_3mItems.size() ; a++) {
                                     if(tab1_3mItems.get(a).getCode() == Gcode2) {
-                                        tab1_3mItems.get(a).setCheck(false);
+                                        tab1_3mItems.get(a).setCheck(0);
                                         tab1_3mAdapter.notifyItemChanged(a);
                                         break;
                                     }
@@ -555,7 +544,7 @@ public class Fg_Tab1_3m extends Fragment {
 
                             case RxEvent.ZZIM_PORT_DELETE_MODIFY:
                                 for (int count = 0; count < tab1_3mItems.size(); count++) {
-                                    tab1_3mItems.get(count).setCheck(false);
+                                    tab1_3mItems.get(count).setCheck(0);
                                 }
                                 tab1_3mAdapter.notifyDataSetChanged();
                                 break;

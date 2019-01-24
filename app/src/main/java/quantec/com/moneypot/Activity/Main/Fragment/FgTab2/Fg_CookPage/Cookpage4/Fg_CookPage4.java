@@ -50,10 +50,18 @@ public class Fg_CookPage4 extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        modelMyCookLists.add(new ModelRankList(1, "피오트로스키 스타일", 83.24, 0));
+        modelMyCookLists.add(new ModelRankList(2, "내가 만든 첫 투자", 67.14, 0));
+        modelMyCookLists.add(new ModelRankList(3, "여행을 위한 자금 마련", 60.51, 0));
+        modelMyCookLists.add(new ModelRankList(4, "저평가 자산가치 스타일", 58.31, 0));
+        modelMyCookLists.add(new ModelRankList(5, "마법공식 스타일", 53.11, 0));
+        modelMyCookLists.add(new ModelRankList(5, "피터린치 스타일", 48.21, 0));
+        modelMyCookLists.add(new ModelRankList(6, "배당주 추세추종", 34.87, 0));
+        modelMyCookLists.add(new ModelRankList(7, "BMW 마련 자금", 30.14, 0));
+        modelMyCookLists.add(new ModelRankList(8, "주택자금 마련하기", 22.77, 0));
+        modelMyCookLists.add(new ModelRankList(9, "이건 꼭 되는 전략", 20.54, 0));
+        modelMyCookLists.add(new ModelRankList(10, "윌리엄오닐 스타일", 17.24, 0));
 
-        for(int a = 0 ; a < 10 ; a++) {
-            modelMyCookLists.add(new ModelRankList(a+1, "내포트"+a, 43.44, 0));
-        }
         adapterCookPage3.notifyDataSetChanged();
     }
 }
