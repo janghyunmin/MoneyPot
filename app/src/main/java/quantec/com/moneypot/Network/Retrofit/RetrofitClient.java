@@ -17,6 +17,7 @@ import static quantec.com.moneypot.mApplication.UID;
 public class RetrofitClient {
 
     private static String baseUrl = "http://13.124.21.63/json/";
+//    private static String baseUrl = "https://dev.quantec.co.kr:7777/core/";
 
     private static int CONNECT_TIMEOUT = 15;
     private static int WRITE_TIMEOUT = 15;
@@ -39,6 +40,7 @@ public class RetrofitClient {
                     public Response intercept(Chain chain) throws IOException {
                         Request request = chain.request();
                         request = request.newBuilder().header("mid",UID).build();
+//                        request = request.newBuilder().header("Authorization","Bearer ").build();
                         return chain.proceed(request);
                     }
                 }).addInterceptor(httpLoggingInterceptor)

@@ -4,6 +4,7 @@ import okhttp3.MultipartBody;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailPage;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelInvestItem;
 import quantec.com.moneypot.Activity.FinishMakePort.Model.nModel.ModelPortSavedInfo;
+import quantec.com.moneypot.Activity.Intro.ModelTest2;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelTop10Item;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Model.nModel.ModelCookpage1Item;
@@ -25,6 +26,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RetrofitService {
@@ -141,5 +143,12 @@ public interface RetrofitService {
     Call<ModelImageSavedData> getTextUpload(@Part MultipartBody.Part opt, @Part MultipartBody.Part ucode, @Part MultipartBody.Part name, @Part MultipartBody.Part desc, @Part MultipartBody.Part wch);
 
 
+//    @GET("admin/getStockRate")
+//    Call<Object> getTest(@Query("stCode") String stCode, @Query("page") int page, @Query("size") int size);
 
+    @GET("admin/getStockRate/{stCode}/{page}/{size}")
+    Call<Object> getTest(@Path("stCode") String stCode, @Path("page") int page, @Path("size") int size);
+
+    @GET("strategy/getStPage/{page}/{rate}/{size}")
+    Call<ModelTest2> getTest2(@Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 }

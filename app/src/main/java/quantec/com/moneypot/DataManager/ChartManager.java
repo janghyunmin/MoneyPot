@@ -2,7 +2,7 @@ package quantec.com.moneypot.DataManager;
 
 import java.util.List;
 
-import quantec.com.moneypot.TransChartList;
+import quantec.com.moneypot.Model.dModel.TransChartList;
 
 public class ChartManager {
     private static ChartManager _Instance;

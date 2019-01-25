@@ -1,4 +1,4 @@
-package quantec.com.moneypot;
+package quantec.com.moneypot.Model.dModel;
 
 public class TransChartList {
 

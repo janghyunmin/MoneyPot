@@ -3,8 +3,6 @@ package quantec.com.moneypot.Activity.Main;
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -32,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -49,7 +49,7 @@ import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
 import quantec.com.moneypot.RxAndroid.RxEventBus;
-import quantec.com.moneypot.TransChartList;
+import quantec.com.moneypot.Model.dModel.TransChartList;
 import quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText;
 import quantec.com.moneypot.databinding.ActivityMainBinding;
 import retrofit2.Call;
@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
     FragmentTransaction transaction;
     ///
     Button currentSelectedBT;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -454,6 +453,24 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+
+//        Observable<Integer> source = Observable.just(1,2,3);
+//        Disposable d = source.subscribe(
+//                v -> Log.e("값", "이름 : "+ v),
+//                err -> Log.e("에러", "값 : "+err),
+//                () -> Log.e("완료", "완료")
+//        );
+
+        Observable<Integer> sou = Observable.create(
+                (ObservableEmitter<Integer> emitter) ->{
+                emitter.onNext(100);
+                    emitter.onNext(200);
+                    emitter.onNext(300);
+                    emitter.onComplete();
+        });
+
+        sou.subscribe(data -> System.out.println(data));
+
         //포트 만들기 ok 클릭
         activityMainBinding.makePortPostOkBt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -487,9 +504,14 @@ public class MainActivity extends AppCompatActivity {
                             .create();
                     String jsonCode = gson.toJson(code);
 
-                    String pass = "{\"pCode\":"+jsonCode+",\"cost\":"+Total_Cash+",\"type\":"+portCaterogy+"}";
+//                  String pass = "{\"pCode\":"+jsonCode+",\"cost\":"+Total_Cash+",\"type\":"+portCaterogy+"}";
 
-                    Call<PortChartModel> getchartItem = RetrofitClient.getInstance().getService().getMyPortChart(pass);
+                    MakePortData tm = new MakePortData();
+                    tm.setCost(Total_Cash);
+                    tm.setpCode(jsonCode);
+                    tm.setType(portCaterogy);
+
+                    Call<PortChartModel> getchartItem = RetrofitClient.getInstance().getService().getMyPortChart(tm.toString());
                     getchartItem.enqueue(new Callback<PortChartModel>() {
                         @Override
                         public void onResponse(Call<PortChartModel> call, Response<PortChartModel> response) {
@@ -498,14 +520,12 @@ public class MainActivity extends AppCompatActivity {
                                 finishChart.clear();
                                 for(int a = 0 ; a < response.body().getElements().size() ; a++) {
                                     finishChart.add(new TransChartList(a,response.body().getElements().get(a).getRate(), response.body().getElements().get(a).getDate()));
-                                    if(a == response.body().getElements().size()-1) {
-                                        ChartManager.get_Instance().setTransChartLists(finishChart);
-                                        loadingCustomMakingPort.dismiss();
-
-                                        MyPortMakingState = false;
-                                        RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_MAKE_OK, bundle));
-                                    }
                                 }
+                                ChartManager.get_Instance().setTransChartLists(finishChart);
+                                loadingCustomMakingPort.dismiss();
+
+                                MyPortMakingState = false;
+                                RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_MAKE_OK, bundle));
                             }
                         }
                         @Override
@@ -700,6 +720,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete() {
                     }
                 });
+
+
     }//onCreate 끝
 
     // 포트만들기 중립/공격/안정 버튼 상태바꿈 이벤트

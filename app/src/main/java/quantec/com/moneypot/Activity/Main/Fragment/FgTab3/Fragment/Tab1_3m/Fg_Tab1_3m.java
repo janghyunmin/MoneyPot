@@ -119,7 +119,6 @@ public class Fg_Tab1_3m extends Fragment {
         return fgtab13mBinding.getRoot();
     }
 
-
     private void initializeViews(){
         mainActivity = (MainActivity) getActivity();
     }
@@ -138,8 +137,6 @@ public class Fg_Tab1_3m extends Fragment {
             @Override
             public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                 if(response.code() == 200) {
-
-                    boolean checkState;
                     int code, resID;
                     String name;
 
@@ -222,7 +219,6 @@ public class Fg_Tab1_3m extends Fragment {
                                 @Override
                                 public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                                     if (response.code() == 200) {
-                                        boolean checkState;
                                         int code, resID;
                                         String name;
 
