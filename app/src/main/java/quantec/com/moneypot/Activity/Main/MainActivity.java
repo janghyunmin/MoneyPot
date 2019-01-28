@@ -460,16 +460,15 @@ public class MainActivity extends AppCompatActivity {
 //                err -> Log.e("에러", "값 : "+err),
 //                () -> Log.e("완료", "완료")
 //        );
+//        Observable<Integer> sou = Observable.create(
+//                (ObservableEmitter<Integer> emitter) ->{
+//                emitter.onNext(100);
+//                    emitter.onNext(200);
+//                    emitter.onNext(300);
+//                    emitter.onComplete();
+//        });
+//        sou.subscribe(data -> System.out.println(data));
 
-        Observable<Integer> sou = Observable.create(
-                (ObservableEmitter<Integer> emitter) ->{
-                emitter.onNext(100);
-                    emitter.onNext(200);
-                    emitter.onNext(300);
-                    emitter.onComplete();
-        });
-
-        sou.subscribe(data -> System.out.println(data));
 
         //포트 만들기 ok 클릭
         activityMainBinding.makePortPostOkBt.setOnClickListener(new View.OnClickListener() {

@@ -5,6 +5,7 @@ import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailPage;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelInvestItem;
 import quantec.com.moneypot.Activity.FinishMakePort.Model.nModel.ModelPortSavedInfo;
 import quantec.com.moneypot.Activity.Intro.ModelTest2;
+import quantec.com.moneypot.Activity.Intro.User;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelTop10Item;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Model.nModel.ModelCookpage1Item;
@@ -20,9 +21,12 @@ import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Model.nModel.ModelS
 import quantec.com.moneypot.Model.nModel.ModelZzimCount;
 import quantec.com.moneypot.Model.nModel.PortChartModel;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -151,4 +155,8 @@ public interface RetrofitService {
 
     @GET("strategy/getStPage/{page}/{rate}/{size}")
     Call<ModelTest2> getTest2(@Path("page") int page, @Path("rate") int rate, @Path("size") int size);
+
+    @POST("Auth/authenticate")
+    Call<Object> getTestLogin(@Header("Content-Type") String content_type, @Body User user);
+
 }
