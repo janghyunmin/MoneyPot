@@ -1,10 +1,11 @@
 package quantec.com.moneypot.Activity.Intro;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -12,37 +13,40 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.KeyFactory;
+import java.security.KeyPair;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.SecureRandom;
+import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 import quantec.com.moneypot.Activity.Main.MainActivity;
+import quantec.com.moneypot.Model.nModel.ModelZzimCount;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
+import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ActivityIntro extends AppCompatActivity {
 
-    public static String secretKey;
+    String secretKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,48 +111,87 @@ public class ActivityIntro extends AppCompatActivity {
 //        });
 
 
+//        try {
+//            // RSA 키쌍을 생성합니다.
+//            KeyPair keyPair = EncrypteUtil.genRSAKeyPair();
+//            PublicKey publicKey = keyPair.getPublic();
+//            PrivateKey privateKey = keyPair.getPrivate();
+//            String plainText = "암호화 할 문자열 입니다.";
+//            // Base64 인코딩된 암호화 문자열 입니다.
+//            String encrypted = EncrypteUtil.encryptRSA(plainText, publicKey);
+//            Log.e("A","encrypted : " + encrypted);
+//            // 복호화 합니다.
+//            String decrypted = EncrypteUtil.decryptRSA(encrypted, privateKey);
+//            Log.e("B","decrypted : " + decrypted);
+//            // Base64 인코딩된 암호화 문자열 입니다.
+//            String encrypted2 = EncrypteUtil.encryptRSA(plainText, privateKey);
+//            Log.e("C","encrypted2 : " + encrypted2);
+//            // 복호화 합니다.
+//            String decrypted2 = EncrypteUtil.decryptRSA(encrypted2, publicKey);
+//            Log.e("D","decrypted2 : " + decrypted2);
+//            // 공개키를 Base64 인코딩한 문자일을 만듭니다.
+////            String base64PublicKey = Base64.encodeBase64String(publicKey.getEncoded());//Base64.getEncoder().encodeToString(bytePublicKey);
+//            String base64PublicKey = Base64.encodeToString(publicKey.getEncoded(), Base64.NO_WRAP);//Base64.getEncoder().encodeToString(bytePublicKey);
+//            Log.e("E","Base64 Public Key : " + base64PublicKey);
+//            // 개인키를 Base64 인코딩한 문자열을 만듭니다.
+////            String base64PrivateKey = Base64.encodeBase64String(privateKey.getEncoded());//Base64.getEncoder().encodeToString(bytePrivateKey);
+//            String base64PrivateKey = Base64.encodeToString(privateKey.getEncoded(), Base64.NO_WRAP);//Base64.getEncoder().encodeToString(bytePrivateKey);
+//            Log.e("F","Base64 Private Key : " + base64PrivateKey);
+//
+//            Log.e("TEST1","Encrypted By key : " + EncrypteUtil.encryptRSA(plainText, EncrypteUtil.genRSAKeyPublic(base64PublicKey)));
+//            Log.e("TEST2","Decrypted By key : " + EncrypteUtil.decryptRSA(encrypted, EncrypteUtil.genRSAKeyPrivate(base64PrivateKey)));
+//
+//            Log.e("TEST3","Encrypted2 By key : " + EncrypteUtil.encryptRSA(plainText, EncrypteUtil.genRSAKeyPrivate(base64PrivateKey)));
+//            Log.e("TEST4","Decrypted2 By key : " + EncrypteUtil.decryptRSA(encrypted2, EncrypteUtil.genRSAKeyPublic(base64PublicKey)));
+//
+//        } catch (NoSuchPaddingException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (InvalidKeyException e) {
+//            e.printStackTrace();
+//        } catch (BadPaddingException e) {
+//            e.printStackTrace();
+//        } catch (IllegalBlockSizeException e) {
+//            e.printStackTrace();
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        } catch (InvalidKeySpecException e) {
+//            e.printStackTrace();
+//        }
 
-//        String login = "{\"email\":"+email+",\"password\":"+password+",\"userId\":"+userId+"}";
 
-        User user = null;
-        try {
-            user = new User("afasdfsdf", md5("!quant0330"), "quantec");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Call<Object> getTest2 = RetrofitClient.getInstance().getService().getTestLogin("application/json", user);
-        getTest2.enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                if(response.code() == 200) {
-
-//                    Log.e("권한","값 : "+response.headers().get("Authorization"));
-//                    Key key = Keys.secretKeyFor(SignatureAlgorithm.RS256);
-
-//                    String jws = Jwts.builder().setSubject("Joe").signWith(key).compact();
-//                    Log.e("풀린값","값 : "+ Jwts.parser().setSigningKey(key).parseClaimsJws(response.headers().get("Authorization")));
-
-                    secretKey = response.headers().get("Bare").trim();
-
-                    try {
-                        JWTUtils.decoded(response.headers().get("Authorization"));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-//                    RS256_Decode()
-
-                }
-            }
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                Log.e("레트로핏 실패","값 : "+t.getMessage());
-            }
-        });
-
-
-
-
+//        User user = null;
+//        try {
+//            user = new User("afasdfsdf", md5("!quant0330"), "quantec");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        Call<Object> getTest2 = RetrofitClient.getInstance().getService().getTestLogin("application/json", user);
+//        getTest2.enqueue(new Callback<Object>() {
+//            @Override
+//            public void onResponse(Call<Object> call, Response<Object> response) {
+//                if(response.code() == 200) {
+//
+////                    Log.e("권한","값 : "+response.headers().get("Authorization"));
+////                    Key key = Keys.secretKeyFor(SignatureAlgorithm.RS256);
+//
+////                    String jws = Jwts.builder().setSubject("Joe").signWith(key).compact();
+////                    Log.e("풀린값","값 : "+ Jwts.parser().setSigningKey(key).parseClaimsJws(response.headers().get("Authorization")));
+//                    secretKey = response.headers().get("Bare");
+//                    try {
+//                        JTdecoded(response.headers().get("Authorization"));
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<Object> call, Throwable t) {
+//                Log.e("레트로핏 실패","값 : "+t.getMessage());
+//            }
+//        });
 //        Call<ModelZzimCount> getData = RetrofitClient.getInstance().getService().getPortCallData(1);
 //        getData.enqueue(new Callback<ModelZzimCount>() {
 //            @Override
@@ -167,117 +210,62 @@ public class ActivityIntro extends AppCompatActivity {
 //            }
 //        });
 
+        NextPageModve();
     }//onCreate 끝
 
 
-    public static String getBase64incode(String content){
-        return new String(Base64.encode(content.getBytes(), 0));
-    }
+//        public static String decrypt(String encrypted, Key pKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
+//                Cipher cipher = Cipher.getInstance("RSA");
+////                byte[] bytes = Base64coder.decode(encrypted);
+//            byte[] bytes = Base64.decode(encrypted, 0);
+//            cipher.init(Cipher.DECRYPT_MODE, pKey);
+//                byte[] bytePlain = cipher.doFinal(bytes);
+//                String decrypted = new String(bytePlain, "utf-8");
+//                return decrypted;
+//        }
+//        public PublicKey PublicKey(String base64Str) throws NoSuchAlgorithmException, InvalidKeySpecException {
+//            KeySpec keySpec = new X509EncodedKeySpec(Base64.decode(base64Str.trim(), 0));
+//            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//            return keyFactory.generatePublic(keySpec);
+//        }
 
-    public static String getBase64decode(String content){
-        return new String(Base64.decode(content.getBytes(), 0));
-    }
-
-/*
-    public static String decrypt(byte[] input) throws Exception
-    {
-        KeyFactory keyFactory = KeyFactory.getInstance("HS512");
-        PKCS8EncodedKeySpec privSpec = new PKCS8EncodedKeySpec(Base64.decode(secretKey, Base64.DEFAULT));
-        Key decryptionKey = keyFactory.generatePrivate(privSpec);
-        Cipher rsa = Cipher.getInstance("RSA/None/PKCS1Padding");
-        rsa.init(Cipher.DECRYPT_MODE, decryptionKey);
-        return new String(rsa.doFinal(input), "utf-8");
-    }
-
-    public static String RS256_Decode(String str) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-
-        byte[] textBytes = Base64.decode(str, 0);
-        AlgorithmParameterSpec ivSpec = new IvParameterSpec(ivBytes);
-        SecretKeySpec newKey = new SecretKeySpec(secretKey.getBytes("UTF-8"), "RSA");
-
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7PADDING");
-        cipher.init(Cipher.DECRYPT_MODE, newKey);
-        return new String(cipher.doFinal(textBytes), "UTF-8");
-    }
-
-*/
-
-    private static byte[] encrypt(byte[] raw, byte[] clear) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "RSA");
-        Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-        byte[] encrypted = cipher.doFinal(clear);
-        return encrypted;
-    }
-
-    private static byte[] decrypt(byte[] raw, byte[] encrypted) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "RSA");
-        Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-        byte[] decrypted = cipher.doFinal(encrypted);
-        return decrypted;
-    }
-
-
-    private static String decodeBase64(String coded){
-        byte[] valueDecoded= new byte[0];
-        try {
-            valueDecoded = Base64.decode(coded.getBytes("UTF-8"), Base64.DEFAULT);
-        } catch (UnsupportedEncodingException e) {
-        }
-        return new String(valueDecoded);
-    }
-
-    public static class JWTUtils {
-
-        public static void decoded(String JWTEncoded) throws Exception {
-            try {
+        public  void JTdecoded(String JWTEncoded) throws Exception {
                 String[] split = JWTEncoded.split("\\.");
                 Log.d("JWT_DECODED", "Header: " + getJson(split[0]));
                 Log.d("JWT_DECODED", "Body: " + getJson(split[1]));
 
-//                testBody.add(getJson(split[1]));
-
-//                MyData data =new MyData() ;
-//                Gson gson = new Gson();
-//                data= gson.fromJson(getJson(split[1]), MyData.class);
-
                 Gson gson = new Gson();
                 MyData data = gson.fromJson(getJson(split[1]), MyData.class);
 
-//                Log.e("이름", "값 : "+ data.userName);
+                Log.e("이름","값:"+data.userName);
+                Log.e("키","값:"+secretKey);
 
-//                RS256_Decode(data.userName);
+//                String base64PrivateKey = Base64.encodeToString(secretKey.getBytes("utf-8"), Base64.NO_WRAP);//Base64.getEncoder().encodeToString(bytePrivateKey);
+                Log.e("TEST5","최종값 :" + EncrypteUtil.decryptRSA(data.userName, EncrypteUtil.genRSAKeyPublic(secretKey)));
 
-//                decrypt(data.userName);
-//                A(data.userName);
-
-//                Log.e("이름", "값 : "+ RS256_Decode(data.userName));
-
-
-//                Log.e("값","값 : "+  URLDecoder.decode(getBase64decode(secretKey), "UTF-8"));
-
-//                byte decoded[] = Base64.getDecoder().decode(encodedText.getBytes());
-//                try {
-//                    String originText = new String(decoded,"utf-8");
-//                    System.out.println("인코딩 : "+encodedText+"\n디코딩 : "+originText);
-//                }
-//                catch(Exception e) {e.printStackTrace();}
-//                Log.e("값","값 : "+  decodeBase64(secretKey));
-
-
-
-            } catch (UnsupportedEncodingException e) {
-                //Error
-            }
         }
 
-        private static String getJson(String strEncoded) throws UnsupportedEncodingException {
-            byte[] decodedBytes = Base64.decode(strEncoded, Base64.URL_SAFE);
-            return new String(decodedBytes, "UTF-8");
+        private  String getJson(String strEncoded) throws UnsupportedEncodingException {
+            byte[] decode =  android.util.Base64.decode(strEncoded,  Base64.URL_SAFE);
+            return new String(decode, "utf-8");
         }
-    }
 
+//    String enccriptData(String txt) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
+//        String encoded = "";
+//        byte[] encrypted = null;
+//
+//            byte[] publicBytes = Base64.decode(secretKey.trim(), Base64.NO_WRAP);
+//            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicBytes);
+//            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//            PublicKey pubKey = keyFactory.generatePublic(keySpec);
+//            Cipher cipher = Cipher.getInstance("RSA"); //or try with "RSA"
+//            cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+//            encrypted = cipher.doFinal(Base64.decode(txt,Base64.NO_WRAP));
+//        String decrypted = new String(encrypted, "utf-8");
+////            encoded = Base64.encodeToString(encrypted, Base64.DEFAULT);
+//
+//        return decrypted;
+//    }
 
     public static final String md5(final String s) {
         try {
@@ -304,16 +292,6 @@ public class ActivityIntro extends AppCompatActivity {
     }
 
 
-//    public static String decryptData(String text, String pri_key) throws UnsupportedEncodingException, InvalidKeySpecException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-//
-//            byte[] data =Base64.decode(text,Base64.DEFAULT);
-//            PrivateKey privateKey = getPrivateKey(Base64.decode(pri_key.getBytes("utf-8"),Base64.DEFAULT));
-//
-//            Cipher cipher = Cipher.getInstance("RSA");
-//            cipher.init(Cipher.DECRYPT_MODE, privateKey);
-//            return new String(cipher.doFinal(data),"utf-8");
-//    }
-
     //인트로시 문제 없으면 메인으로 이동
     void NextPageModve(){
         final Intent intent1 = new Intent(this, MainActivity.class);
@@ -334,3 +312,5 @@ public class ActivityIntro extends AppCompatActivity {
         return networkInfo;
     }
 }
+
+
