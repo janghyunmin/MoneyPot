@@ -18,13 +18,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +35,13 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
+import quantec.com.moneypot.Activity.Intro.ErrorPojoClass;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Adapter.AdapterFgTab13m;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.dModel.ModelTab13m;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mData;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
-import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
 import quantec.com.moneypot.CustomView.EndlessScrollListener;
 import quantec.com.moneypot.DataManager.DataManager;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
@@ -54,13 +57,13 @@ import retrofit2.Response;
 public class Fg_Tab1_3m extends Fragment {
 
     private AdapterFgTab13m tab1_3mAdapter;
-    private ArrayList<ModelTab13m> tab1_3mItems;
-
-    int countPage = 1;
+    int countPage = 0;
     boolean NextPageLoadState = true;
     boolean LoadingState = true;
 
     List<ModelTab13m> list = new ArrayList<>();
+    ArrayList<ModelTab13m> tab1_3mItems;
+
     LinearLayoutManager linearLayoutManager;
 
     String packName;
@@ -104,10 +107,9 @@ public class Fg_Tab1_3m extends Fragment {
         lineDataSet = new LineDataSet(entries, null);
         lineData = new LineData(lineDataSet);
         tab1_3mAdapter = new AdapterFgTab13m(tab1_3mItems, getContext(),entries, lineDataSet, lineData);
+
         fgtab13mBinding.rankingPageTab1T3RecyclerView.setAdapter(tab1_3mAdapter);
-
         fgtab13mBinding.rankingPageTab1T3Cover.setVisibility(View.GONE);
-
         fgtab13mBinding.rankingPageTab1T3Cover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,35 +134,43 @@ public class Fg_Tab1_3m extends Fragment {
     }
 
     private void loadData() {
-        Call<ModelTab13mRank> getData = RetrofitClient.getInstance().getService().getRankData("3", countPage);
-        getData.enqueue(new Callback<ModelTab13mRank>() {
-            @Override
-            public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
-                if(response.code() == 200) {
-                    int code, resID;
-                    String name;
 
-                    for(int a = 0 ; a < response.body().getProduct().size() ; a++) {
-                        code = response.body().getProduct().get(a).getCode();
-                        name = "@drawable/ic_" + code;
-                        if(code >= 11 && code < 19 || code > 19) {
-                            name = "@drawable/ic_rank_noname";
-                        }
+        Call<ModelTab13mData> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,90,10);
+        getTest2.enqueue(new Callback<ModelTab13mData>() {
+            @Override
+            public void onResponse(Call<ModelTab13mData> call, Response<ModelTab13mData> response) {
+                if(response.code() == 200) {
+                    int resID;
+                    String name = "@drawable/ic_rank_noname";
+                    for(int a = 0 ; a < response.body().getContent().size() ; a++) {
+
                         resID = mainActivity.getResources().getIdentifier(name,"drawable",packName);
 
-                        tab1_3mItems.add(new ModelTab13m(response.body().getProduct().get(a).getName(),
-                                response.body().getProduct().get(a).getCode(), String.format("%.2f",response.body().getProduct().get(a).getRate()),response.body().getProduct().get(a).getSelect(), resID, false, 50L
+                        tab1_3mItems.add(new ModelTab13m(response.body().getContent().get(a).getName(),
+                                response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate90()*100), 2, 2),response.body().getContent().get(a).getSelected(), resID, false, response.body().getContent().get(a).getMinCost()
                         ));
                     }
-                    countPage++;
                     tab1_3mAdapter.notifyDataSetChanged();
-                    if(!(response.body().getNum() < response.body().getTotalNum() && response.body().getNum() >= 15)){
+                    countPage++;
+                    if(response.body().getPage().getTotalPages() == 1){
                         NextPageLoadState = false;
+                    }
+                }else{
+                    Gson gson = new GsonBuilder().create();
+                    ErrorPojoClass mError = new ErrorPojoClass();
+                    try {
+                        mError= gson.fromJson(response.errorBody().string(),ErrorPojoClass .class);
+                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getDetails());
+                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getMessage());
+                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getTimestamp());
+                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getErrorcode());
+                    } catch (IOException e) {
+                        // handle failure to read error
                     }
                 }
             }
             @Override
-            public void onFailure(Call<ModelTab13mRank> call, Throwable t) {
+            public void onFailure(Call<ModelTab13mData> call, Throwable t) {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
@@ -198,7 +208,6 @@ public class Fg_Tab1_3m extends Fragment {
                 if(NextPageLoadState && LoadingState) {
 
                     LoadDataState = true;
-
                     LoadingState = false;
                     tab1_3mItems.add(null);
 
@@ -214,40 +223,47 @@ public class Fg_Tab1_3m extends Fragment {
                     new AsyncTask<Void, Void, List<ModelTab13m>>() {
                         @Override
                         protected List<ModelTab13m> doInBackground(Void... voids) {
-                            Call<ModelTab13mRank> getData = RetrofitClient.getInstance().getService().getRankData("3", countPage);
-                            getData.enqueue(new Callback<ModelTab13mRank>() {
+                            Call<ModelTab13mData> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,90,10);
+                            getTest2.enqueue(new Callback<ModelTab13mData>() {
                                 @Override
-                                public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
-                                    if (response.code() == 200) {
-                                        int code, resID;
-                                        String name;
+                                public void onResponse(Call<ModelTab13mData> call, Response<ModelTab13mData> response) {
+                                    if(response.code() == 200) {
+                                        int resID;
+                                        String name = "@drawable/ic_rank_noname";
+                                        for(int a = 0 ; a < response.body().getContent().size() ; a++) {
 
-                                        for (int a = 0; a < response.body().getProduct().size(); a++) {
-                                            code = response.body().getProduct().get(a).getCode();
-                                            name = "@drawable/ic_" + code;
-                                            if(code >= 11 && code < 19 || code > 19) {
-                                                name = "@drawable/ic_rank_noname";
-                                            }
                                             resID = mainActivity.getResources().getIdentifier(name,"drawable",packName);
-
-                                            list.add(new ModelTab13m(response.body().getProduct().get(a).getName(),
-                                                    response.body().getProduct().get(a).getCode(), String.format("%.2f",response.body().getProduct().get(a).getRate()),response.body().getProduct().get(a).getSelect(), resID,false, 50L
+                                            list.add(new ModelTab13m(response.body().getContent().get(a).getName(),
+                                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate90()*100), 2, 2),response.body().getContent().get(a).getSelected(), resID, false, response.body().getContent().get(a).getMinCost()
                                             ));
                                         }
-                                        if(!(response.body().getNum() < response.body().getTotalNum() && response.body().getNum() >= 15)){
+                                        tab1_3mAdapter.notifyDataSetChanged();
+                                        if(response.body().getPage().getTotalPages() == 1){
                                             NextPageLoadState = false;
-                                        } else {
+                                        }
+                                        else {
                                             LoadingState = true;
                                             countPage++;
+                                        }
+                                    }else{
+                                        Gson gson = new GsonBuilder().create();
+                                        ErrorPojoClass mError = new ErrorPojoClass();
+                                        try {
+                                            mError= gson.fromJson(response.errorBody().string(),ErrorPojoClass .class);
+                                            Log.e("스프링 에러", "에러메시지 값 : "+ mError.getDetails());
+                                            Log.e("스프링 에러", "에러메시지 값 : "+ mError.getMessage());
+                                            Log.e("스프링 에러", "에러메시지 값 : "+ mError.getTimestamp());
+                                            Log.e("스프링 에러", "에러메시지 값 : "+ mError.getErrorcode());
+                                        } catch (IOException e) {
+                                            // handle failure to read error
                                         }
                                     }
                                 }
                                 @Override
-                                public void onFailure(Call<ModelTab13mRank> call, Throwable t) {
-                                    Log.e("레트로핏 실패", "값 : " + t.getMessage());
+                                public void onFailure(Call<ModelTab13mData> call, Throwable t) {
+                                    Log.e("레트로핏 실패","값 : "+t.getMessage());
                                 }
                             });
-
                             try {
                                 Thread.sleep(1400);
                             } catch (InterruptedException e) {
@@ -255,7 +271,6 @@ public class Fg_Tab1_3m extends Fragment {
                             }
                             return list;
                         }
-
                         @Override
                         protected void onPostExecute(List<ModelTab13m> items) {
                             super.onPostExecute(items);
@@ -264,15 +279,13 @@ public class Fg_Tab1_3m extends Fragment {
                             }catch (Exception e){}
                             tab1_3mAdapter.notifyItemRemoved(tab1_3mItems.size());
 
-                            int sizeInit = tab1_3mItems.size();
                             tab1_3mItems.addAll(items);
-                            tab1_3mAdapter.notifyItemRangeChanged(sizeInit, tab1_3mItems.size());
+                            tab1_3mAdapter.notifyItemRangeChanged(tab1_3mItems.size(), tab1_3mItems.size());
                             list.clear();
 
                             LoadDataState = false;
                         }
                     }.execute();
-
                 }else{
                     //더이상 불러올 아이템이 없을때
                 }
@@ -287,7 +300,7 @@ public class Fg_Tab1_3m extends Fragment {
                     LoadingState = true;
                     tab1_3mItems.clear();
                     NextPageLoadState = true;
-                    countPage = 1;
+                    countPage = 0;
 
                     tab1_3mAdapter.notifyDataSetChanged();
                     fgtab13mBinding.rankingPageTab1T3Cover.setVisibility(View.VISIBLE);
@@ -328,14 +341,14 @@ public class Fg_Tab1_3m extends Fragment {
                         }catch (Exception e){}
                     }
 
-                    Call<ModelMiddleChartData> getchartItem = RetrofitClient.getInstance().getService().getChart(tab1_3mItems.get(position).getCode(),"a");
-                    getchartItem.enqueue(new Callback<ModelMiddleChartData>() {
+                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(tab1_3mItems.get(position).getCode(),700);
+                    getTest2.enqueue(new Callback<ModelTab13mChartData>() {
                         @Override
-                        public void onResponse(Call<ModelMiddleChartData> call, Response<ModelMiddleChartData> response) {
+                        public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
                             if(response.code() == 200) {
                                 entries.clear();
-                                for(int a = 0 ; a < response.body().getElements().size() ; a++) {
-                                    entries.add(new Entry(a, response.body().getElements().get(a).getRate(),response.body().getElements().get(a).getDate()));
+                                for(int a = 0 ; a < response.body().getContent().size() ; a++) {
+                                    entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                                 }
                                 OpenChartAnim = true;
                                 tab1_3mItems.get(position).setOnenChart(true);
@@ -344,7 +357,7 @@ public class Fg_Tab1_3m extends Fragment {
                             }
                         }
                         @Override
-                        public void onFailure(Call<ModelMiddleChartData> call, Throwable t) {
+                        public void onFailure(Call<ModelTab13mChartData> call, Throwable t) {
                             Log.e("레트로핏 실패","값 : "+t.getMessage());
                         }
                     });
@@ -359,31 +372,30 @@ public class Fg_Tab1_3m extends Fragment {
 
                 if(tab1_3mItems.get(position).getCheck() == 1) {
 
-                    Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(tab1_3mItems.get(position).getCode(), 1);
-                    getData.enqueue(new Callback<ModelPortZzim>() {
-                        @Override
-                        public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
-                            if(response.code() == 200) {
-
-                                CheckDataAnim = true;
-
-                                tab1_3mItems.get(position).setCheck(0);
-                                tab1_3mAdapter.notifyItemChanged(position);
-
-                                DataManager.get_INstance().setCheckTab1(true);
-
-                                Bundle bundle = new Bundle();
-                                bundle.putInt("rankcode", tab1_3mItems.get(position).getCode());
-                                RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_NO, bundle));
-                                SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
-                            }
-                        }
-                        @Override
-                        public void onFailure(Call<ModelPortZzim> call, Throwable t) {
-                            Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+//                    Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(tab1_3mItems.get(position).getCode(), 1);
+//                    getData.enqueue(new Callback<ModelPortZzim>() {
+//                        @Override
+//                        public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
+//                            if(response.code() == 200) {
+//
+//                                CheckDataAnim = true;
+//
+//                                tab1_3mItems.get(position).setCheck(0);
+//                                tab1_3mAdapter.notifyItemChanged(position);
+//
+//                                DataManager.get_INstance().setCheckTab1(true);
+//
+//                                Bundle bundle = new Bundle();
+//                                bundle.putInt("rankcode", tab1_3mItems.get(position).getCode());
+//                                RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_NO, bundle));
+//                                SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
+//                            }
+//                        }
+//                        @Override
+//                        public void onFailure(Call<ModelPortZzim> call, Throwable t) {
+//                            Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                 }else{
 
                     if(SharedPreferenceUtil.getInstance(mainActivity).getIntExtra("PortZzimCount") >= 25) {
@@ -391,32 +403,30 @@ public class Fg_Tab1_3m extends Fragment {
                         toast.show();
                         CheckDataAnim = false;
                     }else{
-
-                        Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(tab1_3mItems.get(position).getCode(), 0);
-                        getData.enqueue(new Callback<ModelPortZzim>() {
-                            @Override
-                            public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
-                                if(response.code() == 200) {
-
-                                    CheckDataAnim = true;
-
-                                    tab1_3mItems.get(position).setCheck(1);
-                                    tab1_3mAdapter.notifyItemChanged(position);
-
-                                    DataManager.get_INstance().setCheckTab1(true);
-
-                                    Bundle bundle = new Bundle();
-                                    bundle.putInt("rankcode", tab1_3mItems.get(position).getCode());
-                                    RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_OK, bundle));
-                                    SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<ModelPortZzim> call, Throwable t) {
-                                Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
+//                        Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(tab1_3mItems.get(position).getCode(), 0);
+//                        getData.enqueue(new Callback<ModelPortZzim>() {
+//                            @Override
+//                            public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
+//                                if(response.code() == 200) {
+//
+//                                    CheckDataAnim = true;
+//
+//                                    tab1_3mItems.get(position).setCheck(1);
+//                                    tab1_3mAdapter.notifyItemChanged(position);
+//
+//                                    DataManager.get_INstance().setCheckTab1(true);
+//
+//                                    Bundle bundle = new Bundle();
+//                                    bundle.putInt("rankcode", tab1_3mItems.get(position).getCode());
+//                                    RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_OK, bundle));
+//                                    SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
+//                                }
+//                            }
+//                            @Override
+//                            public void onFailure(Call<ModelPortZzim> call, Throwable t) {
+//                                Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
                     }
                 }
             }
@@ -426,28 +436,28 @@ public class Fg_Tab1_3m extends Fragment {
         tab1_3mAdapter.setSelectedDur1(new AdapterFgTab13m.SelectedDur1() {
             @Override
             public void onClick(int position) {
-                ChartDur(position, "1");
+                ChartDur(position, 30);
             }
         });
         // 차트 3개월 버튼 클릭
         tab1_3mAdapter.setSelectedDur3(new AdapterFgTab13m.SelectedDur3() {
             @Override
             public void onClick(int position) {
-                ChartDur(position, "3");
+                ChartDur(position, 90);
             }
         });
         //차트 6개월 버튼 클릭
         tab1_3mAdapter.setSelectedDur6(new AdapterFgTab13m.SelectedDur6() {
             @Override
             public void onClick(int position) {
-                ChartDur(position, "6");
+                ChartDur(position, 180);
             }
         });
         //차트 누적 버튼 클릭
         tab1_3mAdapter.setSelectedDura(new AdapterFgTab13m.SelectedDura() {
             @Override
             public void onClick(int position) {
-                ChartDur(position, "a");
+                ChartDur(position, 700);
             }
         });
 
@@ -482,7 +492,6 @@ public class Fg_Tab1_3m extends Fragment {
             }
         });
 
-
         RxEventBus.getInstance()
                 .filteredObservable(RxEvent.class)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -492,16 +501,15 @@ public class Fg_Tab1_3m extends Fragment {
                     }
                     @Override
                     public void onNext(RxEvent rxEvent) {
-
                         switch (rxEvent.getActiion()) {
                             case RxEvent.RANK_PORT_CHECK_OK:
                                 int Gcode = rxEvent.getBundle().getInt("rankcode");
                                 for(int a = 0 ; a < tab1_3mItems.size() ; a++) {
-                                    if(tab1_3mItems.get(a).getCode() == Gcode) {
-                                        tab1_3mItems.get(a).setCheck(1);
-                                        tab1_3mAdapter.notifyItemChanged(a);
-                                        break;
-                                    }
+//                                    if(tab1_3mItems.get(a).getCode() == Gcode) {
+//                                        tab1_3mItems.get(a).setCheck(1);
+//                                        tab1_3mAdapter.notifyItemChanged(a);
+//                                        break;
+//                                    }
                                 }
                                 new Thread(new Runnable() {
                                     @Override
@@ -515,15 +523,14 @@ public class Fg_Tab1_3m extends Fragment {
                                     }
                                 }).start();
                                 break;
-
                             case RxEvent.RANK_PORT_CHECK_NO:
                                 int Gcode2 = rxEvent.getBundle().getInt("rankcode");
                                 for(int a = 0 ; a < tab1_3mItems.size() ; a++) {
-                                    if(tab1_3mItems.get(a).getCode() == Gcode2) {
-                                        tab1_3mItems.get(a).setCheck(0);
-                                        tab1_3mAdapter.notifyItemChanged(a);
-                                        break;
-                                    }
+//                                    if(tab1_3mItems.get(a).getCode() == Gcode2) {
+//                                        tab1_3mItems.get(a).setCheck(0);
+//                                        tab1_3mAdapter.notifyItemChanged(a);
+//                                        break;
+//                                    }
                                 }
                                 new Thread(new Runnable() {
                                     @Override
@@ -537,7 +544,6 @@ public class Fg_Tab1_3m extends Fragment {
                                     }
                                 }).start();
                                 break;
-
                             case RxEvent.ZZIM_PORT_DELETE_MODIFY:
                                 for (int count = 0; count < tab1_3mItems.size(); count++) {
                                     tab1_3mItems.get(count).setCheck(0);
@@ -553,32 +559,65 @@ public class Fg_Tab1_3m extends Fragment {
                     public void onComplete() {
                     }
                 });
+
     }//onViewCreate 끝
 
 
-    //각 차트의 1개월 ~ 누적 버튼
-    void ChartDur(int position, String dur) {
+    public static double decimalScale(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.doubleValue();
+    }
 
-        Call<ModelMiddleChartData> getchartItem = RetrofitClient.getInstance().getService().getChart(tab1_3mItems.get(position).getCode(),dur);
-        getchartItem.enqueue(new Callback<ModelMiddleChartData>() {
+
+    public static float decimalScale2(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.floatValue();
+    }
+
+    //각 차트의 1개월 ~ 누적 버튼
+    void ChartDur(int position, int dur) {
+
+        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(tab1_3mItems.get(position).getCode(),dur);
+        getTest2.enqueue(new Callback<ModelTab13mChartData>() {
             @Override
-            public void onResponse(Call<ModelMiddleChartData> call, Response<ModelMiddleChartData> response) {
+            public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
                 if(response.code() == 200) {
                     entries.clear();
-                    for(int a = 0 ; a < response.body().getElements().size() ; a++) {
-                        entries.add(new Entry(a, response.body().getElements().get(a).getRate(),response.body().getElements().get(a).getDate()));
+                    for(int a = 0 ; a < response.body().getContent().size() ; a++) {
+                        entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                     }
+                    OpenChartAnim = true;
                     tab1_3mItems.get(position).setOnenChart(true);
                     tab1_3mAdapter.notifyDataSetChanged();
+                    fgtab13mBinding.rankingPageTab1T3RecyclerView.smoothScrollToPosition(position);
                 }
             }
             @Override
-            public void onFailure(Call<ModelMiddleChartData> call, Throwable t) {
+            public void onFailure(Call<ModelTab13mChartData> call, Throwable t) {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

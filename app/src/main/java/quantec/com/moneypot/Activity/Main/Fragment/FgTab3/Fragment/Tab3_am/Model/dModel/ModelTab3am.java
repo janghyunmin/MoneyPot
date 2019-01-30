@@ -3,14 +3,14 @@ package quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab3_am.Mode
 public class ModelTab3am {
 
     String title;
-    int code;
-    String rate;
-    boolean check;
+    String code;
+    double rate;
+    int check;
     int image;
     boolean onenChart;
     long mincost;
 
-    public ModelTab3am(String title, int code, String rate, boolean check, int image, boolean onenChart, long mincost) {
+    public ModelTab3am(String title, String code, double rate, int check, int image, boolean onenChart, long mincost) {
         this.title = title;
         this.code = code;
         this.rate = rate;
@@ -28,27 +28,27 @@ public class ModelTab3am {
         this.title = title;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public String getRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 
-    public boolean isCheck() {
+    public int getCheck() {
         return check;
     }
 
-    public void setCheck(boolean check) {
+    public void setCheck(int check) {
         this.check = check;
     }
 

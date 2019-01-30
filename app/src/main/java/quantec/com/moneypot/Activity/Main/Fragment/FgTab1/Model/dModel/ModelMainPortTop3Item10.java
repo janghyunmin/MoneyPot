@@ -5,9 +5,9 @@ public class ModelMainPortTop3Item10 {
     int num;
     String name;
     double rete;
-    int code;
+    String code;
 
-    public ModelMainPortTop3Item10(int num, String name, double rete, int code) {
+    public ModelMainPortTop3Item10(int num, String name, double rete, String code) {
         this.num = num;
         this.name = name;
         this.rete = rete;
@@ -38,11 +38,11 @@ public class ModelMainPortTop3Item10 {
         this.rete = rete;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 }

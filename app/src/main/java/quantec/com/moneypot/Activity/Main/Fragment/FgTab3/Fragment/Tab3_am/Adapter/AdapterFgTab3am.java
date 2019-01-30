@@ -205,20 +205,19 @@ public class AdapterFgTab3am extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmNumber.setText(String.valueOf(position+1));
             ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmTitle.setText(singleItem.getTitle());
+            ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmRate.setText(String.valueOf(singleItem.getRate()));
 
-            if(Double.parseDouble(singleItem.getRate()) < 0) {
-                ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmRate.setText(singleItem.getRate());
+            if(singleItem.getRate() < 0) {
                 ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmRate.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
                 ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmPer.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
             }else{
-                ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmRate.setText(singleItem.getRate());
                 ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmRate.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
                 ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmPer.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
             }
 
             ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmImage.setImageResource(singleItem.getImage());
 
-            if(singleItem.isCheck()){
+            if(singleItem.getCheck() == 1){
                 ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmCheckImage.setImageResource(R.drawable.start_on);
             }else{
                 ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmCheckImage.setImageResource(R.drawable.start_off);

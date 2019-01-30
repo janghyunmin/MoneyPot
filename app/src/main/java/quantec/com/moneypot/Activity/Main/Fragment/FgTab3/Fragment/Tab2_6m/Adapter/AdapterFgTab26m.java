@@ -206,13 +206,12 @@ public class AdapterFgTab26m extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             ((Tab2_6mViewHolder) holder).tab26mdataBinding.fragment3Tab26mNumber.setText(String.valueOf(position+1));
             ((Tab2_6mViewHolder) holder).tab26mdataBinding.fragment3Tab26mTitle.setText(singleItem.getTitle());
+            ((Tab2_6mViewHolder) holder).tab26mdataBinding.fragment3Tab26mRate.setText(String.valueOf(singleItem.getRate()));
 
-            if(Double.parseDouble(singleItem.getRate()) < 0){
-                ((Tab2_6mViewHolder) holder).tab26mdataBinding.fragment3Tab26mRate.setText(singleItem.getRate());
+            if(singleItem.getRate() < 0){
                 ((Tab2_6mViewHolder) holder).tab26mdataBinding.fragment3Tab26mRate.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
                 ((Tab2_6mViewHolder) holder).tab26mdataBinding.fragment3Tab26mPer.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
             }else{
-                ((Tab2_6mViewHolder) holder).tab26mdataBinding.fragment3Tab26mRate.setText(singleItem.getRate());
                 ((Tab2_6mViewHolder) holder).tab26mdataBinding.fragment3Tab26mRate.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
                 ((Tab2_6mViewHolder) holder).tab26mdataBinding.fragment3Tab26mPer.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
             }

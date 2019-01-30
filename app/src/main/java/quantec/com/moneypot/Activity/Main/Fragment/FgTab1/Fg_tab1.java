@@ -42,6 +42,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +50,8 @@ import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Adapter.AdapterTop10;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.dModel.ModelMainPortTop10Item3;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.dModel.ModelMainPortTop3Item10;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelTop10Item;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Activity.Myinfo.ActivityMyinfo;
 import quantec.com.moneypot.Activity.SearchPort.ActivitySearchPort;
@@ -255,7 +256,7 @@ public class Fg_tab1 extends Fragment {
                     fgTab1Binding.firstPortPageMiddleChartOpen.setText("더보기");
                 }else{
                     //코드값과 기간을 기준으로 차트 데이터를 불러옴 ( 누적 데이터 )
-                    ChartDurMiddle("a");
+                    ChartDurMiddle(180);
                     ChangedChartButton(fgTab1Binding.firstPortPageMiddleChartDuraBt, 0);
                 }
             }
@@ -273,7 +274,7 @@ public class Fg_tab1 extends Fragment {
                     fgTab1Binding.firstPortPageBottomChartOpen.setText("더보기");
                 }else{
                     //코드값과 기간을 기준으로 차트 데이터를 불러옴 ( 누적 데이터 )
-                    ChartDurBottom("a");
+                    ChartDurBottom(180);
                     ChangedChartButton(fgTab1Binding.firstPortPageBottomChartDuraBt, 1);
                 }
             }
@@ -283,7 +284,7 @@ public class Fg_tab1 extends Fragment {
         fgTab1Binding.firstPortPageBottomChartDur1Bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChartDurBottom("1");
+                ChartDurBottom(30);
                 ChangedChartButton(fgTab1Binding.firstPortPageBottomChartDur1Bt, 1);
             }
         });
@@ -293,7 +294,7 @@ public class Fg_tab1 extends Fragment {
             @Override
             public void onClick(View v) {
 
-                ChartDurBottom("3");
+                ChartDurBottom(90);
                 ChangedChartButton(fgTab1Binding.firstPortPageBottomChartDur3Bt, 1);
             }
         });
@@ -302,7 +303,7 @@ public class Fg_tab1 extends Fragment {
         fgTab1Binding.firstPortPageBottomChartDur6Bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChartDurBottom("6");
+                ChartDurBottom(180);
                 ChangedChartButton(fgTab1Binding.firstPortPageBottomChartDur6Bt, 1);
             }
         });
@@ -311,7 +312,7 @@ public class Fg_tab1 extends Fragment {
         fgTab1Binding.firstPortPageBottomChartDuraBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChartDurBottom("a");
+                ChartDurBottom(180);
                 ChangedChartButton(fgTab1Binding.firstPortPageBottomChartDuraBt, 1);
             }
         });
@@ -320,7 +321,7 @@ public class Fg_tab1 extends Fragment {
         fgTab1Binding.firstPortPageMiddleChartDur1Bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChartDurMiddle("1");
+                ChartDurMiddle(30);
                 ChangedChartButton(fgTab1Binding.firstPortPageMiddleChartDur1Bt, 0);
             }
         });
@@ -329,7 +330,7 @@ public class Fg_tab1 extends Fragment {
         fgTab1Binding.firstPortPageMiddleChartDur3Bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChartDurMiddle("3");
+                ChartDurMiddle(90);
                 ChangedChartButton(fgTab1Binding.firstPortPageMiddleChartDur3Bt, 0);
             }
         });
@@ -338,7 +339,7 @@ public class Fg_tab1 extends Fragment {
         fgTab1Binding.firstPortPageMiddleChartDur6Bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChartDurMiddle("6");
+                ChartDurMiddle(180);
                 ChangedChartButton(fgTab1Binding.firstPortPageMiddleChartDur6Bt, 0);
             }
         });
@@ -347,7 +348,7 @@ public class Fg_tab1 extends Fragment {
         fgTab1Binding.firstPortPageMiddleChartDuraBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChartDurMiddle("a");
+                ChartDurMiddle(180);
                 ChangedChartButton(fgTab1Binding.firstPortPageMiddleChartDuraBt, 0);
             }
         });
@@ -389,18 +390,18 @@ public class Fg_tab1 extends Fragment {
         adapterTop10 = new AdapterTop10(modelMainPortTop10Item3s, modelMainPortTop3Item10s, getContext());
         fgTab1Binding.firstPortPageRecyclerView.setAdapter(adapterTop10);
 
-        Call<ModelTop10Item> getData = RetrofitClient.getInstance().getService().getTop10Data(3, 1);
+        Call<ModelTop10Item> getData = RetrofitClient.getInstance().getService().getTop10(10);
         getData.enqueue(new Callback<ModelTop10Item>() {
             @Override
             public void onResponse(Call<ModelTop10Item> call, Response<ModelTop10Item> response) {
                 if(response.code() == 200) {
                     for(int a = 0 ; a < 10 ; a++) {
                         if(a < 3) {
-                            modelMainPortTop10Item3s.add(new ModelMainPortTop10Item3(a+1, response.body().getProduct().get(a).getName(),
-                                    response.body().getProduct().get(a).getRate(), response.body().getProduct().get(a).getCode()));
+                            modelMainPortTop10Item3s.add(new ModelMainPortTop10Item3(a+1, response.body().getContent().get(a).getName(),
+                                    response.body().getContent().get(a).getRate(), response.body().getContent().get(a).getStCode()));
                         }
-                        modelMainPortTop3Item10s.add(new ModelMainPortTop3Item10(a+1, response.body().getProduct().get(a).getName(),
-                                response.body().getProduct().get(a).getRate(),response.body().getProduct().get(a).getCode()));
+                        modelMainPortTop3Item10s.add(new ModelMainPortTop3Item10(a+1, response.body().getContent().get(a).getName(),
+                                response.body().getContent().get(a).getRate(),response.body().getContent().get(a).getStCode()));
                     }
                     adapterTop10.notifyDataSetChanged();
                 }
@@ -502,7 +503,6 @@ public class Fg_tab1 extends Fragment {
         AnimationState2 = false;
     }
 
-
     void MiddleChart() {
 
         middle_lineDataSet = new LineDataSet(middle_entries, null);
@@ -516,8 +516,6 @@ public class Fg_tab1 extends Fragment {
         middle_lineDataSet.setHighLightColor(R.color.chart_limit_line_color);
         middle_lineDataSet.setHighlightLineWidth(1f);
         middle_lineDataSet.setDrawCircles(false);
-
-        middle_lineDataSet.setLabel("");
 
         middle_lineData = new LineData(middle_lineDataSet);
         middle_lineData.setHighlightEnabled(true);
@@ -580,8 +578,6 @@ public class Fg_tab1 extends Fragment {
         bottom_lineDataSet.setHighlightLineWidth(1f);
         bottom_lineDataSet.setDrawCircles(false);
 
-        bottom_lineDataSet.setLabel("");
-
         bottom_lineData = new LineData(bottom_lineDataSet);
         bottom_lineData.setHighlightEnabled(true);
 
@@ -627,7 +623,6 @@ public class Fg_tab1 extends Fragment {
         bottom_chart_open = true;
         fgTab1Binding.firstPortPageBottomChartLayout.setVisibility(View.VISIBLE);
         fgTab1Binding.firstPortPageBottomChartOpen.setText("접기");
-
     }
 
     @Override
@@ -679,47 +674,62 @@ public class Fg_tab1 extends Fragment {
     }
 
 
-    void ChartDurMiddle(String dur) {
-        Call<ModelMiddleChartData> getchartItem = RetrofitClient.getInstance().getService().getChart(15, dur);
-        getchartItem.enqueue(new Callback<ModelMiddleChartData>() {
+    void ChartDurMiddle(int dur) {
+        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort("MP0005",dur);
+        getTest2.enqueue(new Callback<ModelTab13mChartData>() {
             @Override
-            public void onResponse(Call<ModelMiddleChartData> call, Response<ModelMiddleChartData> response) {
+            public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
                 if(response.code() == 200) {
                     middle_entries.clear();
-                    for(int a = 0 ; a < response.body().getElements().size() ; a++) {
-                        middle_entries.add(new Entry(a, response.body().getElements().get(a).getRate(),response.body().getElements().get(a).getDate()));
-                        if(a == response.body().getElements().size()-1){
-                            MiddleChart();
-                        }
+                    for(int a = 0 ; a < response.body().getContent().size() ; a++) {
+                        middle_entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                    }
+                    if(response.body().getTotalElements() != 0){
+                        MiddleChart();
                     }
                 }
             }
             @Override
-            public void onFailure(Call<ModelMiddleChartData> call, Throwable t) {
+            public void onFailure(Call<ModelTab13mChartData> call, Throwable t) {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
     }
 
-    void ChartDurBottom(String dur) {
-        Call<ModelMiddleChartData> getchartItem = RetrofitClient.getInstance().getService().getChart(18, dur);
-        getchartItem.enqueue(new Callback<ModelMiddleChartData>() {
+    void ChartDurBottom(int dur) {
+        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort("MP0006",dur);
+        getTest2.enqueue(new Callback<ModelTab13mChartData>() {
             @Override
-            public void onResponse(Call<ModelMiddleChartData> call, Response<ModelMiddleChartData> response) {
+            public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
                 if(response.code() == 200) {
                     bottom_entries.clear();
-                    for(int a = 0 ; a < response.body().getElements().size() ; a++) {
-                        bottom_entries.add(new Entry(a, response.body().getElements().get(a).getRate(),response.body().getElements().get(a).getDate()));
-                        if(a == response.body().getElements().size()-1){
-                            BottomChart();
-                        }
+                    for(int a = 0 ; a < response.body().getContent().size() ; a++) {
+                        bottom_entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                    }
+                    if(response.body().getTotalElements() != 0){
+                        BottomChart();
                     }
                 }
             }
             @Override
-            public void onFailure(Call<ModelMiddleChartData> call, Throwable t) {
+            public void onFailure(Call<ModelTab13mChartData> call, Throwable t) {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
+    }
+
+    public static float decimalScale2(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.floatValue();
     }
 }

@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,10 +47,7 @@ public class AdapterFgTab13m extends RecyclerView.Adapter<RecyclerView.ViewHolde
     XAxis xAxis;
 
     float currentX, maxX;
-
     int checkedPosition;
-
-    private boolean firstDataAnimState = false;
 
     public interface OnLoadMoreListener{
         void onLoadMore();
@@ -204,13 +202,14 @@ public class AdapterFgTab13m extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
 
             }
-
             ModelTab13m singleItem = tab1_3mItems.get(position);
+
             ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mNumber.setText(String.valueOf(position+1));
             ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mTitle.setText(singleItem.getTitle());
-            ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mRate.setText(singleItem.getRate());
+            ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mRate.setText(String.valueOf(singleItem.getRate()));
 
-            if(Double.parseDouble(singleItem.getRate()) < 0) {
+
+            if(singleItem.getRate() < 0) {
                 ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mRate.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
                 ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mPer.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
             }else{

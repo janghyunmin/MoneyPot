@@ -4,7 +4,6 @@ import okhttp3.MultipartBody;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailPage;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelInvestItem;
 import quantec.com.moneypot.Activity.FinishMakePort.Model.nModel.ModelPortSavedInfo;
-import quantec.com.moneypot.Activity.Intro.ModelTest2;
 import quantec.com.moneypot.Activity.Intro.User;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelTop10Item;
@@ -13,7 +12,9 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelDeleteMyPort;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelMyChartItem;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelgetMyPortList;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mData;
 import quantec.com.moneypot.Activity.PortProfileModify.Model.nModel.ModelImageSavedData;
 import quantec.com.moneypot.Activity.SearchPort.BasicPage.Fragment.Model.nModel.ModelRecommendHotPort;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
@@ -26,7 +27,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -122,7 +122,6 @@ public interface RetrofitService {
     @GET("get_product_list.php")
     Call<ModelTab13mRank> getRankData(@Query("dur") String pcode, @Query("bIdx") int bidx);
 
-
     //내포트 이미지 업로드+이름
     //opt = 0
     //이미지 + 이름 + 설명
@@ -133,7 +132,6 @@ public interface RetrofitService {
     @Multipart
     @POST("icon_upload.php")
     Call<ModelImageSavedData> getImageTextUpload(@Part MultipartBody.Part opt, @Part MultipartBody.Part ucode, @Part MultipartBody.Part name, @Part MultipartBody.Part desc, @Part MultipartBody.Part file, @Part MultipartBody.Part wch);
-
 
     //내포트 이름 업로드
     //opt = 0
@@ -146,17 +144,29 @@ public interface RetrofitService {
     @POST("icon_upload.php")
     Call<ModelImageSavedData> getTextUpload(@Part MultipartBody.Part opt, @Part MultipartBody.Part ucode, @Part MultipartBody.Part name, @Part MultipartBody.Part desc, @Part MultipartBody.Part wch);
 
-
-//    @GET("admin/getStockRate")
-//    Call<Object> getTest(@Query("stCode") String stCode, @Query("page") int page, @Query("size") int size);
+//  @GET("admin/getStockRate")
+//  Call<Object> getTest(@Query("stCode") String stCode, @Query("page") int page, @Query("size") int size);
 
     @GET("admin/getStockRate/{stCode}/{page}/{size}")
     Call<Object> getTest(@Path("stCode") String stCode, @Path("page") int page, @Path("size") int size);
 
-    @GET("strategy/getStPage/{page}/{rate}/{size}")
-    Call<ModelTest2> getTest2(@Path("page") int page, @Path("rate") int rate, @Path("size") int size);
+//  @GET("strategy/getStPage/{rate}/{page}/{size}")
+//  Call<ModelTest2> getTest2(@Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 
+    //포트마켓 포트 리스트 불러옴
+    @GET("strategy/getStPage/{rate}/{page}/{size}")
+    Call<ModelTab13mData> getTest2(@Path("page") int page, @Path("rate") int rate, @Path("size") int size);
+
+    //포트 차트데이터 불러옴
+    @GET("strategy/getRateByPeriod/{stCode}/{period}")
+    Call<ModelTab13mChartData> getRankPort(@Path("stCode") String stCode, @Path("period") int period);
+
+    //로그인시 jwt값 불러옴
     @POST("Auth/authenticate")
     Call<Object> getTestLogin(@Header("Content-Type") String content_type, @Body User user);
+
+    //맞춤포트에서 추천포트 랭킹 탑10 불러옴
+    @GET("strategy/getStHotList/{limit}")
+    Call<ModelTop10Item> getTop10(@Path("limit") int limit);
 
 }

@@ -3,14 +3,14 @@ package quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Mode
 public class ModelTab13m {
 
     String title;
-    int code;
-    String rate;
+    String code;
+    double rate;
     int check;
     int image;
     boolean onenChart;
     Long mincost;
 
-    public ModelTab13m(String title, int code, String rate, int check, int image, boolean onenChart, Long mincost) {
+    public ModelTab13m(String title, String code, double rate, int check, int image, boolean onenChart, Long mincost) {
         this.title = title;
         this.code = code;
         this.rate = rate;
@@ -28,19 +28,19 @@ public class ModelTab13m {
         this.title = title;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public String getRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 

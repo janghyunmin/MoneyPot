@@ -242,7 +242,6 @@ public class ActivityIntro extends AppCompatActivity {
 
 //                String base64PrivateKey = Base64.encodeToString(secretKey.getBytes("utf-8"), Base64.NO_WRAP);//Base64.getEncoder().encodeToString(bytePrivateKey);
                 Log.e("TEST5","최종값 :" + EncrypteUtil.decryptRSA(data.userName, EncrypteUtil.genRSAKeyPublic(secretKey)));
-
         }
 
         private  String getJson(String strEncoded) throws UnsupportedEncodingException {
