@@ -334,6 +334,7 @@ public class Fg_Tab1_3m extends Fragment {
                     OpenChartAnim = false;
 
                 }else{
+
                     for(int a = 0 ; a < tab1_3mItems.size() ; a++) {
                         //java.lang.NullPointerException: Attempt to invoke virtual method 'void com.quant.quantec.MainFragment.Tab3_ChildFragment.Tab1_3mItem.Tab1_3mItem.setOnenChart(boolean)' on a null object reference
                         try {
@@ -361,6 +362,7 @@ public class Fg_Tab1_3m extends Fragment {
                             Log.e("레트로핏 실패","값 : "+t.getMessage());
                         }
                     });
+
                 }
             }
         });

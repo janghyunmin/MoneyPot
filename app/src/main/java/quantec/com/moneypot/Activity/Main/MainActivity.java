@@ -833,6 +833,8 @@ public class MainActivity extends AppCompatActivity {
 
     //포트 종료 이벤트
     public void makePortPreCloseBT(){
+        currentSelectedBT = activityMainBinding.makePortCenterBt;
+        activityMainBinding.makePortInfoTextBottom.setText(R.string.makePortInfo1);
 
         preMakePortPannelState = false;
         postMakePortPannelState = false;

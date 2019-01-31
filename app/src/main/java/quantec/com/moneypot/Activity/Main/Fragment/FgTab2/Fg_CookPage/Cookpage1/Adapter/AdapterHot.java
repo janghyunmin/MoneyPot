@@ -91,7 +91,7 @@ public class AdapterHot extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             }
 
             // 찜하기 이벤트
-            ((HotViewHolder)holder).hotcookpage1Binding.itemHotZzim.setOnClickListener(new View.OnClickListener() {
+            ((HotViewHolder)holder).hotcookpage1Binding.itemHotZzimLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(hotZzimClick != null){

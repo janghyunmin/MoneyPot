@@ -2,6 +2,7 @@ package quantec.com.moneypot.Network.Retrofit;
 
 import okhttp3.MultipartBody;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailPage;
+import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailTest;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelInvestItem;
 import quantec.com.moneypot.Activity.FinishMakePort.Model.nModel.ModelPortSavedInfo;
 import quantec.com.moneypot.Activity.Intro.User;
@@ -168,5 +169,10 @@ public interface RetrofitService {
     //맞춤포트에서 추천포트 랭킹 탑10 불러옴
     @GET("strategy/getStHotList/{limit}")
     Call<ModelTop10Item> getTop10(@Path("limit") int limit);
+
+
+    //맞춤포트에서 추천포트 랭킹 탑10 불러옴
+    @GET("strategy/getSt/{stCode}")
+    Call<ModelDetailTest> getDetailTest(@Path("stCode") String stCode);
 
 }

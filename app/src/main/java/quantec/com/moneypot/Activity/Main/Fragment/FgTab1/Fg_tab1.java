@@ -179,16 +179,12 @@ public class Fg_tab1 extends Fragment {
             @Override
             public void onClick(int position) {
                 if(more_top10) {
-
                     Intent intent = new Intent(getActivity(), ActivityDetailPort.class);
                     intent.putExtra("detailcode",modelMainPortTop3Item10s.get(position).getCode());
-                    intent.putExtra("detailtitle", modelMainPortTop3Item10s.get(position).getName());
                     startActivityForResult(intent, 600);
                 }else{
-
                     Intent intent = new Intent(getActivity(), ActivityDetailPort.class);
                     intent.putExtra("detailcode",modelMainPortTop10Item3s.get(position).getCode());
-                    intent.putExtra("detailtitle", modelMainPortTop10Item3s.get(position).getName());
                     startActivityForResult(intent, 600);
                 }
             }

@@ -17,14 +17,17 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import quantec.com.moneypot.Activity.DetailPort.Adapter.AdapterDetailPort;
 import quantec.com.moneypot.Activity.DetailPort.Model.dModel.ModelInvestItemData;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailPage;
+import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailTest;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelInvestItem;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
@@ -39,8 +42,7 @@ import retrofit2.Response;
 
 public class ActivityDetailPort extends AppCompatActivity {
 
-    int PortCode;
-    String PortTitle;
+    String PortCode;
 
     RecyclerView.LayoutManager mLayoutManager;
     ArrayList<ModelInvestItemData> investItemData;
@@ -81,6 +83,8 @@ public class ActivityDetailPort extends AppCompatActivity {
 
     ActivityDetailPortBinding detailPageBinding;
 
+    double rate, rate30, rate90, rate180;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,17 +108,14 @@ public class ActivityDetailPort extends AppCompatActivity {
         detailPageBinding.portDetailPageLoading.setEnabled(false);
 
         Intent intent = getIntent();
-        PortCode = intent.getIntExtra("detailcode",0);
-        PortTitle = intent.getStringExtra("detailtitle");
         PortType = intent.getBooleanExtra("detailtype",true);
         ZzimDPosition = intent.getIntExtra("ZzimPortPosition", 0);
+        PortCode = intent.getStringExtra("detailcode");
 
         infoItem = new ArrayList<>();
         Drate = new ArrayList<>();
         Detail = new ArrayList<>();
 
-        //앱바 타이틀
-        detailPageBinding.portDetailPageTitleText.setText(PortTitle);
         for(int a = 0 ; a < 4 ; a++) {
             Detail.add(a);
         }
@@ -219,7 +220,7 @@ public class ActivityDetailPort extends AppCompatActivity {
         detailPageAdapter2.setDetailPageDur1(new AdapterDetailPort.DetailPageDur1() {
             @Override
             public void onClick(int position) {
-                ChartDur("1");
+                ChartDur(30);
             }
         });
 
@@ -227,7 +228,7 @@ public class ActivityDetailPort extends AppCompatActivity {
         detailPageAdapter2.setDetailPageDur3(new AdapterDetailPort.DetailPageDur3() {
             @Override
             public void onClick(int position) {
-                ChartDur("3");
+                ChartDur(90);
             }
         });
 
@@ -235,7 +236,7 @@ public class ActivityDetailPort extends AppCompatActivity {
         detailPageAdapter2.setDetailPageDur6(new AdapterDetailPort.DetailPageDur6() {
             @Override
             public void onClick(int postion) {
-                ChartDur("6");
+                ChartDur(180);
             }
         });
 
@@ -243,7 +244,7 @@ public class ActivityDetailPort extends AppCompatActivity {
         detailPageAdapter2.setDetailPageDura(new AdapterDetailPort.DetailPageDura() {
             @Override
             public void onClick(int position) {
-                ChartDur("a");
+                ChartDur(700);
             }
         });
 
@@ -265,14 +266,14 @@ public class ActivityDetailPort extends AppCompatActivity {
                 PortZzimRefresh = true;
                 //찜 헤제
                 if(PortZzimState) {
-                    Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(PortCode, 1);
+                    Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(0, 1);
                     getData.enqueue(new Callback<ModelPortZzim>() {
                         @Override
                         public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
                             if(response.code() == 200) {
 
                                 Bundle bundle = new Bundle();
-                                bundle.putInt("rankcode", PortCode);
+                                bundle.putInt("rankcode", 0);
                                 RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_NO, bundle));
 
                                 SharedPreferenceUtil.getInstance(ActivityDetailPort.this).putIntZzimCount("PortZzimCount", response.body().getNum());
@@ -292,14 +293,14 @@ public class ActivityDetailPort extends AppCompatActivity {
                     }
                     //찜 선택
                     else{
-                        Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(PortCode, 0);
+                        Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(0, 0);
                         getData.enqueue(new Callback<ModelPortZzim>() {
                             @Override
                             public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
                                 if (response.code() == 200) {
 
                                     Bundle bundle = new Bundle();
-                                    bundle.putInt("rankcode", PortCode);
+                                    bundle.putInt("rankcode", 0);
                                     RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_OK, bundle));
 
                                     SharedPreferenceUtil.getInstance(ActivityDetailPort.this).putIntZzimCount("PortZzimCount", response.body().getNum());
@@ -317,7 +318,6 @@ public class ActivityDetailPort extends AppCompatActivity {
 
             }
         });
-
 
         //커스텀 토스트 메시지
         View toastView = View.inflate(ActivityDetailPort.this, R.layout.dialog_toast_zzim_count_max, null);
@@ -369,175 +369,140 @@ public class ActivityDetailPort extends AppCompatActivity {
 
     }
 
-
     //페이지 초기화
     void PageInitDate(){
         detailPageBinding.portDetailPageLoading.setVisibility(View.VISIBLE);
 
-        new Thread(new Runnable() {
+        Call<ModelDetailTest> getData = RetrofitClient.getInstance().getService().getDetailTest(PortCode);
+        getData.enqueue(new Callback<ModelDetailTest>() {
             @Override
-            public void run() {
-                try {
-                    Thread.sleep(1300);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            public void onResponse(Call<ModelDetailTest> call, Response<ModelDetailTest> response) {
+                if(response.code() == 200) {
+
+                    infoItem.clear();
+                    try {
+                        infoItem.add(String.valueOf(response.body().getContent().getMinCost()));
+                        infoItem.add(response.body().getContent().getDescript());
+                    }catch (Exception e){
+                        infoItem.add("777");
+                        infoItem.add("오류가 있는 포트입니다.");
+                    }
+                    detailPageAdapter2.notifyDataSetChanged();
+                    try{
+                        PassTotalCash = Long.parseLong(String.valueOf(response.body().getContent().getMinCost()));
+                    }catch (Exception e){
+                        PassTotalCash = Long.parseLong("77777");
+                    }
+                    //찜 가능
+                    if(PortType) {
+                        if (response.body().getContent().getSelected() == 1) {
+                            detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.start_on);
+                            PortZzimState = true;
+                        }
+                        else {
+                            detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.ic_star_gray_off);
+                            PortZzimState = false;
+                        }
+                    }
+                    //찜 불가능
+                    else{
+                        detailPageBinding.portDetailPageCheck.setVisibility(View.GONE);
+                        detailPageBinding.portDetailPageNoCheck.setVisibility(View.VISIBLE);
+                        detailPageBinding.portDetailPageNoCheck.setImageResource(R.drawable.ic_star_gray_off);
+                    }
+
+                    detailPageBinding.portDetailPageTitleText.setText(response.body().getContent().getName());
+
+                    if(response.body().getContent().getStEls().size() >= 5) {
+                        for(int a = 0 ; a < 5 ; a++) {
+                            investItemData5.add(new ModelInvestItemData(response.body().getContent().getStEls().get(a).getName(),
+                                    decimalScale(String.valueOf(response.body().getContent().getStEls().get(a).getRate()*100), 2, 2),
+                                    String.valueOf((int)response.body().getContent().getStEls().get(a).getWeight())
+                            ));
+                            if(a == response.body().getContent().getStEls().size()-1){
+                                detailPageAdapter2.notifyDataSetChanged();
+                            }
+                        }
+                    }else{
+                        for(int a = 0 ; a < response.body().getContent().getStEls().size() ; a++) {
+                            investItemData5.add(new ModelInvestItemData(response.body().getContent().getStEls().get(a).getName(),
+                                    decimalScale(String.valueOf(response.body().getContent().getStEls().get(a).getRate()*100), 2, 2),
+                                    String.valueOf((int)response.body().getContent().getStEls().get(a).getWeight())
+                            ));
+                            if(a == response.body().getContent().getStEls().size()-1){
+                                detailPageAdapter2.notifyDataSetChanged();
+                            }
+                        }
+                    }
+
+                    for(int a = 0 ; a < response.body().getContent().getStEls().size() ; a++) {
+                        CountSize++;
+                        Detail.add(CountSize);
+                        investItemData.add(new ModelInvestItemData(response.body().getContent().getStEls().get(a).getName(),
+                                decimalScale(String.valueOf(response.body().getContent().getStEls().get(a).getRate()*100), 2, 2),
+                                String.valueOf((int)response.body().getContent().getStEls().get(a).getWeight())
+                        ));
+                        detailPageAdapter2.notifyDataSetChanged();
+                    }
+
+//                    Drate.clear();
+//                    Drate.add(response.body().getContent().getRate());
+
+                    rate = response.body().getContent().getRate();
+                    rate30 = response.body().getContent().getRate30();
+                    rate90 = response.body().getContent().getRate90();
+                    rate180 = response.body().getContent().getRate180();
+
+                    Drate.clear();
+                    Drate.add(rate);
+
+                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(PortCode,700);
+                    getTest2.enqueue(new Callback<ModelTab13mChartData>() {
+                        @Override
+                        public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
+                            if(response.code() == 200) {
+                                entries.clear();
+
+                                for(int a = 0 ; a < response.body().getContent().size() ; a++) {
+                                    entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                                }
+                                detailPageAdapter2.notifyDataSetChanged();
+                                detailPageBinding.portDetailPageLoading.setVisibility(View.GONE);
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<ModelTab13mChartData> call, Throwable t) {
+                            Log.e("레트로핏 실패","값 : "+t.getMessage());
+                        }
+                    });
                 }
-
-                //코드값을 기준으로 포트이름과 팁을 불러옴
-                Call<ModelDetailPage> getChartData = RetrofitClient.getInstance().getService().getDetailPage(PortCode);
-                getChartData.enqueue(new Callback<ModelDetailPage>() {
-                    @Override
-                    public void onResponse(Call<ModelDetailPage> call, Response<ModelDetailPage> response) {
-                        if(response.code() == 200) {
-                            infoItem.clear();
-                            try {
-                                infoItem.add(response.body().getElements().get(0).getMinCost());
-                                infoItem.add(response.body().getElements().get(0).getDescript());
-                            }catch (Exception e){
-                                infoItem.add("777");
-                                infoItem.add("오류가 있는 포트입니다.");
-                            }
-
-                            detailPageAdapter2.notifyDataSetChanged();
-                            try{
-                                PassTotalCash = Long.parseLong(response.body().getElements().get(0).getMinCost());
-                            }catch (Exception e){
-                                PassTotalCash = Long.parseLong("77777");
-                            }
-
-
-                            //찜 가능
-                            if(PortType) {
-                                if (response.body().getElements().get(0).getSelect() == 1) {
-                                    detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.start_on);
-                                    PortZzimState = true;
-                                }
-                                else {
-                                    detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.ic_star_gray_off);
-                                    PortZzimState = false;
-                                }
-                            }
-                            //찜 불가능
-                            else{
-                                detailPageBinding.portDetailPageCheck.setVisibility(View.GONE);
-                                detailPageBinding.portDetailPageNoCheck.setVisibility(View.VISIBLE);
-                                detailPageBinding.portDetailPageNoCheck.setImageResource(R.drawable.ic_star_gray_off);
-                            }
-
-//                            if(response.body().getElements().get(0).getPut() == 0){
-//
-//                                detailPageBinding.portDetailPageTopTestBasketBT.setTextColor(getResources().getColor(R.color.dark_gray_color));
-//                                basketState = 0;
-//
-//                            }else{
-//                                detailPageBinding.portDetailPageTopTestBasketBT.setTextColor(getResources().getColor(R.color.green_basket_color));
-//                                basketState = 1;
-//                            }
-
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<ModelDetailPage> call, Throwable t) {
-                        Log.e("레트로핏 실패","값 : "+t.getMessage());
-                    }
-                });
-
-                //코드값과 기간을 기준으로 차트 데이터를 불러옴 ( 누적 데이터 )
-                Call<ModelMiddleChartData> getchartItem = RetrofitClient.getInstance().getService().getChart(PortCode,"a");
-                getchartItem.enqueue(new Callback<ModelMiddleChartData>() {
-                    @Override
-                    public void onResponse(Call<ModelMiddleChartData> call, Response<ModelMiddleChartData> response) {
-                        if(response.code() == 200) {
-                            entries.clear();
-                            Drate.clear();
-
-                            Drate.add(response.body().getDrate());
-
-                            for(int a = 0 ; a < response.body().getElements().size() ; a++) {
-                                entries.add(new Entry(a, response.body().getElements().get(a).getRate(), response.body().getElements().get(a).getDate()));
-                                if(a == response.body().getElements().size()-1) {
-                                    detailPageAdapter2.notifyDataSetChanged();
-                                    detailPageBinding.portDetailPageLoading.setVisibility(View.GONE);
-                                }
-                            }
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<ModelMiddleChartData> call, Throwable t) {
-                        Log.e("레트로핏 실패","값 : "+t.getMessage());
-                    }
-                });
-
-                //코드값을 기준으로 종목 데이터를 불러옴
-                Call<ModelInvestItem> getChartDataPort = RetrofitClient.getInstance().getService().getDetailPagePort(PortCode);
-                getChartDataPort.enqueue(new Callback<ModelInvestItem>() {
-                    @Override
-                    public void onResponse(Call<ModelInvestItem> call, Response<ModelInvestItem> response) {
-                        if(response.code() == 200) {
-
-                            if(response.body().getNum() >= 5) {
-                                for(int a = 0 ; a < 5 ; a++) {
-                                    investItemData5.add(new ModelInvestItemData(response.body().getElements().get(a).getName(),
-                                            response.body().getElements().get(a).getRate(),
-                                            String.valueOf((int)response.body().getElements().get(a).getWeight())
-                                    ));
-                                    if(a == response.body().getElements().size()-1){
-                                        detailPageAdapter2.notifyDataSetChanged();
-                                    }
-                                }
-                            }else{
-                                for(int a = 0 ; a < response.body().getNum() ; a++) {
-                                    investItemData5.add(new ModelInvestItemData(response.body().getElements().get(a).getName(),
-                                            response.body().getElements().get(a).getRate(),
-                                            String.valueOf((int)response.body().getElements().get(a).getWeight())
-                                    ));
-                                    if(a == response.body().getElements().size()-1){
-                                        detailPageAdapter2.notifyDataSetChanged();
-                                    }
-                                }
-                            }
-
-                            for(int a = 0 ; a < response.body().getElements().size() ; a++) {
-                                CountSize++;
-                                Detail.add(CountSize);
-                                investItemData.add(new ModelInvestItemData(response.body().getElements().get(a).getName(),
-                                        response.body().getElements().get(a).getRate(),
-                                        String.valueOf((int)response.body().getElements().get(a).getWeight())
-                                ));
-                                if(a == response.body().getElements().size()-1){
-                                    detailPageAdapter2.notifyDataSetChanged();
-                                }
-                            }
-
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<ModelInvestItem> call, Throwable t) {
-                        Log.e("레트로핏 실패","값 : "+t.getMessage());
-                    }
-                });
-
             }
-        }).start();
+            @Override
+            public void onFailure(Call<ModelDetailTest> call, Throwable t) {
+                Log.e("레트로핏 실패","값 : "+t.getMessage());
+            }
+        });
+
     }
 
-    void ChartDur(String dur) {
-        Call<ModelMiddleChartData> getchartItem = RetrofitClient.getInstance().getService().getChart(PortCode,dur);
-        getchartItem.enqueue(new Callback<ModelMiddleChartData>() {
+    void ChartDur(int dur) {
+
+        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(PortCode,dur);
+        getTest2.enqueue(new Callback<ModelTab13mChartData>() {
             @Override
-            public void onResponse(Call<ModelMiddleChartData> call, Response<ModelMiddleChartData> response) {
+            public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
                 if(response.code() == 200) {
                     entries.clear();
-                    for(int a = 0 ; a < response.body().getElements().size() ; a++) {
-                        entries.add(new Entry(a, response.body().getElements().get(a).getRate(),response.body().getElements().get(a).getDate()));
-                        if(a == response.body().getElements().size()-1){
-                            detailPageAdapter2.notifyDataSetChanged();
-                        }
+
+                    for(int a = 0 ; a < response.body().getContent().size() ; a++) {
+                        entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                     }
+                    detailPageAdapter2.notifyDataSetChanged();
+                    detailPageBinding.portDetailPageLoading.setVisibility(View.GONE);
                 }
             }
             @Override
-            public void onFailure(Call<ModelMiddleChartData> call, Throwable t) {
+            public void onFailure(Call<ModelTab13mChartData> call, Throwable t) {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
@@ -551,7 +516,6 @@ public class ActivityDetailPort extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         //1번이라도 찜 활성화 됨
         if(PortZzimRefresh) {
             //찜 선택 후 나가기
@@ -576,4 +540,35 @@ public class ActivityDetailPort extends AppCompatActivity {
             finish();
         }
     }
+
+    public static double decimalScale(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.doubleValue();
+    }
+
+    public static float decimalScale2(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.floatValue();
+    }
+
 }

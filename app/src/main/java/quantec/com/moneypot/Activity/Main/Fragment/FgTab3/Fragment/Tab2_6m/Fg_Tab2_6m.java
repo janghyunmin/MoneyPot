@@ -353,7 +353,7 @@ public class Fg_Tab2_6m extends Fragment {
                         }catch (Exception e){}
                     }
 
-                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(tab2_6mItems.get(position).getCode(),180);
+                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(tab2_6mItems.get(position).getCode(),700);
                     getTest2.enqueue(new Callback<ModelTab13mChartData>() {
                         @Override
                         public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
@@ -449,7 +449,6 @@ public class Fg_Tab2_6m extends Fragment {
             }
         });
 
-
         //차트 1개월 버튼 클릭
         tab2_6mAdapter.setT2SelectedDur1(new AdapterFgTab26m.T2SelectedDur1() {
             @Override
@@ -475,7 +474,7 @@ public class Fg_Tab2_6m extends Fragment {
         tab2_6mAdapter.setT2SelectedDura(new AdapterFgTab26m.T2SelectedDura() {
             @Override
             public void onClick(int position) {
-                ChartDur(position, 180);
+                ChartDur(position, 700);
             }
         });
 

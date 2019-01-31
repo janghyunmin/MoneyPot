@@ -97,7 +97,7 @@ public class AdapterStable extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-            ((StableViewHolder)holder).stablecookpage1Binding.itemStableZzim.setOnClickListener(new View.OnClickListener() {
+            ((StableViewHolder)holder).stablecookpage1Binding.itemStableZzimLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(stableZzimClick != null) {

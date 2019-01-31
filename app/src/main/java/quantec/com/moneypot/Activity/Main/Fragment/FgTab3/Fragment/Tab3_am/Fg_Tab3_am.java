@@ -346,7 +346,7 @@ public class Fg_Tab3_am extends Fragment {
                         tab3_amItems.get(a).setOnenChart(false);
                     }
 
-                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(tab3_amItems.get(position).getCode(),180);
+                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(tab3_amItems.get(position).getCode(),700);
                     getTest2.enqueue(new Callback<ModelTab13mChartData>() {
                         @Override
                         public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
@@ -466,7 +466,7 @@ public class Fg_Tab3_am extends Fragment {
         tab3_amAdapter.setT3SelectedDura(new AdapterFgTab3am.T3SelectedDura() {
             @Override
             public void onClick(int position) {
-                ChartDur(position, 180);
+                ChartDur(position, 700);
             }
         });
 
