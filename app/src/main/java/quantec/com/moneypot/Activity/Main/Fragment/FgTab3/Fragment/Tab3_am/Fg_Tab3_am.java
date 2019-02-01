@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.data.Entry;
@@ -37,15 +36,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
 import quantec.com.moneypot.Activity.Intro.ErrorPojoClass;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab3_am.Adapter.AdapterFgTab3am;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab3_am.Model.dModel.ModelTab3am;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
-import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
 import quantec.com.moneypot.CustomView.EndlessScrollListener;
 import quantec.com.moneypot.DataManager.DataManager;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
@@ -138,10 +134,10 @@ public class Fg_Tab3_am extends Fragment {
 
     private void loadData() {
 
-        Call<ModelTab13mData> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,1,10);
-        getTest2.enqueue(new Callback<ModelTab13mData>() {
+        Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,1,10);
+        getTest2.enqueue(new Callback<ModelTab13mRank>() {
             @Override
-            public void onResponse(Call<ModelTab13mData> call, Response<ModelTab13mData> response) {
+            public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                 if(response.code() == 200) {
                     int resID;
                     String name = "@drawable/ic_rank_noname";
@@ -149,9 +145,16 @@ public class Fg_Tab3_am extends Fragment {
 
                         resID = mainActivity.getResources().getIdentifier(name,"drawable",packName);
 
-                        tab3_amItems.add(new ModelTab3am(response.body().getContent().get(a).getName(),
-                                response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),response.body().getContent().get(a).getSelected(), resID, false, response.body().getContent().get(a).getMinCost()
-                        ));
+                        if(response.body().getContent().get(a).getSelect() != null) {
+                            tab3_amItems.add(new ModelTab3am(response.body().getContent().get(a).getName(),
+                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),1, resID, false, response.body().getContent().get(a).getMinCost()
+                            ));
+                        }else{
+                            tab3_amItems.add(new ModelTab3am(response.body().getContent().get(a).getName(),
+                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),0, resID, false, response.body().getContent().get(a).getMinCost()
+                            ));
+                        }
+
                     }
                     tab3_amAdapter.notifyDataSetChanged();
                     countPage++;
@@ -173,7 +176,7 @@ public class Fg_Tab3_am extends Fragment {
                 }
             }
             @Override
-            public void onFailure(Call<ModelTab13mData> call, Throwable t) {
+            public void onFailure(Call<ModelTab13mRank> call, Throwable t) {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
@@ -228,10 +231,10 @@ public class Fg_Tab3_am extends Fragment {
                     new AsyncTask<Void, Void, List<ModelTab3am>>() {
                         @Override
                         protected List<ModelTab3am> doInBackground(Void... voids) {
-                            Call<ModelTab13mData> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,1,10);
-                            getTest2.enqueue(new Callback<ModelTab13mData>() {
+                            Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,1,10);
+                            getTest2.enqueue(new Callback<ModelTab13mRank>() {
                                 @Override
-                                public void onResponse(Call<ModelTab13mData> call, Response<ModelTab13mData> response) {
+                                public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                                     if(response.code() == 200) {
                                         int resID;
                                         String name = "@drawable/ic_rank_noname";
@@ -239,9 +242,15 @@ public class Fg_Tab3_am extends Fragment {
 
                                             resID = mainActivity.getResources().getIdentifier(name,"drawable",packName);
 
-                                            list.add(new ModelTab3am(response.body().getContent().get(a).getName(),
-                                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),response.body().getContent().get(a).getSelected(), resID, false, response.body().getContent().get(a).getMinCost()
-                                            ));
+                                            if(response.body().getContent().get(a).getSelect() != null) {
+                                                list.add(new ModelTab3am(response.body().getContent().get(a).getName(),
+                                                        response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),1, resID, false, response.body().getContent().get(a).getMinCost()
+                                                ));
+                                            }else{
+                                                list.add(new ModelTab3am(response.body().getContent().get(a).getName(),
+                                                        response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),0, resID, false, response.body().getContent().get(a).getMinCost()
+                                                ));
+                                            }
                                         }
                                         tab3_amAdapter.notifyDataSetChanged();
                                         countPage++;
@@ -267,7 +276,7 @@ public class Fg_Tab3_am extends Fragment {
                                     }
                                 }
                                 @Override
-                                public void onFailure(Call<ModelTab13mData> call, Throwable t) {
+                                public void onFailure(Call<ModelTab13mRank> call, Throwable t) {
                                     Log.e("레트로핏 실패","값 : "+t.getMessage());
                                 }
                             });

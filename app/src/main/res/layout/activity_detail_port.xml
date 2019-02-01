@@ -33,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="작지만 강한 세계의 기업"
             android:textColor="@color/normal_text_color"
             android:textSize="16sp"/>
 

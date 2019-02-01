@@ -23,10 +23,7 @@ import java.util.List;
 
 import quantec.com.moneypot.Activity.DetailPort.Adapter.AdapterDetailPort;
 import quantec.com.moneypot.Activity.DetailPort.Model.dModel.ModelInvestItemData;
-import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailPage;
-import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailTest;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelInvestItem;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
@@ -325,7 +322,6 @@ public class ActivityDetailPort extends AppCompatActivity {
         toast.setView(toastView);
         toast.setDuration(Toast.LENGTH_SHORT);
 
-
 //        // 담기 클릭 이벤트
 //        // basketState : 0 -> 안담긴 상품 / 1 -> 담긴 상품
 //        detailPageBinding.portDetailPageTopTestBasketBT.setOnClickListener(new View.OnClickListener() {
@@ -366,17 +362,16 @@ public class ActivityDetailPort extends AppCompatActivity {
 //            public void onFailure(Call<Object> call, Throwable t) {
 //            }
 //        });
-
     }
 
     //페이지 초기화
     void PageInitDate(){
         detailPageBinding.portDetailPageLoading.setVisibility(View.VISIBLE);
 
-        Call<ModelDetailTest> getData = RetrofitClient.getInstance().getService().getDetailTest(PortCode);
-        getData.enqueue(new Callback<ModelDetailTest>() {
+        Call<ModelInvestItem> getData = RetrofitClient.getInstance().getService().getDetailTest(PortCode);
+        getData.enqueue(new Callback<ModelInvestItem>() {
             @Override
-            public void onResponse(Call<ModelDetailTest> call, Response<ModelDetailTest> response) {
+            public void onResponse(Call<ModelInvestItem> call, Response<ModelInvestItem> response) {
                 if(response.code() == 200) {
 
                     infoItem.clear();
@@ -445,13 +440,10 @@ public class ActivityDetailPort extends AppCompatActivity {
                         detailPageAdapter2.notifyDataSetChanged();
                     }
 
-//                    Drate.clear();
-//                    Drate.add(response.body().getContent().getRate());
-
-                    rate = response.body().getContent().getRate();
-                    rate30 = response.body().getContent().getRate30();
-                    rate90 = response.body().getContent().getRate90();
-                    rate180 = response.body().getContent().getRate180();
+                    rate = decimalScale(String.valueOf(response.body().getContent().getRate()*100), 2, 2);
+                    rate30 = decimalScale(String.valueOf(response.body().getContent().getRate30()*100), 2, 2);
+                    rate90 = decimalScale(String.valueOf(response.body().getContent().getRate90()*100), 2, 2);
+                    rate180 = decimalScale(String.valueOf(response.body().getContent().getRate180()*100), 2, 2);
 
                     Drate.clear();
                     Drate.add(rate);
@@ -478,7 +470,7 @@ public class ActivityDetailPort extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<ModelDetailTest> call, Throwable t) {
+            public void onFailure(Call<ModelInvestItem> call, Throwable t) {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
@@ -492,6 +484,16 @@ public class ActivityDetailPort extends AppCompatActivity {
             @Override
             public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
                 if(response.code() == 200) {
+                    Drate.clear();
+                    if(dur == 30){
+                        Drate.add(rate30);
+                    }else if(dur == 90){
+                        Drate.add(rate90);
+                    }else if(dur == 180){
+                        Drate.add(rate180);
+                    }else {
+                        Drate.add(rate);
+                    }
                     entries.clear();
 
                     for(int a = 0 ; a < response.body().getContent().size() ; a++) {

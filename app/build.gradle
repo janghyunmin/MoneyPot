@@ -93,5 +93,6 @@ dependencies {
     runtimeOnly('io.jsonwebtoken:jjwt-orgjson:0.10.5') {
         exclude group: 'org.json', module: 'json' //provided by Android natively
     }
-        implementation 'commons-codec:commons-codec:1.10'
+    implementation 'commons-codec:commons-codec:1.10'
+    implementation files('libs/json-simple-1.1.1.jar')
 }

@@ -1,8 +1,9 @@
 package quantec.com.moneypot.Network.Retrofit;
 
+import org.json.simple.JSONArray;
+
 import okhttp3.MultipartBody;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailPage;
-import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailTest;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelInvestItem;
 import quantec.com.moneypot.Activity.FinishMakePort.Model.nModel.ModelPortSavedInfo;
 import quantec.com.moneypot.Activity.Intro.User;
@@ -15,7 +16,7 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelgetMyPortList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mData;
+import quantec.com.moneypot.Activity.Main.SelectedPortData;
 import quantec.com.moneypot.Activity.PortProfileModify.Model.nModel.ModelImageSavedData;
 import quantec.com.moneypot.Activity.SearchPort.BasicPage.Fragment.Model.nModel.ModelRecommendHotPort;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
@@ -156,7 +157,7 @@ public interface RetrofitService {
 
     //포트마켓 포트 리스트 불러옴
     @GET("strategy/getStPage/{rate}/{page}/{size}")
-    Call<ModelTab13mData> getTest2(@Path("page") int page, @Path("rate") int rate, @Path("size") int size);
+    Call<ModelTab13mRank> getTest2(@Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 
     //포트 차트데이터 불러옴
     @GET("strategy/getRateByPeriod/{stCode}/{period}")
@@ -171,8 +172,11 @@ public interface RetrofitService {
     Call<ModelTop10Item> getTop10(@Path("limit") int limit);
 
 
-    //맞춤포트에서 추천포트 랭킹 탑10 불러옴
+    //상세 페이지 불러옴
     @GET("strategy/getSt/{stCode}")
-    Call<ModelDetailTest> getDetailTest(@Path("stCode") String stCode);
+    Call<ModelInvestItem> getDetailTest(@Path("stCode") String stCode);
 
+    //전략 포트 찜
+    @POST("pot/setSelect/{type}/{mode}/{isPot}")
+    Call<Object> getSelectedPortDate(@Header("Content-Type") String content_type, @Body JSONArray json, @Path("type") int type, @Path("mode") String mode, @Path("isPot") int isPot);
 }

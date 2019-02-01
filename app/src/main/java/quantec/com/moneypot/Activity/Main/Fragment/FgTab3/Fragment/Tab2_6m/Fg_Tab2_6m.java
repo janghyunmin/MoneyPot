@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.data.Entry;
@@ -37,15 +36,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
 import quantec.com.moneypot.Activity.Intro.ErrorPojoClass;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab2_6m.Adapter.AdapterFgTab26m;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab2_6m.Model.dModel.ModelTab26m;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
-import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
 import quantec.com.moneypot.CustomView.EndlessScrollListener;
 import quantec.com.moneypot.DataManager.DataManager;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
@@ -57,8 +53,6 @@ import quantec.com.moneypot.databinding.FgFgtab3Fgtab26mBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Fg_Tab1_3m.decimalScale;
 
 public class Fg_Tab2_6m extends Fragment {
 
@@ -139,10 +133,10 @@ public class Fg_Tab2_6m extends Fragment {
     }
 
     private void loadData() {
-        Call<ModelTab13mData> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,180,10);
-        getTest2.enqueue(new Callback<ModelTab13mData>() {
+        Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,180,10);
+        getTest2.enqueue(new Callback<ModelTab13mRank>() {
             @Override
-            public void onResponse(Call<ModelTab13mData> call, Response<ModelTab13mData> response) {
+            public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                 if(response.code() == 200) {
                     int resID;
                     String name = "@drawable/ic_rank_noname";
@@ -150,9 +144,15 @@ public class Fg_Tab2_6m extends Fragment {
 
                         resID = mainActivity.getResources().getIdentifier(name,"drawable",packName);
 
-                        tab2_6mItems.add(new ModelTab26m(response.body().getContent().get(a).getName(),
-                                response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate180()*100), 2, 2),response.body().getContent().get(a).getSelected(), resID, false, response.body().getContent().get(a).getMinCost()
-                        ));
+                        if(response.body().getContent().get(a).getSelect() != null) {
+                            tab2_6mItems.add(new ModelTab26m(response.body().getContent().get(a).getName(),
+                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate180()*100), 2, 2),1, resID, false, response.body().getContent().get(a).getMinCost()
+                            ));
+                        }else{
+                            tab2_6mItems.add(new ModelTab26m(response.body().getContent().get(a).getName(),
+                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate180()*100), 2, 2),0, resID, false, response.body().getContent().get(a).getMinCost()
+                            ));
+                        }
                     }
                     tab2_6mAdapter.notifyDataSetChanged();
                     countPage++;
@@ -174,7 +174,7 @@ public class Fg_Tab2_6m extends Fragment {
                 }
             }
             @Override
-            public void onFailure(Call<ModelTab13mData> call, Throwable t) {
+            public void onFailure(Call<ModelTab13mRank> call, Throwable t) {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
@@ -232,10 +232,10 @@ public class Fg_Tab2_6m extends Fragment {
                         @Override
                         protected List<ModelTab26m> doInBackground(Void... voids) {
 
-                            Call<ModelTab13mData> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,180,10);
-                            getTest2.enqueue(new Callback<ModelTab13mData>() {
+                            Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,180,10);
+                            getTest2.enqueue(new Callback<ModelTab13mRank>() {
                                 @Override
-                                public void onResponse(Call<ModelTab13mData> call, Response<ModelTab13mData> response) {
+                                public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                                     if(response.code() == 200) {
                                         int resID;
                                         String name = "@drawable/ic_rank_noname";
@@ -243,9 +243,15 @@ public class Fg_Tab2_6m extends Fragment {
 
                                             resID = mainActivity.getResources().getIdentifier(name,"drawable",packName);
 
-                                            list.add(new ModelTab26m(response.body().getContent().get(a).getName(),
-                                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate180()*100), 2, 2),response.body().getContent().get(a).getSelected(), resID, false, response.body().getContent().get(a).getMinCost()
-                                            ));
+                                            if(response.body().getContent().get(a).getSelect() != null) {
+                                                list.add(new ModelTab26m(response.body().getContent().get(a).getName(),
+                                                        response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate180()*100), 2, 2),1, resID, false, response.body().getContent().get(a).getMinCost()
+                                                ));
+                                            }else{
+                                                list.add(new ModelTab26m(response.body().getContent().get(a).getName(),
+                                                        response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate180()*100), 2, 2),0, resID, false, response.body().getContent().get(a).getMinCost()
+                                                ));
+                                            }
                                         }
                                         if(response.body().getPage().getTotalPages() == 1){
                                             NextPageLoadState = false;
@@ -269,7 +275,7 @@ public class Fg_Tab2_6m extends Fragment {
                                     }
                                 }
                                 @Override
-                                public void onFailure(Call<ModelTab13mData> call, Throwable t) {
+                                public void onFailure(Call<ModelTab13mRank> call, Throwable t) {
                                     Log.e("레트로핏 실패","값 : "+t.getMessage());
                                 }
                             });
