@@ -30,7 +30,6 @@ public class SearchRepository {
     }
     //
 
-
     ///
     public RoomEntity findCdoe(int code){
         return roomDao.findCode(code);

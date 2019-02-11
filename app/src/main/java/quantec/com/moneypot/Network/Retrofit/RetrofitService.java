@@ -177,6 +177,6 @@ public interface RetrofitService {
     Call<ModelInvestItem> getDetailTest(@Path("stCode") String stCode);
 
     //전략 포트 찜
-    @POST("pot/setSelect/{type}/{mode}/{isPot}")
-    Call<Object> getSelectedPortDate(@Header("Content-Type") String content_type, @Body JSONArray json, @Path("type") int type, @Path("mode") String mode, @Path("isPot") int isPot);
+    @POST("pot/setSelect/{isPot}/{mode}/{type}")
+    Call<Object> getSelectedPortDate(@Header("Content-Type") String content_type, @Body Object select, @Path("isPot") int isPot, @Path("mode") String mode, @Path("type") int type);
 }

@@ -95,8 +95,8 @@ public class Fg_Tab1_3m extends Fragment {
     public Fg_Tab1_3m() {
     }
 
-    JSONArray personArray;
-    JSONObject personInfo;
+//    JSONArray personArray;
+//    JSONObject personInfo;
 
     @Nullable
     @Override
@@ -176,7 +176,6 @@ public class Fg_Tab1_3m extends Fragment {
 //                Log.e("레트로핏 실패","값 : "+t.getMessage());
 //            }
 //        });
-
 
         Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,90,10);
         getTest2.enqueue(new Callback<ModelTab13mRank>() {
@@ -429,24 +428,23 @@ public class Fg_Tab1_3m extends Fragment {
             public void onClick(int position) {
 
                 if(tab1_3mItems.get(position).getCheck() == 1) {
+//           personArray = new JSONArray();
+//           personInfo = new JSONObject();
+//
+//            personInfo.put("code", tab1_3mItems.get(position).getCode());
+//            personInfo.put("descript", "");
+//            personInfo.put("isPot", 0);
+//            personInfo.put("name", "");
+//            personInfo.put("rate", 0);
+//            personInfo.put("type", 1);
+//            //Array에 입력
+//            personArray.add(personInfo);
+//              String jsonInfo = personArray.toJSONString();
+//              System.out.print(jsonInfo);
 
+        Select select = new Select(tab1_3mItems.get(position).getCode(),"",0,"",0,1);
 
-           personArray = new JSONArray();
-           personInfo = new JSONObject();
-
-            personInfo.put("code", tab1_3mItems.get(position).getCode());
-            personInfo.put("descript", "");
-            personInfo.put("isPot", 0);
-            personInfo.put("name", "");
-            personInfo.put("rate", 0);
-            personInfo.put("type", 1);
-            //Array에 입력
-            personArray.add(personInfo);
-
-        String jsonInfo = personArray.toJSONString();
-        System.out.print(jsonInfo);
-
-        Call<Object> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",personArray, );
+        Call<Object> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 0, "del", 1);
         getSelectPort.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -495,6 +493,28 @@ public class Fg_Tab1_3m extends Fragment {
                         toast.show();
                         CheckDataAnim = false;
                     }else{
+
+
+                        Select select = new Select(tab1_3mItems.get(position).getCode(),"",0,"",0,1);
+
+                        Call<Object> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 0, "add", 1);
+                        getSelectPort.enqueue(new Callback<Object>() {
+                            @Override
+                            public void onResponse(Call<Object> call, Response<Object> response) {
+                                if(response.code() == 200) {
+
+                                    Log.e("받은 값 ","값 : "+ response.body().toString());
+                                }else{
+
+                                    Log.e("에러 값 ","값 : "+ response.errorBody().toString());
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<Object> call, Throwable t) {
+                                Log.e("레트로핏 실패","값 : "+t.getMessage());
+                            }
+                        });
+
 //                        Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(tab1_3mItems.get(position).getCode(), 0);
 //                        getData.enqueue(new Callback<ModelPortZzim>() {
 //                            @Override

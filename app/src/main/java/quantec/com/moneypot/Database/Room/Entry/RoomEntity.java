@@ -3,6 +3,8 @@ package quantec.com.moneypot.Database.Room.Entry;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 @Entity(tableName="recentlySearch_table")
 public class RoomEntity {
@@ -14,6 +16,16 @@ public class RoomEntity {
 
     @ColumnInfo(name = "room_code")
     public int searchCode;
+
+
+//    @ColumnInfo(name = "hoho")
+//    public int hoho;
+//
+//    @ColumnInfo(name = "hoho2")
+//    public int hoho2;
+//
+//    @ColumnInfo(name = "test")
+//    public int test;
 
     public RoomEntity(String searchTitle, int searchCode) {
         this.searchTitle = searchTitle;
@@ -35,4 +47,6 @@ public class RoomEntity {
     public int getSearchCode() {
         return searchCode;
     }
+
+
 }

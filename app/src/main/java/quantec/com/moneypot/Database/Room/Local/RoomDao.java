@@ -34,5 +34,6 @@ public interface RoomDao {
 
     @Query("SELECT * FROM recentlySearch_table")
     List<RoomEntity> findAll();
+
 }
 
