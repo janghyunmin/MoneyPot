@@ -1,13 +1,24 @@
 package quantec.com.moneypot.Activity.Intro;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.annotation.RequiresPermission;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
@@ -35,10 +46,12 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import permissions.dispatcher.NeedsPermission;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Model.nModel.ModelZzimCount;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
+import quantec.com.moneypot.Util.Permissions.PermissionsPhone;
 import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -210,11 +223,27 @@ public class ActivityIntro extends AppCompatActivity {
 //            }
 //        });
 
+
         NextPageModve();
     }//onCreate 끝
 
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        PermissionsPhone.onRequestPermissionsResult(this, requestCode, grantResults);
+//    }
+//
+//    @NeedsPermission({Manifest.permission.READ_PHONE_STATE})
+//    public void getPhoneNumber(){
+//        TelephonyManager mgr = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+//        @SuppressLint("MissingPermission") String phoneNumber = mgr.getLine1Number();
+//        if(!TextUtils.isEmpty(phoneNumber)){
+//            phoneNumber = phoneNumber.replace("-","").replace("+82","0");
+//            Log.e("전화번호","값 : "+phoneNumber);
+//        }
+//    }
 
-//        public static String decrypt(String encrypted, Key pKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
+    //        public static String decrypt(String encrypted, Key pKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
 //                Cipher cipher = Cipher.getInstance("RSA");
 ////                byte[] bytes = Base64coder.decode(encrypted);
 //            byte[] bytes = Base64.decode(encrypted, 0);

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Login.ActivityPhoneConfirm">
+
+    <LinearLayout
+        android:id="@+id/activity_phone_confirm_top"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="5dp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/backlogo"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="휴대폰 본인 인증"
+            android:textColor="#000000"
+            android:textSize="14dp"
+            android:layout_marginLeft="10dp"
+            />
+    </LinearLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/activity_phone_confirm_namelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/activity_phone_confirm_top"
+        android:layout_marginTop="20dp"
+        >
+        <EditText
+            android:id="@+id/activity_phone_confirm_nameEdittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="이름"
+            android:textSize="15dp"
+            android:textColorHint="#7b7b7b"
+            android:inputType="text"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/activity_phone_confirm_numberlayout"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/activity_phone_confirm_namelayout"
+        android:layout_marginTop="20dp"
+        >
+        <EditText
+            android:id="@+id/activity_phone_confirm_numberEdittext"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:hint="주민등록번호"
+            android:textSize="20dp"
+            android:textColorHint="#7b7b7b"
+            android:inputType="number"
+            android:maxLength="6"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/activity_phone_confirm_numberHi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ㅡ"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_phone_confirm_numberlayout"
+        app:layout_constraintStart_toEndOf="@id/activity_phone_confirm_numberlayout"
+        android:layout_marginBottom="10dp"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/activity_phone_confirm_number2layout"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/activity_phone_confirm_namelayout"
+        app:layout_constraintStart_toEndOf="@id/activity_phone_confirm_numberHi"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp"
+        >
+        <EditText
+            android:id="@+id/activity_phone_confirm_number2Edittext"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColorHint="#7b7b7b"
+            android:inputType="number"
+            android:maxLength="1"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="* * * * * *"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_phone_confirm_number2layout"
+        app:layout_constraintStart_toEndOf="@id/activity_phone_confirm_number2layout"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        />
+
+    <TextView
+        android:id="@+id/activity_phone_confirm_BT"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="입력 완료"
+        android:textColor="#FFFFFF"
+        android:background="#FF0000"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</android.support.constraint.ConstraintLayout>

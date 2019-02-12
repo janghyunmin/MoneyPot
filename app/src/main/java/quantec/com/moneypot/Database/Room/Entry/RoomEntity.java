@@ -17,13 +17,10 @@ public class RoomEntity {
     @ColumnInfo(name = "room_code")
     public int searchCode;
 
-
 //    @ColumnInfo(name = "hoho")
 //    public int hoho;
-//
 //    @ColumnInfo(name = "hoho2")
 //    public int hoho2;
-//
 //    @ColumnInfo(name = "test")
 //    public int test;
 

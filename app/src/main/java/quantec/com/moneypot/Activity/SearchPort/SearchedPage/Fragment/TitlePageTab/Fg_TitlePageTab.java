@@ -193,7 +193,6 @@ public class Fg_TitlePageTab extends Fragment {
                                         }
                                     }
                                 }
-
                                 break;
                         }
                     }
@@ -204,7 +203,6 @@ public class Fg_TitlePageTab extends Fragment {
                     public void onComplete() {
                     }
                 });
-
 
         //찜하기 클릭
         adapterTitlePage.setTitlePageZzimClicke(new AdapterTitlePage.TitlePageZzimClicke() {
@@ -242,7 +240,6 @@ public class Fg_TitlePageTab extends Fragment {
 
     }//onViewCreate 끝
 
-
     // SelectedState : 0 -> 포트 찜하기 / 1 -> 포트 찜 해제
     void ItemZzim(int PortCode, int PortPosition, int SelectedState){
 
@@ -256,7 +253,6 @@ public class Fg_TitlePageTab extends Fragment {
                     zzimInfo.putInt("search_zzim_position", PortPosition);
                     zzimInfo.putInt("search_page", 1);
                     zzimInfo.putInt("search_code", PortCode);
-
                     //찜하기
                     if(SelectedState == 0) {
                         zzimInfo.putBoolean("search_zzim_state", true);
@@ -267,21 +263,17 @@ public class Fg_TitlePageTab extends Fragment {
                         zzimInfo.putBoolean("search_zzim_state", false);
                         postTitleItemModels.get(PortPosition).setSelect(0);
                     }
-
                     adapterTitlePage.notifyItemChanged(PortPosition);
                     RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
                     SharedPreferenceUtil.getInstance(portSearchPageActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
                 }
             }
-
             @Override
             public void onFailure(Call<ModelPortZzim> call, Throwable t) {
                 Toast.makeText(getActivity(), "네트워크가 불안정 합니다\n 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
-
 
     void RoomDataInsert(String PortName, int PortCode){
 
@@ -292,7 +284,6 @@ public class Fg_TitlePageTab extends Fragment {
                 roomDao = SearchRoomDatabase.getINSTANCE(getContext()).roomDao();
                 RoomSelectCode = roomDao.findCode(PortCode);
                 RoomAllData = roomDao.findAll();
-
                 //해당 포트에 대해서 Room에 저장된 동일한 데이터가 없을때
                 if(RoomSelectCode == null) {
 
@@ -307,7 +298,6 @@ public class Fg_TitlePageTab extends Fragment {
                 }
             }
         }).start();
-
     }
 
     @Override
