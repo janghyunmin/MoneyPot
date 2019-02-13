@@ -218,7 +218,7 @@ public class AdapterFgTab26m extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             ((Tab2_6mViewHolder) holder).tab26mdataBinding.fragment3Tab26mImage.setImageResource(singleItem.getImage());
 
-            if(singleItem.getCheck() == 1){
+            if(singleItem.isZim()){
                 ((Tab2_6mViewHolder) holder).tab26mdataBinding.fragment3Tab26mCheckImage.setImageResource(R.drawable.start_on);
             }else{
                 ((Tab2_6mViewHolder) holder).tab26mdataBinding.fragment3Tab26mCheckImage.setImageResource(R.drawable.start_off);

@@ -217,7 +217,7 @@ public class AdapterFgTab3am extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmImage.setImageResource(singleItem.getImage());
 
-            if(singleItem.getCheck() == 1){
+            if(singleItem.isZim()){
                 ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmCheckImage.setImageResource(R.drawable.start_on);
             }else{
                 ((Tab3_amViewHolder) holder).tab3amdataBinding.fragment3Tab3AmCheckImage.setImageResource(R.drawable.start_off);

@@ -25,6 +25,8 @@ import quantec.com.moneypot.Activity.DetailPort.Adapter.AdapterDetailPort;
 import quantec.com.moneypot.Activity.DetailPort.Model.dModel.ModelInvestItemData;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelInvestItem;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelZimData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Select;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
@@ -40,6 +42,7 @@ import retrofit2.Response;
 public class ActivityDetailPort extends AppCompatActivity {
 
     String PortCode;
+    boolean getDam;
 
     RecyclerView.LayoutManager mLayoutManager;
     ArrayList<ModelInvestItemData> investItemData;
@@ -263,26 +266,37 @@ public class ActivityDetailPort extends AppCompatActivity {
                 PortZzimRefresh = true;
                 //찜 헤제
                 if(PortZzimState) {
-                    Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(0, 1);
-                    getData.enqueue(new Callback<ModelPortZzim>() {
+
+                    Select select = new Select(PortCode,"",getDam,false,0,"",0,0);
+
+                    Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"del");
+                    getSelectPort.enqueue(new Callback<ModelZimData>() {
                         @Override
-                        public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
+                        public void onResponse(Call<ModelZimData> call, Response<ModelZimData> response) {
                             if(response.code() == 200) {
+                                if(response.body().getErrorcode() == 200){
 
-                                Bundle bundle = new Bundle();
-                                bundle.putInt("rankcode", 0);
-                                RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_NO, bundle));
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("rankcode", PortCode);
+                                    RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_NO, bundle));
 
-                                SharedPreferenceUtil.getInstance(ActivityDetailPort.this).putIntZzimCount("PortZzimCount", response.body().getNum());
+                                    int zimCount = 0;
+                                    for(int index = 0 ; index < response.body().getTotalElements() ; index++) {
+                                        if(response.body().getContent().get(index).isZim()) {
+                                            zimCount++;
+                                        }
+                                    }
+                                    SharedPreferenceUtil.getInstance(ActivityDetailPort.this).putIntZzimCount("PortZzimCount", zimCount);
+                                    PortZzimState = false;
+                                    detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.ic_star_gray_off);
+                                }
                             }
                         }
                         @Override
-                        public void onFailure(Call<ModelPortZzim> call, Throwable t) {
+                        public void onFailure(Call<ModelZimData> call, Throwable t) {
                             Toast.makeText(ActivityDetailPort.this,"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
                         }
                     });
-                    PortZzimState = false;
-                    detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.ic_star_gray_off);
                 }else {
                     if(SharedPreferenceUtil.getInstance(ActivityDetailPort.this).getIntExtra("PortZzimCount") >= 25){
                         //초과시 토스트
@@ -290,26 +304,38 @@ public class ActivityDetailPort extends AppCompatActivity {
                     }
                     //찜 선택
                     else{
-                        Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(0, 0);
-                        getData.enqueue(new Callback<ModelPortZzim>() {
+
+                        Select select = new Select(PortCode,"", getDam,true,0,"",0,1);
+
+                        Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"add");
+                        getSelectPort.enqueue(new Callback<ModelZimData>() {
                             @Override
-                            public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
-                                if (response.code() == 200) {
+                            public void onResponse(Call<ModelZimData> call, Response<ModelZimData> response) {
+                                if(response.code() == 200) {
+                                    if(response.body().getErrorcode() == 200){
 
-                                    Bundle bundle = new Bundle();
-                                    bundle.putInt("rankcode", 0);
-                                    RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_OK, bundle));
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("rankcode", PortCode);
+                                        RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_OK, bundle));
 
-                                    SharedPreferenceUtil.getInstance(ActivityDetailPort.this).putIntZzimCount("PortZzimCount", response.body().getNum());
+                                        int zimCount = 0;
+                                        for(int index = 0 ; index < response.body().getTotalElements() ; index++) {
+                                            if(response.body().getContent().get(index).isZim()) {
+                                                zimCount++;
+                                            }
+                                        }
+                                        SharedPreferenceUtil.getInstance(ActivityDetailPort.this).putIntZzimCount("PortZzimCount", zimCount);
+                                        PortZzimState = true;
+                                        detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.start_on);
+                                    }
                                 }
+
                             }
                             @Override
-                            public void onFailure(Call<ModelPortZzim> call, Throwable t) {
-                                Toast.makeText(ActivityDetailPort.this, "네트워크가 불안정 합니다\n 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            public void onFailure(Call<ModelZimData> call, Throwable t) {
+                                Toast.makeText(ActivityDetailPort.this,"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
                             }
                         });
-                        PortZzimState = true;
-                        detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.start_on);
                     }
                 }
 
@@ -390,11 +416,15 @@ public class ActivityDetailPort extends AppCompatActivity {
                     }
                     //찜 가능
                     if(PortType) {
-                        if (response.body().getContent().getSelected() == 1) {
-                            detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.start_on);
-                            PortZzimState = true;
-                        }
-                        else {
+                        if(response.body().getContent().getSelect() != null) {
+                            if (response.body().getContent().getSelect().isZim()) {
+                                detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.start_on);
+                                PortZzimState = true;
+                            } else {
+                                detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.ic_star_gray_off);
+                                PortZzimState = false;
+                            }
+                        }else{
                             detailPageBinding.portDetailPageCheck.setImageResource(R.drawable.ic_star_gray_off);
                             PortZzimState = false;
                         }
@@ -447,6 +477,12 @@ public class ActivityDetailPort extends AppCompatActivity {
 
                     Drate.clear();
                     Drate.add(rate);
+
+                    if(response.body().getContent().getSelect() != null){
+                        getDam = response.body().getContent().getSelect().isDam();
+                    }else{
+                        getDam = false;
+                    }
 
                     Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(PortCode,700);
                     getTest2.enqueue(new Callback<ModelTab13mChartData>() {

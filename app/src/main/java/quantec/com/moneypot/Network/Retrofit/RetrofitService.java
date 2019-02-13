@@ -16,6 +16,8 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelgetMyPortList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelZimData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.nModel.ModelFgTab4ZimData;
 import quantec.com.moneypot.Activity.Main.SelectedPortData;
 import quantec.com.moneypot.Activity.PortProfileModify.Model.nModel.ModelImageSavedData;
 import quantec.com.moneypot.Activity.SearchPort.BasicPage.Fragment.Model.nModel.ModelRecommendHotPort;
@@ -177,6 +179,11 @@ public interface RetrofitService {
     Call<ModelInvestItem> getDetailTest(@Path("stCode") String stCode);
 
     //전략 포트 찜
-    @POST("pot/setSelect/{isPot}/{mode}/{type}")
-    Call<Object> getSelectedPortDate(@Header("Content-Type") String content_type, @Body Object select, @Path("isPot") int isPot, @Path("mode") String mode, @Path("type") int type);
+    @POST("pot/setSelect/{zimDam}/{mode}")
+    Call<ModelZimData> getSelectedPortDate(@Header("Content-Type") String content_type, @Body Object select, @Path("zimDam") int zimDam, @Path("mode") String mode);
+
+    //포트 찜 과 담기 리스트 ( 찜 및 담기를 전부 호출하여 isZim / isDam 으로 추려서 리스트 만들어야됨 )
+    //포트 차트데이터 불러옴
+    @GET("pot/getSelect")
+    Call<ModelFgTab4ZimData> getZimDamList();
 }

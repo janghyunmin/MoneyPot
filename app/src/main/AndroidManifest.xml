@@ -33,11 +33,11 @@
         <activity
             android:name=".Activity.Intro.ActivityIntro"
             android:screenOrientation="portrait">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <provider
@@ -78,11 +78,11 @@
             android:name=".Activity.PortProfileModify.Activity.ActivityPortProfileDescModify"
             android:screenOrientation="portrait" />
         <activity android:name=".Activity.Login.ActivityLogin" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".Activity.Login.ActivityUserResist" />
         <activity android:name=".Activity.Login.ActivityAgreePage" >

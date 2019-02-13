@@ -45,6 +45,7 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Adapt
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.dModel.ModelTab13m;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelZimData;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Activity.Main.SelectedPortData;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
@@ -146,7 +147,6 @@ public class Fg_Tab1_3m extends Fragment {
 
 //       personArray = new JSONArray();
 //       personInfo = new JSONObject();
-//
 //            personInfo.put("code", "MP0001");
 //            personInfo.put("descript", "");
 //            personInfo.put("isPot", 0);
@@ -190,14 +190,16 @@ public class Fg_Tab1_3m extends Fragment {
 
                         if(response.body().getContent().get(a).getSelect() != null) {
                             tab1_3mItems.add(new ModelTab13m(response.body().getContent().get(a).getName(),
-                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate90()*100), 2, 2),1, resID, false, response.body().getContent().get(a).getMinCost()
-                            ));
-                        }else{
-                            tab1_3mItems.add(new ModelTab13m(response.body().getContent().get(a).getName(),
-                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate90()*100), 2, 2),0, resID, false, response.body().getContent().get(a).getMinCost()
+                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate90()*100), 2, 2), response.body().getContent().get(a).getSelect().isZim(),
+                                    response.body().getContent().get(a).getSelect().isDam(),resID, false, response.body().getContent().get(a).getMinCost()
                             ));
                         }
-
+                        else{
+                            tab1_3mItems.add(new ModelTab13m(response.body().getContent().get(a).getName(),
+                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate90()*100), 2, 2), false,
+                                    false, resID, false, response.body().getContent().get(a).getMinCost()
+                            ));
+                        }
                     }
                     tab1_3mAdapter.notifyDataSetChanged();
                     countPage++;
@@ -284,11 +286,13 @@ public class Fg_Tab1_3m extends Fragment {
                                             resID = mainActivity.getResources().getIdentifier(name,"drawable",packName);
                                             if(response.body().getContent().get(a).getSelect() != null) {
                                                 list.add(new ModelTab13m(response.body().getContent().get(a).getName(),
-                                                        response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate90()*100), 2, 2),1, resID, false, response.body().getContent().get(a).getMinCost()
+                                                        response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate90()*100), 2, 2),response.body().getContent().get(a).getSelect().isZim(),
+                                                        response.body().getContent().get(a).getSelect().isDam(),resID, false, response.body().getContent().get(a).getMinCost()
                                                 ));
                                             }else{
                                                 list.add(new ModelTab13m(response.body().getContent().get(a).getName(),
-                                                        response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate90()*100), 2, 2),0, resID, false, response.body().getContent().get(a).getMinCost()
+                                                        response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate90()*100), 2, 2),false,
+                                                        false, resID, false, response.body().getContent().get(a).getMinCost()
                                                 ));
                                             }
                                         }
@@ -427,7 +431,7 @@ public class Fg_Tab1_3m extends Fragment {
             @Override
             public void onClick(int position) {
 
-                if(tab1_3mItems.get(position).getCheck() == 1) {
+                if(tab1_3mItems.get(position).isZim()) {
 //           personArray = new JSONArray();
 //           personInfo = new JSONObject();
 //
@@ -441,52 +445,48 @@ public class Fg_Tab1_3m extends Fragment {
 //            personArray.add(personInfo);
 //              String jsonInfo = personArray.toJSONString();
 //              System.out.print(jsonInfo);
+                    Select select = new Select(tab1_3mItems.get(position).getCode(),"",tab1_3mItems.get(position).isDam(),false,0,"",0,0);
 
-        Select select = new Select(tab1_3mItems.get(position).getCode(),"",0,"",0,1);
+                    Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"del");
+                    getSelectPort.enqueue(new Callback<ModelZimData>() {
+                        @Override
+                        public void onResponse(Call<ModelZimData> call, Response<ModelZimData> response) {
+                            if(response.code() == 200) {
+                                    if(response.body().getErrorcode() == 200){
 
-        Call<Object> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 0, "del", 1);
-        getSelectPort.enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                if(response.code() == 200) {
+                                            CheckDataAnim = true;
 
-                    Log.e("받은 값 ","값 : "+ response.body().toString());
-                }else{
+                                            tab1_3mItems.get(position).setZim(false);
+                                            tab1_3mAdapter.notifyItemChanged(position);
 
-                    Log.e("에러 값 ","값 : "+ response.errorBody().toString());
+                                            DataManager.get_INstance().setCheckTab1(true);
+
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("rankcode", tab1_3mItems.get(position).getCode());
+                                            RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_NO, bundle));
+
+                                            int zimCount = 0;
+                                            for(int index = 0 ; index < response.body().getTotalElements() ; index++) {
+                                                if(response.body().getContent().get(index).isZim()) {
+                                                    zimCount++;
+                                                }
+                                            }
+                                            SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", zimCount);
+                                    }
+                            }
+                            else{
+
+                                Log.e("에러 값 ","값 : "+ response.errorBody().toString());
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<ModelZimData> call, Throwable t) {
+                                Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }
-            }
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                Log.e("레트로핏 실패","값 : "+t.getMessage());
-            }
-        });
-
-//                    Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(tab1_3mItems.get(position).getCode(), 1);
-//                    getData.enqueue(new Callback<ModelPortZzim>() {
-//                        @Override
-//                        public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
-//                            if(response.code() == 200) {
-//
-//                                CheckDataAnim = true;
-//
-//                                tab1_3mItems.get(position).setCheck(0);
-//                                tab1_3mAdapter.notifyItemChanged(position);
-//
-//                                DataManager.get_INstance().setCheckTab1(true);
-//
-//                                Bundle bundle = new Bundle();
-//                                bundle.putInt("rankcode", tab1_3mItems.get(position).getCode());
-//                                RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_NO, bundle));
-//                                SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
-//                            }
-//                        }
-//                        @Override
-//                        public void onFailure(Call<ModelPortZzim> call, Throwable t) {
-//                            Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-                }else{
+                else{
 
                     if(SharedPreferenceUtil.getInstance(mainActivity).getIntExtra("PortZzimCount") >= 25) {
                         //초과시 토스트
@@ -494,51 +494,43 @@ public class Fg_Tab1_3m extends Fragment {
                         CheckDataAnim = false;
                     }else{
 
+                        Select select = new Select(tab1_3mItems.get(position).getCode(),"",tab1_3mItems.get(position).isDam(),true,0,"",0,1);
 
-                        Select select = new Select(tab1_3mItems.get(position).getCode(),"",0,"",0,1);
-
-                        Call<Object> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 0, "add", 1);
-                        getSelectPort.enqueue(new Callback<Object>() {
+                        Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"add");
+                        getSelectPort.enqueue(new Callback<ModelZimData>() {
                             @Override
-                            public void onResponse(Call<Object> call, Response<Object> response) {
+                            public void onResponse(Call<ModelZimData> call, Response<ModelZimData> response) {
                                 if(response.code() == 200) {
+                                    if(response.body().getErrorcode() == 200){
+                                        CheckDataAnim = true;
 
-                                    Log.e("받은 값 ","값 : "+ response.body().toString());
-                                }else{
+                                        tab1_3mItems.get(position).setZim(true);
+                                        tab1_3mAdapter.notifyItemChanged(position);
 
+                                        DataManager.get_INstance().setCheckTab1(true);
+
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("rankcode", tab1_3mItems.get(position).getCode());
+                                        RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_OK, bundle));
+
+                                        int zimCount = 0;
+                                        for(int index = 0 ; index < response.body().getTotalElements() ; index++) {
+                                            if(response.body().getContent().get(index).isZim()) {
+                                                zimCount++;
+                                            }
+                                        }
+                                        SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", zimCount);
+                                    }
+                                }
+                                else{
                                     Log.e("에러 값 ","값 : "+ response.errorBody().toString());
                                 }
                             }
                             @Override
-                            public void onFailure(Call<Object> call, Throwable t) {
-                                Log.e("레트로핏 실패","값 : "+t.getMessage());
+                            public void onFailure(Call<ModelZimData> call, Throwable t) {
+                                Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
                             }
                         });
-
-//                        Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(tab1_3mItems.get(position).getCode(), 0);
-//                        getData.enqueue(new Callback<ModelPortZzim>() {
-//                            @Override
-//                            public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
-//                                if(response.code() == 200) {
-//
-//                                    CheckDataAnim = true;
-//
-//                                    tab1_3mItems.get(position).setCheck(1);
-//                                    tab1_3mAdapter.notifyItemChanged(position);
-//
-//                                    DataManager.get_INstance().setCheckTab1(true);
-//
-//                                    Bundle bundle = new Bundle();
-//                                    bundle.putInt("rankcode", tab1_3mItems.get(position).getCode());
-//                                    RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_OK, bundle));
-//                                    SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
-//                                }
-//                            }
-//                            @Override
-//                            public void onFailure(Call<ModelPortZzim> call, Throwable t) {
-//                                Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
                     }
                 }
             }
@@ -615,13 +607,13 @@ public class Fg_Tab1_3m extends Fragment {
                     public void onNext(RxEvent rxEvent) {
                         switch (rxEvent.getActiion()) {
                             case RxEvent.RANK_PORT_CHECK_OK:
-                                int Gcode = rxEvent.getBundle().getInt("rankcode");
+                                String Gcode = rxEvent.getBundle().getString("rankcode");
                                 for(int a = 0 ; a < tab1_3mItems.size() ; a++) {
-//                                    if(tab1_3mItems.get(a).getCode() == Gcode) {
-//                                        tab1_3mItems.get(a).setCheck(1);
-//                                        tab1_3mAdapter.notifyItemChanged(a);
-//                                        break;
-//                                    }
+                                    if(tab1_3mItems.get(a).getCode().equals(Gcode)) {
+                                        tab1_3mItems.get(a).setZim(true);
+                                        tab1_3mAdapter.notifyItemChanged(a);
+                                        break;
+                                    }
                                 }
                                 new Thread(new Runnable() {
                                     @Override
@@ -636,13 +628,13 @@ public class Fg_Tab1_3m extends Fragment {
                                 }).start();
                                 break;
                             case RxEvent.RANK_PORT_CHECK_NO:
-                                int Gcode2 = rxEvent.getBundle().getInt("rankcode");
+                                String Gcode2 = rxEvent.getBundle().getString("rankcode");
                                 for(int a = 0 ; a < tab1_3mItems.size() ; a++) {
-//                                    if(tab1_3mItems.get(a).getCode() == Gcode2) {
-//                                        tab1_3mItems.get(a).setCheck(0);
-//                                        tab1_3mAdapter.notifyItemChanged(a);
-//                                        break;
-//                                    }
+                                    if(tab1_3mItems.get(a).getCode().equals(Gcode2)) {
+                                        tab1_3mItems.get(a).setZim(false);
+                                        tab1_3mAdapter.notifyItemChanged(a);
+                                        break;
+                                    }
                                 }
                                 new Thread(new Runnable() {
                                     @Override
@@ -658,7 +650,7 @@ public class Fg_Tab1_3m extends Fragment {
                                 break;
                             case RxEvent.ZZIM_PORT_DELETE_MODIFY:
                                 for (int count = 0; count < tab1_3mItems.size(); count++) {
-                                    tab1_3mItems.get(count).setCheck(0);
+                                    tab1_3mItems.get(count).setZim(false);
                                 }
                                 tab1_3mAdapter.notifyDataSetChanged();
                                 break;

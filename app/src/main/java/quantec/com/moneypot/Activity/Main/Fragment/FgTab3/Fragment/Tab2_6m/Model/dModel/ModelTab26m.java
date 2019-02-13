@@ -5,16 +5,18 @@ public class ModelTab26m {
     String title;
     String code;
     double rate;
-    int check;
+    boolean isZim;
+    boolean isDam;
     int image;
     boolean onenChart;
-    long mincost;
+    Long mincost;
 
-    public ModelTab26m(String title, String code, double rate, int check, int image, boolean onenChart, long mincost) {
+    public ModelTab26m(String title, String code, double rate, boolean isZim, boolean isDam, int image, boolean onenChart, Long mincost) {
         this.title = title;
         this.code = code;
         this.rate = rate;
-        this.check = check;
+        this.isZim = isZim;
+        this.isDam = isDam;
         this.image = image;
         this.onenChart = onenChart;
         this.mincost = mincost;
@@ -44,12 +46,20 @@ public class ModelTab26m {
         this.rate = rate;
     }
 
-    public int getCheck() {
-        return check;
+    public boolean isZim() {
+        return isZim;
     }
 
-    public void setCheck(int check) {
-        this.check = check;
+    public void setZim(boolean zim) {
+        isZim = zim;
+    }
+
+    public boolean isDam() {
+        return isDam;
+    }
+
+    public void setDam(boolean dam) {
+        isDam = dam;
     }
 
     public int getImage() {
@@ -68,11 +78,11 @@ public class ModelTab26m {
         this.onenChart = onenChart;
     }
 
-    public long getMincost() {
+    public Long getMincost() {
         return mincost;
     }
 
-    public void setMincost(long mincost) {
+    public void setMincost(Long mincost) {
         this.mincost = mincost;
     }
 }

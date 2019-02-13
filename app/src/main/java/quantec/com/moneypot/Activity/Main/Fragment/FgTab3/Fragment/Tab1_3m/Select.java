@@ -4,15 +4,19 @@ public class Select {
 
     String code;
     String descript;
-    int isPot;
+    boolean isDam;
+    boolean isZim;
+    int minCost;
     String name;
     double rate;
     int type;
 
-    public Select(String code, String descript, int isPot, String name, double rate, int type) {
+    public Select(String code, String descript, boolean isDam, boolean isZim, int minCost, String name, double rate, int type) {
         this.code = code;
         this.descript = descript;
-        this.isPot = isPot;
+        this.isDam = isDam;
+        this.isZim = isZim;
+        this.minCost = minCost;
         this.name = name;
         this.rate = rate;
         this.type = type;
@@ -34,12 +38,28 @@ public class Select {
         this.descript = descript;
     }
 
-    public int getIsPot() {
-        return isPot;
+    public boolean isDam() {
+        return isDam;
     }
 
-    public void setIsPot(int isPot) {
-        this.isPot = isPot;
+    public void setDam(boolean dam) {
+        isDam = dam;
+    }
+
+    public boolean isZim() {
+        return isZim;
+    }
+
+    public void setZim(boolean zim) {
+        isZim = zim;
+    }
+
+    public int getMinCost() {
+        return minCost;
+    }
+
+    public void setMinCost(int minCost) {
+        this.minCost = minCost;
     }
 
     public String getName() {
@@ -69,12 +89,14 @@ public class Select {
     @Override
     public String toString() {
         return "{" +
-                "code='" + code + '\'' +
-                ", descript='" + descript + '\'' +
-                ", isPot=" + isPot +
-                ", name='" + name + '\'' +
+                "code=" + code+
+                ", descript=" + descript  +
+                ", isDam=" + isDam +
+                ", isZim=" + isZim +
+                ", minCost=" + minCost +
+                ", name=" + name +
                 ", rate=" + rate +
                 ", type=" + type +
-                '}';
+                "}";
     }
 }

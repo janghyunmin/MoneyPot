@@ -7,7 +7,7 @@ public class ModelInvestItem {
     int errorcode;
     int totalElements;
     Content content = new Content();
-    String page;
+    Page page = new Page();
 
     public int getErrorcode() {
         return errorcode;
@@ -33,11 +33,11 @@ public class ModelInvestItem {
         this.content = content;
     }
 
-    public String getPage() {
+    public Page getPage() {
         return page;
     }
 
-    public void setPage(String page) {
+    public void setPage(Page page) {
         this.page = page;
     }
 
@@ -51,9 +51,7 @@ public class ModelInvestItem {
         double rate30;
         double rate90;
         double rate180;
-        int selected;
-        ArrayList<StEls> stEls = new ArrayList<>();
-
+        Select select = new Select();        ArrayList<StEls> stEls = new ArrayList<>();
         public String getStCode() {
             return stCode;
         }
@@ -126,12 +124,87 @@ public class ModelInvestItem {
             this.rate180 = rate180;
         }
 
-        public int getSelected() {
-            return selected;
+        public Select getSelect() {
+            return select;
         }
 
-        public void setSelected(int selected) {
-            this.selected = selected;
+        public void setSelect(Select select) {
+            this.select = select;
+        }
+
+        public class Select {
+            int type;
+            boolean isZim;
+            boolean isDam;
+            String code;
+            String name;
+            String descript;
+            int minCost;
+            double rate;
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
+            }
+
+            public boolean isZim() {
+                return isZim;
+            }
+
+            public void setZim(boolean zim) {
+                isZim = zim;
+            }
+
+            public boolean isDam() {
+                return isDam;
+            }
+
+            public void setDam(boolean dam) {
+                isDam = dam;
+            }
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getDescript() {
+                return descript;
+            }
+
+            public void setDescript(String descript) {
+                this.descript = descript;
+            }
+
+            public int getMinCost() {
+                return minCost;
+            }
+
+            public void setMinCost(int minCost) {
+                this.minCost = minCost;
+            }
+
+            public double getRate() {
+                return rate;
+            }
+
+            public void setRate(double rate) {
+                this.rate = rate;
+            }
         }
 
         public ArrayList<StEls> getStEls() {
@@ -198,6 +271,10 @@ public class ModelInvestItem {
                 this.weight = weight;
             }
         }
+    }
+
+    public class Page{
+
     }
 
 }

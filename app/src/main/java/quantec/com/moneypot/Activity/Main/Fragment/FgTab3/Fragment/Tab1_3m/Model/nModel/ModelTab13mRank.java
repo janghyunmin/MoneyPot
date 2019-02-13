@@ -136,10 +136,12 @@ public class ModelTab13mRank {
 
         public class Select {
             int type;
-            int isPot;
+            boolean isZim;
+            boolean isDam;
             String code;
             String name;
             String descript;
+            int minCost;
             double rate;
 
             public int getType() {
@@ -150,12 +152,20 @@ public class ModelTab13mRank {
                 this.type = type;
             }
 
-            public int getIsPot() {
-                return isPot;
+            public boolean isZim() {
+                return isZim;
             }
 
-            public void setIsPot(int isPot) {
-                this.isPot = isPot;
+            public void setZim(boolean zim) {
+                isZim = zim;
+            }
+
+            public boolean isDam() {
+                return isDam;
+            }
+
+            public void setDam(boolean dam) {
+                isDam = dam;
             }
 
             public String getCode() {
@@ -180,6 +190,14 @@ public class ModelTab13mRank {
 
             public void setDescript(String descript) {
                 this.descript = descript;
+            }
+
+            public int getMinCost() {
+                return minCost;
+            }
+
+            public void setMinCost(int minCost) {
+                this.minCost = minCost;
             }
 
             public double getRate() {

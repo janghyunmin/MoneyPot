@@ -208,7 +208,6 @@ public class AdapterFgTab13m extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mTitle.setText(singleItem.getTitle());
             ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mRate.setText(String.valueOf(singleItem.getRate()));
 
-
             if(singleItem.getRate() < 0) {
                 ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mRate.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
                 ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mPer.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
@@ -219,7 +218,7 @@ public class AdapterFgTab13m extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mImage.setImageResource(singleItem.getImage());
 
-            if(singleItem.getCheck() == 1){
+            if(singleItem.isZim()){
                 ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mCheckImage.setImageResource(R.drawable.start_on);
             }else{
                 ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mCheckImage.setImageResource(R.drawable.start_off);

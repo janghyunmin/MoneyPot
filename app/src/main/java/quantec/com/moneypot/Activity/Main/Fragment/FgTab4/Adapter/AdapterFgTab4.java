@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Fg_tab4;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.nModel.ModelFgTab4;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.dModel.ModelFgTab4;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.databinding.ItemFgtab4Tab4dataBinding;
 
@@ -188,15 +188,15 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortImage.setImageResource(myData.get(position).getImage());
+//            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortImage.setImageResource(myData.get(position).getImage());
             ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortName.setText(myData.get(position).getTitle());
 
-            if(Double.parseDouble(myData.get(position).getRate()) < 0) {
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortRate.setText(myData.get(position).getRate());
+            if(myData.get(position).getRate() < 0) {
+                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortRate.setText(String.valueOf(myData.get(position).getRate()));
                 ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortRate.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
                 ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortPersent.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
             }else{
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortRate.setText(myData.get(position).getRate());
+                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortRate.setText(String.valueOf(myData.get(position).getRate()));
                 ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortRate.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
                 ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortPersent.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
             }
@@ -207,7 +207,7 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 ((MyViewHolder) holder).tab4dataBinding.tab4RecyclerViewPortZzimBt.setVisibility(View.VISIBLE);
 
-                if(myData.get(position).isZzimCheck()){
+                if(myData.get(position).isZim()){
                     ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortZzimBt.setImageResource(R.drawable.start_on);
                 }else{
                     ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortZzimBt.setImageResource(R.drawable.start_off);
@@ -242,7 +242,6 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             });
-
 
             //포트 차트 1개월 버튼
             ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur1Bt.setOnClickListener(new View.OnClickListener() {
@@ -357,7 +356,7 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-            if (myData.get(position).isOpenChart()) {
+            if (myData.get(position).isOnenChart()) {
                 if (entries.size() > 0) {
 
                     lineDataSet = new LineDataSet(entries, null);

@@ -1,18 +1,17 @@
-package quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.dModel;
+package quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.dModel;
 
-public class ModelTab13m {
+public class ModelFgTab4 {
 
     String title;
     String code;
     double rate;
     boolean isZim;
     boolean isDam;
-    int image;
+    String image;
     boolean onenChart;
     Long mincost;
 
-
-    public ModelTab13m(String title, String code, double rate, boolean isZim, boolean isDam, int image, boolean onenChart, Long mincost) {
+    public ModelFgTab4(String title, String code, double rate, boolean isZim, boolean isDam, String image, boolean onenChart, Long mincost) {
         this.title = title;
         this.code = code;
         this.rate = rate;
@@ -63,11 +62,11 @@ public class ModelTab13m {
         isDam = dam;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

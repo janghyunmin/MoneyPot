@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +30,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelZimData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Select;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Adapter.AdapterFgTab4;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Dialog.DialogAllZzimDelete;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.nModel.ModelFgTab4;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.dModel.ModelFgTab4;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.nModel.ModelFgTab4ZimData;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
@@ -137,32 +142,36 @@ public class Fg_tab4 extends Fragment {
             @Override
             public void onClick(int position) {
 
-                if (myData.get(position).isOpenChart()) {
-                    myData.get(position).setOpenChart(false);
+                if (myData.get(position).isOnenChart()) {
+                    myData.get(position).setOnenChart(false);
                     myAdapter.notifyDataSetChanged();
                 } else {
                     for (int a = 0; a < myData.size(); a++) {
-                        myData.get(a).setOpenChart(false);
+                        try {
+                            myData.get(a).setOnenChart(false);
+                        }catch (Exception e){}
                     }
-                    Call<ModelMiddleChartData> getchartItem = RetrofitClient.getInstance().getService().getChart(myData.get(position).getCode(), "a");
-                    getchartItem.enqueue(new Callback<ModelMiddleChartData>() {
+
+                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(myData.get(position).getCode(),700);
+                    getTest2.enqueue(new Callback<ModelTab13mChartData>() {
                         @Override
-                        public void onResponse(Call<ModelMiddleChartData> call, Response<ModelMiddleChartData> response) {
-                            if (response.code() == 200) {
+                        public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
+                            if(response.code() == 200) {
                                 entries.clear();
-                                for (int a = 0; a < response.body().getElements().size(); a++) {
-                                    entries.add(new Entry(a, response.body().getElements().get(a).getRate(), response.body().getElements().get(a).getDate()));
+                                for(int a = 0 ; a < response.body().getContent().size() ; a++) {
+                                    entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                                 }
-                                myData.get(position).setOpenChart(true);
+                                myData.get(position).setOnenChart(true);
                                 myAdapter.notifyDataSetChanged();
                                 tab4Binding.tab4RecyclerView.smoothScrollToPosition(position);
                             }
                         }
                         @Override
-                        public void onFailure(Call<ModelMiddleChartData> call, Throwable t) {
-                            Log.e("레트로핏 실패", "값 : " + t.getMessage());
+                        public void onFailure(Call<ModelTab13mChartData> call, Throwable t) {
+                            Log.e("레트로핏 실패","값 : "+t.getMessage());
                         }
                     });
+
                 }
             }
         });
@@ -171,28 +180,28 @@ public class Fg_tab4 extends Fragment {
         myAdapter.setSelectDurItemClick1(new AdapterFgTab4.SelectDur1ItemClick() {
             @Override
             public void onclick(int position) {
-                ChartDur(position, "1");
+                ChartDur(position, 30);
             }
         });
         //차트 3개월 버튼 클릭
         myAdapter.setSelectDurItemClick3(new AdapterFgTab4.SelectDur3ItemClick() {
             @Override
             public void onclick(int position) {
-                ChartDur(position, "3");
+                ChartDur(position, 90);
             }
         });
         //차트 6개월 버튼 클릭
         myAdapter.setSelectDurItemClick6(new AdapterFgTab4.SelectDur6ItemClick() {
             @Override
             public void onclick(int position) {
-                ChartDur(position, "6");
+                ChartDur(position, 180);
             }
         });
         //차트 누적 버튼 클릭
         myAdapter.setSelectDurItemClicka(new AdapterFgTab4.SelectDuraItemClick() {
             @Override
             public void onclick(int position) {
-                ChartDur(position, "a");
+                ChartDur(position, 700);
             }
         });
 
@@ -224,10 +233,86 @@ public class Fg_tab4 extends Fragment {
         myAdapter.setSelectZzimClick(new AdapterFgTab4.SelectZzimClick() {
             @Override
             public void onClick(int position) {
-                if(myData.get(position).isZzimCheck()) {
-                    zzimPortDeleteSave(myData.get(position).getCode(), position, 1);
-                }else{
-                    zzimPortDeleteSave(myData.get(position).getCode(), position, 0);
+                if(myData.get(position).isZim()) {
+
+                    Select select = new Select(myData.get(position).getCode(),"",myData.get(position).isDam(),false,0,"",0,0);
+
+                    Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"del");
+                    getSelectPort.enqueue(new Callback<ModelZimData>() {
+                        @Override
+                        public void onResponse(Call<ModelZimData> call, Response<ModelZimData> response) {
+                            if(response.code() == 200) {
+                                if(response.body().getErrorcode() == 200){
+
+                                    myData.get(position).setZim(false);
+                                    myAdapter.notifyItemChanged(position);
+
+                                    DataManager.get_INstance().setCheckTab1(true);
+                                    DataManager.get_INstance().setCheckCookPage(true);
+
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("rankcode", myData.get(position).getCode());
+                                    RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_NO, bundle));
+
+                                    int zimCount = 0;
+                                    for(int index = 0 ; index < response.body().getTotalElements() ; index++) {
+                                        if(response.body().getContent().get(index).isZim()) {
+                                            zimCount++;
+                                        }
+                                    }
+                                    SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", zimCount);
+                                }
+                            }
+                            else{
+
+                                Log.e("에러 값 ","값 : "+ response.errorBody().toString());
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<ModelZimData> call, Throwable t) {
+                            Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+                else{
+                        Select select = new Select(myData.get(position).getCode(),"",myData.get(position).isDam(),true,0,"",0,1);
+
+                        Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"add");
+                        getSelectPort.enqueue(new Callback<ModelZimData>() {
+                            @Override
+                            public void onResponse(Call<ModelZimData> call, Response<ModelZimData> response) {
+                                if(response.code() == 200) {
+                                    if(response.body().getErrorcode() == 200){
+
+                                        myData.get(position).setZim(true);
+                                        myAdapter.notifyItemChanged(position);
+
+                                        DataManager.get_INstance().setCheckTab1(true);
+                                        DataManager.get_INstance().setCheckCookPage(true);
+
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("rankcode", myData.get(position).getCode());
+                                        RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_OK, bundle));
+
+                                        int zimCount = 0;
+                                        for(int index = 0 ; index < response.body().getTotalElements() ; index++) {
+                                            if(response.body().getContent().get(index).isZim()) {
+                                                zimCount++;
+                                            }
+                                        }
+                                        SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", zimCount);
+                                    }
+                                }
+                                else{
+                                    Log.e("에러 값 ","값 : "+ response.errorBody().toString());
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ModelZimData> call, Throwable t) {
+                                Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+                            }
+                        });
                 }
             }
         });
@@ -253,39 +338,40 @@ public class Fg_tab4 extends Fragment {
                                         try {
                                             Thread.sleep(1500);
                                             try {
-                                                Call<ModelZzimCount> getData = RetrofitClient.getInstance().getService().getPortCallData(1);
-                                                getData.enqueue(new Callback<ModelZzimCount>() {
-                                                    @Override
-                                                    public void onResponse(Call<ModelZzimCount> call, Response<ModelZzimCount> response) {
-                                                        if (response.code() == 200) {
-                                                            int code, resID;
-                                                            String name;
-                                                            for (int a = 0; a < response.body().getNum(); a++) {
-                                                                code = response.body().getResult().get(a).getProduct();
-                                                                name = "@drawable/ic_" + code;
-                                                                if (code >= 11 && code < 19 || code > 19) {
-                                                                    name = "@drawable/ic_rank_noname";
-                                                                }
-                                                                resID = mainActivity.getResources().getIdentifier(name, "drawable", packName);
 
-                                                                myData.add(new ModelFgTab4(response.body().getResult().get(a).getName(), String.valueOf(response.body().getResult().get(a).getRate()),
-                                                                        resID, code, response.body().getResult().get(a).getDesc(), 0, 50L, false, true));
+                                                Call<ModelFgTab4ZimData> getData = RetrofitClient.getInstance().getService().getZimDamList();
+                                                getData.enqueue(new Callback<ModelFgTab4ZimData>() {
+                                                    @Override
+                                                    public void onResponse(Call<ModelFgTab4ZimData> call, Response<ModelFgTab4ZimData> response) {
+                                                        if(response.code() == 200) {
+                                                            if(response.body().getErrorcode() == 200) {
+                                                                if(response.body().getTotalElements() != 0){
+                                                                    String name;
+                                                                    for(int a = 0 ; a < response.body().getTotalElements(); a++) {
+                                                                        if(response.body().getContent().get(a).isZim()){
+                                                                            name = "@drawable/ic_" + response.body().getContent().get(a).getCode();
+
+                                                                            myData.add(new ModelFgTab4(response.body().getContent().get(a).getName(), response.body().getContent().get(a).getCode(),
+                                                                                    decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2), response.body().getContent().get(a).isZim(),
+                                                                                    response.body().getContent().get(a).isDam(), name, false, response.body().getContent().get(a).getMinCost()));
+                                                                        }
+                                                                    }
+                                                                    myAdapter.notifyDataSetChanged();
+                                                                    tab4Binding.tab4LoadingBar.setVisibility(View.GONE);
+                                                                    portOpenState = false;
+                                                                }else{
+                                                                    portOpenState = false;
+                                                                    tab4Binding.tab4LoadingBar.setVisibility(View.GONE);
+                                                                }
                                                             }
-                                                            portOpenState = false;
-                                                            myAdapter.notifyDataSetChanged();
-                                                            tab4Binding.tab4LoadingBar.setVisibility(View.GONE);
-                                                        }
-                                                        else if (response.code() == 301) {
-                                                            portOpenState = false;
-                                                            tab4Binding.tab4LoadingBar.setVisibility(View.GONE);
                                                         }
                                                     }
                                                     @Override
-                                                    public void onFailure(Call<ModelZzimCount> call, Throwable t) {
-                                                        portOpenState = false;
-                                                        Log.e("레트로핏 실패", "값 : " + t.getMessage());
+                                                    public void onFailure(Call<ModelFgTab4ZimData> call, Throwable t) {
+                                                        Log.e("레트로핏 실패","값 : "+t.getMessage());
                                                     }
                                                 });
+
                                             }catch (Exception e){}
                                         } catch (InterruptedException e) {
                                         }
@@ -321,92 +407,66 @@ public class Fg_tab4 extends Fragment {
     //찜한 포트 삭제 후 갱신 ( 전체 삭제 )
     void zzimPortAllDeleteSave(){
 
-        Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(0, 2);
-        getData.enqueue(new Callback<ModelPortZzim>() {
-            @Override
-            public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
-                if(response.code() == 200) {
-                    for(int count = 0 ; count < myData.size() ; count++) {
-                        myData.get(count).setZzimCheck(false);
-                    }
-                    myAdapter.notifyDataSetChanged();
-                    customDialogAll.dismiss();
-                    DataManager.get_INstance().setModifyPort(true);
-                    DataManager.get_INstance().setCheckCookPage(true);
+        Select select = new Select("","",false,false,0,"",0,1);
 
-                    SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
+        Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"ALL");
+        getSelectPort.enqueue(new Callback<ModelZimData>() {
+            @Override
+            public void onResponse(Call<ModelZimData> call, Response<ModelZimData> response) {
+                if(response.code() == 200) {
+                    if(response.body().getErrorcode() == 200){
+                        for(int count = 0 ; count < myData.size() ; count++) {
+                            myData.get(count).setZim(false);
+                        }
+                        myAdapter.notifyDataSetChanged();
+                        customDialogAll.dismiss();
+                        DataManager.get_INstance().setCheckTab1(true);
+                        RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_DELETE_MODIFY, null));
+                        DataManager.get_INstance().setCheckCookPage(true);
+
+                        int zimCount = 0;
+                        for(int index = 0 ; index < response.body().getTotalElements() ; index++) {
+                            if(response.body().getContent().get(index).isZim()) {
+                                zimCount++;
+                            }
+                        }
+                        SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", zimCount);
+                    }
+                }
+                else{
+                    Log.e("에러 값 ","값 : "+ response.errorBody().toString());
                 }
             }
             @Override
-            public void onFailure(Call<ModelPortZzim> call, Throwable t) {
+            public void onFailure(Call<ModelZimData> call, Throwable t) {
                 customDialogAll.dismiss();
-                Toast.makeText(getActivity(), "서버가 불안정 합니다",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
-    //찜한 포트 삭제 후 갱신 ( 단일 삭제 )
-    // del : 0 -> 찜하기 / 1 -> 찜 해제
-    void zzimPortDeleteSave(int code, int position, int del){
-
-        Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(code, del);
-        getData.enqueue(new Callback<ModelPortZzim>() {
-            @Override
-            public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
-                if(response.code() == 200) {
-                    //찜 하기
-                    if(del == 0) {
-                        myData.get(position).setZzimCheck(true);
-
-                        DataManager.get_INstance().setCheckTab1(true);
-                        DataManager.get_INstance().setCheckCookPage(true);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("rankcode", code);
-                        RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_OK, bundle));
-                    }
-                    // 찜 해제
-                    else{
-                        myData.get(position).setZzimCheck(false);
-
-                        DataManager.get_INstance().setCheckTab1(true);
-                        DataManager.get_INstance().setCheckCookPage(true);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("rankcode", code);
-                        RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_NO, bundle));
-                    }
-
-                    myAdapter.notifyItemChanged(position);
-                    SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
-                }
-            }
-            @Override
-            public void onFailure(Call<ModelPortZzim> call, Throwable t) {
-                Toast.makeText(getActivity(), "서버가 불안정 합니다",Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     //각 차트의 1개월 ~ 누적 버튼
-    void ChartDur(int position, String dur) {
+    void ChartDur(int position, int dur) {
 
-        Call<ModelMiddleChartData> getchartItem = RetrofitClient.getInstance().getService().getChart(myData.get(position).getCode(),dur);
-        getchartItem.enqueue(new Callback<ModelMiddleChartData>() {
+
+        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(myData.get(position).getCode(),dur);
+        getTest2.enqueue(new Callback<ModelTab13mChartData>() {
             @Override
-            public void onResponse(Call<ModelMiddleChartData> call, Response<ModelMiddleChartData> response) {
-
+            public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
                 if(response.code() == 200) {
                     entries.clear();
-                    for(int a = 0 ; a < response.body().getElements().size() ; a++) {
-                        entries.add(new Entry(a, response.body().getElements().get(a).getRate(),response.body().getElements().get(a).getDate()));
+                    for(int a = 0 ; a < response.body().getContent().size() ; a++) {
+                        entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                     }
-                    myData.get(position).setOpenChart(true);
+                    myData.get(position).setOnenChart(true);
                     myAdapter.notifyDataSetChanged();
+                    tab4Binding.tab4RecyclerView.smoothScrollToPosition(position);
                 }
             }
             @Override
-            public void onFailure(Call<ModelMiddleChartData> call, Throwable t) {
+            public void onFailure(Call<ModelTab13mChartData> call, Throwable t) {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
@@ -427,36 +487,36 @@ public class Fg_tab4 extends Fragment {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Call<ModelZzimCount> getData = RetrofitClient.getInstance().getService().getPortCallData(1);
-                getData.enqueue(new Callback<ModelZzimCount>() {
-                    @Override
-                    public void onResponse(Call<ModelZzimCount> call, Response<ModelZzimCount> response) {
-                        if(response.code() == 200) {
-                            int code, resID;
-                            String name;
-                            for(int a = 0 ; a < response.body().getNum() ; a++) {
-                                code = response.body().getResult().get(a).getProduct();
-                                name = "@drawable/ic_" + code;
-                                if (code >= 11 && code < 19 || code > 19) {
-                                    name = "@drawable/ic_rank_noname";
-                                }
-                                resID = mainActivity.getResources().getIdentifier(name, "drawable", packName);
 
-                                myData.add(new ModelFgTab4(response.body().getResult().get(a).getName(), String.valueOf(response.body().getResult().get(a).getRate()),
-                                        resID, code, response.body().getResult().get(a).getDesc(), 0, 50L, false, true));
+                Call<ModelFgTab4ZimData> getData = RetrofitClient.getInstance().getService().getZimDamList();
+                getData.enqueue(new Callback<ModelFgTab4ZimData>() {
+                    @Override
+                    public void onResponse(Call<ModelFgTab4ZimData> call, Response<ModelFgTab4ZimData> response) {
+                        if(response.code() == 200) {
+                            if(response.body().getErrorcode() == 200) {
+                                if(response.body().getTotalElements() != 0){
+                                    String name;
+                                    for(int a = 0 ; a < response.body().getTotalElements(); a++) {
+                                        if(response.body().getContent().get(a).isZim()) {
+                                            name = "@drawable/ic_" + response.body().getContent().get(a).getCode();
+
+                                            myData.add(new ModelFgTab4(response.body().getContent().get(a).getName(), response.body().getContent().get(a).getCode(),
+                                                    decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2), response.body().getContent().get(a).isZim(),
+                                                    response.body().getContent().get(a).isDam(), name, false, response.body().getContent().get(a).getMinCost()));
+                                        }
+                                    }
+                                    myAdapter.notifyDataSetChanged();
+                                    tab4Binding.tab4LoadingBar.setVisibility(View.GONE);
+                                    portOpenState = false;
+                                }else{
+                                    portOpenState = false;
+                                    tab4Binding.tab4LoadingBar.setVisibility(View.GONE);
+                                }
                             }
-                            myAdapter.notifyDataSetChanged();
-                            tab4Binding.tab4LoadingBar.setVisibility(View.GONE);
-                            portOpenState = false;
-                        }
-                        else if(response.code() == 301) {
-                            portOpenState = false;
-                            tab4Binding.tab4LoadingBar.setVisibility(View.GONE);
                         }
                     }
                     @Override
-                    public void onFailure(Call<ModelZzimCount> call, Throwable t) {
-//                        portOpenState = false;
+                    public void onFailure(Call<ModelFgTab4ZimData> call, Throwable t) {
                         Log.e("레트로핏 실패","값 : "+t.getMessage());
                     }
                 });
@@ -480,12 +540,12 @@ public class Fg_tab4 extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 600) {
             if(resultCode == 500) {
-                myData.get(data.getIntExtra("ZzimPositionD",0)).setZzimCheck(true);
+                myData.get(data.getIntExtra("ZzimPositionD",0)).setZim(true);
                 myAdapter.notifyItemChanged(data.getIntExtra("ZzimPositionD",0));
                 DataManager.get_INstance().setCheckTab1(true);
                 DataManager.get_INstance().setCheckCookPage(true);
             }else if(resultCode == 501) {
-                myData.get(data.getIntExtra("ZzimPositionD",0)).setZzimCheck(false);
+                myData.get(data.getIntExtra("ZzimPositionD",0)).setZim(false);
                 myAdapter.notifyItemChanged(data.getIntExtra("ZzimPositionD",0));
                 DataManager.get_INstance().setCheckTab1(true);
                 DataManager.get_INstance().setCheckCookPage(true);
@@ -493,4 +553,33 @@ public class Fg_tab4 extends Fragment {
         }
     }
 
+    public static double decimalScale(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.doubleValue();
+    }
+
+    public static float decimalScale2(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.floatValue();
+    }
 }
