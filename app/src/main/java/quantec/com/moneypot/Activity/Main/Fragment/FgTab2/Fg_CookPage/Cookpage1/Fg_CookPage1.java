@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,9 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Model.dModel.ModelHotList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Model.dModel.ModelStableList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Model.nModel.ModelCookpage1Item;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelZimData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Select;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
 import quantec.com.moneypot.DataManager.DataManager;
@@ -191,12 +195,12 @@ public class Fg_CookPage1 extends Fragment {
             @Override
             public void onClick(int position) {
                 //찜 하기
-                if(modelHotLists.get(position).getZzim() == 0) {
-                    CookZzim(0, modelHotLists.get(position).getCode(), position, 0);
+                if(!modelHotLists.get(position).isZim()) {
+                    CookZzim(0, modelHotLists.get(position).getCode(), position, modelHotLists.get(position).isDam(),true, "add");
                 }
                 //찜 해제
                 else{
-                    CookZzim(0, modelHotLists.get(position).getCode(), position, 1);
+                    CookZzim(0, modelHotLists.get(position).getCode(), position, modelHotLists.get(position).isDam(),false, "del");
                 }
             }
         });
@@ -207,12 +211,12 @@ public class Fg_CookPage1 extends Fragment {
             public void onClick(int position) {
                 //basket : 0 -> 포트요리 홈에서 재료 담기 함 ( 내가 담은 포트 갯수 변경해줌 ) / 1 -> 내가 담은 포트에서 재료 삭제 함 ( 포트요리 홈에서 담은 포트 갯수 변경해줌 )
                 //재료 담기
-                if(modelHotLists.get(position).getBasket() == 0) {
-                    CookBasket(0, modelHotLists.get(position).getCode(), position, 0);
+                if(!modelHotLists.get(position).isDam()) {
+                    CookBasket(0, modelHotLists.get(position).getCode(), position, true, modelHotLists.get(position).isZim(), "add");
                 }
                 //재료 삭제
                 else{
-                    CookBasket(0, modelHotLists.get(position).getCode(), position, 1);
+                    CookBasket(0, modelHotLists.get(position).getCode(), position, false, modelHotLists.get(position).isZim(), "del");
                 }
             }
         });
@@ -230,8 +234,8 @@ public class Fg_CookPage1 extends Fragment {
             @Override
             public void onClick(int position) {
                 //재료 담기
-                if(modelStableLists.get(position).getBasket() == 0) {
-                    CookBasket(2, modelStableLists.get(position).getCode(), position, 0);
+                if(!modelStableLists.get(position).isDam()) {
+                    CookBasket(2, modelStableLists.get(position).getCode(), position, true, modelStableLists.get(position).isZim(), "add");
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("basket", 0);
@@ -239,7 +243,7 @@ public class Fg_CookPage1 extends Fragment {
                 }
                 //재료 삭제
                 else{
-                    CookBasket(2, modelStableLists.get(position).getCode(), position, 1);
+                    CookBasket(2, modelStableLists.get(position).getCode(), position, false, modelStableLists.get(position).isZim(), "del");
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("basket", 0);
@@ -253,12 +257,12 @@ public class Fg_CookPage1 extends Fragment {
             @Override
             public void onClick(int position) {
                 //찜 하기
-                if(modelStableLists.get(position).getZzim() == 0) {
-                    CookZzim(2, modelStableLists.get(position).getCode(), position, 0);
+                if(!modelStableLists.get(position).isZim()) {
+                    CookZzim(2, modelStableLists.get(position).getCode(), position, modelStableLists.get(position).isDam(),true, "add");
                 }
                 //찜 해제
                 else{
-                    CookZzim(2, modelStableLists.get(position).getCode(), position, 1);
+                    CookZzim(2, modelStableLists.get(position).getCode(), position, modelStableLists.get(position).isDam(), false, "del");
                 }
             }
         });
@@ -298,7 +302,7 @@ public class Fg_CookPage1 extends Fragment {
     }//onViewCreated 끝
 
     // 각 카테고리에서 상세페이지 이동시 이벤트
-    void MovedDetailPage(int PortCode,  String PortName, int PortPosition, int requestCode){
+    void MovedDetailPage(String PortCode,  String PortName, int PortPosition, int requestCode){
         Intent intent1 = new Intent(getActivity(), ActivityDetailPort.class);
         intent1.putExtra("detailcode", PortCode);
         intent1.putExtra("detailtitle",PortName);
@@ -355,17 +359,17 @@ public class Fg_CookPage1 extends Fragment {
     }
 
     //찜 이벤트시 다른 페이지에도 업데이트 전달
-    void NotifiedZzim(int zzimState, int code) {
+    void NotifiedZzim(int zzimState, String code) {
         // 찜 해제 이벤트 전달
         if(zzimState == 0){
             Bundle bundle = new Bundle();
-            bundle.putInt("rankcode", code);
+            bundle.putString("rankcode", code);
             RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_NO, bundle));
         }
         // 찜 하기 이벤트 전달
         else{
             Bundle bundle = new Bundle();
-            bundle.putInt("rankcode", code);
+            bundle.putString("rankcode", code);
             RxEventBus.getInstance().post(new RxEvent(RxEvent.RANK_PORT_CHECK_OK, bundle));
         }
     }
@@ -388,56 +392,57 @@ public class Fg_CookPage1 extends Fragment {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                Filter filter = new Filter();
                 //내가 만든 포트 데이터 초기 불러옴
-                Call<ModelCookpage1Item> getHotData = RetrofitClient.getInstance().getService().getHotData();
-                getHotData.enqueue(new Callback<ModelCookpage1Item>() {
+                Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2("application/json",filter,0, 90,10);
+                getTest2.enqueue(new Callback<ModelTab13mRank>() {
                     @Override
-                    public void onResponse(Call<ModelCookpage1Item> call, Response<ModelCookpage1Item> response) {
-                        if (response.code() == 200) {
+                    public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
+                        if(response.code() == 200) {
+                            if(response.body().getErrorcode() == 200) {
+                                modelHotLists.clear();
+                                modelStableLists.clear();
 
-                            modelHotLists.clear();
-                            modelStableLists.clear();
+                                for (int index = 0; index < response.body().getContent().size(); index++) {
 
-                            for(int index = 0 ; index < response.body().getNum() ; index++){
-                                    if(response.body().getProduct().get(index).getCode() == 15) {
-                                        modelHotLists.add(new ModelHotList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
-                                                response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
-                                                response.body().getProduct().get(index).getCode()));
-                                    }else if(response.body().getProduct().get(index).getCode() == 18){
-                                        modelHotLists.add(new ModelHotList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
-                                                response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
-                                                response.body().getProduct().get(index).getCode()));
-                                    }else if(response.body().getProduct().get(index).getCode() == 3){
-                                        modelHotLists.add(new ModelHotList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
-                                                response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
-                                                response.body().getProduct().get(index).getCode()));
+                                    if (index < 3) {
+                                        if (response.body().getContent().get(index).getSelect() != null) {
+                                            modelHotLists.add(new ModelHotList(response.body().getContent().get(index).getName(), response.body().getContent().get(index).getRate(),
+                                                    response.body().getContent().get(index).getSelect().isZim(), response.body().getContent().get(index).getSelect().isDam(),
+                                                    response.body().getContent().get(index).getStCode()));
+                                        } else {
+                                            modelHotLists.add(new ModelHotList(response.body().getContent().get(index).getName(), response.body().getContent().get(index).getRate(),
+                                                    false, false,
+                                                    response.body().getContent().get(index).getStCode()));
+                                        }
+                                    } else if (index < 6) {
+
+                                        if (response.body().getContent().get(index).getSelect() != null) {
+                                            modelStableLists.add(new ModelStableList(response.body().getContent().get(index).getName(), response.body().getContent().get(index).getRate(),
+                                                    response.body().getContent().get(index).getSelect().isZim(), response.body().getContent().get(index).getSelect().isDam(),
+                                                    response.body().getContent().get(index).getStCode()));
+                                        } else {
+                                            modelStableLists.add(new ModelStableList(response.body().getContent().get(index).getName(), response.body().getContent().get(index).getRate(),
+                                                    false, false,
+                                                    response.body().getContent().get(index).getStCode()));
+                                        }
                                     }
+                                }
 
-                                    if(response.body().getProduct().get(index).getCode() == 15){
-                                        modelStableLists.add(new ModelStableList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
-                                                response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
-                                                response.body().getProduct().get(index).getCode()));
-                                    }else if(response.body().getProduct().get(index).getCode() == 13){
-                                        modelStableLists.add(new ModelStableList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
-                                                response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
-                                                response.body().getProduct().get(index).getCode()));
-                                    }else if(response.body().getProduct().get(index).getCode() == 11){
-                                        modelStableLists.add(new ModelStableList(response.body().getProduct().get(index).getName(), response.body().getProduct().get(index).getRate(),
-                                                response.body().getProduct().get(index).getSelect(), response.body().getProduct().get(index).getPut(),
-                                                response.body().getProduct().get(index).getCode()));
-                                    }
+                                adapterHot.notifyDataSetChanged();
+                                adapterStable.notifyDataSetChanged();
 
+                                fgcookpage1Binding.fgCookpage1LoadingBar.setVisibility(View.GONE);
                             }
-                            adapterHot.notifyDataSetChanged();
-                            adapterStable.notifyDataSetChanged();
-
-                            fgcookpage1Binding.fgCookpage1LoadingBar.setVisibility(View.GONE);
                         }
                     }
                     @Override
-                    public void onFailure(Call<ModelCookpage1Item> call, Throwable t) {
+                    public void onFailure(Call<ModelTab13mRank> call, Throwable t) {
+                        Log.e("레트로핏 실패","값 : "+t.getMessage());
                     }
                 });
+
             }
         }).start();
     }
@@ -449,14 +454,14 @@ public class Fg_CookPage1 extends Fragment {
         //뜨거운 재료 찜 결과
         if(requestCode == 600) {
             if(resultCode == 500) {
-                modelHotLists.get(data.getIntExtra("ZzimPositionD",0)).setZzim(1);
+                modelHotLists.get(data.getIntExtra("ZzimPositionD",0)).setZim(true);
                 adapterHot.notifyItemChanged(data.getIntExtra("ZzimPositionD",0));
                 DataManager.get_INstance().setCheckTab1(true);
 
                 DupliCheckedItem(0, 1, modelHotLists.get(data.getIntExtra("ZzimPositionD",0)).getCode());
 
             }else if(resultCode == 501) {
-                modelHotLists.get(data.getIntExtra("ZzimPositionD",0)).setZzim(0);
+                modelHotLists.get(data.getIntExtra("ZzimPositionD",0)).setZim(false);
                 adapterHot.notifyItemChanged(data.getIntExtra("ZzimPositionD",0));
                 DataManager.get_INstance().setCheckTab1(true);
 
@@ -466,14 +471,14 @@ public class Fg_CookPage1 extends Fragment {
         //안정적인 재료 찜 결과
         else if(requestCode == 700) {
             if(resultCode == 500) {
-                modelStableLists.get(data.getIntExtra("ZzimPositionD",0)).setZzim(1);
+                modelStableLists.get(data.getIntExtra("ZzimPositionD",0)).setZim(true);
                 adapterStable.notifyItemChanged(data.getIntExtra("ZzimPositionD",0));
                 DataManager.get_INstance().setCheckTab1(true);
 
                 DupliCheckedItem(2, 1, modelStableLists.get(data.getIntExtra("ZzimPositionD",0)).getCode());
 
             }else if(resultCode == 501) {
-                modelStableLists.get(data.getIntExtra("ZzimPositionD",0)).setZzim(0);
+                modelStableLists.get(data.getIntExtra("ZzimPositionD",0)).setZim(false);
                 adapterStable.notifyItemChanged(data.getIntExtra("ZzimPositionD",0));
                 DataManager.get_INstance().setCheckTab1(true);
 
@@ -485,14 +490,14 @@ public class Fg_CookPage1 extends Fragment {
     // 찜을 하는 경우 다른 카테고리의 리스트에 중복되는 값 있을때 체크
     // duplication : 0 -> 뜨거운 리스트 찜 / 1 -> 베스트 리스트 찜 / 2 -> 안정 리스트 찜
     // check : 0 -> 찜 해제 / 1 -> 찜 하기
-    void DupliCheckedItem(int duplication, int check, int code){
+    void DupliCheckedItem(int duplication, int check, String code){
         switch (duplication) {
             case 0:
                 if(check == 1) {
                     //안정 리스트
                     for(int index = 0 ; index < modelStableLists.size() ; index++){
-                        if(modelStableLists.get(index).getCode() == code) {
-                            modelStableLists.get(index).setZzim(1);
+                        if(modelStableLists.get(index).getCode().equals(code)) {
+                            modelStableLists.get(index).setZim(true);
                         }
                     }
                     adapterStable.notifyDataSetChanged();
@@ -500,8 +505,8 @@ public class Fg_CookPage1 extends Fragment {
                 }else{
                     //안정 리스트
                     for(int index = 0 ; index < modelStableLists.size() ; index++){
-                        if(modelStableLists.get(index).getCode() == code) {
-                            modelStableLists.get(index).setZzim(0);
+                        if(modelStableLists.get(index).getCode().equals(code)) {
+                            modelStableLists.get(index).setZim(false);
                         }
                     }
                     adapterStable.notifyDataSetChanged();
@@ -511,14 +516,14 @@ public class Fg_CookPage1 extends Fragment {
                 if(check == 1) {
                     //뜨거운 리스트
                     for(int index = 0 ; index < modelHotLists.size() ; index++) {
-                        if(modelHotLists.get(index).getCode() == code){
-                            modelHotLists.get(index).setZzim(1);
+                        if(modelHotLists.get(index).getCode().equals(code)){
+                            modelHotLists.get(index).setZim(true);
                         }
                     }
                     //안정 리스트
                     for(int index = 0 ; index < modelStableLists.size() ; index++){
-                        if(modelStableLists.get(index).getCode() == code) {
-                            modelStableLists.get(index).setZzim(1);
+                        if(modelStableLists.get(index).getCode().equals(code)) {
+                            modelStableLists.get(index).setZim(true);
                         }
                     }
                     adapterHot.notifyDataSetChanged();
@@ -528,14 +533,14 @@ public class Fg_CookPage1 extends Fragment {
 
                     //뜨거운 리스트
                     for(int index = 0 ; index < modelHotLists.size() ; index++) {
-                        if(modelHotLists.get(index).getCode() == code){
-                            modelHotLists.get(index).setZzim(0);
+                        if(modelHotLists.get(index).getCode().equals(code)){
+                            modelHotLists.get(index).setZim(false);
                         }
                     }
                     //안정 리스트
                     for(int index = 0 ; index < modelStableLists.size() ; index++){
-                        if(modelStableLists.get(index).getCode() == code) {
-                            modelStableLists.get(index).setZzim(0);
+                        if(modelStableLists.get(index).getCode().equals(code)) {
+                            modelStableLists.get(index).setZim(false);
                         }
                     }
                     adapterHot.notifyDataSetChanged();
@@ -546,8 +551,8 @@ public class Fg_CookPage1 extends Fragment {
                 if(check == 1) {
                     //뜨거운 리스트
                     for(int index = 0 ; index < modelHotLists.size() ; index++) {
-                        if(modelHotLists.get(index).getCode() == code) {
-                            modelHotLists.get(index).setZzim(1);
+                        if(modelHotLists.get(index).getCode().equals(code)) {
+                            modelHotLists.get(index).setZim(true);
                         }
                     }
                     adapterHot.notifyDataSetChanged();
@@ -555,8 +560,8 @@ public class Fg_CookPage1 extends Fragment {
 
                     //뜨거운 리스트
                     for(int index = 0 ; index < modelHotLists.size() ; index++) {
-                        if(modelHotLists.get(index).getCode() == code) {
-                            modelHotLists.get(index).setZzim(0);
+                        if(modelHotLists.get(index).getCode().equals(code)) {
+                            modelHotLists.get(index).setZim(false);
                         }
                     }
                     adapterHot.notifyDataSetChanged();
@@ -570,14 +575,14 @@ public class Fg_CookPage1 extends Fragment {
     // 담기를 하는 경우 다른 카테고리의 리스트에 중복되는 값 있을때 체크
     // duplication : 0 -> 뜨거운 리스트 담기 / 1 -> 베스트 리스트 담기 / 2 -> 안정 리스트 담기
     // check : 0 -> 담기 해제 / 1 -> 담기
-    void DupliCheckedBasket(int duplication, int check, int code){
+    void DupliCheckedBasket(int duplication, int check, String code){
         switch (duplication) {
             case 0:
                 if(check == 1) {
                     //안정 리스트
                     for(int index = 0 ; index < modelStableLists.size() ; index++){
-                        if(modelStableLists.get(index).getCode() == code) {
-                            modelStableLists.get(index).setBasket(1);
+                        if(modelStableLists.get(index).getCode().equals(code)) {
+                            modelStableLists.get(index).setDam(true);
                         }
                     }
                     adapterStable.notifyDataSetChanged();
@@ -585,8 +590,8 @@ public class Fg_CookPage1 extends Fragment {
                 }else{
                     //안정 리스트
                     for(int index = 0 ; index < modelStableLists.size() ; index++){
-                        if(modelStableLists.get(index).getCode() == code) {
-                            modelStableLists.get(index).setBasket(0);
+                        if(modelStableLists.get(index).getCode().equals(code)) {
+                            modelStableLists.get(index).setDam(false);
                         }
                     }
                     adapterStable.notifyDataSetChanged();
@@ -596,14 +601,14 @@ public class Fg_CookPage1 extends Fragment {
                 if(check == 1) {
                     //뜨거운 리스트
                     for(int index = 0 ; index < modelHotLists.size() ; index++) {
-                        if(modelHotLists.get(index).getCode() == code){
-                            modelHotLists.get(index).setBasket(1);
+                        if(modelHotLists.get(index).getCode().equals(code)){
+                            modelHotLists.get(index).setDam(true);
                         }
                     }
                     //안정 리스트
                     for(int index = 0 ; index < modelStableLists.size() ; index++){
-                        if(modelStableLists.get(index).getCode() == code) {
-                            modelStableLists.get(index).setBasket(1);
+                        if(modelStableLists.get(index).getCode().equals(code)) {
+                            modelStableLists.get(index).setDam(true);
                         }
                     }
                     adapterHot.notifyDataSetChanged();
@@ -613,14 +618,14 @@ public class Fg_CookPage1 extends Fragment {
 
                     //뜨거운 리스트
                     for(int index = 0 ; index < modelHotLists.size() ; index++) {
-                        if(modelHotLists.get(index).getCode() == code){
-                            modelHotLists.get(index).setBasket(0);
+                        if(modelHotLists.get(index).getCode().equals(code)){
+                            modelHotLists.get(index).setDam(false);
                         }
                     }
                     //안정 리스트
                     for(int index = 0 ; index < modelStableLists.size() ; index++){
-                        if(modelStableLists.get(index).getCode() == code) {
-                            modelStableLists.get(index).setBasket(0);
+                        if(modelStableLists.get(index).getCode().equals(code)) {
+                            modelStableLists.get(index).setDam(false);
                         }
                     }
                     adapterHot.notifyDataSetChanged();
@@ -631,8 +636,8 @@ public class Fg_CookPage1 extends Fragment {
                 if(check == 1) {
                     //뜨거운 리스트
                     for(int index = 0 ; index < modelHotLists.size() ; index++) {
-                        if(modelHotLists.get(index).getCode() == code) {
-                            modelHotLists.get(index).setBasket(1);
+                        if(modelHotLists.get(index).getCode().equals(code)) {
+                            modelHotLists.get(index).setDam(true);
                         }
                     }
                     adapterHot.notifyDataSetChanged();
@@ -640,8 +645,8 @@ public class Fg_CookPage1 extends Fragment {
 
                     //뜨거운 리스트
                     for(int index = 0 ; index < modelHotLists.size() ; index++) {
-                        if(modelHotLists.get(index).getCode() == code) {
-                            modelHotLists.get(index).setBasket(0);
+                        if(modelHotLists.get(index).getCode().equals(code)) {
+                            modelHotLists.get(index).setDam(false);
                         }
                     }
                     adapterHot.notifyDataSetChanged();
@@ -653,30 +658,34 @@ public class Fg_CookPage1 extends Fragment {
     }
 
     //재료 찜하기
-    //category : 0 ( Hot ) / 1 ( Best ) / 2 ( Stable )
-    void CookZzim(int category, int code, int position, int del){
+//    category : 0 ( Hot ) / 1 ( Best ) / 2 ( Stable )
+    void CookZzim(int category, String code, int position, boolean isDam, boolean isZim, String mode){
 
         if(SharedPreferenceUtil.getInstance(mainActivity).getIntExtra("PortZzimCount") >= 25) {
             //초과시 토스트
 //                toastZzimLimit.show();
         }else {
 
-            Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(code, del);
-            getData.enqueue(new Callback<ModelPortZzim>() {
+            Select select = new Select(code,"",isDam, isZim, 0, "", 0, 0);
+
+            Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,mode);
+            getSelectPort.enqueue(new Callback<ModelZimData>() {
                 @Override
-                public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
-                    if (response.code() == 200) {
-                        if(category == 0) {
+                public void onResponse(Call<ModelZimData> call, Response<ModelZimData> response) {
+                    if(response.code() == 200) {
+                        if(response.body().getErrorcode() == 200){
+
+                            if(category == 0) {
                             //찜 안된 상태 -> 찜 하기
-                            if (del == 0) {
-                                modelHotLists.get(position).setZzim(1);
+                            if (isZim) {
+                                modelHotLists.get(position).setZim(true);
 
                                 DupliCheckedItem(0, 1, code);
                                 NotifiedZzim(1, code);
                             }
                             //찜 된 상태 -> 찜 해제 하기
                             else {
-                                modelHotLists.get(position).setZzim(0);
+                                modelHotLists.get(position).setZim(false);
 
                                 DupliCheckedItem(0, 0, code);
                                 NotifiedZzim(0, code);
@@ -684,15 +693,15 @@ public class Fg_CookPage1 extends Fragment {
                             adapterHot.notifyItemChanged(position);
                         }else if(category == 2){
                             //찜 안된 상태 -> 찜 하기
-                            if (del == 0) {
-                                modelStableLists.get(position).setZzim(1);
+                            if (isZim) {
+                                modelStableLists.get(position).setZim(true);
 
                                 DupliCheckedItem(2, 1, code);
                                 NotifiedZzim(1, code);
                             }
                             //찜 된 상태 -> 찜 해제 하기
                             else {
-                                modelStableLists.get(position).setZzim(0);
+                                modelStableLists.get(position).setZim(false);
 
                                 DupliCheckedItem(2, 0, code);
                                 NotifiedZzim(0, code);
@@ -700,14 +709,21 @@ public class Fg_CookPage1 extends Fragment {
                             adapterStable.notifyItemChanged(position);
                         }
 
-                        DataManager.get_INstance().setCheckTab1(true);
-                        SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
+                            DataManager.get_INstance().setCheckTab1(true);
+
+                            int zimCount = 0;
+                            for(int index = 0 ; index < response.body().getTotalElements() ; index++) {
+                                if(response.body().getContent().get(index).isZim()) {
+                                    zimCount++;
+                                }
+                            }
+                            SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", zimCount);
+                        }
                     }
                 }
-
                 @Override
-                public void onFailure(Call<ModelPortZzim> call, Throwable t) {
-                    Toast.makeText(getActivity(), "네트워크가 불안정 합니다\n 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                public void onFailure(Call<ModelZimData> call, Throwable t) {
+                    Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -715,21 +731,25 @@ public class Fg_CookPage1 extends Fragment {
 
     //재료 담기
     //category : 0 ( Hot ) / 1 ( Best ) / 2 ( Stable )
-    void CookBasket(int category, int code, int position, int del) {
-        Call<Object> getHotBasketData = RetrofitClient.getInstance().getService().getCookBasketData(code, del);
-        getHotBasketData.enqueue(new Callback<Object>() {
+    void CookBasket(int category, String code, int position, boolean isDam, boolean isZim, String mode) {
+
+        Select select = new Select(code,"",isDam, isZim, 0, "", 0, 1);
+
+        Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 2, mode);
+        getSelectPort.enqueue(new Callback<ModelZimData>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                if (response.code() == 200) {
-                    // 뜨거운 담기
+            public void onResponse(Call<ModelZimData> call, Response<ModelZimData> response) {
+                if(response.code() == 200) {
+                    if(response.body().getErrorcode() == 200){
+                        // 뜨거운 담기
                     if(category == 0) {
-                        if (del == 0) {
-                            modelHotLists.get(position).setBasket(1);
+                        if (isDam) {
+                            modelHotLists.get(position).setDam(true);
 
                             DupliCheckedBasket(0, 1, code);
                             NotifiedBasket();
                         } else {
-                            modelHotLists.get(position).setBasket(0);
+                            modelHotLists.get(position).setDam(false);
                             DupliCheckedBasket(0, 0, code);
                             NotifiedBasket();
                         }
@@ -737,25 +757,37 @@ public class Fg_CookPage1 extends Fragment {
                     }
                     // 안정적 담기
                     else if(category == 2) {
-                        if (del == 0) {
-                            modelStableLists.get(position).setBasket(1);
+                        if (isDam) {
+                            modelStableLists.get(position).setDam(true);
 
                             DupliCheckedBasket(2, 1, code);
                             NotifiedBasket();
                         } else {
-                            modelStableLists.get(position).setBasket(0);
+                            modelStableLists.get(position).setDam(false);
 
                             DupliCheckedBasket(2, 0, code);
                             NotifiedBasket();
                         }
                         adapterStable.notifyItemChanged(position);
                     }
+
+                        int zimCount = 0;
+                        for(int index = 0 ; index < response.body().getTotalElements() ; index++) {
+                            if(response.body().getContent().get(index).isZim()) {
+                                zimCount++;
+                            }
+                        }
+                        SharedPreferenceUtil.getInstance(mainActivity).putIntZzimCount("PortZzimCount", zimCount);
+                    }
                 }
             }
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(Call<ModelZimData> call, Throwable t) {
+                Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
 }
 

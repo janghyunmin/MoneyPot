@@ -158,8 +158,8 @@ public interface RetrofitService {
 //  Call<ModelTest2> getTest2(@Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 
     //포트마켓 포트 리스트 불러옴
-    @GET("strategy/getStPage/{rate}/{page}/{size}")
-    Call<ModelTab13mRank> getTest2(@Path("page") int page, @Path("rate") int rate, @Path("size") int size);
+    @POST("strategy/getStPage/{rate}/{page}/{size}")
+    Call<ModelTab13mRank> getTest2(@Header("Content-Type") String content_type, @Body Object filter, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 
     //포트 차트데이터 불러옴
     @GET("strategy/getRateByPeriod/{stCode}/{period}")
@@ -172,7 +172,6 @@ public interface RetrofitService {
     //맞춤포트에서 추천포트 랭킹 탑10 불러옴
     @GET("strategy/getStHotList/{limit}")
     Call<ModelTop10Item> getTop10(@Path("limit") int limit);
-
 
     //상세 페이지 불러옴
     @GET("strategy/getSt/{stCode}")

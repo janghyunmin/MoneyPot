@@ -75,13 +75,13 @@ public class AdapterStable extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((StableViewHolder)holder).stablecookpage1Binding.itemStablePer.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
             }
 
-            if(modelStableLists.get(position).getBasket() == 0) {
+            if(!modelStableLists.get(position).isDam()) {
                 ((StableViewHolder)holder).stablecookpage1Binding.itemStableCookbasket.setTextColor(context.getResources().getColor(R.color.dark_gray_color));
             }else{
                 ((StableViewHolder)holder).stablecookpage1Binding.itemStableCookbasket.setTextColor(context.getResources().getColor(R.color.green_basket_color));
             }
 
-            if(modelStableLists.get(position).getZzim() == 0) {
+            if(!modelStableLists.get(position).isZim()) {
                 ((StableViewHolder)holder).stablecookpage1Binding.itemStableZzim.setBackgroundResource(R.drawable.start_off);
             }else{
                 ((StableViewHolder)holder).stablecookpage1Binding.itemStableZzim.setBackgroundResource(R.drawable.start_on);

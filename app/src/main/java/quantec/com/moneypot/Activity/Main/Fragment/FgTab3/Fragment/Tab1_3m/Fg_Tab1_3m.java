@@ -177,7 +177,7 @@ public class Fg_Tab1_3m extends Fragment {
 //            }
 //        });
 
-        Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,90,10);
+        Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2("application/json",null, countPage,90,10);
         getTest2.enqueue(new Callback<ModelTab13mRank>() {
             @Override
             public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
@@ -274,7 +274,7 @@ public class Fg_Tab1_3m extends Fragment {
                     new AsyncTask<Void, Void, List<ModelTab13m>>() {
                         @Override
                         protected List<ModelTab13m> doInBackground(Void... voids) {
-                            Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2(countPage,90,10);
+                            Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2("application/json",null, countPage,90,10);
                             getTest2.enqueue(new Callback<ModelTab13mRank>() {
                                 @Override
                                 public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {

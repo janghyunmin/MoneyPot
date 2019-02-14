@@ -4,57 +4,84 @@ import java.util.ArrayList;
 
 public class ModelCookPage2 {
 
-    int num;
-    int totalNum;
-    ArrayList<Result> result = new ArrayList<>();
+    int errorcode;
+    int totalElements;
+    ArrayList<Content> content = new ArrayList<>();
+    ArrayList<Page> page = new ArrayList<>();
 
-    public int getNum() {
-        return num;
+    public int getErrorcode() {
+        return errorcode;
     }
 
-    public void setNum(int num) {
-        this.num = num;
+    public void setErrorcode(int errorcode) {
+        this.errorcode = errorcode;
     }
 
-    public int getTotalNum() {
-        return totalNum;
+    public int getTotalElements() {
+        return totalElements;
     }
 
-    public void setTotalNum(int totalNum) {
-        this.totalNum = totalNum;
+    public void setTotalElements(int totalElements) {
+        this.totalElements = totalElements;
     }
 
-    public ArrayList<Result> getResult() {
-        return result;
+    public ArrayList<Content> getContent() {
+        return content;
     }
 
-    public void setResult(ArrayList<Result> result) {
-        this.result = result;
+    public void setContent(ArrayList<Content> content) {
+        this.content = content;
     }
 
-    public class Result {
+    public ArrayList<Page> getPage() {
+        return page;
+    }
 
-        String user;
-        int product;
-        String name;
-        double rate;
-        String desc;
+    public void setPage(ArrayList<Page> page) {
+        this.page = page;
+    }
+
+    public class Content {
+
         int type;
+        boolean isZim;
+        boolean isDam;
+        String code;
+        String name;
+        String descript;
+        Long minCost;
+        double rate;
 
-        public String getUser() {
-            return user;
+        public int getType() {
+            return type;
         }
 
-        public void setUser(String user) {
-            this.user = user;
+        public void setType(int type) {
+            this.type = type;
         }
 
-        public int getProduct() {
-            return product;
+        public boolean isZim() {
+            return isZim;
         }
 
-        public void setProduct(int product) {
-            this.product = product;
+        public void setZim(boolean zim) {
+            isZim = zim;
+        }
+
+        public boolean isDam() {
+            return isDam;
+        }
+
+        public void setDam(boolean dam) {
+            isDam = dam;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
         }
 
         public String getName() {
@@ -65,6 +92,22 @@ public class ModelCookPage2 {
             this.name = name;
         }
 
+        public String getDescript() {
+            return descript;
+        }
+
+        public void setDescript(String descript) {
+            this.descript = descript;
+        }
+
+        public Long getMinCost() {
+            return minCost;
+        }
+
+        public void setMinCost(Long minCost) {
+            this.minCost = minCost;
+        }
+
         public double getRate() {
             return rate;
         }
@@ -72,21 +115,9 @@ public class ModelCookPage2 {
         public void setRate(double rate) {
             this.rate = rate;
         }
+    }
 
-        public String getDesc() {
-            return desc;
-        }
+    public class Page{
 
-        public void setDesc(String desc) {
-            this.desc = desc;
-        }
-
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
     }
 }

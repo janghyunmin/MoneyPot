@@ -177,7 +177,7 @@ public class AdapterCookPage2 extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         page = new Bundle();
         if(holder instanceof CookPageViewHolder) {
-            ((CookPageViewHolder)holder).cookpage2Binding.itemCookpage2Title.setText(modelCookLists.get(position).getName());
+            ((CookPageViewHolder)holder).cookpage2Binding.itemCookpage2Title.setText(modelCookLists.get(position).getTitle());
             ((CookPageViewHolder)holder).cookpage2Binding.itemCookpage2Rate.setText(String.valueOf(modelCookLists.get(position).getRate()));
             ((CookPageViewHolder)holder).cookpage2Binding.itemCookpage2Per.setText("%");
 
@@ -399,7 +399,7 @@ public class AdapterCookPage2 extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             }
 
-            if (modelCookLists.get(position).isOpenchart()) {
+            if (modelCookLists.get(position).isOnenChart()) {
                 if (entries.size() > 0) {
 
                     lineDataSet = new LineDataSet(entries, null);

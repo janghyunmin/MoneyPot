@@ -78,13 +78,13 @@ public class AdapterHot extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 ((HotViewHolder)holder).hotcookpage1Binding.itemHotPer.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
             }
 
-            if(modelHotLists.get(position).getBasket() == 0) {
+            if(!modelHotLists.get(position).isDam()) {
                 ((HotViewHolder)holder).hotcookpage1Binding.itemHotCookbasket.setTextColor(context.getResources().getColor(R.color.dark_gray_color));
             }else{
                 ((HotViewHolder)holder).hotcookpage1Binding.itemHotCookbasket.setTextColor(context.getResources().getColor(R.color.green_basket_color));
             }
 
-            if(modelHotLists.get(position).getZzim() == 0) {
+            if(!modelHotLists.get(position).isZim()) {
                 ((HotViewHolder)holder).hotcookpage1Binding.itemHotZzim.setBackgroundResource(R.drawable.start_off);
             }else{
                 ((HotViewHolder)holder).hotcookpage1Binding.itemHotZzim.setBackgroundResource(R.drawable.start_on);

@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Dialog.DialogCookPage2Delete;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Model.dModel.ModelCookList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Model.nModel.ModelCookPage2;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.nModel.ModelFgTab4ZimData;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
@@ -206,7 +208,7 @@ public class Fg_CookPage2 extends Fragment {
             @Override
             public void onClick(int position) {
                 DeletePosition = position;
-                customDialog = new DialogCookPage2Delete(getContext(), modelCookLists.get(position).getName(), leftListener, rightListener);
+                customDialog = new DialogCookPage2Delete(getContext(), modelCookLists.get(position).getTitle(), leftListener, rightListener);
                 customDialog.show();
             }
         });
@@ -218,34 +220,34 @@ public class Fg_CookPage2 extends Fragment {
             public void onClick(int position) {
 
                 SelectPosition = position;
-                if (modelCookLists.get(SelectPosition).isOpenchart()) {
-                    modelCookLists.get(SelectPosition).setOpenchart(false);
+                if (modelCookLists.get(SelectPosition).isOnenChart()) {
+                    modelCookLists.get(SelectPosition).setOnenChart(false);
                     adapterCookPage2.notifyDataSetChanged();
                 } else {
                     for (int a = 0; a < modelCookLists.size(); a++) {
-                        modelCookLists.get(a).setOpenchart(false);
+                        modelCookLists.get(a).setOnenChart(false);
                     }
-                    Call<ModelMiddleChartData> getchartItem = RetrofitClient.getInstance().getService().getChart(modelCookLists.get(SelectPosition).getCode(), "a");
-                    getchartItem.enqueue(new Callback<ModelMiddleChartData>() {
-                        @Override
-                        public void onResponse(Call<ModelMiddleChartData> call, Response<ModelMiddleChartData> response) {
-
-                            if (response.code() == 200) {
-                                entries.clear();
-                                for (int a = 0; a < response.body().getElements().size(); a++) {
-                                    entries.add(new Entry(a, response.body().getElements().get(a).getRate(), response.body().getElements().get(a).getDate()));
-                                }
-                                modelCookLists.get(SelectPosition).setOpenchart(true);
-                                adapterCookPage2.notifyDataSetChanged();
-                                fgcookpage2Binding.cookpage2RecyclerView.smoothScrollToPosition(SelectPosition);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ModelMiddleChartData> call, Throwable t) {
-                            Log.e("레트로핏 실패", "값 : " + t.getMessage());
-                        }
-                    });
+//                    Call<ModelMiddleChartData> getchartItem = RetrofitClient.getInstance().getService().getChart(modelCookLists.get(SelectPosition).getCode(), "a");
+//                    getchartItem.enqueue(new Callback<ModelMiddleChartData>() {
+//                        @Override
+//                        public void onResponse(Call<ModelMiddleChartData> call, Response<ModelMiddleChartData> response) {
+//
+//                            if (response.code() == 200) {
+//                                entries.clear();
+//                                for (int a = 0; a < response.body().getElements().size(); a++) {
+//                                    entries.add(new Entry(a, response.body().getElements().get(a).getRate(), response.body().getElements().get(a).getDate()));
+//                                }
+//                                modelCookLists.get(SelectPosition).setOnenChart(true);
+//                                adapterCookPage2.notifyDataSetChanged();
+//                                fgcookpage2Binding.cookpage2RecyclerView.smoothScrollToPosition(SelectPosition);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ModelMiddleChartData> call, Throwable t) {
+//                            Log.e("레트로핏 실패", "값 : " + t.getMessage());
+//                        }
+//                    });
                 }
 
             }
@@ -264,8 +266,8 @@ public class Fg_CookPage2 extends Fragment {
                         minCostTeans.putLong("mincost", modelCookLists.get(SelectPosition).getMincost());
                         minCostTeans.putBoolean("click", true);
                         minCostTeans.putInt("count",ItemCount);
-                        minCostTeans.putInt("code", modelCookLists.get(SelectPosition).getCode());
-                        minCostTeans.putString("title", modelCookLists.get(SelectPosition).getName());
+                        minCostTeans.putString("code", modelCookLists.get(SelectPosition).getCode());
+                        minCostTeans.putString("title", modelCookLists.get(SelectPosition).getTitle());
 
                         RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_SELECT_ITEM, minCostTeans));
                         savePosition.add(SelectPosition);
@@ -283,8 +285,8 @@ public class Fg_CookPage2 extends Fragment {
                     minCostTeans.putLong("mincost", modelCookLists.get(SelectPosition).getMincost());
                     minCostTeans.putBoolean("click", false);
                     minCostTeans.putInt("count",ItemCount);
-                    minCostTeans.putInt("code", modelCookLists.get(SelectPosition).getCode());
-                    minCostTeans.putString("title", modelCookLists.get(SelectPosition).getName());
+                    minCostTeans.putString("code", modelCookLists.get(SelectPosition).getCode());
+                    minCostTeans.putString("title", modelCookLists.get(SelectPosition).getTitle());
 
                     RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_SELECT_ITEM, minCostTeans));
                     savePosition.remove(savePosition.indexOf(SelectPosition));
@@ -299,7 +301,7 @@ public class Fg_CookPage2 extends Fragment {
         adapterCookPage2.setCookChartM1Click(new AdapterCookPage2.CookChartM1Click() {
             @Override
             public void onClick(int position) {
-                ChartDur(modelCookLists.get(position).getCode(), position, "1");
+//                ChartDur(modelCookLists.get(position).getCode(), position, "1");
             }
         });
 
@@ -307,7 +309,7 @@ public class Fg_CookPage2 extends Fragment {
         adapterCookPage2.setCookChartM3Click(new AdapterCookPage2.CookChartM3Click() {
             @Override
             public void onclick(int position) {
-                ChartDur(modelCookLists.get(position).getCode(), position, "3");
+//                ChartDur(modelCookLists.get(position).getCode(), position, "3");
             }
         });
 
@@ -315,7 +317,7 @@ public class Fg_CookPage2 extends Fragment {
         adapterCookPage2.setCookChartM6Click(new AdapterCookPage2.CookChartM6Click() {
             @Override
             public void onClick(int position) {
-                ChartDur(modelCookLists.get(position).getCode(), position, "6");
+//                ChartDur(modelCookLists.get(position).getCode(), position, "6");
             }
         });
 
@@ -323,7 +325,7 @@ public class Fg_CookPage2 extends Fragment {
         adapterCookPage2.setCookChartMaClick(new AdapterCookPage2.CookChartMaClick() {
             @Override
             public void onClick(int position) {
-                ChartDur(modelCookLists.get(position).getCode(), position, "a");
+//                ChartDur(modelCookLists.get(position).getCode(), position, "a");
             }
         });
 
@@ -333,7 +335,7 @@ public class Fg_CookPage2 extends Fragment {
             public void onClick(int position) {
                 Intent intent1 = new Intent(getActivity(), ActivityPayment.class);
                 intent1.putExtra("detailcode", modelCookLists.get(position).getCode());
-                intent1.putExtra("detailtitle", modelCookLists.get(position).getName());
+                intent1.putExtra("detailtitle", modelCookLists.get(position).getTitle());
                 intent1.putExtra("mincost", modelCookLists.get(position).getMincost());
                 startActivity(intent1);
             }
@@ -345,7 +347,7 @@ public class Fg_CookPage2 extends Fragment {
             public void onClick(int position) {
                 Intent intent1 = new Intent(getActivity(), ActivityDetailPort.class);
                 intent1.putExtra("detailcode", modelCookLists.get(position).getCode());
-                intent1.putExtra("detailtitle", modelCookLists.get(position).getName());
+                intent1.putExtra("detailtitle", modelCookLists.get(position).getTitle());
                 intent1.putExtra("ZzimPortPosition", position);
                 startActivityForResult(intent1, 600);
             }
@@ -393,7 +395,7 @@ public class Fg_CookPage2 extends Fragment {
                     for(int a = 0 ; a < response.body().getElements().size() ; a++) {
                         entries.add(new Entry(a, response.body().getElements().get(a).getRate(),response.body().getElements().get(a).getDate()));
                     }
-                    modelCookLists.get(position).setOpenchart(true);
+                    modelCookLists.get(position).setOnenChart(true);
                     adapterCookPage2.notifyItemChanged(position);
                 }
             }
@@ -414,7 +416,7 @@ public class Fg_CookPage2 extends Fragment {
     //개별 삭제 확인
     private View.OnClickListener rightListener = new View.OnClickListener() {
         public void onClick(View v) {
-            CookBasketDelete(modelCookLists.get(DeletePosition).getCode(), DeletePosition, 1);
+//            CookBasketDelete(modelCookLists.get(DeletePosition).getCode(), DeletePosition, 1);
         }
     };
 
@@ -459,31 +461,65 @@ public class Fg_CookPage2 extends Fragment {
                     e.printStackTrace();
                 }
                 DelayedRefresh = false;
-                //내가 담은 포트 데이터 초기 불러옴
-                Call<ModelCookPage2> getData = RetrofitClient.getInstance().getService().getCookData(1);
-                getData.enqueue(new Callback<ModelCookPage2>() {
+                Call<ModelFgTab4ZimData> getData = RetrofitClient.getInstance().getService().getZimDamList();
+                getData.enqueue(new Callback<ModelFgTab4ZimData>() {
                     @Override
-                    public void onResponse(Call<ModelCookPage2> call, Response<ModelCookPage2> response) {
-                        if (response.code() == 200) {
+                    public void onResponse(Call<ModelFgTab4ZimData> call, Response<ModelFgTab4ZimData> response) {
+                        if(response.code() == 200) {
                             modelCookLists.clear();
-                            for(int index = 0 ; index < response.body().getNum() ; index++){
-                                modelCookLists.add(new ModelCookList(response.body().getResult().get(index).getName(),response.body().getResult().get(index).getRate()
-                                        ,response.body().getResult().get(index).getProduct(), false, 50L, 0));
-
+                            if(response.body().getErrorcode() == 200) {
+                                if(response.body().getTotalElements() != 0){
+                                    String name;
+                                    for(int a = 0 ; a < response.body().getTotalElements(); a++) {
+                                        if(response.body().getContent().get(a).isDam()) {
+                                            name = "@drawable/ic_" + response.body().getContent().get(a).getCode();
+                                            modelCookLists.add(new ModelCookList(response.body().getContent().get(a).getName(), response.body().getContent().get(a).getCode(),
+                                                    decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2), response.body().getContent().get(a).isZim(),
+                                                    response.body().getContent().get(a).isDam(), name, false, response.body().getContent().get(a).getMinCost(), 0));
+                                        }
+                                    }
+                                    adapterCookPage2.notifyDataSetChanged();
+                                    fgcookpage2Binding.fgCookpage2LoadingBar.setVisibility(View.GONE);
+                                }
+                                else{
+                                    modelCookLists.clear();
+                                    adapterCookPage2.notifyDataSetChanged();
+                                    fgcookpage2Binding.fgCookpage2LoadingBar.setVisibility(View.GONE);
+                                }
                             }
-                            adapterCookPage2.notifyDataSetChanged();
-                            fgcookpage2Binding.fgCookpage2LoadingBar.setVisibility(View.GONE);
-                        }
-                        else{
-                            modelCookLists.clear();
-                            adapterCookPage2.notifyDataSetChanged();
-                            fgcookpage2Binding.fgCookpage2LoadingBar.setVisibility(View.GONE);
                         }
                     }
                     @Override
-                    public void onFailure(Call<ModelCookPage2> call, Throwable t) {
+                    public void onFailure(Call<ModelFgTab4ZimData> call, Throwable t) {
+                        Log.e("레트로핏 실패","값 : "+t.getMessage());
                     }
                 });
+
+//                //내가 담은 포트 데이터 초기 불러옴
+//                Call<ModelCookPage2> getData = RetrofitClient.getInstance().getService().getCookData(1);
+//                getData.enqueue(new Callback<ModelCookPage2>() {
+//                    @Override
+//                    public void onResponse(Call<ModelCookPage2> call, Response<ModelCookPage2> response) {
+//                        if (response.code() == 200) {
+//                            modelCookLists.clear();
+//                            for(int index = 0 ; index < response.body().getNum() ; index++){
+//                                modelCookLists.add(new ModelCookList(response.body().getResult().get(index).getName(),response.body().getResult().get(index).getRate()
+//                                        ,response.body().getResult().get(index).getProduct(), false, 50L, 0));
+//
+//                            }
+//                            adapterCookPage2.notifyDataSetChanged();
+//                            fgcookpage2Binding.fgCookpage2LoadingBar.setVisibility(View.GONE);
+//                        }
+//                        else{
+//                            modelCookLists.clear();
+//                            adapterCookPage2.notifyDataSetChanged();
+//                            fgcookpage2Binding.fgCookpage2LoadingBar.setVisibility(View.GONE);
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(Call<ModelCookPage2> call, Throwable t) {
+//                    }
+//                });
             }
         }).start();
 
@@ -504,5 +540,36 @@ public class Fg_CookPage2 extends Fragment {
                 RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_TRANS_PAGE, bundle));
             }
         }
+    }
+
+
+    public static double decimalScale(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.doubleValue();
+    }
+
+    public static float decimalScale2(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.floatValue();
     }
 }
