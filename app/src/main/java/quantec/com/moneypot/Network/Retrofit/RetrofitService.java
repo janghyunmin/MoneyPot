@@ -18,6 +18,8 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelZimData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.nModel.ModelFgTab4ZimData;
+import quantec.com.moneypot.Activity.Main.ModelMyChartData;
+import quantec.com.moneypot.Activity.Main.ModelPrevMyPot;
 import quantec.com.moneypot.Activity.Main.SelectedPortData;
 import quantec.com.moneypot.Activity.PortProfileModify.Model.nModel.ModelImageSavedData;
 import quantec.com.moneypot.Activity.SearchPort.BasicPage.Fragment.Model.nModel.ModelRecommendHotPort;
@@ -185,4 +187,13 @@ public interface RetrofitService {
     //포트 차트데이터 불러옴
     @GET("pot/getSelect")
     Call<ModelFgTab4ZimData> getZimDamList();
+
+    //포트만들기 미리보기
+    @POST("pot/setPot")
+    Call<ModelPrevMyPot> getPrevMyPot(@Header("Content-Type") String content_type, @Body Object potDto);
+
+    //내가만든포트의 차트데이터를 불러옴
+    @GET("pot/getRateByPeriod/{ptCode}/{period}")
+    Call<ModelMyChartData> getMyPotChartData(@Path("ptCode") String ptCode, @Path("period") int period);
+
 }

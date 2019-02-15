@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.roughike.bottombar.OnTabSelectListener;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     //portCaterogy ( 0 : 안전형, 1 : 중립형 , 2 : 수익형 )
     long pre_cash, update_cash, portCount, Total_Cash;
     int portCaterogy = 1;
-    ArrayList<Integer> code = new ArrayList<>();
+    ArrayList<String> code = new ArrayList<>();
     ArrayList<String> portName = new ArrayList<>();
 
     private DialogLoadingMakingPort loadingCustomMakingPort;
@@ -101,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
     FragmentTransaction transaction;
     ///
     Button currentSelectedBT;
+
+    ///임시포트페이지로 넘겨주는 데이터
+    Bundle bundle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -379,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
                                     pre_cash = pre_cash+rxEvent.getBundle().getLong("mincost");
                                     Total_Cash = pre_cash;
                                     portCount = rxEvent.getBundle().getInt("count");
-                                    code.add(rxEvent.getBundle().getInt("code"));
+                                    code.add(rxEvent.getBundle().getString("code"));
 
                                     portName.add(rxEvent.getBundle().getString("title"));
 
@@ -492,43 +497,58 @@ public class MainActivity extends AppCompatActivity {
                     }else if(portCaterogy == 2) {
                         cate = "수익형";
                     }
-                    Bundle bundle = new Bundle();
-                    bundle.putIntegerArrayList("transcode", code);
-                    bundle.putStringArrayList("transtitle",portName);
-                    bundle.putString("transcash", String.valueOf(Total_Cash));
-                    bundle.putString("transcategory", cate);
+                    bundle = new Bundle();
+//                    bundle.putStringArrayList("transcode", code);
+//                    bundle.putStringArrayList("transtitle",portName);
+//                    bundle.putString("transcash", String.valueOf(Total_Cash));
+//                    bundle.putString("transcategory", cate);
 
-                    Gson gson = new GsonBuilder()
-                            .setLenient()
-                            .create();
-                    String jsonCode = gson.toJson(code);
+//                    Gson gson = new GsonBuilder()
+//                            .setLenient()
+//                            .create();
+//                    String jsonCode = gson.toJson(code);
+//                    MakePortData tm = new MakePortData();
+//                    tm.setCost(Total_Cash);
+//                    tm.setpCode(jsonCode);
+//                    tm.setType(portCaterogy);
 
-//                  String pass = "{\"pCode\":"+jsonCode+",\"cost\":"+Total_Cash+",\"type\":"+portCaterogy+"}";
+                    ArrayList<PotEls> potEls = new ArrayList<>();
+                    PotDto potDto = new PotDto("","",potEls, portCaterogy, Total_Cash, code);
 
-                    MakePortData tm = new MakePortData();
-                    tm.setCost(Total_Cash);
-                    tm.setpCode(jsonCode);
-                    tm.setType(portCaterogy);
-
-                    Call<PortChartModel> getchartItem = RetrofitClient.getInstance().getService().getMyPortChart(tm.toString());
-                    getchartItem.enqueue(new Callback<PortChartModel>() {
+                    Call<ModelPrevMyPot> getchartItem = RetrofitClient.getInstance().getService().getPrevMyPot("application/json", potDto);
+                    getchartItem.enqueue(new Callback<ModelPrevMyPot>() {
                         @Override
-                        public void onResponse(Call<PortChartModel> call, Response<PortChartModel> response) {
+                        public void onResponse(Call<ModelPrevMyPot> call, Response<ModelPrevMyPot> response) {
 
                             if(response.code() == 200) {
-                                finishChart.clear();
-                                for(int a = 0 ; a < response.body().getElements().size() ; a++) {
-                                    finishChart.add(new TransChartList(a,response.body().getElements().get(a).getRate(), response.body().getElements().get(a).getDate()));
-                                }
-                                ChartManager.get_Instance().setTransChartLists(finishChart);
-                                loadingCustomMakingPort.dismiss();
 
-                                MyPortMakingState = false;
-                                RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_MAKE_OK, bundle));
+                                finishChart.clear();
+                                portName.clear();
+
+                                for(int index = 0 ; index < response.body().getContent().getPotEls().size() ; index++){
+                                    portName.add(response.body().getContent().getPotEls().get(index).getStName());
+                                }
+
+//                                for(int a = 0 ; a < response.body().getElements().size() ; a++) {
+//                                    finishChart.add(new TransChartList(a,response.body().getElements().get(a).getRate(), response.body().getElements().get(a).getDate()));
+//                                }
+
+                                bundle.putString("ptCode", response.body().getContent().getPtCode());
+                                bundle.putStringArrayList("transtitle",portName);
+                                bundle.putString("transcash", String.valueOf(response.body().getContent().getMinPrice()));
+                                bundle.putString("transcategory", cate);
+
+                                getMyChartData(response.body().getContent().getPtCode());
+
+//                                ChartManager.get_Instance().setTransChartLists(finishChart);
+//                                loadingCustomMakingPort.dismiss();
+//
+//                                MyPortMakingState = false;
+//                                RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_MAKE_OK, bundle));
                             }
                         }
                         @Override
-                        public void onFailure(Call<PortChartModel> call, Throwable t) {
+                        public void onFailure(Call<ModelPrevMyPot> call, Throwable t) {
                             loadingCustomMakingPort.dismiss();
                             Toast.makeText(MainActivity.this, "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
                             Log.e("레트로핏 실패","값 : "+t.getMessage());
@@ -723,6 +743,38 @@ public class MainActivity extends AppCompatActivity {
 
     }//onCreate 끝
 
+    //임시로 만든 차트의 데이터를 불러옴
+    void getMyChartData(String ptCode) {
+
+        Call<ModelMyChartData> getTest2 = RetrofitClient.getInstance().getService().getMyPotChartData(ptCode,700);
+        getTest2.enqueue(new Callback<ModelMyChartData>() {
+            @Override
+            public void onResponse(Call<ModelMyChartData> call, Response<ModelMyChartData> response) {
+                if(response.code() == 200) {
+                    finishChart.clear();
+                    for(int a = 0 ; a < response.body().getContent().size() ; a++) {
+                       finishChart.add(new TransChartList(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                    }
+
+                    ChartManager.get_Instance().setTransChartLists(finishChart);
+                    loadingCustomMakingPort.dismiss();
+
+                    MyPortMakingState = false;
+                    RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_MAKE_OK, bundle));
+                }
+            }
+            @Override
+            public void onFailure(Call<ModelMyChartData> call, Throwable t) {
+                loadingCustomMakingPort.dismiss();
+                Toast.makeText(MainActivity.this, "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+                Log.e("레트로핏 실패","값 : "+t.getMessage());
+
+
+            }
+        });
+    }
+
+
     // 포트만들기 중립/공격/안정 버튼 상태바꿈 이벤트
     void SelectedCategoryBT(Button selectedBT) {
         if(currentSelectedBT != null) {
@@ -900,5 +952,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         activityMainBinding.makePortLayout.startAnimation(animation);
+    }
+
+
+    public static double decimalScale(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.doubleValue();
+    }
+
+    public static float decimalScale2(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.floatValue();
     }
 }
