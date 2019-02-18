@@ -267,7 +267,7 @@ public class ActivityDetailPort extends AppCompatActivity {
                 //찜 헤제
                 if(PortZzimState) {
 
-                    Select select = new Select(PortCode,"",getDam,false,0,"",0,0);
+                    Select select = new Select(PortCode, getDam,false);
 
                     Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"del");
                     getSelectPort.enqueue(new Callback<ModelZimData>() {
@@ -305,7 +305,7 @@ public class ActivityDetailPort extends AppCompatActivity {
                     //찜 선택
                     else{
 
-                        Select select = new Select(PortCode,"", getDam,true,0,"",0,1);
+                        Select select = new Select(PortCode, getDam,true);
 
                         Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"add");
                         getSelectPort.enqueue(new Callback<ModelZimData>() {
@@ -402,7 +402,7 @@ public class ActivityDetailPort extends AppCompatActivity {
 
                     infoItem.clear();
                     try {
-                        infoItem.add(String.valueOf(response.body().getContent().getMinCost()));
+                        infoItem.add(String.valueOf(response.body().getContent().getMinPrice()));
                         infoItem.add(response.body().getContent().getDescript());
                     }catch (Exception e){
                         infoItem.add("777");
@@ -410,7 +410,7 @@ public class ActivityDetailPort extends AppCompatActivity {
                     }
                     detailPageAdapter2.notifyDataSetChanged();
                     try{
-                        PassTotalCash = Long.parseLong(String.valueOf(response.body().getContent().getMinCost()));
+                        PassTotalCash = Long.parseLong(String.valueOf(response.body().getContent().getMinPrice()));
                     }catch (Exception e){
                         PassTotalCash = Long.parseLong("77777");
                     }
@@ -438,42 +438,38 @@ public class ActivityDetailPort extends AppCompatActivity {
 
                     detailPageBinding.portDetailPageTitleText.setText(response.body().getContent().getName());
 
-                    if(response.body().getContent().getStEls().size() >= 5) {
+                    if(response.body().getContent().getPackEls().size() >= 5) {
                         for(int a = 0 ; a < 5 ; a++) {
-                            investItemData5.add(new ModelInvestItemData(response.body().getContent().getStEls().get(a).getName(),
-                                    decimalScale(String.valueOf(response.body().getContent().getStEls().get(a).getRate()*100), 2, 2),
-                                    String.valueOf((int)response.body().getContent().getStEls().get(a).getWeight())
+                            investItemData5.add(new ModelInvestItemData(response.body().getContent().getPackEls().get(a).getElName(),
+                                    decimalScale(String.valueOf(response.body().getContent().getPackEls().get(a).getRate() * 100), 2, 2),
+                                    String.valueOf((int) response.body().getContent().getPackEls().get(a).getWeight())
                             ));
-                            if(a == response.body().getContent().getStEls().size()-1){
-                                detailPageAdapter2.notifyDataSetChanged();
-                            }
                         }
-                    }else{
-                        for(int a = 0 ; a < response.body().getContent().getStEls().size() ; a++) {
-                            investItemData5.add(new ModelInvestItemData(response.body().getContent().getStEls().get(a).getName(),
-                                    decimalScale(String.valueOf(response.body().getContent().getStEls().get(a).getRate()*100), 2, 2),
-                                    String.valueOf((int)response.body().getContent().getStEls().get(a).getWeight())
+                        detailPageAdapter2.notifyDataSetChanged();
+                    }else {
+                        for (int a = 0; a < response.body().getContent().getPackEls().size(); a++) {
+                            investItemData5.add(new ModelInvestItemData(response.body().getContent().getPackEls().get(a).getElName(),
+                                    decimalScale(String.valueOf(response.body().getContent().getPackEls().get(a).getRate() * 100), 2, 2),
+                                    String.valueOf((int) response.body().getContent().getPackEls().get(a).getWeight())
                             ));
-                            if(a == response.body().getContent().getStEls().size()-1){
-                                detailPageAdapter2.notifyDataSetChanged();
-                            }
                         }
+                        detailPageAdapter2.notifyDataSetChanged();
                     }
 
-                    for(int a = 0 ; a < response.body().getContent().getStEls().size() ; a++) {
+                    for(int a = 0 ; a < response.body().getContent().getPackEls().size() ; a++) {
                         CountSize++;
                         Detail.add(CountSize);
-                        investItemData.add(new ModelInvestItemData(response.body().getContent().getStEls().get(a).getName(),
-                                decimalScale(String.valueOf(response.body().getContent().getStEls().get(a).getRate()*100), 2, 2),
-                                String.valueOf((int)response.body().getContent().getStEls().get(a).getWeight())
+                        investItemData.add(new ModelInvestItemData(response.body().getContent().getPackEls().get(a).getElName(),
+                                decimalScale(String.valueOf(response.body().getContent().getPackEls().get(a).getRate()*100), 2, 2),
+                                String.valueOf((int)response.body().getContent().getPackEls().get(a).getWeight())
                         ));
                         detailPageAdapter2.notifyDataSetChanged();
                     }
 
                     rate = decimalScale(String.valueOf(response.body().getContent().getRate()*100), 2, 2);
-                    rate30 = decimalScale(String.valueOf(response.body().getContent().getRate30()*100), 2, 2);
-                    rate90 = decimalScale(String.valueOf(response.body().getContent().getRate90()*100), 2, 2);
-                    rate180 = decimalScale(String.valueOf(response.body().getContent().getRate180()*100), 2, 2);
+                    rate30 = decimalScale(String.valueOf(response.body().getContent().getRateOne()*100), 2, 2);
+                    rate90 = decimalScale(String.valueOf(response.body().getContent().getRateThr()*100), 2, 2);
+                    rate180 = decimalScale(String.valueOf(response.body().getContent().getRateSix()*100), 2, 2);
 
                     Drate.clear();
                     Drate.add(rate);
@@ -484,7 +480,7 @@ public class ActivityDetailPort extends AppCompatActivity {
                         getDam = false;
                     }
 
-                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(PortCode,700);
+                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(1, PortCode,700);
                     getTest2.enqueue(new Callback<ModelTab13mChartData>() {
                         @Override
                         public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
@@ -515,7 +511,7 @@ public class ActivityDetailPort extends AppCompatActivity {
 
     void ChartDur(int dur) {
 
-        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(PortCode,dur);
+        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(1, PortCode, dur);
         getTest2.enqueue(new Callback<ModelTab13mChartData>() {
             @Override
             public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {

@@ -42,91 +42,34 @@ public class ModelPrevMyPot {
     }
 
     public class Content {
-        String ptCode;
-        String date;
-        String descript;
-        String name;
-        double rate;
-        double rate30;
-        double rate60;
-        double rate90;
-        double rate180;
+        int type;
         int investType;
-        int minPrice;
-        ArrayList<PotEls> potEls = new ArrayList<>();
-        StCodes stCodes;
-        PotFile potFile;
+        String code;
+        String name;
+        String descript;
+        Long minPrice;
+        int elNum;
+        double rate;
+        double rateOne;
+        double rateThr;
+        double rateSix;
+        int active;
+        int view;
+        int status;
+        String date;
+        ArrayList<PackEls> packEls = new ArrayList<>();
 
-        public String getPtCode() {
-            return ptCode;
+        Codes codes;
+        File file;
+        Select select;
+        int uid;
+
+        public int getType() {
+            return type;
         }
 
-        public void setPtCode(String ptCode) {
-            this.ptCode = ptCode;
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public String getDescript() {
-            return descript;
-        }
-
-        public void setDescript(String descript) {
-            this.descript = descript;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public double getRate() {
-            return rate;
-        }
-
-        public void setRate(double rate) {
-            this.rate = rate;
-        }
-
-        public double getRate30() {
-            return rate30;
-        }
-
-        public void setRate30(double rate30) {
-            this.rate30 = rate30;
-        }
-
-        public double getRate60() {
-            return rate60;
-        }
-
-        public void setRate60(double rate60) {
-            this.rate60 = rate60;
-        }
-
-        public double getRate90() {
-            return rate90;
-        }
-
-        public void setRate90(double rate90) {
-            this.rate90 = rate90;
-        }
-
-        public double getRate180() {
-            return rate180;
-        }
-
-        public void setRate180(double rate180) {
-            this.rate180 = rate180;
+        public void setType(int type) {
+            this.type = type;
         }
 
         public int getInvestType() {
@@ -137,67 +80,206 @@ public class ModelPrevMyPot {
             this.investType = investType;
         }
 
-        public int getMinPrice() {
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getDescript() {
+            return descript;
+        }
+
+        public void setDescript(String descript) {
+            this.descript = descript;
+        }
+
+        public Long getMinPrice() {
             return minPrice;
         }
 
-        public void setMinPrice(int minPrice) {
+        public void setMinPrice(Long minPrice) {
             this.minPrice = minPrice;
         }
 
-        public ArrayList<PotEls> getPotEls() {
-            return potEls;
+        public int getElNum() {
+            return elNum;
         }
 
-        public void setPotEls(ArrayList<PotEls> potEls) {
-            this.potEls = potEls;
+        public void setElNum(int elNum) {
+            this.elNum = elNum;
         }
 
-        public StCodes getStCodes() {
-            return stCodes;
+        public double getRate() {
+            return rate;
         }
 
-        public void setStCodes(StCodes stCodes) {
-            this.stCodes = stCodes;
+        public void setRate(double rate) {
+            this.rate = rate;
         }
 
-        public PotFile getPotFile() {
-            return potFile;
+        public double getRateOne() {
+            return rateOne;
         }
 
-        public void setPotFile(PotFile potFile) {
-            this.potFile = potFile;
+        public void setRateOne(double rateOne) {
+            this.rateOne = rateOne;
         }
 
-        public class PotEls {
+        public double getRateThr() {
+            return rateThr;
+        }
 
-            String ptCode;
-            String stCode;
-            String stName;
+        public void setRateThr(double rateThr) {
+            this.rateThr = rateThr;
+        }
+
+        public double getRateSix() {
+            return rateSix;
+        }
+
+        public void setRateSix(double rateSix) {
+            this.rateSix = rateSix;
+        }
+
+        public int getActive() {
+            return active;
+        }
+
+        public void setActive(int active) {
+            this.active = active;
+        }
+
+        public int getView() {
+            return view;
+        }
+
+        public void setView(int view) {
+            this.view = view;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public ArrayList<PackEls> getPackEls() {
+            return packEls;
+        }
+
+        public void setPackEls(ArrayList<PackEls> packEls) {
+            this.packEls = packEls;
+        }
+
+        public Codes getCodes() {
+            return codes;
+        }
+
+        public void setCodes(Codes codes) {
+            this.codes = codes;
+        }
+
+        public File getFile() {
+            return file;
+        }
+
+        public void setFile(File file) {
+            this.file = file;
+        }
+
+        public Select getSelect() {
+            return select;
+        }
+
+        public void setSelect(Select select) {
+            this.select = select;
+        }
+
+        public int getUid() {
+            return uid;
+        }
+
+        public void setUid(int uid) {
+            this.uid = uid;
+        }
+
+        public class PackEls {
+
+            String code;
+            String elCode;
+            String elName;
+            double rate;
+            String beginDate;
+            String endDate;
             double weight;
 
-            public String getPtCode() {
-                return ptCode;
+            public String getCode() {
+                return code;
             }
 
-            public void setPtCode(String ptCode) {
-                this.ptCode = ptCode;
+            public void setCode(String code) {
+                this.code = code;
             }
 
-            public String getStCode() {
-                return stCode;
+            public String getElCode() {
+                return elCode;
             }
 
-            public void setStCode(String stCode) {
-                this.stCode = stCode;
+            public void setElCode(String elCode) {
+                this.elCode = elCode;
             }
 
-            public String getStName() {
-                return stName;
+            public String getElName() {
+                return elName;
             }
 
-            public void setStName(String stName) {
-                this.stName = stName;
+            public void setElName(String elName) {
+                this.elName = elName;
+            }
+
+            public double getRate() {
+                return rate;
+            }
+
+            public void setRate(double rate) {
+                this.rate = rate;
+            }
+
+            public String getBeginDate() {
+                return beginDate;
+            }
+
+            public void setBeginDate(String beginDate) {
+                this.beginDate = beginDate;
+            }
+
+            public String getEndDate() {
+                return endDate;
+            }
+
+            public void setEndDate(String endDate) {
+                this.endDate = endDate;
             }
 
             public double getWeight() {
@@ -208,8 +290,12 @@ public class ModelPrevMyPot {
                 this.weight = weight;
             }
         }
-        public class StCodes{}
-        public class PotFile{}
+        public class Codes{}
+        public class File{}
+        public class Select{}
+
+
+
     }
     public class Page{}
 }

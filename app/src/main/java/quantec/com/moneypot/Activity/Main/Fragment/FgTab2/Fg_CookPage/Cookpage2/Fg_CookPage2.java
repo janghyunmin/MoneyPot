@@ -233,7 +233,7 @@ public class Fg_CookPage2 extends Fragment {
                         modelCookLists.get(a).setOnenChart(false);
                     }
 
-                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(modelCookLists.get(position).getCode(),700);
+                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(1, modelCookLists.get(position).getCode(),700);
                     getTest2.enqueue(new Callback<ModelTab13mChartData>() {
                         @Override
                         public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
@@ -388,7 +388,7 @@ public class Fg_CookPage2 extends Fragment {
     //각 차트의 1개월 / 3개월 / 6개월 / 누적 버튼
     void ChartDur(String code, int dur) {
 
-        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(code, dur);
+        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(1, code, dur);
         getTest2.enqueue(new Callback<ModelTab13mChartData>() {
             @Override
             public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
@@ -428,7 +428,7 @@ public class Fg_CookPage2 extends Fragment {
     //del : 1 -> 단일 삭제 / 2 -> 전체 삭제
     void CookBasketDelete(String code, int position, boolean isDam, boolean isZim, String mode) {
 
-        Select select = new Select(code,"",isDam, isZim, 0, "", 0, 1);
+        Select select = new Select(code, isDam, isZim);
 
         Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json", select, 2, mode);
         getSelectPort.enqueue(new Callback<ModelZimData>() {
@@ -485,7 +485,7 @@ public class Fg_CookPage2 extends Fragment {
                                             name = "@drawable/ic_" + response.body().getContent().get(a).getCode();
                                             modelCookLists.add(new ModelCookList(response.body().getContent().get(a).getName(), response.body().getContent().get(a).getCode(),
                                                     decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2), response.body().getContent().get(a).isZim(),
-                                                    response.body().getContent().get(a).isDam(), name, false, response.body().getContent().get(a).getMinCost(), 0));
+                                                    response.body().getContent().get(a).isDam(), name, false, response.body().getContent().get(a).getMinPrice(), 0));
                                         }
                                     }
                                     adapterCookPage2.notifyDataSetChanged();

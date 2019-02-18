@@ -1,7 +1,5 @@
 package quantec.com.moneypot.Network.Retrofit;
 
-import org.json.simple.JSONArray;
-
 import okhttp3.MultipartBody;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelDetailPage;
 import quantec.com.moneypot.Activity.DetailPort.Model.nModel.ModelInvestItem;
@@ -13,6 +11,7 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Model.nModel.ModelCookPage2;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelDeleteMyPort;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelMyChartItem;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelMyPotList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelgetMyPortList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
@@ -20,13 +19,12 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.nModel.ModelFgTab4ZimData;
 import quantec.com.moneypot.Activity.Main.ModelMyChartData;
 import quantec.com.moneypot.Activity.Main.ModelPrevMyPot;
-import quantec.com.moneypot.Activity.Main.SelectedPortData;
 import quantec.com.moneypot.Activity.PortProfileModify.Model.nModel.ModelImageSavedData;
 import quantec.com.moneypot.Activity.SearchPort.BasicPage.Fragment.Model.nModel.ModelRecommendHotPort;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Model.nModel.ModelSearchPage;
-import quantec.com.moneypot.Model.nModel.ModelZzimCount;
-import quantec.com.moneypot.Model.nModel.PortChartModel;
+import quantec.com.moneypot.ModelCommon.nModel.ModelZzimCount;
+import quantec.com.moneypot.ModelCommon.nModel.PortChartModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -159,41 +157,77 @@ public interface RetrofitService {
 //  @GET("strategy/getStPage/{rate}/{page}/{size}")
 //  Call<ModelTest2> getTest2(@Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 
+//    //포트마켓 포트 리스트 불러옴
+//    @POST("strategy/getStPage/{rate}/{page}/{size}")
+//    Call<ModelTab13mRank> getTest2(@Header("Content-Type") String content_type, @Body Object filter, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
     //포트마켓 포트 리스트 불러옴
-    @POST("strategy/getStPage/{rate}/{page}/{size}")
+    @POST("pack/getStPage/{rate}/{page}/{size}")
     Call<ModelTab13mRank> getTest2(@Header("Content-Type") String content_type, @Body Object filter, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 
+//    //포트 차트데이터 불러옴
+//    @GET("strategy/getRateByPeriod/{stCode}/{period}")
+//    Call<ModelTab13mChartData> getRankPort(@Path("stCode") String stCode, @Path("period") int period);
     //포트 차트데이터 불러옴
-    @GET("strategy/getRateByPeriod/{stCode}/{period}")
-    Call<ModelTab13mChartData> getRankPort(@Path("stCode") String stCode, @Path("period") int period);
+    @GET("pack/getRateByPeriod/{type}/{code}/{period}")
+    Call<ModelTab13mChartData> getRankPort(@Path("type") int type, @Path("code") String code, @Path("period") int period);
 
     //로그인시 jwt값 불러옴
     @POST("Auth/authenticate")
     Call<Object> getTestLogin(@Header("Content-Type") String content_type, @Body User user);
 
+//    //맞춤포트에서 추천포트 랭킹 탑10 불러옴
+//    @GET("strategy/getStHotList/{limit}")
+//    Call<ModelTop10Item> getTop10(@Path("limit") int limit);
     //맞춤포트에서 추천포트 랭킹 탑10 불러옴
-    @GET("strategy/getStHotList/{limit}")
+    @GET("pack/getStHotList/{limit}")
     Call<ModelTop10Item> getTop10(@Path("limit") int limit);
 
+//    //상세 페이지 불러옴
+//    @GET("strategy/getSt/{stCode}")
+//    Call<ModelInvestItem> getDetailTest(@Path("stCode") String stCode);
     //상세 페이지 불러옴
-    @GET("strategy/getSt/{stCode}")
+    @GET("pack/getSt/{stCode}")
     Call<ModelInvestItem> getDetailTest(@Path("stCode") String stCode);
 
+//    //전략 포트 찜
+//    @POST("pot/setSelect/{zimDam}/{mode}")
+//    Call<ModelZimData> getSelectedPortDate(@Header("Content-Type") String content_type, @Body Object select, @Path("zimDam") int zimDam, @Path("mode") String mode);
     //전략 포트 찜
-    @POST("pot/setSelect/{zimDam}/{mode}")
+    @POST("pack/setSelect/{zimDam}/{mode}")
     Call<ModelZimData> getSelectedPortDate(@Header("Content-Type") String content_type, @Body Object select, @Path("zimDam") int zimDam, @Path("mode") String mode);
 
-    //포트 찜 과 담기 리스트 ( 찜 및 담기를 전부 호출하여 isZim / isDam 으로 추려서 리스트 만들어야됨 )
-    //포트 차트데이터 불러옴
-    @GET("pot/getSelect")
+//    //포트 찜, 담은 리스트 ( 찜 및 담기를 전부 호출하여 isZim / isDam 으로 추려서 리스트 만들어야됨 )
+//    @GET("pot/getSelect")
+//    Call<ModelFgTab4ZimData> getZimDamList();
+    //포트 찜, 담은 리스트 ( 찜 및 담기를 전부 호출하여 isZim / isDam 으로 추려서 리스트 만들어야됨 )
+    @GET("pack/getSelect")
     Call<ModelFgTab4ZimData> getZimDamList();
 
+//    //포트만들기 미리보기
+//    @POST("pot/setPot")
+//    Call<ModelPrevMyPot> getPrevMyPot(@Header("Content-Type") String content_type, @Body Object potDto);
     //포트만들기 미리보기
-    @POST("pot/setPot")
+    @POST("pack/setPot")
     Call<ModelPrevMyPot> getPrevMyPot(@Header("Content-Type") String content_type, @Body Object potDto);
 
-    //내가만든포트의 차트데이터를 불러옴
-    @GET("pot/getRateByPeriod/{ptCode}/{period}")
-    Call<ModelMyChartData> getMyPotChartData(@Path("ptCode") String ptCode, @Path("period") int period);
+//    //미리보기에서 내가만든포트의 차트데이터를 불러옴
+//    @GET("pot/getRateByPeriod/{ptCode}/{period}")
+//    Call<ModelMyChartData> getMyPotChartData(@Path("ptCode") String ptCode, @Path("period") int period);
+    //미리보기에서 내가만든포트의 차트데이터를 불러옴
+    @GET("pack/getRateByPeriod/{type}/{code}/{period}")
+    Call<ModelMyChartData> getMyPotChartData(@Path("type") int type, @Path("code") String code, @Path("period") int period);
 
+//    //내가만든포트 최종 저장
+//    @POST("pot/upPot")
+//    Call<Object> getSavedMyPot(@Header("Content-Type") String content_type, @Body Object potDto);
+    //내가만든포트 최종 저장
+    @POST("pack/upPot")
+    Call<Object> getSavedMyPot(@Header("Content-Type") String content_type, @Body Object potDto);
+
+//    //내가만든포트 리스트 불러오기
+//    @POST("pot/getPotPage/{rate}/{page}/{size}")
+//    Call<ModelMyPotList> getMyPotList(@Header("Content-Type") String content_type, @Body Object filter, @Path("rate") int rate, @Path("page") int page, @Path("size") int size);
+    //내가만든포트 리스트 불러오기
+    @POST("pack/getPotPage/{rate}/{page}/{size}")
+    Call<ModelMyPotList> getMyPotList(@Header("Content-Type") String content_type, @Body Object filter, @Path("rate") int rate, @Path("page") int page, @Path("size") int size);
 }

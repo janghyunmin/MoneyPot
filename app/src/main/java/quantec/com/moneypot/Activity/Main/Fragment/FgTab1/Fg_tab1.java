@@ -252,7 +252,7 @@ public class Fg_tab1 extends Fragment {
                     fgTab1Binding.firstPortPageMiddleChartOpen.setText("더보기");
                 }else{
                     //코드값과 기간을 기준으로 차트 데이터를 불러옴 ( 누적 데이터 )
-                    ChartDurMiddle(180);
+                    ChartDurMiddle(700);
                     ChangedChartButton(fgTab1Binding.firstPortPageMiddleChartDuraBt, 0);
                 }
             }
@@ -270,7 +270,7 @@ public class Fg_tab1 extends Fragment {
                     fgTab1Binding.firstPortPageBottomChartOpen.setText("더보기");
                 }else{
                     //코드값과 기간을 기준으로 차트 데이터를 불러옴 ( 누적 데이터 )
-                    ChartDurBottom(180);
+                    ChartDurBottom(700);
                     ChangedChartButton(fgTab1Binding.firstPortPageBottomChartDuraBt, 1);
                 }
             }
@@ -308,7 +308,7 @@ public class Fg_tab1 extends Fragment {
         fgTab1Binding.firstPortPageBottomChartDuraBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChartDurBottom(180);
+                ChartDurBottom(700);
                 ChangedChartButton(fgTab1Binding.firstPortPageBottomChartDuraBt, 1);
             }
         });
@@ -344,7 +344,7 @@ public class Fg_tab1 extends Fragment {
         fgTab1Binding.firstPortPageMiddleChartDuraBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChartDurMiddle(180);
+                ChartDurMiddle(700);
                 ChangedChartButton(fgTab1Binding.firstPortPageMiddleChartDuraBt, 0);
             }
         });
@@ -394,10 +394,10 @@ public class Fg_tab1 extends Fragment {
                     for(int a = 0 ; a < 10 ; a++) {
                         if(a < 3) {
                             modelMainPortTop10Item3s.add(new ModelMainPortTop10Item3(a+1, response.body().getContent().get(a).getName(),
-                                    response.body().getContent().get(a).getRate(), response.body().getContent().get(a).getStCode()));
+                                    decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2), response.body().getContent().get(a).getCode()));
                         }
                         modelMainPortTop3Item10s.add(new ModelMainPortTop3Item10(a+1, response.body().getContent().get(a).getName(),
-                                response.body().getContent().get(a).getRate(),response.body().getContent().get(a).getStCode()));
+                                decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),response.body().getContent().get(a).getCode()));
                     }
                     adapterTop10.notifyDataSetChanged();
                 }
@@ -671,7 +671,7 @@ public class Fg_tab1 extends Fragment {
 
 
     void ChartDurMiddle(int dur) {
-        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort("MP0005",dur);
+        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(1, "MP0005",dur);
         getTest2.enqueue(new Callback<ModelTab13mChartData>() {
             @Override
             public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
@@ -693,7 +693,7 @@ public class Fg_tab1 extends Fragment {
     }
 
     void ChartDurBottom(int dur) {
-        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort("MP0006",dur);
+        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(1, "MP0006",dur);
         getTest2.enqueue(new Callback<ModelTab13mChartData>() {
             @Override
             public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
@@ -712,6 +712,21 @@ public class Fg_tab1 extends Fragment {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
+    }
+
+    public static double decimalScale(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.doubleValue();
     }
 
     public static float decimalScale2(String decimal , int loc , int mode) {

@@ -410,22 +410,22 @@ public class Fg_CookPage1 extends Fragment {
                                         if (response.body().getContent().get(index).getSelect() != null) {
                                             modelHotLists.add(new ModelHotList(response.body().getContent().get(index).getName(), response.body().getContent().get(index).getRate(),
                                                     response.body().getContent().get(index).getSelect().isZim(), response.body().getContent().get(index).getSelect().isDam(),
-                                                    response.body().getContent().get(index).getStCode()));
+                                                    response.body().getContent().get(index).getCode()));
                                         } else {
                                             modelHotLists.add(new ModelHotList(response.body().getContent().get(index).getName(), response.body().getContent().get(index).getRate(),
                                                     false, false,
-                                                    response.body().getContent().get(index).getStCode()));
+                                                    response.body().getContent().get(index).getCode()));
                                         }
                                     } else if (index < 6) {
 
                                         if (response.body().getContent().get(index).getSelect() != null) {
                                             modelStableLists.add(new ModelStableList(response.body().getContent().get(index).getName(), response.body().getContent().get(index).getRate(),
                                                     response.body().getContent().get(index).getSelect().isZim(), response.body().getContent().get(index).getSelect().isDam(),
-                                                    response.body().getContent().get(index).getStCode()));
+                                                    response.body().getContent().get(index).getCode()));
                                         } else {
                                             modelStableLists.add(new ModelStableList(response.body().getContent().get(index).getName(), response.body().getContent().get(index).getRate(),
                                                     false, false,
-                                                    response.body().getContent().get(index).getStCode()));
+                                                    response.body().getContent().get(index).getCode()));
                                         }
                                     }
                                 }
@@ -666,7 +666,7 @@ public class Fg_CookPage1 extends Fragment {
 //                toastZzimLimit.show();
         }else {
 
-            Select select = new Select(code,"",isDam, isZim, 0, "", 0, 0);
+            Select select = new Select(code, isDam, isZim);
 
             Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,mode);
             getSelectPort.enqueue(new Callback<ModelZimData>() {
@@ -733,7 +733,7 @@ public class Fg_CookPage1 extends Fragment {
     //category : 0 ( Hot ) / 1 ( Best ) / 2 ( Stable )
     void CookBasket(int category, String code, int position, boolean isDam, boolean isZim, String mode) {
 
-        Select select = new Select(code,"",isDam, isZim, 0, "", 0, 1);
+        Select select = new Select(code, isDam, isZim);
 
         Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 2, mode);
         getSelectPort.enqueue(new Callback<ModelZimData>() {

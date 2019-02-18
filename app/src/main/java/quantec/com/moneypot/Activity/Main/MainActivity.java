@@ -22,8 +22,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import java.math.BigDecimal;
@@ -31,8 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -45,12 +41,12 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Fg_tab4;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab5.Fg_tab5;
 import quantec.com.moneypot.DataManager.ChartManager;
 import quantec.com.moneypot.Dialog.LoadingMakePort.DialogLoadingMakingPort;
-import quantec.com.moneypot.Model.nModel.PortChartModel;
+import quantec.com.moneypot.ModelCommon.nModel.PotDto;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
 import quantec.com.moneypot.RxAndroid.RxEventBus;
-import quantec.com.moneypot.Model.dModel.TransChartList;
+import quantec.com.moneypot.ModelCommon.dModel.TransChartList;
 import quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText;
 import quantec.com.moneypot.databinding.ActivityMainBinding;
 import retrofit2.Call;
@@ -416,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
                                     Total_Cash = pre_cash;
                                     activityMainBinding.makePortCash.setText(String.valueOf(pre_cash));
                                     portCount = rxEvent.getBundle().getInt("count");
-                                    code.remove(code.indexOf(rxEvent.getBundle().getInt("code")));
+                                    code.remove(code.indexOf(rxEvent.getBundle().getString("code")));
 
                                     portName.remove(portName.indexOf(rxEvent.getBundle().getString("title")));
 
@@ -512,8 +508,8 @@ public class MainActivity extends AppCompatActivity {
 //                    tm.setpCode(jsonCode);
 //                    tm.setType(portCaterogy);
 
-                    ArrayList<PotEls> potEls = new ArrayList<>();
-                    PotDto potDto = new PotDto("","",potEls, portCaterogy, Total_Cash, code);
+//                    ArrayList<PotEls> potEls = new ArrayList<>();
+                    PotDto potDto = new PotDto(code, portCaterogy, Total_Cash);
 
                     Call<ModelPrevMyPot> getchartItem = RetrofitClient.getInstance().getService().getPrevMyPot("application/json", potDto);
                     getchartItem.enqueue(new Callback<ModelPrevMyPot>() {
@@ -525,20 +521,20 @@ public class MainActivity extends AppCompatActivity {
                                 finishChart.clear();
                                 portName.clear();
 
-                                for(int index = 0 ; index < response.body().getContent().getPotEls().size() ; index++){
-                                    portName.add(response.body().getContent().getPotEls().get(index).getStName());
+                                for(int index = 0 ; index < response.body().getContent().getPackEls().size() ; index++){
+                                    portName.add(response.body().getContent().getPackEls().get(index).getElName());
                                 }
 
 //                                for(int a = 0 ; a < response.body().getElements().size() ; a++) {
 //                                    finishChart.add(new TransChartList(a,response.body().getElements().get(a).getRate(), response.body().getElements().get(a).getDate()));
 //                                }
 
-                                bundle.putString("ptCode", response.body().getContent().getPtCode());
+                                bundle.putString("ptCode", response.body().getContent().getCode());
                                 bundle.putStringArrayList("transtitle",portName);
                                 bundle.putString("transcash", String.valueOf(response.body().getContent().getMinPrice()));
                                 bundle.putString("transcategory", cate);
 
-                                getMyChartData(response.body().getContent().getPtCode());
+                                getMyChartData(response.body().getContent().getCode());
 
 //                                ChartManager.get_Instance().setTransChartLists(finishChart);
 //                                loadingCustomMakingPort.dismiss();
@@ -746,7 +742,7 @@ public class MainActivity extends AppCompatActivity {
     //임시로 만든 차트의 데이터를 불러옴
     void getMyChartData(String ptCode) {
 
-        Call<ModelMyChartData> getTest2 = RetrofitClient.getInstance().getService().getMyPotChartData(ptCode,700);
+        Call<ModelMyChartData> getTest2 = RetrofitClient.getInstance().getService().getMyPotChartData(11, ptCode,700);
         getTest2.enqueue(new Callback<ModelMyChartData>() {
             @Override
             public void onResponse(Call<ModelMyChartData> call, Response<ModelMyChartData> response) {
@@ -768,8 +764,6 @@ public class MainActivity extends AppCompatActivity {
                 loadingCustomMakingPort.dismiss();
                 Toast.makeText(MainActivity.this, "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
-
-
             }
         });
     }

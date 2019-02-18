@@ -49,7 +49,7 @@ public class ModelFgTab4ZimData {
         String code;
         String name;
         String descript;
-        Long minCost;
+        Long minPrice;
         double rate;
 
         public int getType() {
@@ -100,12 +100,12 @@ public class ModelFgTab4ZimData {
             this.descript = descript;
         }
 
-        public Long getMinCost() {
-            return minCost;
+        public Long getMinPrice() {
+            return minPrice;
         }
 
-        public void setMinCost(Long minCost) {
-            this.minCost = minCost;
+        public void setMinPrice(Long minPrice) {
+            this.minPrice = minPrice;
         }
 
         public double getRate() {

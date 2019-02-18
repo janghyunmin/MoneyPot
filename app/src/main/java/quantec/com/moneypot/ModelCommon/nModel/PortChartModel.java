@@ -1,4 +1,4 @@
-package quantec.com.moneypot.Model.nModel;
+package quantec.com.moneypot.ModelCommon.nModel;
 
 import java.util.ArrayList;
 

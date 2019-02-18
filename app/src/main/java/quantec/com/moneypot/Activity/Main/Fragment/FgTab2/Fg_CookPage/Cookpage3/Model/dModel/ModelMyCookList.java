@@ -4,7 +4,7 @@ public class ModelMyCookList {
 
     String title;
     double rate;
-    int ucode;
+    String ucode;
     boolean openchart;
     Long mincost;
     String image;
@@ -12,7 +12,7 @@ public class ModelMyCookList {
     String descript;
     int type;
 
-    public ModelMyCookList(String title, double rate, int ucode, boolean openchart, Long mincost, String image, int photo, String descript, int type) {
+    public ModelMyCookList(String title, double rate, String ucode, boolean openchart, Long mincost, String image, int photo, String descript, int type) {
         this.title = title;
         this.rate = rate;
         this.ucode = ucode;
@@ -40,11 +40,11 @@ public class ModelMyCookList {
         this.rate = rate;
     }
 
-    public int getUcode() {
+    public String getUcode() {
         return ucode;
     }
 
-    public void setUcode(int ucode) {
+    public void setUcode(String ucode) {
         this.ucode = ucode;
     }
 

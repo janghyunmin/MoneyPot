@@ -42,22 +42,50 @@ public class ModelInvestItem {
     }
 
     public class Content {
-        String stCode;
+        int type;
+        int investType;
+        String code;
         String name;
         String descript;
-        int minCost;
-        String beginDate;
+        Long minPrice;
+        int elNum;
         double rate;
-        double rate30;
-        double rate90;
-        double rate180;
-        Select select = new Select();        ArrayList<StEls> stEls = new ArrayList<>();
-        public String getStCode() {
-            return stCode;
+        double rateOne;
+        double rateThr;
+        double rateSix;
+        int active;
+        int view;
+        int status;
+        String date;
+        ArrayList<PackEls> packEls = new ArrayList();
+        Codes codes;
+        File file;
+
+        Select select = new Select();
+        int uid;
+
+        public int getType() {
+            return type;
         }
 
-        public void setStCode(String stCode) {
-            this.stCode = stCode;
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public int getInvestType() {
+            return investType;
+        }
+
+        public void setInvestType(int investType) {
+            this.investType = investType;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
         }
 
         public String getName() {
@@ -76,20 +104,20 @@ public class ModelInvestItem {
             this.descript = descript;
         }
 
-        public int getMinCost() {
-            return minCost;
+        public Long getMinPrice() {
+            return minPrice;
         }
 
-        public void setMinCost(int minCost) {
-            this.minCost = minCost;
+        public void setMinPrice(Long minPrice) {
+            this.minPrice = minPrice;
         }
 
-        public String getBeginDate() {
-            return beginDate;
+        public int getElNum() {
+            return elNum;
         }
 
-        public void setBeginDate(String beginDate) {
-            this.beginDate = beginDate;
+        public void setElNum(int elNum) {
+            this.elNum = elNum;
         }
 
         public double getRate() {
@@ -100,28 +128,84 @@ public class ModelInvestItem {
             this.rate = rate;
         }
 
-        public double getRate30() {
-            return rate30;
+        public double getRateOne() {
+            return rateOne;
         }
 
-        public void setRate30(double rate30) {
-            this.rate30 = rate30;
+        public void setRateOne(double rateOne) {
+            this.rateOne = rateOne;
         }
 
-        public double getRate90() {
-            return rate90;
+        public double getRateThr() {
+            return rateThr;
         }
 
-        public void setRate90(double rate90) {
-            this.rate90 = rate90;
+        public void setRateThr(double rateThr) {
+            this.rateThr = rateThr;
         }
 
-        public double getRate180() {
-            return rate180;
+        public double getRateSix() {
+            return rateSix;
         }
 
-        public void setRate180(double rate180) {
-            this.rate180 = rate180;
+        public void setRateSix(double rateSix) {
+            this.rateSix = rateSix;
+        }
+
+        public int getActive() {
+            return active;
+        }
+
+        public void setActive(int active) {
+            this.active = active;
+        }
+
+        public int getView() {
+            return view;
+        }
+
+        public void setView(int view) {
+            this.view = view;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public ArrayList<PackEls> getPackEls() {
+            return packEls;
+        }
+
+        public void setPackEls(ArrayList<PackEls> packEls) {
+            this.packEls = packEls;
+        }
+
+        public Codes getCodes() {
+            return codes;
+        }
+
+        public void setCodes(Codes codes) {
+            this.codes = codes;
+        }
+
+        public File getFile() {
+            return file;
+        }
+
+        public void setFile(File file) {
+            this.file = file;
         }
 
         public Select getSelect() {
@@ -132,15 +216,95 @@ public class ModelInvestItem {
             this.select = select;
         }
 
+        public int getUid() {
+            return uid;
+        }
+
+        public void setUid(int uid) {
+            this.uid = uid;
+        }
+
+        public class PackEls{
+            String code;
+            String elCode;
+            String elName;
+            double rate;
+            String beginDate;
+            String endDate;
+            double weight;
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getElCode() {
+                return elCode;
+            }
+
+            public void setElCode(String elCode) {
+                this.elCode = elCode;
+            }
+
+            public String getElName() {
+                return elName;
+            }
+
+            public void setElName(String elName) {
+                this.elName = elName;
+            }
+
+            public double getRate() {
+                return rate;
+            }
+
+            public void setRate(double rate) {
+                this.rate = rate;
+            }
+
+            public String getBeginDate() {
+                return beginDate;
+            }
+
+            public void setBeginDate(String beginDate) {
+                this.beginDate = beginDate;
+            }
+
+            public String getEndDate() {
+                return endDate;
+            }
+
+            public void setEndDate(String endDate) {
+                this.endDate = endDate;
+            }
+
+            public double getWeight() {
+                return weight;
+            }
+
+            public void setWeight(double weight) {
+                this.weight = weight;
+            }
+        }
+
+        public class Codes{}
+        public class File{}
+
         public class Select {
-            int type;
+
             boolean isZim;
             boolean isDam;
             String code;
+            int type;
+            int status;
             String name;
             String descript;
-            int minCost;
+            int minPrice;
             double rate;
+
 
             public int getType() {
                 return type;
@@ -190,69 +354,12 @@ public class ModelInvestItem {
                 this.descript = descript;
             }
 
-            public int getMinCost() {
-                return minCost;
+            public int getMinPrice() {
+                return minPrice;
             }
 
-            public void setMinCost(int minCost) {
-                this.minCost = minCost;
-            }
-
-            public double getRate() {
-                return rate;
-            }
-
-            public void setRate(double rate) {
-                this.rate = rate;
-            }
-        }
-
-        public ArrayList<StEls> getStEls() {
-            return stEls;
-        }
-
-        public void setStEls(ArrayList<StEls> stEls) {
-            this.stEls = stEls;
-        }
-
-        public class StEls {
-            String elCode;
-            String name;
-            String beginDate;
-            String endDate;
-            double rate;
-            float weight;
-
-            public String getElCode() {
-                return elCode;
-            }
-
-            public void setElCode(String elCode) {
-                this.elCode = elCode;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public String getBeginDate() {
-                return beginDate;
-            }
-
-            public void setBeginDate(String beginDate) {
-                this.beginDate = beginDate;
-            }
-
-            public String getEndDate() {
-                return endDate;
-            }
-
-            public void setEndDate(String endDate) {
-                this.endDate = endDate;
+            public void setMinPrice(int minPrice) {
+                this.minPrice = minPrice;
             }
 
             public double getRate() {
@@ -263,14 +370,15 @@ public class ModelInvestItem {
                 this.rate = rate;
             }
 
-            public float getWeight() {
-                return weight;
+            public int getStatus() {
+                return status;
             }
 
-            public void setWeight(float weight) {
-                this.weight = weight;
+            public void setStatus(int status) {
+                this.status = status;
             }
         }
+
     }
 
     public class Page{

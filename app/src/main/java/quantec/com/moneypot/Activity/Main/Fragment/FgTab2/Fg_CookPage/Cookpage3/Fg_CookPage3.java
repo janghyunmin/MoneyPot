@@ -29,11 +29,13 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Filter;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Adapter.AdapterCookPage3;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Dialog.DialogDeleteMyPort;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.dModel.ModelMyCookList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelDeleteMyPort;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelMyChartItem;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelMyPotList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelgetMyPortList;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
@@ -148,27 +150,27 @@ public class Fg_CookPage3 extends Fragment {
 
                         openChertPosition = position;
 
-                        Call<ModelMyChartItem> getchartItem = RetrofitClient.getInstance().getService().getChartMyPortData(modelMyCookLists.get(position).getUcode(), "a");
-                        getchartItem.enqueue(new Callback<ModelMyChartItem>() {
-                            @Override
-                            public void onResponse(Call<ModelMyChartItem> call, Response<ModelMyChartItem> response) {
-
-                                if (response.code() == 200) {
-                                    entries3.clear();
-                                    for (int a = 0; a < response.body().getElements().size(); a++) {
-                                        entries3.add(new Entry(a, response.body().getElements().get(a).getRate(), response.body().getElements().get(a).getDate()));
-                                    }
-                                    modelMyCookLists.get(position).setOpenchart(true);
-                                    adapterCookPage3.notifyDataSetChanged();
-                                    fgcookpage3Binding.fgCookpage3Recyclerview.smoothScrollToPosition(position);
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ModelMyChartItem> call, Throwable t) {
-                                Log.e("레트로핏 실패", "값 : " + t.getMessage());
-                            }
-                        });
+//                        Call<ModelMyChartItem> getchartItem = RetrofitClient.getInstance().getService().getChartMyPortData(modelMyCookLists.get(position).getUcode(), "a");
+//                        getchartItem.enqueue(new Callback<ModelMyChartItem>() {
+//                            @Override
+//                            public void onResponse(Call<ModelMyChartItem> call, Response<ModelMyChartItem> response) {
+//
+//                                if (response.code() == 200) {
+//                                    entries3.clear();
+//                                    for (int a = 0; a < response.body().getElements().size(); a++) {
+//                                        entries3.add(new Entry(a, response.body().getElements().get(a).getRate(), response.body().getElements().get(a).getDate()));
+//                                    }
+//                                    modelMyCookLists.get(position).setOpenchart(true);
+//                                    adapterCookPage3.notifyDataSetChanged();
+//                                    fgcookpage3Binding.fgCookpage3Recyclerview.smoothScrollToPosition(position);
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<ModelMyChartItem> call, Throwable t) {
+//                                Log.e("레트로핏 실패", "값 : " + t.getMessage());
+//                            }
+//                        });
                     }
                 }
                 else{
@@ -273,9 +275,9 @@ public class Fg_CookPage3 extends Fragment {
                                 break;
 
                             case RxEvent.ZZIM_PORT_TRANS_PAGE:
-                                modelMyCookLists.add(new ModelMyCookList(rxEvent.getBundle().getString("myportname"), rxEvent.getBundle().getDouble("myportDrate"),
-                                        rxEvent.getBundle().getInt("myportcode"), false, rxEvent.getBundle().getLong("myportcash"), null, 0, "", 1));
-                                adapterCookPage3.notifyDataSetChanged();
+//                                modelMyCookLists.add(new ModelMyCookList(rxEvent.getBundle().getString("myportname"), rxEvent.getBundle().getDouble("myportDrate"),
+//                                        rxEvent.getBundle().getInt("myportcode"), false, rxEvent.getBundle().getLong("myportcash"), null, 0, "", 1));
+//                                adapterCookPage3.notifyDataSetChanged();
                                 break;
 
                             case RxEvent.COOK_PAGE_BASKET:
@@ -312,7 +314,7 @@ public class Fg_CookPage3 extends Fragment {
     //전체 지울 때는 opt=1
     private View.OnClickListener rightListener = new View.OnClickListener() {
         public void onClick(View v) {
-            CookMyDelete(modelMyCookLists.get(DeletePosition).getUcode(), DeletePosition, 0);
+//            CookMyDelete(modelMyCookLists.get(DeletePosition).getUcode(), DeletePosition, 0);
         }
     };
 
@@ -353,24 +355,24 @@ public class Fg_CookPage3 extends Fragment {
     //각 차트의 1개월 ~ 누적 버튼
     void ChartDur(int position, String dur) {
 
-        Call<ModelMyChartItem> getchartItem = RetrofitClient.getInstance().getService().getChartMyPortData(modelMyCookLists.get(position).getUcode(),dur);
-        getchartItem.enqueue(new Callback<ModelMyChartItem>() {
-            @Override
-            public void onResponse(Call<ModelMyChartItem> call, Response<ModelMyChartItem> response) {
-                if(response.code() == 200) {
-                    entries3.clear();
-                    for(int a = 0 ; a < response.body().getElements().size() ; a++) {
-                        entries3.add(new Entry(a, response.body().getElements().get(a).getRate(),response.body().getElements().get(a).getDate()));
-                    }
-                    modelMyCookLists.get(position).setOpenchart(true);
-                    adapterCookPage3.notifyDataSetChanged();
-                }
-            }
-            @Override
-            public void onFailure(Call<ModelMyChartItem> call, Throwable t) {
-                Log.e("레트로핏 실패","값 : "+t.getMessage());
-            }
-        });
+//        Call<ModelMyChartItem> getchartItem = RetrofitClient.getInstance().getService().getChartMyPortData(modelMyCookLists.get(position).getUcode(),dur);
+//        getchartItem.enqueue(new Callback<ModelMyChartItem>() {
+//            @Override
+//            public void onResponse(Call<ModelMyChartItem> call, Response<ModelMyChartItem> response) {
+//                if(response.code() == 200) {
+//                    entries3.clear();
+//                    for(int a = 0 ; a < response.body().getElements().size() ; a++) {
+//                        entries3.add(new Entry(a, response.body().getElements().get(a).getRate(),response.body().getElements().get(a).getDate()));
+//                    }
+//                    modelMyCookLists.get(position).setOpenchart(true);
+//                    adapterCookPage3.notifyDataSetChanged();
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ModelMyChartItem> call, Throwable t) {
+//                Log.e("레트로핏 실패","값 : "+t.getMessage());
+//            }
+//        });
     }
 
     void initData(){
@@ -385,28 +387,42 @@ public class Fg_CookPage3 extends Fragment {
                     e.printStackTrace();
                 }
                 DelayedRefresh = false;
+
+                Filter filter = new Filter();
                 //내가 만든 포트 데이터 초기 불러옴
-                Call<ModelgetMyPortList> getData = RetrofitClient.getInstance().getService().getMyPortData();
-                getData.enqueue(new Callback<ModelgetMyPortList>() {
+                Call<ModelMyPotList> getTest2 = RetrofitClient.getInstance().getService().getMyPotList("application/json", filter, 180,0,10);
+                getTest2.enqueue(new Callback<ModelMyPotList>() {
                     @Override
-                    public void onResponse(Call<ModelgetMyPortList> call, Response<ModelgetMyPortList> response) {
-                        if (response.code() == 200) {
+                    public void onResponse(Call<ModelMyPotList> call, Response<ModelMyPotList> response) {
+                        if(response.code() == 200) {
+                            if(response.body().getErrorcode() == 200){
                             modelMyCookLists.clear();
-                            for(int a = 0 ; a < response.body().getProduct().size() ; a++) {
-                                modelMyCookLists.add(new ModelMyCookList(response.body().getProduct().get(a).getName(),
-                                        response.body().getProduct().get(a).getRate(), response.body().getProduct().get(a).getUcode(),
-                                        false, 50L, response.body().getProduct().get(a).getIcon(), response.body().getProduct().get(a).getPhoto(), response.body().getProduct().get(a).getDescript(),
-                                        response.body().getProduct().get(a).getType()));
+                            for(int index = 0 ; index < response.body().getContent().size() ; index++) {
+
+                                if(response.body().getContent().get(index).getFile() != null){
+                                    modelMyCookLists.add(new ModelMyCookList(response.body().getContent().get(index).getName(),
+                                            response.body().getContent().get(index).getRate(), response.body().getContent().get(index).getCode(),
+                                            false, response.body().getContent().get(index).getMinPrice(), response.body().getContent().get(index).getFile().getHome()+response.body().getContent().get(index).getFile().getFileFullPath(),
+                                            0,response.body().getContent().get(index).getDescript(), response.body().getContent().get(index).getInvestType()));
+                                }else{
+                                    modelMyCookLists.add(new ModelMyCookList(response.body().getContent().get(index).getName(),
+                                            response.body().getContent().get(index).getRate(), response.body().getContent().get(index).getCode(),
+                                            false, response.body().getContent().get(index).getMinPrice(), "",
+                                            0,response.body().getContent().get(index).getDescript(), response.body().getContent().get(index).getInvestType()));
+                                }
+
                             }
                             adapterCookPage3.notifyDataSetChanged();
                             fgcookpage3Binding.fgCookpage3LoadingBar.setVisibility(View.GONE);
+                            }
                         }
                     }
                     @Override
-                    public void onFailure(Call<ModelgetMyPortList> call, Throwable t) {
-                        Log.e("레트로핏 실패", "값 : " + t.getMessage());
+                    public void onFailure(Call<ModelMyPotList> call, Throwable t) {
+                        Log.e("레트로핏 실패","값 : "+t.getMessage());
                     }
                 });
+
             }
         }).start();
     }

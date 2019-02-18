@@ -34,23 +34,49 @@ public class ModelTop10Item {
 
     public class Content {
 
-        String stCode;
+        int type;
+        int investType;
+        String code;
         String name;
         String descript;
-        int minCost;
-        String beginDate;
+        int minPrice;
+        int elNum;
         double rate;
-        double rate30;
-        double rate90;
-        double rate180;
-        int selected;
+        double rateOne;
+        double rateThr;
+        double rateSix;
+        int active;
+        int view;
+        int status;
+        String date;
+        PackEls packEls;
+        Codes codes;
+        Filter filter;
+        Select select;
+        int uid;
 
-        public String getStCode() {
-            return stCode;
+        public int getType() {
+            return type;
         }
 
-        public void setStCode(String stCode) {
-            this.stCode = stCode;
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public int getInvestType() {
+            return investType;
+        }
+
+        public void setInvestType(int investType) {
+            this.investType = investType;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
         }
 
         public String getName() {
@@ -69,20 +95,20 @@ public class ModelTop10Item {
             this.descript = descript;
         }
 
-        public int getMinCost() {
-            return minCost;
+        public int getMinPrice() {
+            return minPrice;
         }
 
-        public void setMinCost(int minCost) {
-            this.minCost = minCost;
+        public void setMinPrice(int minPrice) {
+            this.minPrice = minPrice;
         }
 
-        public String getBeginDate() {
-            return beginDate;
+        public int getElNum() {
+            return elNum;
         }
 
-        public void setBeginDate(String beginDate) {
-            this.beginDate = beginDate;
+        public void setElNum(int elNum) {
+            this.elNum = elNum;
         }
 
         public double getRate() {
@@ -93,95 +119,111 @@ public class ModelTop10Item {
             this.rate = rate;
         }
 
-        public double getRate30() {
-            return rate30;
+        public double getRateOne() {
+            return rateOne;
         }
 
-        public void setRate30(double rate30) {
-            this.rate30 = rate30;
+        public void setRateOne(double rateOne) {
+            this.rateOne = rateOne;
         }
 
-        public double getRate90() {
-            return rate90;
+        public double getRateThr() {
+            return rateThr;
         }
 
-        public void setRate90(double rate90) {
-            this.rate90 = rate90;
+        public void setRateThr(double rateThr) {
+            this.rateThr = rateThr;
         }
 
-        public double getRate180() {
-            return rate180;
+        public double getRateSix() {
+            return rateSix;
         }
 
-        public void setRate180(double rate180) {
-            this.rate180 = rate180;
+        public void setRateSix(double rateSix) {
+            this.rateSix = rateSix;
         }
 
-        public int getSelected() {
-            return selected;
+        public int getActive() {
+            return active;
         }
 
-        public void setSelected(int selected) {
-            this.selected = selected;
+        public void setActive(int active) {
+            this.active = active;
         }
+
+        public int getView() {
+            return view;
+        }
+
+        public void setView(int view) {
+            this.view = view;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public PackEls getPackEls() {
+            return packEls;
+        }
+
+        public void setPackEls(PackEls packEls) {
+            this.packEls = packEls;
+        }
+
+        public Codes getCodes() {
+            return codes;
+        }
+
+        public void setCodes(Codes codes) {
+            this.codes = codes;
+        }
+
+        public Filter getFilter() {
+            return filter;
+        }
+
+        public void setFilter(Filter filter) {
+            this.filter = filter;
+        }
+
+        public Select getSelect() {
+            return select;
+        }
+
+        public void setSelect(Select select) {
+            this.select = select;
+        }
+
+        public int getUid() {
+            return uid;
+        }
+
+        public void setUid(int uid) {
+            this.uid = uid;
+        }
+
+        public class PackEls{
+        }
+        public class Codes{
+        }
+        public class Filter{
+        }
+        public class Select{
+        }
+
     }
 
-//    int num;
-//    ArrayList<Product> product = new ArrayList<>();
-//
-//    public int getNum() {
-//        return num;
-//    }
-//
-//    public void setNum(int num) {
-//        this.num = num;
-//    }
-//
-//    public ArrayList<Product> getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(ArrayList<Product> product) {
-//        this.product = product;
-//    }
-//
-//    public class Product{
-//
-//        int code;
-//        String name;
-//        double rate;
-//        String desc;
-//
-//        public int getCode() {
-//            return code;
-//        }
-//
-//        public void setCode(int code) {
-//            this.code = code;
-//        }
-//
-//        public String getName() {
-//            return name;
-//        }
-//
-//        public void setName(String name) {
-//            this.name = name;
-//        }
-//
-//        public double getRate() {
-//            return rate;
-//        }
-//
-//        public void setRate(double rate) {
-//            this.rate = rate;
-//        }
-//
-//        public String getDesc() {
-//            return desc;
-//        }
-//
-//        public void setDesc(String desc) {
-//            this.desc = desc;
-//        }
-//    }
 }

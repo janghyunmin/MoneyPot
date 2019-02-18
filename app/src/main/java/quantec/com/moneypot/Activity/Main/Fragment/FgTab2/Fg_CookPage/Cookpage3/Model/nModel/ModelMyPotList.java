@@ -1,8 +1,8 @@
-package quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel;
+package quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel;
 
 import java.util.ArrayList;
 
-public class ModelTab13mRank {
+public class ModelMyPotList {
 
     int errorcode;
     int totalElements;
@@ -41,8 +41,8 @@ public class ModelTab13mRank {
         this.page = page;
     }
 
-
     public class Content {
+
         int type;
         int investType;
         String code;
@@ -60,17 +60,9 @@ public class ModelTab13mRank {
         String date;
         PackEls packEls;
         Codes codes;
-        Filter filter;
-        Select select = new Select();
+        File File = new File();
+        Select select;
         int uid;
-
-
-        public class PackEls{
-        }
-        public class Codes{
-        }
-        public class Filter{
-        }
 
         public int getType() {
             return type;
@@ -208,12 +200,12 @@ public class ModelTab13mRank {
             this.codes = codes;
         }
 
-        public Filter getFilter() {
-            return filter;
+        public Content.File getFile() {
+            return File;
         }
 
-        public void setFilter(Filter filter) {
-            this.filter = filter;
+        public void setFile(Content.File file) {
+            File = file;
         }
 
         public Select getSelect() {
@@ -232,38 +224,31 @@ public class ModelTab13mRank {
             this.uid = uid;
         }
 
-        public class Select {
-            int type;
-            boolean isZim;
-            boolean isDam;
+        public class PackEls{
+        }
+        public class Codes{
+        }
+        public class Select{
+        }
+        public class File {
+            String type;
             String code;
-            String name;
-            String descript;
-            int minPrice;
-            double rate;
+            String fileName;
+            int fileSize;
+            String oldFileName;
+            int oldFileSize;
+            String dailyFolderPath;
+            boolean dailyFolder;
+            String home;
+            int uid;
+            String fileFullPath;
 
-            public int getType() {
+            public String getType() {
                 return type;
             }
 
-            public void setType(int type) {
+            public void setType(String type) {
                 this.type = type;
-            }
-
-            public boolean isZim() {
-                return isZim;
-            }
-
-            public void setZim(boolean zim) {
-                isZim = zim;
-            }
-
-            public boolean isDam() {
-                return isDam;
-            }
-
-            public void setDam(boolean dam) {
-                isDam = dam;
             }
 
             public String getCode() {
@@ -274,42 +259,81 @@ public class ModelTab13mRank {
                 this.code = code;
             }
 
-            public String getName() {
-                return name;
+            public String getFileName() {
+                return fileName;
             }
 
-            public void setName(String name) {
-                this.name = name;
+            public void setFileName(String fileName) {
+                this.fileName = fileName;
             }
 
-            public String getDescript() {
-                return descript;
+            public int getFileSize() {
+                return fileSize;
             }
 
-            public void setDescript(String descript) {
-                this.descript = descript;
+            public void setFileSize(int fileSize) {
+                this.fileSize = fileSize;
             }
 
-            public int getMinPrice() {
-                return minPrice;
+            public String getOldFileName() {
+                return oldFileName;
             }
 
-            public void setMinPrice(int minPrice) {
-                this.minPrice = minPrice;
+            public void setOldFileName(String oldFileName) {
+                this.oldFileName = oldFileName;
             }
 
-            public double getRate() {
-                return rate;
+            public int getOldFileSize() {
+                return oldFileSize;
             }
 
-            public void setRate(double rate) {
-                this.rate = rate;
+            public void setOldFileSize(int oldFileSize) {
+                this.oldFileSize = oldFileSize;
+            }
+
+            public String getDailyFolderPath() {
+                return dailyFolderPath;
+            }
+
+            public void setDailyFolderPath(String dailyFolderPath) {
+                this.dailyFolderPath = dailyFolderPath;
+            }
+
+            public boolean isDailyFolder() {
+                return dailyFolder;
+            }
+
+            public void setDailyFolder(boolean dailyFolder) {
+                this.dailyFolder = dailyFolder;
+            }
+
+            public String getHome() {
+                return home;
+            }
+
+            public void setHome(String home) {
+                this.home = home;
+            }
+
+            public int getUid() {
+                return uid;
+            }
+
+            public void setUid(int uid) {
+                this.uid = uid;
+            }
+
+            public String getFileFullPath() {
+                return fileFullPath;
+            }
+
+            public void setFileFullPath(String fileFullPath) {
+                this.fileFullPath = fileFullPath;
             }
         }
     }
 
-
-    static public class Page {
+    public class Page {
         int pageNumber;
         boolean firstPage;
         boolean lastPage;
@@ -373,35 +397,35 @@ public class ModelTab13mRank {
         public void setTotalElements(int totalElements) {
             this.totalElements = totalElements;
         }
-    }
 
-    static public class Sort {
-        boolean sorted;
-        boolean unsorted;
-        boolean empty;
+        public class Sort {
+            boolean sorted;
+            boolean unsorted;
+            boolean empty;
 
-        public boolean isSorted() {
-            return sorted;
-        }
+            public boolean isSorted() {
+                return sorted;
+            }
 
-        public void setSorted(boolean sorted) {
-            this.sorted = sorted;
-        }
+            public void setSorted(boolean sorted) {
+                this.sorted = sorted;
+            }
 
-        public boolean isUnsorted() {
-            return unsorted;
-        }
+            public boolean isUnsorted() {
+                return unsorted;
+            }
 
-        public void setUnsorted(boolean unsorted) {
-            this.unsorted = unsorted;
-        }
+            public void setUnsorted(boolean unsorted) {
+                this.unsorted = unsorted;
+            }
 
-        public boolean isEmpty() {
-            return empty;
-        }
+            public boolean isEmpty() {
+                return empty;
+            }
 
-        public void setEmpty(boolean empty) {
-            this.empty = empty;
+            public void setEmpty(boolean empty) {
+                this.empty = empty;
+            }
         }
     }
 

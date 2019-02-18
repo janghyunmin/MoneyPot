@@ -36,6 +36,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
 import quantec.com.moneypot.Activity.Intro.ErrorPojoClass;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Filter;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelZimData;
@@ -135,7 +136,8 @@ public class Fg_Tab2_6m extends Fragment {
     }
 
     private void loadData() {
-        Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2("application/json",null, countPage,180,10);
+        Filter filter = new Filter();
+        Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2("application/json",filter, countPage,180,10);
         getTest2.enqueue(new Callback<ModelTab13mRank>() {
             @Override
             public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
@@ -148,13 +150,13 @@ public class Fg_Tab2_6m extends Fragment {
 
                         if(response.body().getContent().get(a).getSelect() != null) {
                             tab2_6mItems.add(new ModelTab26m(response.body().getContent().get(a).getName(),
-                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate180()*100), 2, 2),response.body().getContent().get(a).getSelect().isZim(),
-                                    response.body().getContent().get(a).getSelect().isDam(), resID, false, response.body().getContent().get(a).getMinCost()
+                                    response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateSix()*100), 2, 2),response.body().getContent().get(a).getSelect().isZim(),
+                                    response.body().getContent().get(a).getSelect().isDam(), resID, false, response.body().getContent().get(a).getMinPrice()
                             ));
                         }else{
                             tab2_6mItems.add(new ModelTab26m(response.body().getContent().get(a).getName(),
-                                    response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate180()*100), 2, 2),false,
-                                    false, resID, false, response.body().getContent().get(a).getMinCost()
+                                    response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateSix()*100), 2, 2),false,
+                                    false, resID, false, response.body().getContent().get(a).getMinPrice()
                             ));
                         }
                     }
@@ -235,8 +237,8 @@ public class Fg_Tab2_6m extends Fragment {
                     new AsyncTask<Void, Void, List<ModelTab26m>>() {
                         @Override
                         protected List<ModelTab26m> doInBackground(Void... voids) {
-
-                            Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2("application/json",null, countPage,180,10);
+                            Filter filter = new Filter();
+                            Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2("application/json",filter, countPage,180,10);
                             getTest2.enqueue(new Callback<ModelTab13mRank>() {
                                 @Override
                                 public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
@@ -249,13 +251,13 @@ public class Fg_Tab2_6m extends Fragment {
 
                                             if(response.body().getContent().get(a).getSelect() != null) {
                                                 list.add(new ModelTab26m(response.body().getContent().get(a).getName(),
-                                                        response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate180()*100), 2, 2),response.body().getContent().get(a).getSelect().isZim(),
-                                                        response.body().getContent().get(a).getSelect().isDam(), resID, false, response.body().getContent().get(a).getMinCost()
+                                                        response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateSix()*100), 2, 2),response.body().getContent().get(a).getSelect().isZim(),
+                                                        response.body().getContent().get(a).getSelect().isDam(), resID, false, response.body().getContent().get(a).getMinPrice()
                                                 ));
                                             }else{
                                                 list.add(new ModelTab26m(response.body().getContent().get(a).getName(),
-                                                        response.body().getContent().get(a).getStCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate180()*100), 2, 2),false,
-                                                        false, resID, false, response.body().getContent().get(a).getMinCost()
+                                                        response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateSix()*100), 2, 2),false,
+                                                        false, resID, false, response.body().getContent().get(a).getMinPrice()
                                                 ));
                                             }
                                         }
@@ -365,7 +367,7 @@ public class Fg_Tab2_6m extends Fragment {
                         }catch (Exception e){}
                     }
 
-                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(tab2_6mItems.get(position).getCode(),700);
+                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(1, tab2_6mItems.get(position).getCode(),700);
                     getTest2.enqueue(new Callback<ModelTab13mChartData>() {
                         @Override
                         public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
@@ -397,7 +399,7 @@ public class Fg_Tab2_6m extends Fragment {
 
                 if(tab2_6mItems.get(position).isZim()) {
 
-                    Select select = new Select(tab2_6mItems.get(position).getCode(),"",tab2_6mItems.get(position).isDam(),false,0,"",0,0);
+                    Select select = new Select(tab2_6mItems.get(position).getCode(), tab2_6mItems.get(position).isDam(),false);
 
                     Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"del");
                     getSelectPort.enqueue(new Callback<ModelZimData>() {
@@ -426,7 +428,6 @@ public class Fg_Tab2_6m extends Fragment {
                                 }
                             }
                             else{
-
                                 Log.e("에러 값 ","값 : "+ response.errorBody().toString());
                             }
                         }
@@ -445,7 +446,7 @@ public class Fg_Tab2_6m extends Fragment {
                         CheckDataAnim6 = false;
                     }else{
 
-                        Select select = new Select(tab2_6mItems.get(position).getCode(),"",tab2_6mItems.get(position).isDam(),true,0,"",0,1);
+                        Select select = new Select(tab2_6mItems.get(position).getCode(), tab2_6mItems.get(position).isDam(),true);
 
                         Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"add");
                         getSelectPort.enqueue(new Callback<ModelZimData>() {
@@ -625,7 +626,7 @@ public class Fg_Tab2_6m extends Fragment {
     //각 차트의 1개월 ~ 누적 버튼
     void ChartDur(int position, int dur) {
 
-        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(tab2_6mItems.get(position).getCode(),dur);
+        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(1, tab2_6mItems.get(position).getCode(), dur);
         getTest2.enqueue(new Callback<ModelTab13mChartData>() {
             @Override
             public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {

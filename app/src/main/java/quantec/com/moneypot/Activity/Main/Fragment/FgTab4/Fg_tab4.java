@@ -29,7 +29,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelZimData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Select;
@@ -39,9 +38,7 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.dModel.ModelFgTa
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.nModel.ModelFgTab4ZimData;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
-import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
 import quantec.com.moneypot.DataManager.DataManager;
-import quantec.com.moneypot.Model.nModel.ModelZzimCount;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
@@ -152,7 +149,7 @@ public class Fg_tab4 extends Fragment {
                         }catch (Exception e){}
                     }
 
-                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(myData.get(position).getCode(),700);
+                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(1, myData.get(position).getCode(),700);
                     getTest2.enqueue(new Callback<ModelTab13mChartData>() {
                         @Override
                         public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
@@ -235,7 +232,7 @@ public class Fg_tab4 extends Fragment {
             public void onClick(int position) {
                 if(myData.get(position).isZim()) {
 
-                    Select select = new Select(myData.get(position).getCode(),"",myData.get(position).isDam(),false,0,"",0,0);
+                    Select select = new Select(myData.get(position).getCode(),myData.get(position).isDam(),false);
 
                     Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"del");
                     getSelectPort.enqueue(new Callback<ModelZimData>() {
@@ -276,7 +273,7 @@ public class Fg_tab4 extends Fragment {
 
                 }
                 else{
-                        Select select = new Select(myData.get(position).getCode(),"",myData.get(position).isDam(),true,0,"",0,1);
+                        Select select = new Select(myData.get(position).getCode(),myData.get(position).isDam(),true);
 
                         Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"add");
                         getSelectPort.enqueue(new Callback<ModelZimData>() {
@@ -353,7 +350,7 @@ public class Fg_tab4 extends Fragment {
 
                                                                             myData.add(new ModelFgTab4(response.body().getContent().get(a).getName(), response.body().getContent().get(a).getCode(),
                                                                                     decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2), response.body().getContent().get(a).isZim(),
-                                                                                    response.body().getContent().get(a).isDam(), name, false, response.body().getContent().get(a).getMinCost()));
+                                                                                    response.body().getContent().get(a).isDam(), name, false, response.body().getContent().get(a).getMinPrice()));
                                                                         }
                                                                     }
                                                                     myAdapter.notifyDataSetChanged();
@@ -407,7 +404,7 @@ public class Fg_tab4 extends Fragment {
     //찜한 포트 삭제 후 갱신 ( 전체 삭제 )
     void zzimPortAllDeleteSave(){
 
-        Select select = new Select("","",false,false,0,"",0,1);
+        Select select = new Select("MP",false,false);
 
         Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"ALL");
         getSelectPort.enqueue(new Callback<ModelZimData>() {
@@ -451,7 +448,7 @@ public class Fg_tab4 extends Fragment {
     void ChartDur(int position, int dur) {
 
 
-        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(myData.get(position).getCode(),dur);
+        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(1, myData.get(position).getCode(), dur);
         getTest2.enqueue(new Callback<ModelTab13mChartData>() {
             @Override
             public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
@@ -502,7 +499,7 @@ public class Fg_tab4 extends Fragment {
 
                                             myData.add(new ModelFgTab4(response.body().getContent().get(a).getName(), response.body().getContent().get(a).getCode(),
                                                     decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2), response.body().getContent().get(a).isZim(),
-                                                    response.body().getContent().get(a).isDam(), name, false, response.body().getContent().get(a).getMinCost()));
+                                                    response.body().getContent().get(a).isDam(), name, false, response.body().getContent().get(a).getMinPrice()));
                                         }
                                     }
                                     myAdapter.notifyDataSetChanged();
