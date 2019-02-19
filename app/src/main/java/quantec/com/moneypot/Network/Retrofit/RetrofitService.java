@@ -222,7 +222,7 @@ public interface RetrofitService {
 //    Call<Object> getSavedMyPot(@Header("Content-Type") String content_type, @Body Object potDto);
     //내가만든포트 최종 저장
     @POST("pack/upPot")
-    Call<Object> getSavedMyPot(@Header("Content-Type") String content_type, @Body Object potDto);
+    Call<ModelPortSavedInfo> getSavedMyPot(@Header("Content-Type") String content_type, @Body Object potDto);
 
 //    //내가만든포트 리스트 불러오기
 //    @POST("pot/getPotPage/{rate}/{page}/{size}")
@@ -230,4 +230,22 @@ public interface RetrofitService {
     //내가만든포트 리스트 불러오기
     @POST("pack/getPotPage/{rate}/{page}/{size}")
     Call<ModelMyPotList> getMyPotList(@Header("Content-Type") String content_type, @Body Object filter, @Path("rate") int rate, @Path("page") int page, @Path("size") int size);
+
+
+    /**
+     * 전략 및 포트 리스트 불러옴
+     * /pack/getPage
+     *     // 전체가 rate desc 누적 수익률 높은 순
+     *     // R 1. 추천포트 랭킹( 사용자 투자성향별 추천 포트 10개 ) : status = 50 & invest_type = ?, rate desc, page size = 10
+     *     // L 2. 포트요리 > 랭킹도전/포트만들기 대회(포트리그 상위 3개) : status = 20, rate desc, page size = 3
+     *     // H 2. [포트요리 > 핫한 재료(getHotList) : random, rate desc, limit]
+     *     // I 2. 포트요리 > 안정적재료 : invest_type = ?, rate desc, page size
+     *     // S 2. [포트요리 > 내가담은 포트(getSelect) : rate desc, all]
+     *     // U 2. 포트요리 > 내가만든 포트(요리된포트) : uid = myid & type > 10 & status != 0, rate desc, page
+     *     // M 3. 포트마켓 > 투자가능 목록 : status >= 50, rate desc, page
+     *     // Z 4. [찜한포트 > 내가찜한 포트(getSelect) : rate desc, all]
+     *     // L 5. 포트리그 > 포트만들기 대회 : status = 20, rate desc, page
+     */
+    @POST("pack/getPage/{gubun}/{rate}/{page}/{size}")
+    Call<ModelTab13mRank> getPageList(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 }

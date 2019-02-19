@@ -410,7 +410,6 @@ public class Fg_CookPage3 extends Fragment {
                                             false, response.body().getContent().get(index).getMinPrice(), "",
                                             0,response.body().getContent().get(index).getDescript(), response.body().getContent().get(index).getInvestType()));
                                 }
-
                             }
                             adapterCookPage3.notifyDataSetChanged();
                             fgcookpage3Binding.fgCookpage3LoadingBar.setVisibility(View.GONE);
@@ -422,7 +421,6 @@ public class Fg_CookPage3 extends Fragment {
                         Log.e("레트로핏 실패","값 : "+t.getMessage());
                     }
                 });
-
             }
         }).start();
     }

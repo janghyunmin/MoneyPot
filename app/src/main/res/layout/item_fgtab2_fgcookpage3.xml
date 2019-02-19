@@ -13,8 +13,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_cookpage3_linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#ffffff">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/item_cookpage3_recyclerView_layout"

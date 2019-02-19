@@ -4,9 +4,7 @@
         <variable
             name="PortDetailPageInfo"
             type="quantec.com.moneypot.Activity.DetailPort.Adapter.AdapterDetailPort"/>
-
     </data>
-
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

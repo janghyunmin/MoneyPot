@@ -4,15 +4,14 @@
         <variable
             name="FgCookpage1"
             type="quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Fg_CookPage1"/>
-
     </data>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tool="http://schemas.android.com/tools"
-    android:background="#FDFDFD">
+    android:background="#FFFFFF">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -83,7 +82,6 @@
             app:layout_constraintTop_toBottomOf="@+id/fg_cookpage1_NewItemViewPager_title"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="#efedbf"
             android:layout_marginTop="10dp"
             />
 

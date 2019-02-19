@@ -215,7 +215,6 @@
             />
     </RelativeLayout>
 
-
     <View
         android:id="@+id/payment_page_spinner_line"
         android:layout_width="match_parent"

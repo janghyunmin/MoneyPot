@@ -529,7 +529,7 @@ public class MainActivity extends AppCompatActivity {
 //                                    finishChart.add(new TransChartList(a,response.body().getElements().get(a).getRate(), response.body().getElements().get(a).getDate()));
 //                                }
 
-                                bundle.putString("ptCode", response.body().getContent().getCode());
+                                bundle.putString("transptcode", response.body().getContent().getCode());
                                 bundle.putStringArrayList("transtitle",portName);
                                 bundle.putString("transcash", String.valueOf(response.body().getContent().getMinPrice()));
                                 bundle.putString("transcategory", cate);

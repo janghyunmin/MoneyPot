@@ -13,13 +13,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/Port_Profile_Modify_top"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:background="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         >
         <TextView
@@ -64,12 +62,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
         >
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
             >
             <ImageView
                 android:id="@+id/Port_Profile_Modify_Image"
@@ -170,7 +166,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/Port_Profile_Modify_name_title"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="18.5dp"
-                android:background="#FFFFFF"
                 >
                 <TextView
                     android:id="@+id/Port_Profile_Modify_name_text"
@@ -208,7 +203,6 @@
                 android:layout_marginLeft="18.5dp"
                 android:layout_marginRight="47.5dp"
                 android:layout_marginTop="16dp"
-                android:background="#FFFFFF"
                 >
                 <TextView
                     android:id="@+id/Port_Profile_Modify_desc_text"

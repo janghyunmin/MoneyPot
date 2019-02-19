@@ -4,7 +4,6 @@
         <variable
             name="ItemAllPageTabTitle"
             type="quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Adapter.AdapterAllPageTitle"/>
-
     </data>
 
 <RelativeLayout
@@ -14,7 +13,6 @@
     android:layout_height="64.5dp"
     android:paddingLeft="25dp"
     >
-
     <TextView
         android:id="@+id/allPage_tab_title_name"
         android:layout_width="wrap_content"
@@ -23,7 +21,6 @@
         android:textSize="15dp"
         android:layout_centerVertical="true"
         />
-
     <TextView
         android:id="@+id/allPage_tab_title_rate"
         android:layout_width="wrap_content"
@@ -33,7 +30,6 @@
         android:layout_toLeftOf="@+id/allPage_tab_title_per"
         android:textSize="18.3dp"
         />
-
     <TextView
         android:id="@+id/allPage_tab_title_per"
         android:layout_width="wrap_content"
@@ -46,7 +42,6 @@
         android:textSize="12.3dp"
         android:layout_alignBaseline="@+id/allPage_tab_title_rate"
         />
-
     <LinearLayout
         android:id="@+id/allPage_tab_title_check_bt"
         android:layout_width="30dp"
@@ -61,7 +56,6 @@
             android:layout_marginTop="1dp"
             />
     </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
@@ -69,6 +63,5 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="15dp"
         />
-
 </RelativeLayout>
 </layout>

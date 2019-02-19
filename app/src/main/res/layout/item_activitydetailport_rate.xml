@@ -4,9 +4,7 @@
         <variable
             name="PortDetailPageRate"
             type="quantec.com.moneypot.Activity.DetailPort.Adapter.AdapterDetailPort"/>
-
     </data>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

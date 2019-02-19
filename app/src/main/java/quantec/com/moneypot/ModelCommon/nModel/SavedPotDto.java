@@ -39,4 +39,13 @@ public class SavedPotDto {
     public void setDescript(String descript) {
         this.descript = descript;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "code=" + code +
+                ", name=" + name +
+                ", descript=" + descript +
+                "}";
+    }
 }

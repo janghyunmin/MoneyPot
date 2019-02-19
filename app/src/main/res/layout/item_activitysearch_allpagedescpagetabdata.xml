@@ -4,9 +4,7 @@
         <variable
             name="DescPageTab"
             type="quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.DescPageTab.Adapter.AdapterDescPage"/>
-
     </data>
-
 
 <RelativeLayout
     android:id="@+id/descPage_tab_layout"

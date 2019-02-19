@@ -2,6 +2,7 @@ package quantec.com.moneypot.Activity.FinishMakePort;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -29,11 +30,17 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import quantec.com.moneypot.Activity.FinishMakePort.Dialog.DialogMyPortName;
+import quantec.com.moneypot.Activity.FinishMakePort.Model.nModel.ModelPortSavedInfo;
+import quantec.com.moneypot.Activity.Intro.ErrorPojoClass;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Fg_CookPage2;
 import quantec.com.moneypot.ModelCommon.nModel.SavedPotDto;
 import quantec.com.moneypot.DataManager.ChartManager;
 import quantec.com.moneypot.Dialog.LoadingMakePort.DialogLoadingMakingPort;
@@ -132,7 +139,7 @@ public class ActivityFinishMakePort extends AppCompatActivity {
         finishMakePortBinding.finishPortBottomCash.setText(intent.getStringExtra("finishcash")+"만원");
 
         TotalCash = Long.parseLong(intent.getStringExtra("finishcash"));
-        ptCode = intent.getStringExtra("ptCode");
+        ptCode = intent.getStringExtra("finishptcode");
 
         entries2 = new ArrayList<>();
 
@@ -232,56 +239,46 @@ public class ActivityFinishMakePort extends AppCompatActivity {
                 loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityFinishMakePort.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
                 loadingCustomMakingPort.show();
 
-
-                SavedPotDto potDto = new SavedPotDto(ptCode, "", "");
-                Call<Object> getchartItem = RetrofitClient.getInstance().getService().getSavedMyPot("application/json", potDto);
-                getchartItem.enqueue(new Callback<Object>() {
+                SavedPotDto potDto = new SavedPotDto(ptCode, myPortNameDialog.callFuction(), "");
+                Call<ModelPortSavedInfo> getchartItem = RetrofitClient.getInstance().getService().getSavedMyPot("application/json", potDto);
+                getchartItem.enqueue(new Callback<ModelPortSavedInfo>() {
                     @Override
-                    public void onResponse(Call<Object> call, Response<Object> response) {
+                    public void onResponse(Call<ModelPortSavedInfo> call, Response<ModelPortSavedInfo> response) {
 
                         if(response.code() == 200) {
-                            Log.e("포트 저장 성공", "성공값 : "+ response.body().toString());
-                            loadingCustomMakingPort.dismiss();
+                            if(response.body().getErrorcode() == 200){
+
+                                myPortNameDialog.dismiss();
+                                loadingCustomMakingPort.dismiss();
+
+                                Intent intent2 = new Intent(ActivityFinishMakePort.this, Fg_CookPage2.class);
+                                intent2.putExtra("portname", response.body().getContent().getName());
+                                intent2.putExtra("portcode", response.body().getContent().getCode());
+                                intent2.putExtra("portDrate", response.body().getContent().getRate());
+                                intent2.putExtra("portcash", TotalCash);
+                                setResult(1, intent2);
+                                finish();
+                            }
+                        }else{
+                            Gson gson = new GsonBuilder().create();
+                            ErrorPojoClass mError = new ErrorPojoClass();
+                            try {
+                                mError= gson.fromJson(response.errorBody().string(),ErrorPojoClass .class);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if(mError.getErrorcode() == 44001){
+                                Toast.makeText(ActivityFinishMakePort.this, "포트이름에 금칙어가 포함되어 있습니다\n수정 후에 다시 시도해주세요.",Toast.LENGTH_SHORT).show();
+                                loadingCustomMakingPort.dismiss();
+                            }
                         }
                     }
                     @Override
-                    public void onFailure(Call<Object> call, Throwable t) {
+                    public void onFailure(Call<ModelPortSavedInfo> call, Throwable t) {
                         loadingCustomMakingPort.dismiss();
                         Toast.makeText(ActivityFinishMakePort.this, "서버가 불안정 합니다\n잠시후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
-//                Call<ModelPortSavedInfo> getchartItem2 = RetrofitClient.getInstance().getService().getMyportInsert(myPortNameDialog.callFuction(), "1");
-//                getchartItem2.enqueue(new Callback<ModelPortSavedInfo>() {
-//                    @Override
-//                    public void onResponse(Call<ModelPortSavedInfo> call, Response<ModelPortSavedInfo> response) {
-//                        if(response.code() == 200) {
-//                            myPortNameDialog.dismiss();
-//                            loadingCustomMakingPort.dismiss();
-//
-//                            SharedPreferences pref = getSharedPreferences("myPortNumber", MODE_PRIVATE);
-//                            SharedPreferences.Editor editor = pref.edit();
-//                            editor.putInt("mpNumber", response.body().getTotal());
-//                            editor.apply();
-//
-//                            Intent intent2 = new Intent(ActivityFinishMakePort.this, Fg_CookPage2.class);
-//                            intent2.putExtra("portname", response.body().getName());
-//                            intent2.putExtra("portcode", response.body().getUcode());
-//                            intent2.putExtra("portDrate", response.body().getdRate());
-//                            intent2.putExtra("portcash", TotalCash);
-//                            setResult(1, intent2);
-//                            finish();
-//                        }else if(response.code() == 303){
-//                            loadingCustomMakingPort.dismiss();
-//                            Toast.makeText(ActivityFinishMakePort.this, "포트이름에 금칙어가 포함되어 있습니다\n수정 후에 다시 시도해주세요.",Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                    @Override
-//                    public void onFailure(Call<ModelPortSavedInfo> call, Throwable t) {
-//                        Toast.makeText(ActivityFinishMakePort.this, "서버가 불안정 합니다\n잠시후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
-//                    }
-//                });
             }
         }
     };

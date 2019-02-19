@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,6 @@ public class Fg_tab2 extends Fragment {
         fgTab2Binding.fragmentTab2Viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
                 if(positionOffset != 0){
                     fgTab2Binding.fgCookpage3DeleteBt.setVisibility(View.INVISIBLE);
                     fgTab2Binding.cookpage1Bt.setEnabled(false);
@@ -76,7 +76,7 @@ public class Fg_tab2 extends Fragment {
                 }
 
                 fgTab2Binding.cookpage1Bt.setTranslationY(-Math.abs(positionOffset-position)*200);
-                // 포트만들기 만든포트 페이지와 포트리스 페이지에서는 숨김
+                // 포트만들기 만든포트 페이지와 포트리그 페이지에서는 숨김
                 if(position == 2 || position == 3) {
                     fgTab2Binding.cookpage1Bt.setVisibility(View.GONE);
                 }else{

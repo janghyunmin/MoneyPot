@@ -187,6 +187,7 @@ public class Fg_CookPage2 extends Fragment {
                                 try {
                                     Intent intent = new Intent(getActivity(), ActivityFinishMakePort.class);
 
+                                    intent.putExtra("finishptcode", rxEvent.getBundle().get("transptcode").toString());
                                     intent.putExtra("finishcash",rxEvent.getBundle().get("transcash").toString());
                                     intent.putExtra("finishcategory",rxEvent.getBundle().get("transcategory").toString());
                                     intent.putIntegerArrayListExtra("finishcode",rxEvent.getBundle().getIntegerArrayList("transcode"));

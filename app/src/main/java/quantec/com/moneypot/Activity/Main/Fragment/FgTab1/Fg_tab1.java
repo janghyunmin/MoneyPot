@@ -147,7 +147,6 @@ public class Fg_tab1 extends Fragment {
 
         image_anim = AnimationUtils.loadAnimation(getActivity(), R.anim.image_move_start_right);
         image_anim2 = AnimationUtils.loadAnimation(getActivity(), R.anim.image_move_start_left);
-
         // 팁 광고 삭제하기
         fgTab1Binding.firstPortPageAdCloseBt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,7 +154,6 @@ public class Fg_tab1 extends Fragment {
                 fgTab1Binding.firstPortPageAdLayout.setVisibility(View.GONE);
             }
         });
-
         // 탑10 더보기 및 접기 이벤트
         fgTab1Binding.firstPortPageRecyclerViewAddViewBt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +171,6 @@ public class Fg_tab1 extends Fragment {
                 }
             }
         });
-
         //탑10 클릭시 상세페이지 이동
         adapterTop10.setTop10ItemClick(new AdapterTop10.Top10ItemClick() {
             @Override
@@ -189,7 +186,6 @@ public class Fg_tab1 extends Fragment {
                 }
             }
         });
-
         // 탑10 리사이클러뷰 스크롤 막기
         fgTab1Binding.firstPortPageRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()){
             @Override
@@ -201,7 +197,6 @@ public class Fg_tab1 extends Fragment {
                 return false;
             }
         });
-
 
         //스크롤시 해당 뷰가 보이는 시점에서 애니메이션 실행
         fgTab1Binding.firstPortPageMainScroll.getViewTreeObserver().addOnScrollChangedListener(() -> {

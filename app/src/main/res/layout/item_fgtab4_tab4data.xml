@@ -14,7 +14,6 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
     >
     <LinearLayout
         android:id="@+id/tab4_recyclerView_port_check_Button_layout"
@@ -22,7 +21,6 @@
         android:layout_height="70dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="#ffffff"
         android:gravity="center"
         >
         <ImageView

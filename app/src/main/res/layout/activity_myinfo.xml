@@ -17,7 +17,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
         >
         <RelativeLayout
             android:id="@+id/my_info_page_top_layout"

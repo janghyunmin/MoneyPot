@@ -4,7 +4,6 @@
         <variable
             name="StockPageTab"
             type="quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.StockPageTab.Adapter.AdapterStockPage"/>
-
     </data>
 
 <RelativeLayout

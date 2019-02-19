@@ -4,7 +4,6 @@
         <variable
             name="TitlePageTab"
             type="quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.TitlePageTab.Adapter.AdapterTitlePage"/>
-
     </data>
 
 <RelativeLayout

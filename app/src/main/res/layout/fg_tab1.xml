@@ -4,7 +4,6 @@
         <variable
             name="FragmentTab1"
             type="quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Fg_tab1"/>
-
     </data>
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,15 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:theme="@style/MainStatus"
         >
-
         <RelativeLayout
             android:id="@+id/first_port_page_top"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:background="@color/first_port_page_title_layout_color"
             app:layout_constraintTop_toTopOf="parent"
+            android:background="#FFFFFF"
             >
             <LinearLayout
                 android:id="@+id/first_port_page_search_bt"
@@ -44,7 +41,6 @@
                 android:textColor="@color/normal_text_color"
                 android:textSize="10sp"
                 />
-
             <LinearLayout
                 android:id="@+id/first_port_page_top_image2"
                 android:layout_width="40dp"
@@ -66,19 +62,17 @@
             android:id="@+id/first_port_page_mainScroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/background_light">
-
+            >
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#fafafa"
                 >
                 <RelativeLayout
                     android:id="@+id/first_port_page_top_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:background="@color/first_port_page_title_layout_color"
+                    android:background="#FFFFFF"
                     >
                     <TextView
                         android:id="@+id/first_port_page_title"
@@ -132,8 +126,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/first_port_page_top_layout"
                     android:orientation="vertical"
-                    android:background="@color/first_port_page_title_layout_color"
                     android:layout_marginTop="10dp"
+                    android:background="#FFFFFF"
                     >
                     <ImageView
                         android:id="@+id/first_port_page_ad_image"
@@ -172,7 +166,6 @@
                         />
                 </LinearLayout>
 
-
                 <RelativeLayout
                     android:id="@+id/first_port_page_middle_layout"
                     android:layout_width="match_parent"
@@ -181,11 +174,10 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
-                    android:background="@color/first_port_page_title_layout_color"
                     android:paddingLeft="9dp"
                     android:paddingRight="9dp"
+                    android:background="#FFFFFF"
                     >
-
                     <TextView
                         android:id="@+id/first_port_page_middle_title"
                         android:layout_width="wrap_content"
@@ -196,7 +188,6 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginTop="23dp"
                         />
-
                     <TextView
                         android:id="@+id/first_port_page_middle_subtitle"
                         android:layout_width="wrap_content"
@@ -207,7 +198,6 @@
                         android:layout_below="@+id/first_port_page_middle_title"
                         android:layout_marginTop="11dp"
                         />
-
                     <TextView
                         android:id="@+id/first_port_page_middle_rate"
                         android:layout_width="wrap_content"
@@ -217,7 +207,6 @@
                         android:textColor="#f02626"
                         android:layout_below="@+id/first_port_page_middle_subtitle"
                         />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -227,7 +216,6 @@
                         android:textColor="#f02626"
                         android:layout_alignBaseline="@+id/first_port_page_middle_rate"
                         />
-
                     <ImageView
                         android:id="@+id/first_port_page_middle_image"
                         android:layout_width="51dp"
@@ -238,7 +226,6 @@
                         android:layout_marginTop="15dp"
                         android:visibility="invisible"
                         />
-
                     <View
                         android:id="@+id/first_port_page_middle_line"
                         android:layout_width="match_parent"
@@ -248,7 +235,6 @@
                         android:layout_below="@+id/first_port_page_middle_rate"
                         android:layout_marginTop="31dp"
                         />
-
                     <LinearLayout
                         android:id="@+id/first_port_page_middle_chart_layout"
                         android:layout_width="match_parent"
@@ -309,7 +295,6 @@
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
-
                     <TextView
                         android:id="@+id/first_port_page_middle_chart_open"
                         android:layout_width="match_parent"
@@ -324,20 +309,18 @@
                         android:padding="10dp"
                         />
                 </RelativeLayout>
-
-
                 <RelativeLayout
                     android:id="@+id/first_port_page_bottom_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/first_port_page_middle_layout"
-                    android:background="@color/first_port_page_title_layout_color"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="15dp"
                     android:paddingLeft="9dp"
                     android:paddingRight="9dp"
+                    android:background="#FFFFFF"
                     >
 
                     <TextView
@@ -406,7 +389,6 @@
                         android:layout_below="@+id/first_port_page_bottom_per"
                         android:layout_marginTop="31dp"
                         />
-
 
                     <LinearLayout
                         android:id="@+id/first_port_page_bottom_chart_layout"

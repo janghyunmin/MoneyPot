@@ -4,20 +4,16 @@
         <variable
             name="FgTab3"
             type="quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fg_tab3"/>
-
     </data>
-
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:layout_height="match_parent">
     <RelativeLayout
         android:id="@+id/ranking_page_top"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:background="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent">
         <LinearLayout
             android:id="@+id/ranking_page_top_searchBT"
@@ -72,14 +68,12 @@
             android:id="@+id/ranking_page_top_tab"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:background="#ffffff"
             android:theme="@style/TabTheme"
             app:elevation="0dp">
             <android.support.design.widget.TabLayout
                 android:id="@+id/ranking_page_tap_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ffffff"
                 app:elevation="0dp">
             </android.support.design.widget.TabLayout>
         </android.support.design.widget.AppBarLayout>

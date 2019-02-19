@@ -4,11 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/first_port_page_title_layout_color"
     android:padding="15dp"
     android:id="@+id/Item_Top10_layout"
     >
-
     <TextView
         android:id="@+id/Item_Top10_num"
         android:layout_width="25dp"

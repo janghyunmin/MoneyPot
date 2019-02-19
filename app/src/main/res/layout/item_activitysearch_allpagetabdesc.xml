@@ -4,7 +4,6 @@
         <variable
             name="ItemAllPageTabDesc"
             type="quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Adapter.AdapterAllPageDesc"/>
-        
     </data>
 
 <RelativeLayout

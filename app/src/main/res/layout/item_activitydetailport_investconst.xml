@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/port_detail_page_invest_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFFFFF">
+    android:layout_height="wrap_content">
 
     <View
         android:layout_width="match_parent"
@@ -32,8 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/port_detail_page_invest_Text"
-        android:background="#FFFFFF">
+        app:layout_constraintTop_toBottomOf="@+id/port_detail_page_invest_Text">
         <TextView
             android:id="@+id/invest_nam"
             android:layout_width="0dp"

@@ -13,7 +13,6 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment3_tab2_6m_layout"
-    android:background="#ffffff"
     >
     <View
         android:id="@+id/fragment3_tab2_6m_top_line"

@@ -179,7 +179,7 @@ public class Fg_Tab1_3m extends Fragment {
 //        });
 
         Filter filter = new Filter();
-        Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2("application/json",filter, countPage,90,10);
+        Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getPageList("application/json",filter, "M", countPage,90,10);
         getTest2.enqueue(new Callback<ModelTab13mRank>() {
             @Override
             public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
@@ -227,6 +227,55 @@ public class Fg_Tab1_3m extends Fragment {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
+//        Filter filter = new Filter();
+//        Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2("application/json",filter, countPage,90,10);
+//        getTest2.enqueue(new Callback<ModelTab13mRank>() {
+//            @Override
+//            public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
+//                if(response.code() == 200) {
+//                    int resID;
+//                    String name = "@drawable/ic_rank_noname";
+//                    for(int a = 0 ; a < response.body().getContent().size() ; a++) {
+//
+//                        resID = mainActivity.getResources().getIdentifier(name,"drawable",packName);
+//
+//                        if(response.body().getContent().get(a).getSelect() != null) {
+//                            tab1_3mItems.add(new ModelTab13m(response.body().getContent().get(a).getName(),
+//                                    response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2), response.body().getContent().get(a).getSelect().isZim(),
+//                                    response.body().getContent().get(a).getSelect().isDam(),resID, false, response.body().getContent().get(a).getMinPrice()
+//                            ));
+//                        }
+//                        else{
+//                            tab1_3mItems.add(new ModelTab13m(response.body().getContent().get(a).getName(),
+//                                    response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2), false,
+//                                    false, resID, false, response.body().getContent().get(a).getMinPrice()
+//                            ));
+//                        }
+//                    }
+//                    tab1_3mAdapter.notifyDataSetChanged();
+//                    countPage++;
+//                    if(response.body().getPage().getTotalPages() == 1){
+//                        NextPageLoadState = false;
+//                    }
+//                }else{
+//                    Gson gson = new GsonBuilder().create();
+//                    ErrorPojoClass mError = new ErrorPojoClass();
+//                    try {
+//                        mError= gson.fromJson(response.errorBody().string(),ErrorPojoClass .class);
+//                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getDetails());
+//                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getMessage());
+//                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getTimestamp());
+//                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getErrorcode());
+//                    } catch (IOException e) {
+//                        // handle failure to read error
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ModelTab13mRank> call, Throwable t) {
+//                Log.e("레트로핏 실패","값 : "+t.getMessage());
+//            }
+//        });
     }
 
     @Override
