@@ -1,6 +1,8 @@
 package quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.dModel;
 
-public class ModelMyCookList {
+import android.support.annotation.NonNull;
+
+public class ModelMyCookList implements Comparable<ModelMyCookList>{
 
     String title;
     double rate;
@@ -12,7 +14,7 @@ public class ModelMyCookList {
     String descript;
     int type;
 
-    public ModelMyCookList(String title, double rate, String ucode, boolean openchart, Long mincost, String image, int photo, String descript, int type) {
+        public ModelMyCookList(String title, double rate, String ucode, boolean openchart, Long mincost, String image, int photo, String descript, int type) {
         this.title = title;
         this.rate = rate;
         this.ucode = ucode;
@@ -94,5 +96,18 @@ public class ModelMyCookList {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    //작으면 음수, 크면 양수, 같으면 0
+    @Override
+    public int compareTo(@NonNull ModelMyCookList o) {
+
+       if(this.rate > o.getRate()){
+           return -1;
+       }else if(this.rate < o.getRate()){
+            return 1;
+       }else{
+           return 0;
+       }
     }
 }

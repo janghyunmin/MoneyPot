@@ -17,8 +17,8 @@ import static quantec.com.moneypot.mApplication.UID;
 public class RetrofitClient {
 
 //    private static String baseUrl = "http://13.124.21.63/json/";
-//    private static String baseUrl = "https://dev.quantec.co.kr:7777/core/";
-    private static String baseUrl = "http://192.168.0.3:7777/core/";
+    private static String baseUrl = "https://dev.quantec.co.kr:7777/core/";
+//    private static String baseUrl = "http://192.168.0.3:7777/core/";
 
     private static int CONNECT_TIMEOUT = 15;
     private static int WRITE_TIMEOUT = 15;

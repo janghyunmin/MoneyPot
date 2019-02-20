@@ -133,9 +133,13 @@ public interface RetrofitService {
     //이름 + 설명
     //opt = 2
     //이미지 초기화 + 이름 + 설명
+//    @Multipart
+//    @POST("icon_upload.php")
+//    Call<ModelImageSavedData> getImageTextUpload(@Part MultipartBody.Part opt, @Part MultipartBody.Part ucode, @Part MultipartBody.Part name, @Part MultipartBody.Part desc, @Part MultipartBody.Part file, @Part MultipartBody.Part wch);
     @Multipart
-    @POST("icon_upload.php")
-    Call<ModelImageSavedData> getImageTextUpload(@Part MultipartBody.Part opt, @Part MultipartBody.Part ucode, @Part MultipartBody.Part name, @Part MultipartBody.Part desc, @Part MultipartBody.Part file, @Part MultipartBody.Part wch);
+    @POST("common/uploadsImg/{code}")
+    Call<ModelImageSavedData> getImageTextUpload(@Part MultipartBody.Part image, @Path("code") String ucode);
+
 
     //내포트 이름 업로드
     //opt = 0
@@ -231,7 +235,6 @@ public interface RetrofitService {
     @POST("pack/getPotPage/{rate}/{page}/{size}")
     Call<ModelMyPotList> getMyPotList(@Header("Content-Type") String content_type, @Body Object filter, @Path("rate") int rate, @Path("page") int page, @Path("size") int size);
 
-
     /**
      * 전략 및 포트 리스트 불러옴
      * /pack/getPage
@@ -240,7 +243,7 @@ public interface RetrofitService {
      *     // L 2. 포트요리 > 랭킹도전/포트만들기 대회(포트리그 상위 3개) : status = 20, rate desc, page size = 3
      *     // H 2. [포트요리 > 핫한 재료(getHotList) : random, rate desc, limit]
      *     // I 2. 포트요리 > 안정적재료 : invest_type = ?, rate desc, page size
-     *     // S 2. [포트요리 > 내가담은 포트(getSelect) : rate desc, all]
+     *     // S 2. [포트요리 > 내가담은 포트(getSelect) : rate desc, all] -> rate는 누적값
      *     // U 2. 포트요리 > 내가만든 포트(요리된포트) : uid = myid & type > 10 & status != 0, rate desc, page
      *     // M 3. 포트마켓 > 투자가능 목록 : status >= 50, rate desc, page
      *     // Z 4. [찜한포트 > 내가찜한 포트(getSelect) : rate desc, all]
@@ -248,4 +251,23 @@ public interface RetrofitService {
      */
     @POST("pack/getPage/{gubun}/{rate}/{page}/{size}")
     Call<ModelTab13mRank> getPageList(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
+
+    /**
+     *
+     * 내가 담은 리스트의 경우 다른 모델클래스를 만들어줘야됨
+     * 받는 데이터 내용이 다름
+     *
+     */
+    @POST("pack/getPage/{gubun}/{rate}/{page}/{size}")
+    Call<ModelFgTab4ZimData> getPageList2(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
+
+    /**
+     * 내가 만든 포트 삭제
+     *
+     *  에러코드
+     *  POT_NOT_USER_DELETE		(44300, HttpStatus.NOT_ACCEPTABLE, "NOT Delete(User) !!|다른 사용자가 생성한 포트입니다."),
+     * 	POT_NOT_ALLOW_DELETE	(44400, HttpStatus.NOT_ACCEPTABLE, "NOT Delete(Status) !!|삭제가 불가능한 상태 포트입니다."),
+     */
+    @POST("pack/delPot/{code}")
+    Call<Object> getDelMyPot(@Path("code") String code);
 }

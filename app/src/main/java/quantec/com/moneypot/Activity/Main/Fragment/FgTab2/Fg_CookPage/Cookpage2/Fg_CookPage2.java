@@ -30,11 +30,13 @@ import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
 import quantec.com.moneypot.Activity.FinishMakePort.ActivityFinishMakePort;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Filter;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Adapter.AdapterCookPage2;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Dialog.DialogCookPage2Delete;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Model.dModel.ModelCookList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Model.nModel.ModelCookPage2;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelZimData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Select;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Model.nModel.ModelFgTab4ZimData;
@@ -472,7 +474,9 @@ public class Fg_CookPage2 extends Fragment {
                     e.printStackTrace();
                 }
                 DelayedRefresh = false;
-                Call<ModelFgTab4ZimData> getData = RetrofitClient.getInstance().getService().getZimDamList();
+//                Call<ModelFgTab4ZimData> getData = RetrofitClient.getInstance().getService().getZimDamList();
+                Filter filter = new Filter();
+                Call<ModelFgTab4ZimData> getData = RetrofitClient.getInstance().getService().getPageList2("application/json",filter, "S", 0,90,30);
                 getData.enqueue(new Callback<ModelFgTab4ZimData>() {
                     @Override
                     public void onResponse(Call<ModelFgTab4ZimData> call, Response<ModelFgTab4ZimData> response) {
@@ -482,12 +486,10 @@ public class Fg_CookPage2 extends Fragment {
                                 if(response.body().getTotalElements() != 0){
                                     String name;
                                     for(int a = 0 ; a < response.body().getTotalElements(); a++) {
-                                        if(response.body().getContent().get(a).isDam()) {
                                             name = "@drawable/ic_" + response.body().getContent().get(a).getCode();
                                             modelCookLists.add(new ModelCookList(response.body().getContent().get(a).getName(), response.body().getContent().get(a).getCode(),
                                                     decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2), response.body().getContent().get(a).isZim(),
-                                                    response.body().getContent().get(a).isDam(), name, false, response.body().getContent().get(a).getMinPrice(), 0));
-                                        }
+                                                    true, name, false, response.body().getContent().get(a).getMinPrice(), 0));
                                     }
                                     adapterCookPage2.notifyDataSetChanged();
                                     fgcookpage2Binding.fgCookpage2LoadingBar.setVisibility(View.GONE);
@@ -519,7 +521,7 @@ public class Fg_CookPage2 extends Fragment {
             if(resultCode == 1) {
                 Bundle bundle = new Bundle();
                 bundle.putString("myportname", data.getStringExtra("portname"));
-                bundle.putInt("myportcode",data.getIntExtra("portcode",0));
+                bundle.putString("myportcode",data.getStringExtra("portcode"));
                 bundle.putLong("myportcash",data.getLongExtra("portcash",0));
                 bundle.putDouble("myportDrate", data.getDoubleExtra("portDrate", 0));
                 RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_TRANS_PAGE, bundle));

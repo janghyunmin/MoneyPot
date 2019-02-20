@@ -60,16 +60,98 @@ public class ModelTab13mRank {
         String date;
         PackEls packEls;
         Codes codes;
-        Filter filter;
+//        Filter filter;
+        File file;
         Select select = new Select();
         int uid;
-
 
         public class PackEls{
         }
         public class Codes{
         }
-        public class Filter{
+        public class File{
+
+            String code;
+            String fileName;
+            int fileSize;
+            String oldFileName;
+            int oldFileSize;
+            String dailyFolderPath;
+            boolean dailyFolder;
+            String home;
+            String fileFullPath;
+
+            public String getCode() {
+                return code;
+            }
+
+            public void setCode(String code) {
+                this.code = code;
+            }
+
+            public String getFileName() {
+                return fileName;
+            }
+
+            public void setFileName(String fileName) {
+                this.fileName = fileName;
+            }
+
+            public int getFileSize() {
+                return fileSize;
+            }
+
+            public void setFileSize(int fileSize) {
+                this.fileSize = fileSize;
+            }
+
+            public String getOldFileName() {
+                return oldFileName;
+            }
+
+            public void setOldFileName(String oldFileName) {
+                this.oldFileName = oldFileName;
+            }
+
+            public int getOldFileSize() {
+                return oldFileSize;
+            }
+
+            public void setOldFileSize(int oldFileSize) {
+                this.oldFileSize = oldFileSize;
+            }
+
+            public String getDailyFolderPath() {
+                return dailyFolderPath;
+            }
+
+            public void setDailyFolderPath(String dailyFolderPath) {
+                this.dailyFolderPath = dailyFolderPath;
+            }
+
+            public boolean isDailyFolder() {
+                return dailyFolder;
+            }
+
+            public void setDailyFolder(boolean dailyFolder) {
+                this.dailyFolder = dailyFolder;
+            }
+
+            public String getHome() {
+                return home;
+            }
+
+            public void setHome(String home) {
+                this.home = home;
+            }
+
+            public String getFileFullPath() {
+                return fileFullPath;
+            }
+
+            public void setFileFullPath(String fileFullPath) {
+                this.fileFullPath = fileFullPath;
+            }
         }
 
         public int getType() {
@@ -208,12 +290,12 @@ public class ModelTab13mRank {
             this.codes = codes;
         }
 
-        public Filter getFilter() {
-            return filter;
+        public File getFile() {
+            return file;
         }
 
-        public void setFilter(Filter filter) {
-            this.filter = filter;
+        public void setFile(File file) {
+            this.file = file;
         }
 
         public Select getSelect() {

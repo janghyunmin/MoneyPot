@@ -17,9 +17,17 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
+
 import okhttp3.MultipartBody;
+import quantec.com.moneypot.Activity.FinishMakePort.Model.nModel.ModelPortSavedInfo;
+import quantec.com.moneypot.Activity.Intro.ErrorPojoClass;
 import quantec.com.moneypot.Activity.PortProfileModify.ActivityPortProfileModify;
 import quantec.com.moneypot.Activity.PortProfileModify.Model.nModel.ModelImageSavedData;
+import quantec.com.moneypot.ModelCommon.nModel.SavedPotDto;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.databinding.ActivityPortProfileDescModifyBinding;
@@ -32,7 +40,8 @@ public class ActivityPortProfileDescModify extends AppCompatActivity {
     ActivityPortProfileDescModifyBinding descModifyBinding;
 
     InputMethodManager imm;
-    int TextNum, mmCode;
+    int TextNum;
+    String mmCode, mmName;
     //한글, 영어, 숫자, 특수기호 중 ( _ - . ) 만 가능
     String Patten = "(^[^\\s][\\sa-zA-Z0-9ㄱ-ㅎ가-힣_.-]*$)";
     Animation ShakeText;
@@ -60,7 +69,8 @@ public class ActivityPortProfileDescModify extends AppCompatActivity {
 
         Intent intent = getIntent();
         TextNum = intent.getStringExtra("mDesc").length();
-        mmCode = intent.getIntExtra("mmCode",0);
+        mmCode = intent.getStringExtra("mmCode");
+        mmName = intent.getStringExtra("mName");
 
         descModifyBinding.PortProfileDescModifyDescEditTextNum.setText(String.valueOf(TextNum));
         descModifyBinding.PortProfileDescModifyDescEditText.setText(intent.getStringExtra("mDesc"));
@@ -91,31 +101,65 @@ public class ActivityPortProfileDescModify extends AppCompatActivity {
                 imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(descModifyBinding.PortProfileDescModifyDescEditText.getWindowToken(), 0);
 
-                MultipartBody.Part opt = MultipartBody.Part.createFormData("opt", "1");
-                MultipartBody.Part name = MultipartBody.Part.createFormData("name", "");
-                MultipartBody.Part desc = MultipartBody.Part.createFormData("desc", descModifyBinding.PortProfileDescModifyDescEditText.getText().toString());
-                MultipartBody.Part ucode = MultipartBody.Part.createFormData("ucode", String.valueOf(mmCode));
-                MultipartBody.Part wch = MultipartBody.Part.createFormData("wch", "1");
-
-                Call<ModelImageSavedData> getchartItem = RetrofitClient.getInstance().getService().getTextUpload(opt, ucode, name, desc, wch);
-                getchartItem.enqueue(new Callback<ModelImageSavedData>() {
+                SavedPotDto potDto = new SavedPotDto(mmCode, mmName, descModifyBinding.PortProfileDescModifyDescEditText.getText().toString());
+                Call<ModelPortSavedInfo> getchartItem = RetrofitClient.getInstance().getService().getSavedMyPot("application/json", potDto);
+                getchartItem.enqueue(new Callback<ModelPortSavedInfo>() {
                     @Override
-                    public void onResponse(Call<ModelImageSavedData> call, Response<ModelImageSavedData> response) {
-                        if (response.code() == 200) {//설명에 금칙어 없을때
-                            //편집된 결과 반영 확인 코드
-                            Intent ModifyResult = new Intent(ActivityPortProfileDescModify.this, ActivityPortProfileModify.class);
-                            ModifyResult.putExtra("modiDesc",descModifyBinding.PortProfileDescModifyDescEditText.getText().toString());
-                            setResult(334,ModifyResult);
-                            finish();
-                        }else if(response.code() == 303){ //설명에 금칙어 있을때
-                            Toast.makeText(ActivityPortProfileDescModify.this, "포트설명에 금칙어가 포함되어 있습니다\n수정 후에 다시 시도해주세요.",Toast.LENGTH_SHORT).show();
+                    public void onResponse(Call<ModelPortSavedInfo> call, Response<ModelPortSavedInfo> response) {
+
+                        if(response.code() == 200) {
+                            if(response.body().getErrorcode() == 200){
+
+                                //편집된 결과 반영 확인 코드
+                                Intent ModifyResult = new Intent(ActivityPortProfileDescModify.this, ActivityPortProfileModify.class);
+                                ModifyResult.putExtra("modiDesc",descModifyBinding.PortProfileDescModifyDescEditText.getText().toString());
+                                setResult(334,ModifyResult);
+                                finish();
+                            }
+                        }else{
+                            Gson gson = new GsonBuilder().create();
+                            ErrorPojoClass mError = new ErrorPojoClass();
+                            try {
+                                mError= gson.fromJson(response.errorBody().string(),ErrorPojoClass .class);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if(mError.getErrorcode() == 44001){
+                                Toast.makeText(ActivityPortProfileDescModify.this, "포트이름에 금칙어가 포함되어 있습니다\n수정 후에 다시 시도해주세요.",Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                     @Override
-                    public void onFailure(Call<ModelImageSavedData> call, Throwable t) {
-                        Log.e("레트로핏 실패", "값 : " + t.getMessage());
+                    public void onFailure(Call<ModelPortSavedInfo> call, Throwable t) {
+                        Toast.makeText(ActivityPortProfileDescModify.this, "서버가 불안정 합니다\n잠시후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
                     }
                 });
+
+//                MultipartBody.Part opt = MultipartBody.Part.createFormData("opt", "1");
+//                MultipartBody.Part name = MultipartBody.Part.createFormData("name", "");
+//                MultipartBody.Part desc = MultipartBody.Part.createFormData("desc", descModifyBinding.PortProfileDescModifyDescEditText.getText().toString());
+//                MultipartBody.Part ucode = MultipartBody.Part.createFormData("ucode", String.valueOf(mmCode));
+//                MultipartBody.Part wch = MultipartBody.Part.createFormData("wch", "1");
+//
+//                Call<ModelImageSavedData> getchartItem = RetrofitClient.getInstance().getService().getTextUpload(opt, ucode, name, desc, wch);
+//                getchartItem.enqueue(new Callback<ModelImageSavedData>() {
+//                    @Override
+//                    public void onResponse(Call<ModelImageSavedData> call, Response<ModelImageSavedData> response) {
+//                        if (response.code() == 200) {//설명에 금칙어 없을때
+//                            //편집된 결과 반영 확인 코드
+//                            Intent ModifyResult = new Intent(ActivityPortProfileDescModify.this, ActivityPortProfileModify.class);
+//                            ModifyResult.putExtra("modiDesc",descModifyBinding.PortProfileDescModifyDescEditText.getText().toString());
+//                            setResult(334,ModifyResult);
+//                            finish();
+//                        }else if(response.code() == 303){ //설명에 금칙어 있을때
+//                            Toast.makeText(ActivityPortProfileDescModify.this, "포트설명에 금칙어가 포함되어 있습니다\n수정 후에 다시 시도해주세요.",Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(Call<ModelImageSavedData> call, Throwable t) {
+//                        Log.e("레트로핏 실패", "값 : " + t.getMessage());
+//                    }
+//                });
             }
         });
 

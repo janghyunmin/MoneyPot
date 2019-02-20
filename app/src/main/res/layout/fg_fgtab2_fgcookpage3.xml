@@ -16,7 +16,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="#FFFFFF">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fg_cookpage3_recyclerview"
             android:layout_width="match_parent"
@@ -29,10 +30,10 @@
             android:id="@+id/fg_cookpage3_loading_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="60dp"
             android:gravity="center"
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone"
+            android:background="#FFFFFF"
             >
             <ProgressBar
                 android:layout_width="wrap_content"

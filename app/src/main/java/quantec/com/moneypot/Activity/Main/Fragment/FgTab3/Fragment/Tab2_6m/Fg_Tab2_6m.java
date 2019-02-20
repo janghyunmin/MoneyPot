@@ -137,7 +137,7 @@ public class Fg_Tab2_6m extends Fragment {
 
     private void loadData() {
         Filter filter = new Filter();
-        Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2("application/json",filter, countPage,180,10);
+        Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getPageList("application/json",filter, "M", countPage,180,10);
         getTest2.enqueue(new Callback<ModelTab13mRank>() {
             @Override
             public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
@@ -238,7 +238,7 @@ public class Fg_Tab2_6m extends Fragment {
                         @Override
                         protected List<ModelTab26m> doInBackground(Void... voids) {
                             Filter filter = new Filter();
-                            Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2("application/json",filter, countPage,180,10);
+                            Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getPageList("application/json",filter, "M", countPage,180,10);
                             getTest2.enqueue(new Callback<ModelTab13mRank>() {
                                 @Override
                                 public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {

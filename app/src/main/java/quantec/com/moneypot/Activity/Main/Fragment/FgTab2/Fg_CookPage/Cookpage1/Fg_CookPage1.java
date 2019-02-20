@@ -395,7 +395,7 @@ public class Fg_CookPage1 extends Fragment {
 
                 Filter filter = new Filter();
                 //내가 만든 포트 데이터 초기 불러옴
-                Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getTest2("application/json",filter,0, 90,10);
+                Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getPageList("application/json",filter, "M", 0,90,10);
                 getTest2.enqueue(new Callback<ModelTab13mRank>() {
                     @Override
                     public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {

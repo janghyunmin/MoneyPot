@@ -63,7 +63,8 @@ public class ActivityPortProfileModify extends AppCompatActivity {
     private DialogImageReset imageResetDialog;
     private DialogModifyCancle portProfileModifyCancleDialog;
 
-    int mCode, mPhoto;
+    String mCode;
+    int mPhoto;
     String mName, mDesc, mImageUrl;
 
     static final int TAKE_PHOTO = 1;
@@ -106,7 +107,7 @@ public class ActivityPortProfileModify extends AppCompatActivity {
         }
 
         Intent intent = getIntent();
-        mCode = intent.getIntExtra("imageCode", 0);
+        mCode = intent.getStringExtra("imageCode");
         mPhoto = intent.getIntExtra("imagePhoto",0);
         mName = intent.getStringExtra("imageName");
         mDesc = intent.getStringExtra("imageDesc");
@@ -178,24 +179,20 @@ public class ActivityPortProfileModify extends AppCompatActivity {
                                 File file = new File(path);
 
                                 RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), saveBitmapToFile(file));
-                                MultipartBody.Part archiveFile = MultipartBody.Part.createFormData("fileToUpload", file.getName(), mFile);
-                                MultipartBody.Part opt = MultipartBody.Part.createFormData("opt", "0");
-                                MultipartBody.Part name = MultipartBody.Part.createFormData("name", SavePortName);
-                                MultipartBody.Part desc = MultipartBody.Part.createFormData("desc", SavePortDesc);
-                                MultipartBody.Part ucode = MultipartBody.Part.createFormData("ucode", String.valueOf(mCode));
-                                MultipartBody.Part wch = MultipartBody.Part.createFormData("wch", "0");
+                                MultipartBody.Part archiveFile = MultipartBody.Part.createFormData("file", file.getName(), mFile);
 
-                                Call<ModelImageSavedData> getchartItem = RetrofitClient.getInstance().getService().getImageTextUpload(opt, ucode, name, desc, archiveFile, wch);
+                                Call<ModelImageSavedData> getchartItem = RetrofitClient.getInstance().getService().getImageTextUpload(archiveFile, mCode);
                                 getchartItem.enqueue(new Callback<ModelImageSavedData>() {
                                     @Override
                                     public void onResponse(Call<ModelImageSavedData> call, Response<ModelImageSavedData> response) {
                                         if (response.code() == 200) {
                                             loadingCustom.dismiss();
+
                                             Intent ChangedInfo = new Intent(ActivityPortProfileModify.this, Fg_CookPage3.class);
-                                            ChangedInfo.putExtra("PassPortIcon", response.body().getProduct().get(0).getIcon());
-                                            ChangedInfo.putExtra("PassPortName", response.body().getProduct().get(0).getName());
-                                            ChangedInfo.putExtra("PassPortDesc", response.body().getProduct().get(0).getDescript());
-                                            ChangedInfo.putExtra("PassPhoto",response.body().getProduct().get(0).getPhoto());
+                                            ChangedInfo.putExtra("PassPortIcon", response.body().getContent().getHome()+response.body().getContent().getFileFullPath());
+//                                            ChangedInfo.putExtra("PassPortName", response.body().getContent().get());
+//                                            ChangedInfo.putExtra("PassPortDesc", response.body().getProduct().get(0).getDescript());
+                                            ChangedInfo.putExtra("PassPhoto",1);
                                             ChangedInfo.putExtra("PassPosition", ItemPositon);
                                             setResult(501, ChangedInfo);
                                             finish();
@@ -254,9 +251,11 @@ public class ActivityPortProfileModify extends AppCompatActivity {
                 if(ModifyName==null) {
                     moveName.putExtra("mName",mName);
                     moveName.putExtra("mmCode", mCode);
+                    moveName.putExtra("mDesc", mDesc);
                 }else{
-                    moveName.putExtra("mName",ModifyName);
+                    moveName.putExtra("mName",mName);
                     moveName.putExtra("mmCode", mCode);
+                    moveName.putExtra("mDesc",mDesc);
                 }
                 startActivityForResult(moveName, 200);
             }
@@ -268,8 +267,12 @@ public class ActivityPortProfileModify extends AppCompatActivity {
                 Intent moveDesc = new Intent(ActivityPortProfileModify.this, ActivityPortProfileDescModify.class);
                 if(ModifyDesc == null) {
                     moveDesc.putExtra("mDesc",mDesc);
+                    moveDesc.putExtra("mmCode", mCode);
+                    moveDesc.putExtra("mName",mName);
                 }else{
-                    moveDesc.putExtra("mDesc",ModifyDesc);
+                    moveDesc.putExtra("mDesc",mDesc);
+                    moveDesc.putExtra("mName",mName);
+                    moveDesc.putExtra("mmCode", mCode);
                 }
                 startActivityForResult(moveDesc, 200);
             }
@@ -285,27 +288,34 @@ public class ActivityPortProfileModify extends AppCompatActivity {
             MultipartBody.Part ucode = MultipartBody.Part.createFormData("ucode", String.valueOf(mCode));
             MultipartBody.Part wch = MultipartBody.Part.createFormData("wch", "0");
 
-            Call<ModelImageSavedData> getchartItem = RetrofitClient.getInstance().getService().getTextUpload(opt, ucode, name, desc, wch);
-            getchartItem.enqueue(new Callback<ModelImageSavedData>() {
-                @Override
-                public void onResponse(Call<ModelImageSavedData> call, Response<ModelImageSavedData> response) {
-                    if (response.code() == 200) {
-                        loadingCustom.dismiss();
-                        Intent ChangedInfo = new Intent(ActivityPortProfileModify.this, Fg_CookPage3.class);
-                        ChangedInfo.putExtra("PassPortIcon", response.body().getProduct().get(0).getIcon());
-                        ChangedInfo.putExtra("PassPortName", response.body().getProduct().get(0).getName());
-                        ChangedInfo.putExtra("PassPortDesc", response.body().getProduct().get(0).getDescript());
-                        ChangedInfo.putExtra("PassPhoto",response.body().getProduct().get(0).getPhoto());
-                        ChangedInfo.putExtra("PassPosition", ItemPositon);
-                        setResult(501, ChangedInfo);
-                        finish();
-                    }
-                }
-                @Override
-                public void onFailure(Call<ModelImageSavedData> call, Throwable t) {
-                    Log.e("레트로핏 실패", "값 : " + t.getMessage());
-                }
-            });
+//            Call<ModelImageSavedData> getchartItem = RetrofitClient.getInstance().getService().getTextUpload(opt, ucode, name, desc, wch);
+
+//        File file = new File("");
+
+//        RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), saveBitmapToFile(null));
+//        MultipartBody.Part archiveFile = MultipartBody.Part.createFormData("file", "", null);
+//            Call<ModelImageSavedData> getchartItem = RetrofitClient.getInstance().getService().getImageTextUpload(archiveFile, mCode);
+//            getchartItem.enqueue(new Callback<ModelImageSavedData>() {
+//                @Override
+//                public void onResponse(Call<ModelImageSavedData> call, Response<ModelImageSavedData> response) {
+//                    if (response.code() == 200) {
+//                        loadingCustom.dismiss();
+//                        Log.e("완료","초기화완료");
+////                        Intent ChangedInfo = new Intent(ActivityPortProfileModify.this, Fg_CookPage3.class);
+////                        ChangedInfo.putExtra("PassPortIcon", response.body().getProduct().get(0).getIcon());
+////                        ChangedInfo.putExtra("PassPortName", response.body().getProduct().get(0).getName());
+////                        ChangedInfo.putExtra("PassPortDesc", response.body().getProduct().get(0).getDescript());
+////                        ChangedInfo.putExtra("PassPhoto",response.body().getProduct().get(0).getPhoto());
+////                        ChangedInfo.putExtra("PassPosition", ItemPositon);
+////                        setResult(501, ChangedInfo);
+//                        finish();
+//                    }
+//                }
+//                @Override
+//                public void onFailure(Call<ModelImageSavedData> call, Throwable t) {
+//                    Log.e("레트로핏 실패", "값 : " + t.getMessage());
+//                }
+//            });
     }
 
     //이미지 리셋 취소
@@ -434,12 +444,12 @@ public class ActivityPortProfileModify extends AppCompatActivity {
         if(requestCode == Modify_NameDesc && resultCode == 333) {
             ChangedInfoState = true;
             profileModifyBinding.PortProfileModifyNameText.setText(data.getStringExtra("modiName"));
-            ModifyName = data.getStringExtra("modiName");
+            mName = data.getStringExtra("modiName");
         }
         if(requestCode == Modify_NameDesc && resultCode == 334) {
             ChangedInfoState = true;
             profileModifyBinding.PortProfileModifyDescText.setText(data.getStringExtra("modiDesc"));
-            ModifyDesc = data.getStringExtra("modiDesc");
+            mDesc = data.getStringExtra("modiDesc");
         }
     }
 
