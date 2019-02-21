@@ -58,7 +58,7 @@ public class ModelTab13mRank {
         int view;
         int status;
         String date;
-        PackEls packEls;
+        ArrayList<PackEls> packEls;
         Codes codes;
 //        Filter filter;
         File file;
@@ -66,6 +66,69 @@ public class ModelTab13mRank {
         int uid;
 
         public class PackEls{
+            int code;
+            int elCode;
+            String elName;
+            double rate;
+            String beginDate;
+            String endDate;
+            double weight;
+
+            public int getCode() {
+                return code;
+            }
+
+            public void setCode(int code) {
+                this.code = code;
+            }
+
+            public int getElCode() {
+                return elCode;
+            }
+
+            public void setElCode(int elCode) {
+                this.elCode = elCode;
+            }
+
+            public String getElName() {
+                return elName;
+            }
+
+            public void setElName(String elName) {
+                this.elName = elName;
+            }
+
+            public double getRate() {
+                return rate;
+            }
+
+            public void setRate(double rate) {
+                this.rate = rate;
+            }
+
+            public String getBeginDate() {
+                return beginDate;
+            }
+
+            public void setBeginDate(String beginDate) {
+                this.beginDate = beginDate;
+            }
+
+            public String getEndDate() {
+                return endDate;
+            }
+
+            public void setEndDate(String endDate) {
+                this.endDate = endDate;
+            }
+
+            public double getWeight() {
+                return weight;
+            }
+
+            public void setWeight(double weight) {
+                this.weight = weight;
+            }
         }
         public class Codes{
         }
@@ -274,11 +337,11 @@ public class ModelTab13mRank {
             this.date = date;
         }
 
-        public PackEls getPackEls() {
+        public ArrayList<PackEls> getPackEls() {
             return packEls;
         }
 
-        public void setPackEls(PackEls packEls) {
+        public void setPackEls(ArrayList<PackEls> packEls) {
             this.packEls = packEls;
         }
 

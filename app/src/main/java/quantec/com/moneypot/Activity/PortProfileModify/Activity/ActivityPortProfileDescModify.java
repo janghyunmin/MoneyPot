@@ -134,32 +134,6 @@ public class ActivityPortProfileDescModify extends AppCompatActivity {
                         Toast.makeText(ActivityPortProfileDescModify.this, "서버가 불안정 합니다\n잠시후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
                     }
                 });
-
-//                MultipartBody.Part opt = MultipartBody.Part.createFormData("opt", "1");
-//                MultipartBody.Part name = MultipartBody.Part.createFormData("name", "");
-//                MultipartBody.Part desc = MultipartBody.Part.createFormData("desc", descModifyBinding.PortProfileDescModifyDescEditText.getText().toString());
-//                MultipartBody.Part ucode = MultipartBody.Part.createFormData("ucode", String.valueOf(mmCode));
-//                MultipartBody.Part wch = MultipartBody.Part.createFormData("wch", "1");
-//
-//                Call<ModelImageSavedData> getchartItem = RetrofitClient.getInstance().getService().getTextUpload(opt, ucode, name, desc, wch);
-//                getchartItem.enqueue(new Callback<ModelImageSavedData>() {
-//                    @Override
-//                    public void onResponse(Call<ModelImageSavedData> call, Response<ModelImageSavedData> response) {
-//                        if (response.code() == 200) {//설명에 금칙어 없을때
-//                            //편집된 결과 반영 확인 코드
-//                            Intent ModifyResult = new Intent(ActivityPortProfileDescModify.this, ActivityPortProfileModify.class);
-//                            ModifyResult.putExtra("modiDesc",descModifyBinding.PortProfileDescModifyDescEditText.getText().toString());
-//                            setResult(334,ModifyResult);
-//                            finish();
-//                        }else if(response.code() == 303){ //설명에 금칙어 있을때
-//                            Toast.makeText(ActivityPortProfileDescModify.this, "포트설명에 금칙어가 포함되어 있습니다\n수정 후에 다시 시도해주세요.",Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                    @Override
-//                    public void onFailure(Call<ModelImageSavedData> call, Throwable t) {
-//                        Log.e("레트로핏 실패", "값 : " + t.getMessage());
-//                    }
-//                });
             }
         });
 

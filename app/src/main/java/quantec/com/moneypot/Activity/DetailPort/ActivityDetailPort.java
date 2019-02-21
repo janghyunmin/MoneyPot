@@ -85,6 +85,8 @@ public class ActivityDetailPort extends AppCompatActivity {
 
     double rate, rate30, rate90, rate180;
 
+    int type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -220,7 +222,7 @@ public class ActivityDetailPort extends AppCompatActivity {
         detailPageAdapter2.setDetailPageDur1(new AdapterDetailPort.DetailPageDur1() {
             @Override
             public void onClick(int position) {
-                ChartDur(30);
+                ChartDur(30, type);
             }
         });
 
@@ -228,7 +230,7 @@ public class ActivityDetailPort extends AppCompatActivity {
         detailPageAdapter2.setDetailPageDur3(new AdapterDetailPort.DetailPageDur3() {
             @Override
             public void onClick(int position) {
-                ChartDur(90);
+                ChartDur(90, type);
             }
         });
 
@@ -236,7 +238,7 @@ public class ActivityDetailPort extends AppCompatActivity {
         detailPageAdapter2.setDetailPageDur6(new AdapterDetailPort.DetailPageDur6() {
             @Override
             public void onClick(int postion) {
-                ChartDur(180);
+                ChartDur(180, type);
             }
         });
 
@@ -244,7 +246,7 @@ public class ActivityDetailPort extends AppCompatActivity {
         detailPageAdapter2.setDetailPageDura(new AdapterDetailPort.DetailPageDura() {
             @Override
             public void onClick(int position) {
-                ChartDur(700);
+                ChartDur(700, type);
             }
         });
 
@@ -480,7 +482,9 @@ public class ActivityDetailPort extends AppCompatActivity {
                         getDam = false;
                     }
 
-                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(1, PortCode,700);
+                    type = response.body().getContent().getType();
+
+                    Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(response.body().getContent().getType(), PortCode,700);
                     getTest2.enqueue(new Callback<ModelTab13mChartData>() {
                         @Override
                         public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {
@@ -509,9 +513,9 @@ public class ActivityDetailPort extends AppCompatActivity {
 
     }
 
-    void ChartDur(int dur) {
+    void ChartDur(int dur, int type) {
 
-        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(1, PortCode, dur);
+        Call<ModelTab13mChartData> getTest2 = RetrofitClient.getInstance().getService().getRankPort(type, PortCode, dur);
         getTest2.enqueue(new Callback<ModelTab13mChartData>() {
             @Override
             public void onResponse(Call<ModelTab13mChartData> call, Response<ModelTab13mChartData> response) {

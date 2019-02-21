@@ -205,7 +205,7 @@ public class Fg_CookPage3 extends Fragment {
             @Override
             public void onClick(int position) {
                 Intent intent1 = new Intent(getActivity(), ActivityDetailPort.class);
-                intent1.putExtra("detailcode", 15);
+                intent1.putExtra("detailcode", modelMyCookLists.get(position).getUcode());
                 intent1.putExtra("detailtitle", modelMyCookLists.get(position).getTitle());
                 //상세페이지 이동시 타입을 false로 넘겨 주어 찜 버튼 대신 다른 이미지를 둠
                 intent1.putExtra("detailtype", false);
@@ -281,7 +281,7 @@ public class Fg_CookPage3 extends Fragment {
 
                             case RxEvent.ZZIM_PORT_TRANS_PAGE:
                                 modelMyCookLists.add(new ModelMyCookList(rxEvent.getBundle().getString("myportname"),
-                                        decimalScale(String.valueOf(rxEvent.getBundle().getDouble("myportDrate")*100), 2, 2), rxEvent.getBundle().getString("myportcode"),false, rxEvent.getBundle().getLong("myportcash"), null, 0, "", 1));
+                                        decimalScale(String.valueOf(rxEvent.getBundle().getDouble("myportDrate")*100), 2, 2), rxEvent.getBundle().getString("myportcode"),false, rxEvent.getBundle().getLong("myportcash"), null, 0, "", 11));
 //                                Collections.sort(modelMyCookLists, new Comparator<ModelMyCookList>() {
 //                                    @Override
 //                                    public int compare(ModelMyCookList o1, ModelMyCookList o2) {
@@ -414,12 +414,12 @@ public class Fg_CookPage3 extends Fragment {
                                     modelMyCookLists.add(new ModelMyCookList(response.body().getContent().get(index).getName(),
                                             decimalScale(String.valueOf(response.body().getContent().get(index).getRate()*100), 2, 2), response.body().getContent().get(index).getCode(),
                                             false, response.body().getContent().get(index).getMinPrice(), response.body().getContent().get(index).getFile().getHome()+response.body().getContent().get(index).getFile().getFileFullPath(),
-                                            1,response.body().getContent().get(index).getDescript(), response.body().getContent().get(index).getInvestType()));
+                                            1,response.body().getContent().get(index).getDescript(), response.body().getContent().get(index).getType()));
                                 }else{
                                     modelMyCookLists.add(new ModelMyCookList(response.body().getContent().get(index).getName(),
                                             decimalScale(String.valueOf(response.body().getContent().get(index).getRate()*100), 2, 2), response.body().getContent().get(index).getCode(),
                                             false, response.body().getContent().get(index).getMinPrice(), "",
-                                            0,response.body().getContent().get(index).getDescript(), response.body().getContent().get(index).getInvestType()));
+                                            0,response.body().getContent().get(index).getDescript(), response.body().getContent().get(index).getType()));
                                 }
                             }
                             adapterCookPage3.notifyDataSetChanged();

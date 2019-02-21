@@ -192,13 +192,13 @@ public class Fg_Tab1_3m extends Fragment {
                         if(response.body().getContent().get(a).getSelect() != null) {
                             tab1_3mItems.add(new ModelTab13m(response.body().getContent().get(a).getName(),
                                     response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2), response.body().getContent().get(a).getSelect().isZim(),
-                                    response.body().getContent().get(a).getSelect().isDam(),resID, false, response.body().getContent().get(a).getMinPrice()
+                                    response.body().getContent().get(a).getSelect().isDam(),resID, false, response.body().getContent().get(a).getMinPrice(), response.body().getContent().get(a).getType()
                             ));
                         }
                         else{
                             tab1_3mItems.add(new ModelTab13m(response.body().getContent().get(a).getName(),
                                     response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2), false,
-                                    false, resID, false, response.body().getContent().get(a).getMinPrice()
+                                    false, resID, false, response.body().getContent().get(a).getMinPrice(),response.body().getContent().get(a).getType()
                             ));
                         }
                     }
@@ -289,12 +289,12 @@ public class Fg_Tab1_3m extends Fragment {
                                             if(response.body().getContent().get(a).getSelect() != null) {
                                                 list.add(new ModelTab13m(response.body().getContent().get(a).getName(),
                                                         response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2),response.body().getContent().get(a).getSelect().isZim(),
-                                                        response.body().getContent().get(a).getSelect().isDam(),resID, false, response.body().getContent().get(a).getMinPrice()
+                                                        response.body().getContent().get(a).getSelect().isDam(),resID, false, response.body().getContent().get(a).getMinPrice(), response.body().getContent().get(a).getType()
                                                 ));
                                             }else{
                                                 list.add(new ModelTab13m(response.body().getContent().get(a).getName(),
                                                         response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2),false,
-                                                        false, resID, false, response.body().getContent().get(a).getMinPrice()
+                                                        false, resID, false, response.body().getContent().get(a).getMinPrice(), response.body().getContent().get(a).getType()
                                                 ));
                                             }
                                         }

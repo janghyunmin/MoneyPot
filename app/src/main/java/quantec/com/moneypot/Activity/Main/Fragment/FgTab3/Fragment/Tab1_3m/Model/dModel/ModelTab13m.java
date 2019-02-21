@@ -10,9 +10,10 @@ public class ModelTab13m {
     int image;
     boolean onenChart;
     Long mincost;
+    int type;
 
 
-    public ModelTab13m(String title, String code, double rate, boolean isZim, boolean isDam, int image, boolean onenChart, Long mincost) {
+    public ModelTab13m(String title, String code, double rate, boolean isZim, boolean isDam, int image, boolean onenChart, Long mincost, int type) {
         this.title = title;
         this.code = code;
         this.rate = rate;
@@ -21,6 +22,7 @@ public class ModelTab13m {
         this.image = image;
         this.onenChart = onenChart;
         this.mincost = mincost;
+        this.type = type;
     }
 
     public String getTitle() {
@@ -85,5 +87,13 @@ public class ModelTab13m {
 
     public void setMincost(Long mincost) {
         this.mincost = mincost;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

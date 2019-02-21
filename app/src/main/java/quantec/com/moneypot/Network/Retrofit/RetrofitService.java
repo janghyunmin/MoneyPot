@@ -62,8 +62,10 @@ public interface RetrofitService {
     Call<ModelRecommendHotPort> getHotPort();
 
     //검색페이지
-    @GET("get_search_result.php")
-    Call<ModelSearchPage> getSearch(@Query("key") String key, @Query("bIdx") int bIdx);
+//    @GET("get_search_result.php")
+//    Call<ModelSearchPage> getSearch(@Query("key") String key, @Query("bIdx") int bIdx);
+    @POST("pack/getPage/{gubun}/{rate}/{page}/{size}")
+    Call<ModelTab13mRank> getSearchData(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 
     //찜한 포트 저장( 수정 버전 - 단일 찜 코드 업로드 )
     @FormUrlEncoded
@@ -190,7 +192,9 @@ public interface RetrofitService {
 //    @GET("strategy/getSt/{stCode}")
 //    Call<ModelInvestItem> getDetailTest(@Path("stCode") String stCode);
     //상세 페이지 불러옴
-    @GET("pack/getSt/{stCode}")
+//    @GET("pack/getSt/{stCode}")
+//    Call<ModelInvestItem> getDetailTest(@Path("stCode") String stCode);
+    @GET("pack/getDetail/{stCode}")
     Call<ModelInvestItem> getDetailTest(@Path("stCode") String stCode);
 
 //    //전략 포트 찜
@@ -270,4 +274,11 @@ public interface RetrofitService {
      */
     @POST("pack/delPot/{code}")
     Call<Object> getDelMyPot(@Path("code") String code);
+
+    /**
+     *
+     * 내가 만든 포트 이미지 초기화
+     */
+    @POST("common/deleteImg/{code}")
+    Call<Object> getInitMyPotImage(@Path("code") String code);
 }
