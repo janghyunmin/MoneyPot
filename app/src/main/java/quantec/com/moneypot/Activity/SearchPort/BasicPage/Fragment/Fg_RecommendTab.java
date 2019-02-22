@@ -16,6 +16,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Filter;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
 import quantec.com.moneypot.Activity.SearchPort.BasicPage.Fragment.Adapter.AdapterRecommendPortTab;
 import quantec.com.moneypot.Activity.SearchPort.BasicPage.Fragment.Model.dModel.ModelRecommendPort;
 import quantec.com.moneypot.Activity.SearchPort.BasicPage.Fragment.Model.nModel.ModelRecommendHotPort;
@@ -57,14 +59,14 @@ public class Fg_RecommendTab extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //내가 만든 포트 데이터 초기 불러옴
-        Call<ModelRecommendHotPort> getData = RetrofitClient.getInstance().getService().getHotPort();
-        getData.enqueue(new Callback<ModelRecommendHotPort>() {
+        Filter filter = new Filter();
+        Call<ModelTab13mRank> getReList = RetrofitClient.getInstance().getService().getPageList("application/json", filter, "H", 0,1,10);
+        getReList.enqueue(new Callback<ModelTab13mRank>() {
             @Override
-            public void onResponse(Call<ModelRecommendHotPort> call, Response<ModelRecommendHotPort> response) {
+            public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                 if (response.code() == 200) {
-                    for(int a= 0 ; a < response.body().getProduct().size() ; a++) {
-                        modelRecommendPorts.add(new ModelRecommendPort(response.body().getProduct().get(a).getName(),response.body().getProduct().get(a).getCode()));
+                    for(int a= 0 ; a < response.body().getTotalElements() ; a++) {
+                        modelRecommendPorts.add(new ModelRecommendPort(response.body().getContent().get(a).getName(),response.body().getContent().get(a).getCode()));
                     }
                     if(modelRecommendPorts.size() == 0) {
                         recommendtabBinding.recommendTabTitle.setVisibility(View.GONE);
@@ -75,7 +77,7 @@ public class Fg_RecommendTab extends Fragment {
                 }
             }
             @Override
-            public void onFailure(Call<ModelRecommendHotPort> call, Throwable t) {
+            public void onFailure(Call<ModelTab13mRank> call, Throwable t) {
             }
         });
 

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +52,8 @@ public class Fg_SearchedPage extends Fragment {
             port_search_page_searchPort_tab3, port_search_page_searchPort_tab4;
 
     ActivitySearchPort portSearchPageActivity;
-
     //Fragment_SearchPage 에서 넘겨 받은 검색 단어
     public static String searchText;
-
 
     ArrayList<ModelTitleItem> titleItemModels;
     ArrayList<ModelDescItem> descItemModels;
@@ -67,6 +66,12 @@ public class Fg_SearchedPage extends Fragment {
 
     Bundle bundle;
 
+    int noContent = 0;
+    int categoryState;
+
+//    int[] agon = new int[3];
+    ArrayList<Integer> agon = new ArrayList<>();
+
     public Fg_SearchedPage() {
     }
 
@@ -74,7 +79,6 @@ public class Fg_SearchedPage extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fg_activitysearch_searchedpage, container, false);
-
 
         initializeViews();
 
@@ -101,7 +105,6 @@ public class Fg_SearchedPage extends Fragment {
         return view;
     }
 
-
     private void initializeViews(){
         portSearchPageActivity = (ActivitySearchPort) getActivity();
     }
@@ -112,11 +115,9 @@ public class Fg_SearchedPage extends Fragment {
             portSearchPageActivity = (ActivitySearchPort) context;
         }
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
         port_search_page_searchPort_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -225,25 +226,49 @@ public class Fg_SearchedPage extends Fragment {
             public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                 if (response.code() == 200) {
 
-                    if(response.body().getTotalElements() != 0) {
-                        Log.e("이름 검색 결과", "값 : "+response.body().getContent().get(0).getName());
+                    titleItemModels.clear();
+                    descItemModels.clear();
+                    stockItemModels.clear();
+                    emptyItemModels.clear();
 
-                    }else{
-                        Log.e("이름 검색 결과", "값 : 없음");
-//                        Filter filter = new Filter();
-//                        Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getPageList("application/json", filter, "H", 0,1,30);
-//                        getTest2.enqueue(new Callback<ModelTab13mRank>() {
-//                            @Override
-//                            public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
-//                                if (response.code() == 200) {
-//                                        Log.e("받음값", "값 : "+response.body().getContent().get(0).getName());
-//                                }
-//                            }
-//                            @Override
-//                            public void onFailure(Call<ModelTab13mRank> call, Throwable t) {
-//                                Log.e("레트로핏 실패","값 : "+t.getMessage());
-//                            }
-//                        });
+                    postTitleItemModels.clear();
+                    postDescItemModels.clear();
+                    postStockItemModels.clear();
+
+                    int T_ItemSize;
+
+                    if(!response.body().isNoContent()) {
+
+                        if(response.body().getTotalElements() >= 5) {
+                            T_ItemSize = 5;
+                        }else{
+                            T_ItemSize = response.body().getTotalElements();
+                        }
+                        // == 제목 데이터 == //
+                        titleItemModels.add(0, new ModelTitleItem(0, response.body().getTotalElements(), "", "", 0, false, 0));
+                        for(int tCount = 0 ; tCount < T_ItemSize ; tCount++) {
+                            titleItemModels.add(new ModelTitleItem(1, T_ItemSize, response.body().getContent().get(tCount).getCode()
+                                    , response.body().getContent().get(tCount).getName(), decimalScale(String.valueOf(response.body().getContent().get(tCount).getRate()*100), 2, 2)
+                                    , false, 0));
+                        }
+                        titleItemModels.add(new ModelTitleItem(2, T_ItemSize, "", "", 0, false, 0));
+                        // ==제목 전체 데이터 == //
+                        postTitleItemModels.add(0, new ModelPostTitleItem(0, response.body().getTotalElements(), "", "", 0, false, 0));
+
+                        for(int ptCount = 0 ; ptCount < response.body().getTotalElements() ; ptCount++) {
+                            postTitleItemModels.add(new ModelPostTitleItem(1, response.body().getTotalElements(), response.body().getContent().get(ptCount).getCode()
+                                    , response.body().getContent().get(ptCount).getName(), decimalScale(String.valueOf(response.body().getContent().get(ptCount).getRate()*100), 2, 2)
+                                    , false, 0));
+                        }
+
+//                        agon[0] = 0;
+                        agon.add(0, 1);
+                    }
+                    else{
+                        noContent++;
+                        postTitleItemModels.add(0, new ModelPostTitleItem(201, response.body().getTotalElements(), "", "", 0, false, 0));
+//                        agon[0] = 1;
+                         agon.add(0, 0);
                     }
 
                     Filter filter = new Filter("", searchText, "");
@@ -252,10 +277,40 @@ public class Fg_SearchedPage extends Fragment {
                         @Override
                         public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                             if (response.code() == 200) {
-                                if(response.body().getTotalElements() != 0) {
-                                    Log.e("설명 검색 결과", "값 : "+response.body().getContent().get(0).getName());
+                                if(!response.body().isNoContent()) {
+
+                                        int D_ItemSize;
+
+                                        if(response.body().getTotalElements() >= 3) {
+                                            D_ItemSize = 3;
+                                        }else{
+                                            D_ItemSize = response.body().getTotalElements();
+                                        }
+                                       // == 내용 데이터 == //
+                                        descItemModels.add(0, new ModelDescItem(0, response.body().getTotalElements(), "", "", "", 0, false, 0));
+                                        for(int dCount = 0 ; dCount < D_ItemSize ; dCount++) {
+
+                                            descItemModels.add(new ModelDescItem(1, D_ItemSize, response.body().getContent().get(dCount).getCode()
+                                                    , response.body().getContent().get(dCount).getName(), response.body().getContent().get(dCount).getDescript(), decimalScale(String.valueOf(response.body().getContent().get(dCount).getRate()*100), 2, 2)
+                                                    , false, 0));
+                                        }
+                                        descItemModels.add(new ModelDescItem(2, D_ItemSize, "", "", "", 0, false, 0));
+                                        // ==내용 전체 데이터 ==//
+                                        postDescItemModels.add(0, new ModelPostDescItem(0, response.body().getTotalElements(), "", "", "", 0, false, 0));
+
+                                        for(int pdCount = 0 ; pdCount < response.body().getTotalElements() ; pdCount++){
+                                            postDescItemModels.add(new ModelPostDescItem(1, response.body().getTotalElements(), response.body().getContent().get(pdCount).getCode()
+                                                    , response.body().getContent().get(pdCount).getName(), response.body().getContent().get(pdCount).getDescript()
+                                                    , decimalScale(String.valueOf(response.body().getContent().get(pdCount).getRate()*100), 2, 2)
+                                                    , false, 0));
+                                        }
+//                                    agon[1] = 0;
+                                    agon.add(1, 2);
                                 }else{
-                                    Log.e("설명 검색 결과", "값 : 없음");
+                                    noContent++;
+                                    postDescItemModels.add(0, new ModelPostDescItem(202, response.body().getTotalElements(), "", "", "", 0, false, 0));
+//                                    agon[1] = 1;
+                                    agon.add(1, 0);
                                 }
 
                                 Filter filter = new Filter("", "", searchText);
@@ -264,11 +319,70 @@ public class Fg_SearchedPage extends Fragment {
                                     @Override
                                     public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                                         if (response.code() == 200) {
-                                            if(response.body().getTotalElements() != 0) {
-                                                Log.e("종목 검색 결과", "값 : "+response.body().getContent().get(0).getName());
+                                            int S_ItemSize;
+
+                                            if(!response.body().isNoContent()) {
+                                                if(response.body().getTotalElements() >= 3) {
+                                                    S_ItemSize = 3;
+                                                }else{
+                                                    S_ItemSize = response.body().getTotalElements();
+                                                }
+                                                // == 종목 데이터 == //
+                                                stockItemModels.add(0, new ModelStockItem(0, response.body().getTotalElements(), "", "", 0,0, "", false, 0));
+                                                for(int sCount = 0 ; sCount < S_ItemSize ; sCount++) {
+                                                    stockItemModels.add(new ModelStockItem(1, S_ItemSize
+                                                            , response.body().getContent().get(sCount).getCode(), response.body().getContent().get(sCount).getName()
+                                                            , decimalScale(String.valueOf(response.body().getContent().get(sCount).getRate()*100), 2, 2), 0
+                                                            , response.body().getContent().get(sCount).getPackEls().get(0).getElName(), false
+                                                            , 0));
+                                                }
+                                                stockItemModels.add(new ModelStockItem(2, response.body().getTotalElements(), "", "", 0, 0, "", false, 0));
+                                                // ==종목 전체 데이터 == //
+                                                postStockItemModels.add(0, new ModelPostStockItem(0, response.body().getTotalElements(), "", "", 0,0, "", false, 0));
+                                                for(int psCount = 0 ; psCount < response.body().getTotalElements() ; psCount++){
+                                                    postStockItemModels.add(new ModelPostStockItem(1, S_ItemSize
+                                                            , response.body().getContent().get(psCount).getCode(), response.body().getContent().get(psCount).getName()
+                                                            , decimalScale(String.valueOf(response.body().getContent().get(psCount).getRate()*100), 2, 2), 0
+                                                            , response.body().getContent().get(psCount).getPackEls().get(0).getElName(), false
+                                                            , 0));
+                                                }
+
+//                                                agon[2] = 0;
+                                                agon.add(2, 4);
                                             }else{
-                                                Log.e("종목 검색 결과", "값 : 없음");
+                                                noContent++;
+                                                postStockItemModels.add(0, new ModelPostStockItem(205, response.body().getTotalElements(), "", "", 0,0, "", false, 0));
+//                                                agon[2] = 1;
+                                                agon.add(2, 0);
                                             }
+
+                                            bundle.putParcelableArrayList("title_list", titleItemModels);
+                                            bundle.putParcelableArrayList("desc_list", descItemModels);
+                                            bundle.putParcelableArrayList("stock_list", stockItemModels);
+                                            bundle.putParcelableArrayList("empty_list", emptyItemModels);
+                                            bundle.putParcelableArrayList("post_title_list", postTitleItemModels);
+                                            bundle.putParcelableArrayList("post_desc_list", postDescItemModels);
+                                            bundle.putParcelableArrayList("post_stock_list", postStockItemModels);
+
+                                            if(noContent >= 3) {
+                                                        //포트 제목, 내용, 종목 모두 없을때 -> 검색 제안
+                                                        // == 검색결과 없을때  검색 제안 데이터 == //
+                                                        titleItemModels.add(new ModelTitleItem(208, 0,"","", 0, false, 0));
+
+                                                        emptyItemModels.add(0, new ModelEmptyItem(10, 0, "", ""));
+                                                        emptyItemModels.add(1, new ModelEmptyItem(12, 0, "", ""));
+                                                        for(int gCount = 0 ; gCount < 3 ; gCount++) {
+                                                            emptyItemModels.add(new ModelEmptyItem(11, 3
+                                                                    , response.body().getContent().get(gCount).getCode(), response.body().getContent().get(gCount).getName()));
+                                                        }
+                                                    bundle.putParcelableArrayList("post_stock_list", postStockItemModels);
+                                                    categoryState = 208;
+                                            }
+
+                                            categoryState = 200+agon.get(0)+agon.get(1)+agon.get(2);
+
+                                            bundle.putInt("category_empty", categoryState);
+                                            setViewPager(port_search_page_searchPort_viewpager);
                                         }
                                     }
                                     @Override
@@ -278,11 +392,13 @@ public class Fg_SearchedPage extends Fragment {
                                 });
                             }
                         }
+
                         @Override
                         public void onFailure(Call<ModelTab13mRank> call, Throwable t) {
                             Log.e("레트로핏 실패","값 : "+t.getMessage());
                         }
                     });
+
 
 
 //                    titleItemModels.clear();
@@ -643,6 +759,37 @@ public class Fg_SearchedPage extends Fragment {
 
     public static void getSearchText(String string) {
         searchText = string;
+    }
+
+    public static double decimalScale(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.doubleValue();
+    }
+
+
+    public static float decimalScale2(String decimal , int loc , int mode) {
+        BigDecimal bd = new BigDecimal(decimal);
+        BigDecimal result = null;
+        if(mode == 1) {
+            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
+        }
+        else if(mode == 2) {
+            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
+        }
+        else if(mode == 3) {
+            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
+        }
+        return result.floatValue();
     }
 
 }

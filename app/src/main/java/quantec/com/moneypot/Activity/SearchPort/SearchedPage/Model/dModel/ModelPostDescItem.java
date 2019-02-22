@@ -7,14 +7,14 @@ public class ModelPostDescItem implements Parcelable {
 
     int category;
     int totalNum;
-    int code;
+    String code;
     String name;
     String desc;
     double rate;
-    int select;
+    boolean select;
     int type;
 
-    public ModelPostDescItem(int category, int totalNum, int code, String name, String desc, double rate, int select, int type) {
+    public ModelPostDescItem(int category, int totalNum, String code, String name, String desc, double rate, boolean select, int type) {
         this.category = category;
         this.totalNum = totalNum;
         this.code = code;
@@ -28,11 +28,11 @@ public class ModelPostDescItem implements Parcelable {
     protected ModelPostDescItem(Parcel in) {
         category = in.readInt();
         totalNum = in.readInt();
-        code = in.readInt();
+        code = in.readString();
         name = in.readString();
         desc = in.readString();
         rate = in.readDouble();
-        select = in.readInt();
+        select = in.readByte() != 0;
         type = in.readInt();
     }
 
@@ -64,11 +64,11 @@ public class ModelPostDescItem implements Parcelable {
         this.totalNum = totalNum;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -96,11 +96,11 @@ public class ModelPostDescItem implements Parcelable {
         this.rate = rate;
     }
 
-    public int getSelect() {
+    public boolean isSelect() {
         return select;
     }
 
-    public void setSelect(int select) {
+    public void setSelect(boolean select) {
         this.select = select;
     }
 
@@ -121,11 +121,11 @@ public class ModelPostDescItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(category);
         dest.writeInt(totalNum);
-        dest.writeInt(code);
+        dest.writeString(code);
         dest.writeString(name);
         dest.writeString(desc);
         dest.writeDouble(rate);
-        dest.writeInt(select);
+        dest.writeByte((byte) (select ? 1 : 0));
         dest.writeInt(type);
     }
 }

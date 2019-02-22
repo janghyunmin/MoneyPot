@@ -108,7 +108,7 @@ public class AdapterAllPageDesc extends RecyclerView.Adapter<RecyclerView.ViewHo
             ((DescViewHolder) holder).tabDescBinding.allPageTabDescDescript.setText(descItemModels.get(position).getDesc());
             ((DescViewHolder) holder).tabDescBinding.allPageTabDescRate.setText(String.valueOf(descItemModels.get(position).getRate()));
 
-            if(descItemModels.get(position).getSelect() == 0) {
+            if(!descItemModels.get(position).isSelect()) {
                 ((DescViewHolder) holder).tabDescBinding.allPageTabDescCheckImage.setBackgroundResource(R.drawable.start_off);
             }else{
                 ((DescViewHolder) holder).tabDescBinding.allPageTabDescCheckImage.setBackgroundResource(R.drawable.start_on);

@@ -108,7 +108,7 @@ public class AdapterAllPageStock extends RecyclerView.Adapter<RecyclerView.ViewH
             ((StockViewHolder)holder).tabStockBinding.allPageTabStockDescript.setText(stockItemModels.get(position).getSname());
 
 
-            if(stockItemModels.get(position).getSelect() == 0) {
+            if(!stockItemModels.get(position).isSelect()) {
                 ((StockViewHolder) holder).tabStockBinding.allPageTabStockCheckImage.setBackgroundResource(R.drawable.start_off);
             }else{
                 ((StockViewHolder) holder).tabStockBinding.allPageTabStockCheckImage.setBackgroundResource(R.drawable.start_on);

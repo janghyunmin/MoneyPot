@@ -89,7 +89,7 @@ public class AdapterDescPage extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((DescDataViewHolder)holder).descpagetabdataBinding.descPageTabDescDescript.setText(postDescItemModels.get(position).getDesc());
             ((DescDataViewHolder)holder).descpagetabdataBinding.descPageTabDescRate.setText(String.valueOf(postDescItemModels.get(position).getRate()));
 
-            if(postDescItemModels.get(position).getSelect() == 0) {
+            if(!postDescItemModels.get(position).isSelect()) {
                 ((DescDataViewHolder) holder).descpagetabdataBinding.descPageTabDescCheckImage.setBackgroundResource(R.drawable.start_off);
             }else{
                 ((DescDataViewHolder) holder).descpagetabdataBinding.descPageTabDescCheckImage.setBackgroundResource(R.drawable.start_on);

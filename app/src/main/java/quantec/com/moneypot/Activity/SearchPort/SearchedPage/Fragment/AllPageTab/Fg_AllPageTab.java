@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -158,12 +159,13 @@ public class Fg_AllPageTab extends Fragment {
         stockItemModels.addAll(getSearchedData.getParcelableArrayList("stock_list"));
         emptyItemModels.addAll(getSearchedData.getParcelableArrayList("empty_list"));
 
+        Log.e("인트값", "값 : "+ getSearchedData.getInt("category_empty"));
+
         RecyclerViewState(titleItemModels.get(0).getCategory());
 
         adapterAllPageTitle.notifyDataSetChanged();
         adapterAllPageDesc.notifyDataSetChanged();
         adapterAllPageStock.notifyDataSetChanged();
-
 
         //커스텀 토스트 메시지
         View toastView = View.inflate(getContext(), R.layout.dialog_toast_zzim_count_max, null);
@@ -184,7 +186,7 @@ public class Fg_AllPageTab extends Fragment {
                         switch (rxEvent.getActiion()) {
 
                             case RxEvent.SEARCH_CLICK_ZZIM:
-                                int code = rxEvent.getBundle().getInt("search_code");
+                                String code = rxEvent.getBundle().getString("search_code");
                                 int page = rxEvent.getBundle().getInt("search_page");
                                 int category = rxEvent.getBundle().getInt("search_category");
 
@@ -195,15 +197,15 @@ public class Fg_AllPageTab extends Fragment {
                                         //찜 체크됨
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                             for (int a = 0; a < descItemModels.size(); a++) {
-                                                if (descItemModels.get(a).getCode() == code) {
-                                                    descItemModels.get(a).setSelect(1);
+                                                if (descItemModels.get(a).getCode().equals(code)) {
+                                                    descItemModels.get(a).setSelect(true);
                                                     adapterAllPageDesc.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < stockItemModels.size(); b++) {
-                                                if (stockItemModels.get(b).getCode() == code) {
-                                                    stockItemModels.get(b).setSelect(1);
+                                                if (stockItemModels.get(b).getCode().equals(code)) {
+                                                    stockItemModels.get(b).setSelect(true);
                                                     adapterAllPageStock.notifyItemChanged(b);
                                                     break;
                                                 }
@@ -212,15 +214,15 @@ public class Fg_AllPageTab extends Fragment {
                                         //찜 헤제됨
                                         else {
                                             for (int a = 0; a < descItemModels.size(); a++) {
-                                                if (descItemModels.get(a).getCode() == code) {
-                                                    descItemModels.get(a).setSelect(0);
+                                                if (descItemModels.get(a).getCode().equals(code)) {
+                                                    descItemModels.get(a).setSelect(false);
                                                     adapterAllPageDesc.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < stockItemModels.size(); b++) {
-                                                if (stockItemModels.get(b).getCode() == code) {
-                                                    stockItemModels.get(b).setSelect(0);
+                                                if (stockItemModels.get(b).getCode().equals(code)) {
+                                                    stockItemModels.get(b).setSelect(false);
                                                     adapterAllPageStock.notifyItemChanged(b);
                                                     break;
                                                 }
@@ -232,15 +234,15 @@ public class Fg_AllPageTab extends Fragment {
                                         //찜 체크됨
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                             for (int a = 0; a < titleItemModels.size(); a++) {
-                                                if (titleItemModels.get(a).getCode() == code) {
-                                                    titleItemModels.get(a).setSelect(1);
+                                                if (titleItemModels.get(a).getCode().equals(code)) {
+                                                    titleItemModels.get(a).setSelect(true);
                                                     adapterAllPageTitle.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < stockItemModels.size(); b++) {
-                                                if (stockItemModels.get(b).getCode() == code) {
-                                                    stockItemModels.get(b).setSelect(1);
+                                                if (stockItemModels.get(b).getCode().equals(code)) {
+                                                    stockItemModels.get(b).setSelect(true);
                                                     adapterAllPageStock.notifyItemChanged(b);
                                                     break;
                                                 }
@@ -249,15 +251,15 @@ public class Fg_AllPageTab extends Fragment {
                                         //찜 헤제됨
                                         else {
                                             for (int a = 0; a < titleItemModels.size(); a++) {
-                                                if (titleItemModels.get(a).getCode() == code) {
-                                                    titleItemModels.get(a).setSelect(0);
+                                                if (titleItemModels.get(a).getCode().equals(code)) {
+                                                    titleItemModels.get(a).setSelect(false);
                                                     adapterAllPageTitle.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < stockItemModels.size(); b++) {
-                                                if (stockItemModels.get(b).getCode() == code) {
-                                                    stockItemModels.get(b).setSelect(0);
+                                                if (stockItemModels.get(b).getCode().equals(code)) {
+                                                    stockItemModels.get(b).setSelect(false);
                                                     adapterAllPageStock.notifyItemChanged(b);
                                                     break;
                                                 }
@@ -269,15 +271,15 @@ public class Fg_AllPageTab extends Fragment {
                                         //찜 체크됨
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                             for (int a = 0; a < titleItemModels.size(); a++) {
-                                                if (titleItemModels.get(a).getCode() == code) {
-                                                    titleItemModels.get(a).setSelect(1);
+                                                if (titleItemModels.get(a).getCode().equals(code)) {
+                                                    titleItemModels.get(a).setSelect(true);
                                                     adapterAllPageTitle.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < descItemModels.size(); b++) {
-                                                if (descItemModels.get(b).getCode() == code) {
-                                                    descItemModels.get(b).setSelect(1);
+                                                if (descItemModels.get(b).getCode().equals(code)) {
+                                                    descItemModels.get(b).setSelect(true);
                                                     adapterAllPageDesc.notifyItemChanged(b);
                                                     break;
                                                 }
@@ -286,15 +288,15 @@ public class Fg_AllPageTab extends Fragment {
                                         //찜 헤제됨
                                         else {
                                             for (int a = 0; a < titleItemModels.size(); a++) {
-                                                if (titleItemModels.get(a).getCode() == code) {
-                                                    titleItemModels.get(a).setSelect(0);
+                                                if (titleItemModels.get(a).getCode().equals(code)) {
+                                                    titleItemModels.get(a).setSelect(false);
                                                     adapterAllPageTitle.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < descItemModels.size(); b++) {
-                                                if (descItemModels.get(b).getCode() == code) {
-                                                    descItemModels.get(b).setSelect(0);
+                                                if (descItemModels.get(b).getCode().equals(code)) {
+                                                    descItemModels.get(b).setSelect(false);
                                                     adapterAllPageDesc.notifyItemChanged(b);
                                                     break;
                                                 }
@@ -308,22 +310,22 @@ public class Fg_AllPageTab extends Fragment {
                                         //찜 체크됨
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                             for (int a = 0; a < titleItemModels.size(); a++) {
-                                                if (titleItemModels.get(a).getCode() == code) {
-                                                    titleItemModels.get(a).setSelect(1);
+                                                if (titleItemModels.get(a).getCode().equals(code)) {
+                                                    titleItemModels.get(a).setSelect(true);
                                                     adapterAllPageTitle.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < descItemModels.size(); b++) {
-                                                if (descItemModels.get(b).getCode() == code) {
-                                                    descItemModels.get(b).setSelect(1);
+                                                if (descItemModels.get(b).getCode().equals(code)) {
+                                                    descItemModels.get(b).setSelect(true);
                                                     adapterAllPageDesc.notifyItemChanged(b);
                                                     break;
                                                 }
                                             }
                                             for (int c = 0; c < stockItemModels.size(); c++) {
-                                                if (stockItemModels.get(c).getCode() == code) {
-                                                    stockItemModels.get(c).setSelect(1);
+                                                if (stockItemModels.get(c).getCode().equals(code)) {
+                                                    stockItemModels.get(c).setSelect(true);
                                                     adapterAllPageStock.notifyItemChanged(c);
                                                     break;
                                                 }
@@ -332,22 +334,22 @@ public class Fg_AllPageTab extends Fragment {
                                         //찜 헤제됨
                                         else {
                                             for (int a = 0; a < titleItemModels.size(); a++) {
-                                                if (titleItemModels.get(a).getCode() == code) {
-                                                    titleItemModels.get(a).setSelect(0);
+                                                if (titleItemModels.get(a).getCode().equals(code)) {
+                                                    titleItemModels.get(a).setSelect(false);
                                                     adapterAllPageTitle.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < descItemModels.size(); b++) {
-                                                if (descItemModels.get(b).getCode() == code) {
-                                                    descItemModels.get(b).setSelect(0);
+                                                if (descItemModels.get(b).getCode().equals(code)) {
+                                                    descItemModels.get(b).setSelect(false);
                                                     adapterAllPageDesc.notifyItemChanged(b);
                                                     break;
                                                 }
                                             }
                                             for (int c = 0; c < stockItemModels.size(); c++) {
-                                                if (stockItemModels.get(c).getCode() == code) {
-                                                    stockItemModels.get(c).setSelect(0);
+                                                if (stockItemModels.get(c).getCode().equals(code)) {
+                                                    stockItemModels.get(c).setSelect(false);
                                                     adapterAllPageStock.notifyItemChanged(c);
                                                     break;
                                                 }
@@ -362,22 +364,22 @@ public class Fg_AllPageTab extends Fragment {
                                     //찜 체크됨
                                     if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                         for (int a = 0; a < titleItemModels.size(); a++) {
-                                            if (titleItemModels.get(a).getCode() == code) {
-                                                titleItemModels.get(a).setSelect(1);
+                                            if (titleItemModels.get(a).getCode().equals(code)) {
+                                                titleItemModels.get(a).setSelect(true);
                                                 adapterAllPageTitle.notifyItemChanged(a);
                                                 break;
                                             }
                                         }
                                         for (int b = 0; b < descItemModels.size(); b++) {
-                                            if (descItemModels.get(b).getCode() == code) {
-                                                descItemModels.get(b).setSelect(1);
+                                            if (descItemModels.get(b).getCode().equals(code)) {
+                                                descItemModels.get(b).setSelect(true);
                                                 adapterAllPageDesc.notifyItemChanged(b);
                                                 break;
                                             }
                                         }
                                         for (int c = 0; c < stockItemModels.size(); c++) {
-                                            if (stockItemModels.get(c).getCode() == code) {
-                                                stockItemModels.get(c).setSelect(1);
+                                            if (stockItemModels.get(c).getCode().equals(code)) {
+                                                stockItemModels.get(c).setSelect(true);
                                                 adapterAllPageStock.notifyItemChanged(c);
                                                 break;
                                             }
@@ -386,22 +388,22 @@ public class Fg_AllPageTab extends Fragment {
                                     //찜 헤제됨
                                     else {
                                         for (int a = 0; a < titleItemModels.size(); a++) {
-                                            if (titleItemModels.get(a).getCode() == code) {
-                                                titleItemModels.get(a).setSelect(0);
+                                            if (titleItemModels.get(a).getCode().equals(code)) {
+                                                titleItemModels.get(a).setSelect(false);
                                                 adapterAllPageTitle.notifyItemChanged(a);
                                                 break;
                                             }
                                         }
                                         for (int b = 0; b < descItemModels.size(); b++) {
-                                            if (descItemModels.get(b).getCode() == code) {
-                                                descItemModels.get(b).setSelect(0);
+                                            if (descItemModels.get(b).getCode().equals(code)) {
+                                                descItemModels.get(b).setSelect(false);
                                                 adapterAllPageDesc.notifyItemChanged(b);
                                                 break;
                                             }
                                         }
                                         for (int c = 0; c < stockItemModels.size(); c++) {
-                                            if (stockItemModels.get(c).getCode() == code) {
-                                                stockItemModels.get(c).setSelect(0);
+                                            if (stockItemModels.get(c).getCode().equals(code)) {
+                                                stockItemModels.get(c).setSelect(false);
                                                 adapterAllPageStock.notifyItemChanged(c);
                                                 break;
                                             }
@@ -435,7 +437,7 @@ public class Fg_AllPageTab extends Fragment {
             public void onClick(int position) {
 
                     //찜 안된 상태 -> 찜 하기
-                    if(titleItemModels.get(position).getSelect() == 0){
+                    if(titleItemModels.get(position).isSelect()){
 
                             if(SharedPreferenceUtil.getInstance(portSearchPageActivity).getIntExtra("PortZzimCount") >= 25) {
                                 //초과시 토스트
@@ -466,7 +468,7 @@ public class Fg_AllPageTab extends Fragment {
         adapterAllPageDesc.setDescItemClick(new AdapterAllPageDesc.DescItemClick() {
             @Override
             public void onClick(int position) {
-                MovedDetailPage(descItemModels.get(position).getCode(), descItemModels.get(position).getName(), 600);
+//                MovedDetailPage(descItemModels.get(position).getCode(), descItemModels.get(position).getName(), 600);
             }
         });
 
@@ -477,19 +479,19 @@ public class Fg_AllPageTab extends Fragment {
             public void onClick(int position) {
 
                 //찜 안된 상태 -> 찜 하기
-                if(descItemModels.get(position).getSelect() == 0){
-
-                    if(SharedPreferenceUtil.getInstance(portSearchPageActivity).getIntExtra("PortZzimCount") >= 25) {
-                        //초과시 토스트
-                        toastZzimLimit.show();
-                    }else {
-                        ItemZzim(descItemModels.get(position).getCode(), position, 0, 2);
-                    }
-                }
-                //찜한 상태 -> 찜 풀기
-                else{
-                    ItemZzim(descItemModels.get(position).getCode(), position, 1, 2);
-                }
+//                if(descItemModels.get(position).getSelect() == 0){
+//
+//                    if(SharedPreferenceUtil.getInstance(portSearchPageActivity).getIntExtra("PortZzimCount") >= 25) {
+//                        //초과시 토스트
+//                        toastZzimLimit.show();
+//                    }else {
+//                        ItemZzim(descItemModels.get(position).getCode(), position, 0, 2);
+//                    }
+//                }
+//                //찜한 상태 -> 찜 풀기
+//                else{
+//                    ItemZzim(descItemModels.get(position).getCode(), position, 1, 2);
+//                }
 
             }
         });
@@ -508,7 +510,7 @@ public class Fg_AllPageTab extends Fragment {
         adapterAllPageStock.setStockItemClick(new AdapterAllPageStock.StockItemClick() {
             @Override
             public void onClick(int position) {
-                MovedDetailPage(stockItemModels.get(position).getCode(), stockItemModels.get(position).getName(), 600);
+//                MovedDetailPage(stockItemModels.get(position).getCode(), stockItemModels.get(position).getName(), 600);
             }
         });
 
@@ -519,18 +521,18 @@ public class Fg_AllPageTab extends Fragment {
             public void onClick(int position) {
 
                 //찜 안된 상태 -> 찜 하기
-                if(stockItemModels.get(position).getSelect() == 0){
+                if(stockItemModels.get(position).isSelect()){
 
                     if(SharedPreferenceUtil.getInstance(portSearchPageActivity).getIntExtra("PortZzimCount") >= 25) {
                         //초과시 토스트
                         toastZzimLimit.show();
                     }else {
-                        ItemZzim(stockItemModels.get(position).getCode(), position, 0, 3);
+//                        ItemZzim(stockItemModels.get(position).getCode(), position, 0, 3);
                     }
                 }
                 //찜한 상태 -> 찜 풀기
                 else{
-                    ItemZzim(stockItemModels.get(position).getCode(), position, 1, 3);
+//                    ItemZzim(stockItemModels.get(position).getCode(), position, 1, 3);
                 }
             }
         });
@@ -560,7 +562,7 @@ public class Fg_AllPageTab extends Fragment {
 
 
     // 각 카테고리에서 상세페이지로 이동
-    void MovedDetailPage(int portCode, String portName, int requestCode){
+    void MovedDetailPage(String portCode, String portName, int requestCode){
 
         Intent intent = new Intent(getActivity(), ActivityDetailPort.class);
         intent.putExtra("detailcode", portCode);
@@ -573,63 +575,63 @@ public class Fg_AllPageTab extends Fragment {
 
     // SelectedState : 0 -> 포트 찜하기 / 1 -> 포트 찜 해제
     // SearchCategory : 1 -> 제목 / 2 -> 내용 / 3 -> 종목
-    void ItemZzim(int PortCode, int PortPosition, int SelectedState, int SearchCategory) {
+    void ItemZzim(String PortCode, int PortPosition, int SelectedState, int SearchCategory) {
 
-                Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(PortCode, SelectedState);
-                getData.enqueue(new Callback<ModelPortZzim>() {
-                    @Override
-                    public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
-                        if (response.code() == 200) {
-
-                            zzimInfo.putInt("search_category", SearchCategory);
-                            zzimInfo.putInt("search_zzim_position", PortPosition);
-                            zzimInfo.putInt("search_page", 0);
-                            zzimInfo.putInt("search_code", PortCode);
-                            //찜하기
-                            if(SelectedState == 0) {
-                                zzimInfo.putBoolean("search_zzim_state", true);
-
-                                    if(SearchCategory == 1){
-                                        titleItemModels.get(PortPosition).setSelect(1);
-                                        adapterAllPageTitle.notifyItemChanged(PortPosition);
-                                    }else if(SearchCategory == 2){
-                                        descItemModels.get(PortPosition).setSelect(1);
-                                        adapterAllPageDesc.notifyItemChanged(PortPosition);
-                                    }else{
-                                        stockItemModels.get(PortPosition).setSelect(1);
-                                        adapterAllPageStock.notifyItemChanged(PortPosition);
-                                    }
-                            }
-                            //찜 해제
-                            else{
-                                zzimInfo.putBoolean("search_zzim_state", false);
-
-                                if(SearchCategory == 1){
-                                    titleItemModels.get(PortPosition).setSelect(0);
-                                    adapterAllPageTitle.notifyItemChanged(PortPosition);
-                                }else if(SearchCategory == 2){
-                                    descItemModels.get(PortPosition).setSelect(0);
-                                    adapterAllPageDesc.notifyItemChanged(PortPosition);
-                                }else{
-                                    stockItemModels.get(PortPosition).setSelect(0);
-                                    adapterAllPageStock.notifyItemChanged(PortPosition);
-                                }
-                            }
-                            RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
-                            SharedPreferenceUtil.getInstance(portSearchPageActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ModelPortZzim> call, Throwable t) {
-                        Toast.makeText(getActivity(), "네트워크가 불안정 합니다\n 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(PortCode, SelectedState);
+//                getData.enqueue(new Callback<ModelPortZzim>() {
+//                    @Override
+//                    public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
+//                        if (response.code() == 200) {
+//
+//                            zzimInfo.putInt("search_category", SearchCategory);
+//                            zzimInfo.putInt("search_zzim_position", PortPosition);
+//                            zzimInfo.putInt("search_page", 0);
+//                            zzimInfo.putInt("search_code", PortCode);
+//                            //찜하기
+//                            if(SelectedState == 0) {
+//                                zzimInfo.putBoolean("search_zzim_state", true);
+//
+//                                    if(SearchCategory == 1){
+////                                        titleItemModels.get(PortPosition).setSelect(1);
+//                                        adapterAllPageTitle.notifyItemChanged(PortPosition);
+//                                    }else if(SearchCategory == 2){
+////                                        descItemModels.get(PortPosition).setSelect(1);
+//                                        adapterAllPageDesc.notifyItemChanged(PortPosition);
+//                                    }else{
+////                                        stockItemModels.get(PortPosition).setSelect(1);
+//                                        adapterAllPageStock.notifyItemChanged(PortPosition);
+//                                    }
+//                            }
+//                            //찜 해제
+//                            else{
+//                                zzimInfo.putBoolean("search_zzim_state", false);
+//
+//                                if(SearchCategory == 1){
+////                                    titleItemModels.get(PortPosition).setSelect(0);
+//                                    adapterAllPageTitle.notifyItemChanged(PortPosition);
+//                                }else if(SearchCategory == 2){
+////                                    descItemModels.get(PortPosition).setSelect(0);
+//                                    adapterAllPageDesc.notifyItemChanged(PortPosition);
+//                                }else{
+////                                    stockItemModels.get(PortPosition).setSelect(0);
+//                                    adapterAllPageStock.notifyItemChanged(PortPosition);
+//                                }
+//                            }
+//                            RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
+//                            SharedPreferenceUtil.getInstance(portSearchPageActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ModelPortZzim> call, Throwable t) {
+//                        Toast.makeText(getActivity(), "네트워크가 불안정 합니다\n 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
     }
 
     //최근 검색어 저장 이벤트
-    void RoomDataInsert(String PortName, int PortCode){
+    void RoomDataInsert(String PortName, String PortCode){
 
         new Thread(new Runnable() {
             @Override

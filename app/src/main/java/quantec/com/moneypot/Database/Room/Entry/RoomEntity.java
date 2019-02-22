@@ -15,7 +15,7 @@ public class RoomEntity {
     public String searchTitle;
 
     @ColumnInfo(name = "room_code")
-    public int searchCode;
+    public String searchCode;
 
 //    @ColumnInfo(name = "hoho")
 //    public int hoho;
@@ -24,7 +24,7 @@ public class RoomEntity {
 //    @ColumnInfo(name = "test")
 //    public int test;
 
-    public RoomEntity(String searchTitle, int searchCode) {
+    public RoomEntity(String searchTitle, String searchCode) {
         this.searchTitle = searchTitle;
         this.searchCode = searchCode;
     }
@@ -41,7 +41,7 @@ public class RoomEntity {
         return searchTitle;
     }
 
-    public int getSearchCode() {
+    public String getSearchCode() {
         return searchCode;
     }
 

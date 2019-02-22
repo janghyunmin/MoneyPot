@@ -281,4 +281,12 @@ public interface RetrofitService {
      */
     @POST("common/deleteImg/{code}")
     Call<Object> getInitMyPotImage(@Path("code") String code);
+
+    /**
+     *
+     *검색 초기 페이지 지금 뜨는 상품 리스트
+     *
+     */
+    @POST("pack/getPage/{gubun}/{rate}/{page}/{size}")
+    Call<ModelTab13mRank> getSearchRecomList(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 }

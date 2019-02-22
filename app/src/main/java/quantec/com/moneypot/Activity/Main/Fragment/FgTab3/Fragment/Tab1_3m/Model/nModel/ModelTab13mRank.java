@@ -6,6 +6,7 @@ public class ModelTab13mRank {
 
     int errorcode;
     int totalElements;
+    boolean noContent;
     ArrayList<Content> content = new ArrayList<>();
     Page page = new Page();
 
@@ -23,6 +24,14 @@ public class ModelTab13mRank {
 
     public void setTotalElements(int totalElements) {
         this.totalElements = totalElements;
+    }
+
+    public boolean isNoContent() {
+        return noContent;
+    }
+
+    public void setNoContent(boolean noContent) {
+        this.noContent = noContent;
     }
 
     public ArrayList<Content> getContent() {

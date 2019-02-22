@@ -85,7 +85,6 @@ public class AdapterAllPageTitle extends RecyclerView.Adapter<RecyclerView.ViewH
                 return new AdapterAllPageTitle.EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_activitysearch_allpageemptytext, parent, false));
             }
 
-
         }else {
             if (viewType == PORTNUMBERPOSITION) {
                 return new AdapterAllPageTitle.TitleNumViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_activitysearch_allpagenumber, parent, false));
@@ -126,7 +125,7 @@ public class AdapterAllPageTitle extends RecyclerView.Adapter<RecyclerView.ViewH
             ((AdapterAllPageTitle.TitleViewHolder) holder).itemTitleBinding.allPageTabTitleName.setText(titleItemModels.get(position).getName());
             ((AdapterAllPageTitle.TitleViewHolder) holder).itemTitleBinding.allPageTabTitleRate.setText(String.valueOf(titleItemModels.get(position).getRate()));
 
-            if(titleItemModels.get(position).getSelect() == 0) {
+            if(!titleItemModels.get(position).isSelect()) {
                 ((AdapterAllPageTitle.TitleViewHolder) holder).itemTitleBinding.allPageTabTitleCheckImage.setBackgroundResource(R.drawable.start_off);
             }else{
                 ((AdapterAllPageTitle.TitleViewHolder) holder).itemTitleBinding.allPageTabTitleCheckImage.setBackgroundResource(R.drawable.start_on);

@@ -84,7 +84,7 @@ public class AdapterTitlePage extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((TitleDataViewHolder)holder).titlepagetabdataBinding.titlePageTabTitleName.setText(postTitleItemModels.get(position).getName());
             ((TitleDataViewHolder)holder).titlepagetabdataBinding.titlePageTabTitleRate.setText(String.valueOf(postTitleItemModels.get(position).getRate()));
 
-            if(postTitleItemModels.get(position).getSelect() == 0) {
+            if(!postTitleItemModels.get(position).isSelect()) {
                 ((TitleDataViewHolder) holder).titlepagetabdataBinding.titlePageTabTitleCheckImage.setBackgroundResource(R.drawable.start_off);
             }else{
                 ((TitleDataViewHolder) holder).titlepagetabdataBinding.titlePageTabTitleCheckImage.setBackgroundResource(R.drawable.start_on);

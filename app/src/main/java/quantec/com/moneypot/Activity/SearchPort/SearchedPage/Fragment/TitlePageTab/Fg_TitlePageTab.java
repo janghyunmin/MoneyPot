@@ -80,7 +80,6 @@ public class Fg_TitlePageTab extends Fragment {
         recyclerView.setAdapter(adapterTitlePage);
 
         bundle = getArguments();
-
         zzimInfo = new Bundle();
 
         searchViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
@@ -108,7 +107,6 @@ public class Fg_TitlePageTab extends Fragment {
         postTitleItemModels.addAll(bundle.getParcelableArrayList("post_title_list"));
         adapterTitlePage.notifyDataSetChanged();
 
-
         //커스텀 토스트 메시지
         View toastView = View.inflate(getContext(), R.layout.dialog_toast_zzim_count_max, null);
         toastZzimLimit = new Toast(getContext());
@@ -128,7 +126,7 @@ public class Fg_TitlePageTab extends Fragment {
                         switch (rxEvent.getActiion()) {
 
                             case RxEvent.SEARCH_CLICK_ZZIM:
-                                int code = rxEvent.getBundle().getInt("search_code");
+                                String code = rxEvent.getBundle().getString("search_code");
                                 int page = rxEvent.getBundle().getInt("search_page");
 
                                 //통합페이지에서 찜 이벤트 있는 경우
@@ -139,16 +137,16 @@ public class Fg_TitlePageTab extends Fragment {
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
 
                                             for(int a = 0 ; a < postTitleItemModels.size() ; a++) {
-                                                if(postTitleItemModels.get(a).getCode() == code) {
-                                                    postTitleItemModels.get(a).setSelect(1);
+                                                if(postTitleItemModels.get(a).getCode().equals(code)) {
+                                                    postTitleItemModels.get(a).setSelect(true);
                                                     adapterTitlePage.notifyItemChanged(a);
                                                 }
                                             }
                                         } else {
 
                                             for(int a = 0 ; a < postTitleItemModels.size() ; a++) {
-                                                if(postTitleItemModels.get(a).getCode() == code) {
-                                                    postTitleItemModels.get(a).setSelect(0);
+                                                if(postTitleItemModels.get(a).getCode().equals(code)) {
+                                                    postTitleItemModels.get(a).setSelect(false);
                                                     adapterTitlePage.notifyItemChanged(a);
                                                 }
                                             }
@@ -159,15 +157,15 @@ public class Fg_TitlePageTab extends Fragment {
 
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                             for(int a = 0 ; a < postTitleItemModels.size() ; a++) {
-                                                if(postTitleItemModels.get(a).getCode() == code) {
-                                                    postTitleItemModels.get(a).setSelect(1);
+                                                if(postTitleItemModels.get(a).getCode().equals(code)) {
+                                                    postTitleItemModels.get(a).setSelect(true);
                                                     adapterTitlePage.notifyItemChanged(a);
                                                 }
                                             }
                                         } else {
                                             for(int a = 0 ; a < postTitleItemModels.size() ; a++) {
-                                                if(postTitleItemModels.get(a).getCode() == code) {
-                                                    postTitleItemModels.get(a).setSelect(0);
+                                                if(postTitleItemModels.get(a).getCode().equals(code)) {
+                                                    postTitleItemModels.get(a).setSelect(false);
                                                     adapterTitlePage.notifyItemChanged(a);
                                                 }
                                             }
@@ -179,15 +177,15 @@ public class Fg_TitlePageTab extends Fragment {
 
                                     if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                         for(int a = 0 ; a < postTitleItemModels.size() ; a++) {
-                                            if(postTitleItemModels.get(a).getCode() == code) {
-                                                postTitleItemModels.get(a).setSelect(1);
+                                            if(postTitleItemModels.get(a).getCode().equals(code)) {
+                                                postTitleItemModels.get(a).setSelect(true);
                                                 adapterTitlePage.notifyItemChanged(a);
                                             }
                                         }
                                     } else {
                                         for(int a = 0 ; a < postTitleItemModels.size() ; a++) {
-                                            if(postTitleItemModels.get(a).getCode() == code) {
-                                                postTitleItemModels.get(a).setSelect(0);
+                                            if(postTitleItemModels.get(a).getCode().equals(code)) {
+                                                postTitleItemModels.get(a).setSelect(false);
                                                 adapterTitlePage.notifyItemChanged(a);
                                             }
                                         }
@@ -204,12 +202,12 @@ public class Fg_TitlePageTab extends Fragment {
                     }
                 });
 
-        //찜하기 클릭
+//        찜하기 클릭
         adapterTitlePage.setTitlePageZzimClicke(new AdapterTitlePage.TitlePageZzimClicke() {
             @Override
             public void onClick(int position) {
                 //찜 안된 상태 -> 찜 하기
-                if(postTitleItemModels.get(position).getSelect() == 0){
+                if(postTitleItemModels.get(position).isSelect()){
 
                     if(SharedPreferenceUtil.getInstance(portSearchPageActivity).getIntExtra("PortZzimCount") >= 25) {
                         //초과시 토스트
@@ -225,7 +223,7 @@ public class Fg_TitlePageTab extends Fragment {
             }
         });
 
-        //상세 페이지로 이동
+//        상세 페이지로 이동
         adapterTitlePage.setTitlePageItemClick(new AdapterTitlePage.TitlePageItemClick() {
             @Override
             public void onClick(int position) {
@@ -241,41 +239,41 @@ public class Fg_TitlePageTab extends Fragment {
     }//onViewCreate 끝
 
     // SelectedState : 0 -> 포트 찜하기 / 1 -> 포트 찜 해제
-    void ItemZzim(int PortCode, int PortPosition, int SelectedState){
+    void ItemZzim(String PortCode, int PortPosition, int SelectedState){
 
-        Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(PortCode, SelectedState);
-        getData.enqueue(new Callback<ModelPortZzim>() {
-            @Override
-            public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
-                if (response.code() == 200) {
-
-                    zzimInfo.putInt("search_category", 1);
-                    zzimInfo.putInt("search_zzim_position", PortPosition);
-                    zzimInfo.putInt("search_page", 1);
-                    zzimInfo.putInt("search_code", PortCode);
-                    //찜하기
-                    if(SelectedState == 0) {
-                        zzimInfo.putBoolean("search_zzim_state", true);
-                        postTitleItemModels.get(PortPosition).setSelect(1);
-                    }
-                    //찜 해제
-                    else{
-                        zzimInfo.putBoolean("search_zzim_state", false);
-                        postTitleItemModels.get(PortPosition).setSelect(0);
-                    }
-                    adapterTitlePage.notifyItemChanged(PortPosition);
-                    RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
-                    SharedPreferenceUtil.getInstance(portSearchPageActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
-                }
-            }
-            @Override
-            public void onFailure(Call<ModelPortZzim> call, Throwable t) {
-                Toast.makeText(getActivity(), "네트워크가 불안정 합니다\n 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(PortCode, SelectedState);
+//        getData.enqueue(new Callback<ModelPortZzim>() {
+//            @Override
+//            public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
+//                if (response.code() == 200) {
+//
+//                    zzimInfo.putInt("search_category", 1);
+//                    zzimInfo.putInt("search_zzim_position", PortPosition);
+//                    zzimInfo.putInt("search_page", 1);
+//                    zzimInfo.putString("search_code", PortCode);
+//                    //찜하기
+//                    if(SelectedState == 0) {
+//                        zzimInfo.putBoolean("search_zzim_state", true);
+//                        postTitleItemModels.get(PortPosition).setSelect(true);
+//                    }
+//                    //찜 해제
+//                    else{
+//                        zzimInfo.putBoolean("search_zzim_state", false);
+//                        postTitleItemModels.get(PortPosition).setSelect(false);
+//                    }
+//                    adapterTitlePage.notifyItemChanged(PortPosition);
+//                    RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
+//                    SharedPreferenceUtil.getInstance(portSearchPageActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ModelPortZzim> call, Throwable t) {
+//                Toast.makeText(getActivity(), "네트워크가 불안정 합니다\n 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
-    void RoomDataInsert(String PortName, int PortCode){
+    void RoomDataInsert(String PortName, String PortCode){
 
         new Thread(new Runnable() {
             @Override

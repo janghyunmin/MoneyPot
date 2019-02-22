@@ -3,9 +3,9 @@ package quantec.com.moneypot.Activity.SearchPort.BasicPage.Fragment.Model.dModel
 public class ModelRecommendPort {
 
     String PortTitle;
-    int PortCode;
+    String PortCode;
 
-    public ModelRecommendPort(String portTitle, int portCode) {
+    public ModelRecommendPort(String portTitle, String portCode) {
         PortTitle = portTitle;
         PortCode = portCode;
     }
@@ -18,11 +18,11 @@ public class ModelRecommendPort {
         PortTitle = portTitle;
     }
 
-    public int getPortCode() {
+    public String getPortCode() {
         return PortCode;
     }
 
-    public void setPortCode(int portCode) {
+    public void setPortCode(String portCode) {
         PortCode = portCode;
     }
 }

@@ -7,10 +7,10 @@ public class ModelEmptyItem implements Parcelable {
 
     int category;
     int totalNum;
-    int code;
+    String code;
     String name;
 
-    public ModelEmptyItem(int category, int totalNum, int code, String name) {
+    public ModelEmptyItem(int category, int totalNum, String code, String name) {
         this.category = category;
         this.totalNum = totalNum;
         this.code = code;
@@ -20,7 +20,7 @@ public class ModelEmptyItem implements Parcelable {
     protected ModelEmptyItem(Parcel in) {
         category = in.readInt();
         totalNum = in.readInt();
-        code = in.readInt();
+        code = in.readString();
         name = in.readString();
     }
 
@@ -52,11 +52,11 @@ public class ModelEmptyItem implements Parcelable {
         this.totalNum = totalNum;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -77,7 +77,7 @@ public class ModelEmptyItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(category);
         dest.writeInt(totalNum);
-        dest.writeInt(code);
+        dest.writeString(code);
         dest.writeString(name);
     }
 }

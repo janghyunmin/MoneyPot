@@ -7,13 +7,13 @@ public class ModelPostTitleItem implements Parcelable {
 
     int category;
     int totalNum;
-    int code;
+    String code;
     String name;
     double rate;
-    int select;
+    boolean select;
     int type;
 
-    public ModelPostTitleItem(int category, int totalNum, int code, String name, double rate, int select, int type) {
+    public ModelPostTitleItem(int category, int totalNum, String code, String name, double rate, boolean select, int type) {
         this.category = category;
         this.totalNum = totalNum;
         this.code = code;
@@ -26,10 +26,10 @@ public class ModelPostTitleItem implements Parcelable {
     protected ModelPostTitleItem(Parcel in) {
         category = in.readInt();
         totalNum = in.readInt();
-        code = in.readInt();
+        code = in.readString();
         name = in.readString();
         rate = in.readDouble();
-        select = in.readInt();
+        select = in.readByte() != 0;
         type = in.readInt();
     }
 
@@ -61,11 +61,11 @@ public class ModelPostTitleItem implements Parcelable {
         this.totalNum = totalNum;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -85,11 +85,11 @@ public class ModelPostTitleItem implements Parcelable {
         this.rate = rate;
     }
 
-    public int getSelect() {
+    public boolean isSelect() {
         return select;
     }
 
-    public void setSelect(int select) {
+    public void setSelect(boolean select) {
         this.select = select;
     }
 
@@ -101,6 +101,7 @@ public class ModelPostTitleItem implements Parcelable {
         this.type = type;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -110,10 +111,10 @@ public class ModelPostTitleItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(category);
         dest.writeInt(totalNum);
-        dest.writeInt(code);
+        dest.writeString(code);
         dest.writeString(name);
         dest.writeDouble(rate);
-        dest.writeInt(select);
+        dest.writeByte((byte) (select ? 1 : 0));
         dest.writeInt(type);
     }
 }

@@ -10,7 +10,6 @@
         android:id="@+id/allPage_tab_title_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="포트 제목 1,205건"
         android:textSize="12sp"
         android:textColor="@color/red_text_color"
         />

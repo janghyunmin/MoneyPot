@@ -24,7 +24,7 @@ public class SearchViewModel extends AndroidViewModel {
         return searchRepository.findAll();
     }
 
-    public RoomEntity getFindCode(int code){
+    public RoomEntity getFindCode(String code){
         return searchRepository.findCdoe(code);
     }
 

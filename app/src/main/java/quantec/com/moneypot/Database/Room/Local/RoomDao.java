@@ -30,7 +30,7 @@ public interface RoomDao {
     LiveData<List<RoomEntity>> getAllSearchs();
 
     @Query("SELECT * FROM recentlySearch_table WHERE room_code LIKE :code")
-    RoomEntity findCode(int code);
+    RoomEntity findCode(String code);
 
     @Query("SELECT * FROM recentlySearch_table")
     List<RoomEntity> findAll();
