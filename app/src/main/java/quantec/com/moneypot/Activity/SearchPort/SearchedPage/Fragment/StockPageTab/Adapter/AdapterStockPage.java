@@ -88,7 +88,7 @@ public class AdapterStockPage extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((StockDataViewHolder)holder).stockpagetabdataBinding.stockPageTabStockDescript.setText(postStockItemModels.get(position).getSname());
             ((StockDataViewHolder)holder).stockpagetabdataBinding.stockPageTabStockRate.setText(String.valueOf(postStockItemModels.get(position).getRate()));
 
-            if(!postStockItemModels.get(position).isSelect()) {
+            if(!postStockItemModels.get(position).isZim()) {
                 ((StockDataViewHolder) holder).stockpagetabdataBinding.stockPageTabStockCheckImage.setBackgroundResource(R.drawable.start_off);
             }else{
                 ((StockDataViewHolder) holder).stockpagetabdataBinding.stockPageTabStockCheckImage.setBackgroundResource(R.drawable.start_on);

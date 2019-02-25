@@ -10,16 +10,18 @@ public class ModelTitleItem implements Parcelable {
     String code;
     String name;
     double rate;
-    boolean select;
+    boolean isZim;
+    boolean isDam;
     int type;
 
-    public ModelTitleItem(int category, int totalNum, String code, String name, double rate, boolean select, int type) {
+    public ModelTitleItem(int category, int totalNum, String code, String name, double rate, boolean isZim, boolean isDam, int type) {
         this.category = category;
         this.totalNum = totalNum;
         this.code = code;
         this.name = name;
         this.rate = rate;
-        this.select = select;
+        this.isZim = isZim;
+        this.isDam = isDam;
         this.type = type;
     }
 
@@ -29,7 +31,8 @@ public class ModelTitleItem implements Parcelable {
         code = in.readString();
         name = in.readString();
         rate = in.readDouble();
-        select = in.readByte() != 0;
+        isZim = in.readByte() != 0;
+        isDam = in.readByte() != 0;
         type = in.readInt();
     }
 
@@ -85,12 +88,20 @@ public class ModelTitleItem implements Parcelable {
         this.rate = rate;
     }
 
-    public boolean isSelect() {
-        return select;
+    public boolean isZim() {
+        return isZim;
     }
 
-    public void setSelect(boolean select) {
-        this.select = select;
+    public void setZim(boolean zim) {
+        isZim = zim;
+    }
+
+    public boolean isDam() {
+        return isDam;
+    }
+
+    public void setDam(boolean dam) {
+        isDam = dam;
     }
 
     public int getType() {
@@ -100,7 +111,6 @@ public class ModelTitleItem implements Parcelable {
     public void setType(int type) {
         this.type = type;
     }
-
 
     @Override
     public int describeContents() {
@@ -114,7 +124,8 @@ public class ModelTitleItem implements Parcelable {
         dest.writeString(code);
         dest.writeString(name);
         dest.writeDouble(rate);
-        dest.writeByte((byte) (select ? 1 : 0));
+        dest.writeByte((byte) (isZim ? 1 : 0));
+        dest.writeByte((byte) (isDam ? 1 : 0));
         dest.writeInt(type);
     }
 }

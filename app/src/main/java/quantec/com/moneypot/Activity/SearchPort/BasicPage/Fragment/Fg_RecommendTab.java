@@ -60,7 +60,7 @@ public class Fg_RecommendTab extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Filter filter = new Filter();
-        Call<ModelTab13mRank> getReList = RetrofitClient.getInstance().getService().getPageList("application/json", filter, "H", 0,1,10);
+        Call<ModelTab13mRank> getReList = RetrofitClient.getInstance().getService().getSearchRecomList("application/json", filter, "H", 0,1,10);
         getReList.enqueue(new Callback<ModelTab13mRank>() {
             @Override
             public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {

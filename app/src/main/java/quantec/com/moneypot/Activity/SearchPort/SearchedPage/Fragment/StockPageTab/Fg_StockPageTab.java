@@ -87,7 +87,6 @@ public class Fg_StockPageTab extends Fragment {
         return view;
     }
 
-
     private void initializeViews(){
         portSearchPageActivity = (ActivitySearchPort) getActivity();
     }
@@ -98,7 +97,6 @@ public class Fg_StockPageTab extends Fragment {
             portSearchPageActivity = (ActivitySearchPort) context;
         }
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -137,14 +135,14 @@ public class Fg_StockPageTab extends Fragment {
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                             for(int a = 0 ; a < postStockItemModels.size() ; a++) {
                                                 if(postStockItemModels.get(a).getCode().equals(code)) {
-                                                    postStockItemModels.get(a).setSelect(true);
+                                                    postStockItemModels.get(a).setZim(true);
                                                     adapterStockPage.notifyItemChanged(a);
                                                 }
                                             }
                                         } else {
                                             for(int a = 0 ; a < postStockItemModels.size() ; a++) {
                                                 if(postStockItemModels.get(a).getCode().equals(code)) {
-                                                    postStockItemModels.get(a).setSelect(false);
+                                                    postStockItemModels.get(a).setZim(false);
                                                     adapterStockPage.notifyItemChanged(a);
                                                 }
                                             }
@@ -156,14 +154,14 @@ public class Fg_StockPageTab extends Fragment {
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                             for(int a = 0 ; a < postStockItemModels.size() ; a++) {
                                                 if(postStockItemModels.get(a).getCode().equals(code)) {
-                                                    postStockItemModels.get(a).setSelect(true);
+                                                    postStockItemModels.get(a).setZim(true);
                                                     adapterStockPage.notifyItemChanged(a);
                                                 }
                                             }
                                         } else {
                                             for(int a = 0 ; a < postStockItemModels.size() ; a++) {
                                                 if(postStockItemModels.get(a).getCode().equals(code)) {
-                                                    postStockItemModels.get(a).setSelect(false);
+                                                    postStockItemModels.get(a).setZim(false);
                                                     adapterStockPage.notifyItemChanged(a);
                                                 }
                                             }
@@ -176,14 +174,14 @@ public class Fg_StockPageTab extends Fragment {
                                     if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                         for(int a = 0 ; a < postStockItemModels.size() ; a++) {
                                             if(postStockItemModels.get(a).getCode().equals(code)) {
-                                                postStockItemModels.get(a).setSelect(true);
+                                                postStockItemModels.get(a).setZim(true);
                                                 adapterStockPage.notifyItemChanged(a);
                                             }
                                         }
                                     } else {
                                         for(int a = 0 ; a < postStockItemModels.size() ; a++) {
                                             if(postStockItemModels.get(a).getCode().equals(code)) {
-                                                postStockItemModels.get(a).setSelect(true);
+                                                postStockItemModels.get(a).setZim(true);
                                                 adapterStockPage.notifyItemChanged(a);
                                             }
                                         }
@@ -200,7 +198,6 @@ public class Fg_StockPageTab extends Fragment {
                     public void onComplete() {
                     }
                 });
-
 
         //상세페이지로 이동
         adapterStockPage.setStockPageItemClick(new AdapterStockPage.StockPageItemClick() {
@@ -221,7 +218,7 @@ public class Fg_StockPageTab extends Fragment {
             public void onClick(int position) {
 
                 //찜 안된 상태 -> 찜 하기
-                if(postStockItemModels.get(position).isSelect()){
+                if(postStockItemModels.get(position).isZim()){
                     if(SharedPreferenceUtil.getInstance(portSearchPageActivity).getIntExtra("PortZzimCount") >= 25) {
                         //초과시 토스트
                         toastZzimLimit.show();
@@ -238,7 +235,6 @@ public class Fg_StockPageTab extends Fragment {
         });
 
     }//onViewCreate 끝
-
 
     // SelectedState : 0 -> 포트 찜하기 / 1 -> 포트 찜 해제
     void ItemZzim(String PortCode, int PortPosition, int SelectedState){
@@ -273,9 +269,7 @@ public class Fg_StockPageTab extends Fragment {
 //                Toast.makeText(getActivity(), "네트워크가 불안정 합니다\n 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
 //            }
 //        });
-
     }
-
 
     void RoomDataInsert(String PortName, String PortCode){
 
@@ -301,7 +295,6 @@ public class Fg_StockPageTab extends Fragment {
                 }
             }
         }).start();
-
     }
 
     @Override

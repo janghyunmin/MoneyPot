@@ -29,7 +29,19 @@ import com.github.mikephil.charting.utils.MPPointF;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Maybe;
+import io.reactivex.MaybeObserver;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelMiddleChartData;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
@@ -50,6 +62,8 @@ public class ActivityMyinfo extends AppCompatActivity {
     float maxX;
 
     Button CurrentButtonView;
+
+    String myname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +141,161 @@ public class ActivityMyinfo extends AppCompatActivity {
         CurrentButtonView = currentBT;
         CurrentButtonView.setBackgroundResource(R.drawable.round_button);
         CurrentButtonView.setTextColor(getResources().getColor(R.color.delete_pressed_text));
+
+//        String[] names = new String[]{"재경", "희성", "라성", "인영"};
+//        Observable<String> src = Observable.fromArray(names)
+//                .map(name -> "hello "+name);
+
+//        Observable<String> src = Observable.interval(100L, TimeUnit.MILLISECONDS)
+//                .map(idx -> names[idx.intValue()])
+//                .take(names.length)
+//                .concatMap(name -> Observable.interval(2000L, TimeUnit.MILLISECONDS)
+//                .map(unUsed -> "*" + name)
+//                .take(1)
+//                );
+
+//        Observable<String> src = Observable.interval(100L, TimeUnit.MILLISECONDS)
+//                .map(idx -> names[idx.intValue()])
+//                .take(names.length)
+//                .switchMap(name -> Observable.interval(2000L, TimeUnit.MILLISECONDS)
+//                        .map(unUsed -> "*" + name)
+//                        .take(1)
+//                );
+
+        String[] names = new String[]{"이상", "이하", "중간", "하락"};
+
+        Function<String, Integer> fee = name -> {
+            int charge = 0;
+            switch (name) {
+                case "이상":
+                    charge = 1000;
+                    break;
+                case "중간":
+                    charge = 500;
+                    break;
+                case "하락":
+                    charge = 300;
+                    break;
+                case "이하":
+                    charge = 100;
+                    break;
+            }
+            return charge;
+        };
+
+//        Observable<Integer> src = Observable.fromArray(names)
+//                .filter(name -> name.startsWith("이"))
+//                .map(fee);
+        Maybe<Integer> src = Observable.fromArray(names)
+                .filter(name -> name.startsWith("이"))
+                .map(fee)
+                .reduce((in1, in2) -> in1+in2);
+
+//        src.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(getObserver2());
+
+            src.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(getObserver3());
+
+//        BlockingQueue<String> order = new ArrayBlockingQueue<>(100);
+//        order.add("1번");
+//        order.add("2번");
+//        order.add("3번");
+//
+//        Observable<String> source = Observable.fromIterable(order);
+//        source.subscribe(ordered -> System.out.println(ordered.toString()));
+
+//        Callable<String> callable = new Callable<String>() {
+//            @Override
+//            public String call() throws Exception {
+//
+//                Thread.sleep(1000);
+//                return "100점";
+//            }
+//        };
+//        Observable<String> source = Observable.fromCallable(callable);
+//        source.subscribe(System.out::println);
+
     }
+
+
+
+    private MaybeObserver<Integer> getObserver3(){
+        return new MaybeObserver<Integer>() {
+            
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(Integer integer) {
+                Log.e("가격","가격 : "+integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+    }
+
+    private Observer<Integer> getObserver2(){
+        return new Observer<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                Log.e("가격","가격 : "+integer);
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+    }
+
+    private Observer<String> getObserver(){
+        return new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+                    Log.e("이름","참가자 : "+s);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+    }
+
 
     //각 차트의 1개월 / 3개월 / 6개월 / 누적 버튼
     void ChartDur(String dur) {

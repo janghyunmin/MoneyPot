@@ -125,7 +125,7 @@ public class AdapterAllPageTitle extends RecyclerView.Adapter<RecyclerView.ViewH
             ((AdapterAllPageTitle.TitleViewHolder) holder).itemTitleBinding.allPageTabTitleName.setText(titleItemModels.get(position).getName());
             ((AdapterAllPageTitle.TitleViewHolder) holder).itemTitleBinding.allPageTabTitleRate.setText(String.valueOf(titleItemModels.get(position).getRate()));
 
-            if(!titleItemModels.get(position).isSelect()) {
+            if(!titleItemModels.get(position).isZim()) {
                 ((AdapterAllPageTitle.TitleViewHolder) holder).itemTitleBinding.allPageTabTitleCheckImage.setBackgroundResource(R.drawable.start_off);
             }else{
                 ((AdapterAllPageTitle.TitleViewHolder) holder).itemTitleBinding.allPageTabTitleCheckImage.setBackgroundResource(R.drawable.start_on);

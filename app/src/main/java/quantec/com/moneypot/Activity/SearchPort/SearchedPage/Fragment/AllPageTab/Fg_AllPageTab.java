@@ -23,6 +23,8 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelZimData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Select;
 import quantec.com.moneypot.Activity.SearchPort.ActivitySearchPort;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Adapter.AdapterAllPageDesc;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Adapter.AdapterAllPageStock;
@@ -159,9 +161,7 @@ public class Fg_AllPageTab extends Fragment {
         stockItemModels.addAll(getSearchedData.getParcelableArrayList("stock_list"));
         emptyItemModels.addAll(getSearchedData.getParcelableArrayList("empty_list"));
 
-        Log.e("인트값", "값 : "+ getSearchedData.getInt("category_empty"));
-
-        RecyclerViewState(titleItemModels.get(0).getCategory());
+        RecyclerViewState(getSearchedData.getInt("category_empty"));
 
         adapterAllPageTitle.notifyDataSetChanged();
         adapterAllPageDesc.notifyDataSetChanged();
@@ -198,14 +198,14 @@ public class Fg_AllPageTab extends Fragment {
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                             for (int a = 0; a < descItemModels.size(); a++) {
                                                 if (descItemModels.get(a).getCode().equals(code)) {
-                                                    descItemModels.get(a).setSelect(true);
+                                                    descItemModels.get(a).setZim(true);
                                                     adapterAllPageDesc.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < stockItemModels.size(); b++) {
                                                 if (stockItemModels.get(b).getCode().equals(code)) {
-                                                    stockItemModels.get(b).setSelect(true);
+                                                    stockItemModels.get(b).setZim(true);
                                                     adapterAllPageStock.notifyItemChanged(b);
                                                     break;
                                                 }
@@ -215,14 +215,14 @@ public class Fg_AllPageTab extends Fragment {
                                         else {
                                             for (int a = 0; a < descItemModels.size(); a++) {
                                                 if (descItemModels.get(a).getCode().equals(code)) {
-                                                    descItemModels.get(a).setSelect(false);
+                                                    descItemModels.get(a).setZim(false);
                                                     adapterAllPageDesc.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < stockItemModels.size(); b++) {
                                                 if (stockItemModels.get(b).getCode().equals(code)) {
-                                                    stockItemModels.get(b).setSelect(false);
+                                                    stockItemModels.get(b).setZim(false);
                                                     adapterAllPageStock.notifyItemChanged(b);
                                                     break;
                                                 }
@@ -235,14 +235,14 @@ public class Fg_AllPageTab extends Fragment {
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                             for (int a = 0; a < titleItemModels.size(); a++) {
                                                 if (titleItemModels.get(a).getCode().equals(code)) {
-                                                    titleItemModels.get(a).setSelect(true);
+                                                    titleItemModels.get(a).setZim(true);
                                                     adapterAllPageTitle.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < stockItemModels.size(); b++) {
                                                 if (stockItemModels.get(b).getCode().equals(code)) {
-                                                    stockItemModels.get(b).setSelect(true);
+                                                    stockItemModels.get(b).setZim(true);
                                                     adapterAllPageStock.notifyItemChanged(b);
                                                     break;
                                                 }
@@ -252,14 +252,14 @@ public class Fg_AllPageTab extends Fragment {
                                         else {
                                             for (int a = 0; a < titleItemModels.size(); a++) {
                                                 if (titleItemModels.get(a).getCode().equals(code)) {
-                                                    titleItemModels.get(a).setSelect(false);
+                                                    titleItemModels.get(a).setZim(false);
                                                     adapterAllPageTitle.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < stockItemModels.size(); b++) {
                                                 if (stockItemModels.get(b).getCode().equals(code)) {
-                                                    stockItemModels.get(b).setSelect(false);
+                                                    stockItemModels.get(b).setZim(false);
                                                     adapterAllPageStock.notifyItemChanged(b);
                                                     break;
                                                 }
@@ -272,14 +272,14 @@ public class Fg_AllPageTab extends Fragment {
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                             for (int a = 0; a < titleItemModels.size(); a++) {
                                                 if (titleItemModels.get(a).getCode().equals(code)) {
-                                                    titleItemModels.get(a).setSelect(true);
+                                                    titleItemModels.get(a).setZim(true);
                                                     adapterAllPageTitle.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < descItemModels.size(); b++) {
                                                 if (descItemModels.get(b).getCode().equals(code)) {
-                                                    descItemModels.get(b).setSelect(true);
+                                                    descItemModels.get(b).setZim(true);
                                                     adapterAllPageDesc.notifyItemChanged(b);
                                                     break;
                                                 }
@@ -289,14 +289,14 @@ public class Fg_AllPageTab extends Fragment {
                                         else {
                                             for (int a = 0; a < titleItemModels.size(); a++) {
                                                 if (titleItemModels.get(a).getCode().equals(code)) {
-                                                    titleItemModels.get(a).setSelect(false);
+                                                    titleItemModels.get(a).setZim(false);
                                                     adapterAllPageTitle.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < descItemModels.size(); b++) {
                                                 if (descItemModels.get(b).getCode().equals(code)) {
-                                                    descItemModels.get(b).setSelect(false);
+                                                    descItemModels.get(b).setZim(false);
                                                     adapterAllPageDesc.notifyItemChanged(b);
                                                     break;
                                                 }
@@ -311,21 +311,21 @@ public class Fg_AllPageTab extends Fragment {
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                             for (int a = 0; a < titleItemModels.size(); a++) {
                                                 if (titleItemModels.get(a).getCode().equals(code)) {
-                                                    titleItemModels.get(a).setSelect(true);
+                                                    titleItemModels.get(a).setZim(true);
                                                     adapterAllPageTitle.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < descItemModels.size(); b++) {
                                                 if (descItemModels.get(b).getCode().equals(code)) {
-                                                    descItemModels.get(b).setSelect(true);
+                                                    descItemModels.get(b).setZim(true);
                                                     adapterAllPageDesc.notifyItemChanged(b);
                                                     break;
                                                 }
                                             }
                                             for (int c = 0; c < stockItemModels.size(); c++) {
                                                 if (stockItemModels.get(c).getCode().equals(code)) {
-                                                    stockItemModels.get(c).setSelect(true);
+                                                    stockItemModels.get(c).setZim(true);
                                                     adapterAllPageStock.notifyItemChanged(c);
                                                     break;
                                                 }
@@ -335,21 +335,21 @@ public class Fg_AllPageTab extends Fragment {
                                         else {
                                             for (int a = 0; a < titleItemModels.size(); a++) {
                                                 if (titleItemModels.get(a).getCode().equals(code)) {
-                                                    titleItemModels.get(a).setSelect(false);
+                                                    titleItemModels.get(a).setZim(false);
                                                     adapterAllPageTitle.notifyItemChanged(a);
                                                     break;
                                                 }
                                             }
                                             for (int b = 0; b < descItemModels.size(); b++) {
                                                 if (descItemModels.get(b).getCode().equals(code)) {
-                                                    descItemModels.get(b).setSelect(false);
+                                                    descItemModels.get(b).setZim(false);
                                                     adapterAllPageDesc.notifyItemChanged(b);
                                                     break;
                                                 }
                                             }
                                             for (int c = 0; c < stockItemModels.size(); c++) {
                                                 if (stockItemModels.get(c).getCode().equals(code)) {
-                                                    stockItemModels.get(c).setSelect(false);
+                                                    stockItemModels.get(c).setZim(false);
                                                     adapterAllPageStock.notifyItemChanged(c);
                                                     break;
                                                 }
@@ -365,21 +365,21 @@ public class Fg_AllPageTab extends Fragment {
                                     if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                         for (int a = 0; a < titleItemModels.size(); a++) {
                                             if (titleItemModels.get(a).getCode().equals(code)) {
-                                                titleItemModels.get(a).setSelect(true);
+                                                titleItemModels.get(a).setZim(true);
                                                 adapterAllPageTitle.notifyItemChanged(a);
                                                 break;
                                             }
                                         }
                                         for (int b = 0; b < descItemModels.size(); b++) {
                                             if (descItemModels.get(b).getCode().equals(code)) {
-                                                descItemModels.get(b).setSelect(true);
+                                                descItemModels.get(b).setZim(true);
                                                 adapterAllPageDesc.notifyItemChanged(b);
                                                 break;
                                             }
                                         }
                                         for (int c = 0; c < stockItemModels.size(); c++) {
                                             if (stockItemModels.get(c).getCode().equals(code)) {
-                                                stockItemModels.get(c).setSelect(true);
+                                                stockItemModels.get(c).setZim(true);
                                                 adapterAllPageStock.notifyItemChanged(c);
                                                 break;
                                             }
@@ -389,21 +389,21 @@ public class Fg_AllPageTab extends Fragment {
                                     else {
                                         for (int a = 0; a < titleItemModels.size(); a++) {
                                             if (titleItemModels.get(a).getCode().equals(code)) {
-                                                titleItemModels.get(a).setSelect(false);
+                                                titleItemModels.get(a).setZim(false);
                                                 adapterAllPageTitle.notifyItemChanged(a);
                                                 break;
                                             }
                                         }
                                         for (int b = 0; b < descItemModels.size(); b++) {
                                             if (descItemModels.get(b).getCode().equals(code)) {
-                                                descItemModels.get(b).setSelect(false);
+                                                descItemModels.get(b).setZim(false);
                                                 adapterAllPageDesc.notifyItemChanged(b);
                                                 break;
                                             }
                                         }
                                         for (int c = 0; c < stockItemModels.size(); c++) {
                                             if (stockItemModels.get(c).getCode().equals(code)) {
-                                                stockItemModels.get(c).setSelect(false);
+                                                stockItemModels.get(c).setZim(false);
                                                 adapterAllPageStock.notifyItemChanged(c);
                                                 break;
                                             }
@@ -437,18 +437,18 @@ public class Fg_AllPageTab extends Fragment {
             public void onClick(int position) {
 
                     //찜 안된 상태 -> 찜 하기
-                    if(titleItemModels.get(position).isSelect()){
+                    if(!titleItemModels.get(position).isZim()){
 
                             if(SharedPreferenceUtil.getInstance(portSearchPageActivity).getIntExtra("PortZzimCount") >= 25) {
                                 //초과시 토스트
                                 toastZzimLimit.show();
                             }else {
-                                ItemZzim(titleItemModels.get(position).getCode(), position, 0, 1);
+                                ItemZzim(titleItemModels.get(position).getCode(), position, 0, 1, titleItemModels.get(position).isDam(), true);
                             }
                     }
                     //찜한 상태 -> 찜 풀기
                     else{
-                        ItemZzim(titleItemModels.get(position).getCode(), position, 1, 1);
+                        ItemZzim(titleItemModels.get(position).getCode(), position, 1, 1, titleItemModels.get(position).isDam(), false);
                     }
             }
         });
@@ -468,7 +468,7 @@ public class Fg_AllPageTab extends Fragment {
         adapterAllPageDesc.setDescItemClick(new AdapterAllPageDesc.DescItemClick() {
             @Override
             public void onClick(int position) {
-//                MovedDetailPage(descItemModels.get(position).getCode(), descItemModels.get(position).getName(), 600);
+                MovedDetailPage(descItemModels.get(position).getCode(), descItemModels.get(position).getName(), 600);
             }
         });
 
@@ -479,19 +479,19 @@ public class Fg_AllPageTab extends Fragment {
             public void onClick(int position) {
 
                 //찜 안된 상태 -> 찜 하기
-//                if(descItemModels.get(position).getSelect() == 0){
-//
-//                    if(SharedPreferenceUtil.getInstance(portSearchPageActivity).getIntExtra("PortZzimCount") >= 25) {
-//                        //초과시 토스트
-//                        toastZzimLimit.show();
-//                    }else {
-//                        ItemZzim(descItemModels.get(position).getCode(), position, 0, 2);
-//                    }
-//                }
-//                //찜한 상태 -> 찜 풀기
-//                else{
-//                    ItemZzim(descItemModels.get(position).getCode(), position, 1, 2);
-//                }
+                if(!descItemModels.get(position).isZim()){
+
+                    if(SharedPreferenceUtil.getInstance(portSearchPageActivity).getIntExtra("PortZzimCount") >= 25) {
+                        //초과시 토스트
+                        toastZzimLimit.show();
+                    }else {
+                        ItemZzim(descItemModels.get(position).getCode(), position, 0, 2, descItemModels.get(position).isDam(), true);
+                    }
+                }
+                //찜한 상태 -> 찜 풀기
+                else{
+                    ItemZzim(descItemModels.get(position).getCode(), position, 1, 2,  descItemModels.get(position).isDam(), false);
+                }
 
             }
         });
@@ -510,7 +510,7 @@ public class Fg_AllPageTab extends Fragment {
         adapterAllPageStock.setStockItemClick(new AdapterAllPageStock.StockItemClick() {
             @Override
             public void onClick(int position) {
-//                MovedDetailPage(stockItemModels.get(position).getCode(), stockItemModels.get(position).getName(), 600);
+                MovedDetailPage(stockItemModels.get(position).getCode(), stockItemModels.get(position).getName(), 600);
             }
         });
 
@@ -521,18 +521,18 @@ public class Fg_AllPageTab extends Fragment {
             public void onClick(int position) {
 
                 //찜 안된 상태 -> 찜 하기
-                if(stockItemModels.get(position).isSelect()){
+                if(!stockItemModels.get(position).isZim()){
 
                     if(SharedPreferenceUtil.getInstance(portSearchPageActivity).getIntExtra("PortZzimCount") >= 25) {
                         //초과시 토스트
                         toastZzimLimit.show();
                     }else {
-//                        ItemZzim(stockItemModels.get(position).getCode(), position, 0, 3);
+                        ItemZzim(stockItemModels.get(position).getCode(), position, 0, 3,  stockItemModels.get(position).isDam(), true);
                     }
                 }
                 //찜한 상태 -> 찜 풀기
                 else{
-//                    ItemZzim(stockItemModels.get(position).getCode(), position, 1, 3);
+                    ItemZzim(stockItemModels.get(position).getCode(), position, 1, 3, stockItemModels.get(position).isDam(), false);
                 }
             }
         });
@@ -575,59 +575,63 @@ public class Fg_AllPageTab extends Fragment {
 
     // SelectedState : 0 -> 포트 찜하기 / 1 -> 포트 찜 해제
     // SearchCategory : 1 -> 제목 / 2 -> 내용 / 3 -> 종목
-    void ItemZzim(String PortCode, int PortPosition, int SelectedState, int SearchCategory) {
+    void ItemZzim(String PortCode, int PortPosition, int SelectedState, int SearchCategory, boolean isDam, boolean isZim) {
 
-//                Call<ModelPortZzim> getData = RetrofitClient.getInstance().getService().getPortSaveData(PortCode, SelectedState);
-//                getData.enqueue(new Callback<ModelPortZzim>() {
-//                    @Override
-//                    public void onResponse(Call<ModelPortZzim> call, Response<ModelPortZzim> response) {
-//                        if (response.code() == 200) {
-//
-//                            zzimInfo.putInt("search_category", SearchCategory);
-//                            zzimInfo.putInt("search_zzim_position", PortPosition);
-//                            zzimInfo.putInt("search_page", 0);
-//                            zzimInfo.putInt("search_code", PortCode);
-//                            //찜하기
-//                            if(SelectedState == 0) {
-//                                zzimInfo.putBoolean("search_zzim_state", true);
-//
-//                                    if(SearchCategory == 1){
-////                                        titleItemModels.get(PortPosition).setSelect(1);
-//                                        adapterAllPageTitle.notifyItemChanged(PortPosition);
-//                                    }else if(SearchCategory == 2){
-////                                        descItemModels.get(PortPosition).setSelect(1);
-//                                        adapterAllPageDesc.notifyItemChanged(PortPosition);
-//                                    }else{
-////                                        stockItemModels.get(PortPosition).setSelect(1);
-//                                        adapterAllPageStock.notifyItemChanged(PortPosition);
-//                                    }
-//                            }
-//                            //찜 해제
-//                            else{
-//                                zzimInfo.putBoolean("search_zzim_state", false);
-//
-//                                if(SearchCategory == 1){
-////                                    titleItemModels.get(PortPosition).setSelect(0);
-//                                    adapterAllPageTitle.notifyItemChanged(PortPosition);
-//                                }else if(SearchCategory == 2){
-////                                    descItemModels.get(PortPosition).setSelect(0);
-//                                    adapterAllPageDesc.notifyItemChanged(PortPosition);
-//                                }else{
-////                                    stockItemModels.get(PortPosition).setSelect(0);
-//                                    adapterAllPageStock.notifyItemChanged(PortPosition);
-//                                }
-//                            }
-//                            RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
-//                            SharedPreferenceUtil.getInstance(portSearchPageActivity).putIntZzimCount("PortZzimCount", response.body().getNum());
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ModelPortZzim> call, Throwable t) {
-//                        Toast.makeText(getActivity(), "네트워크가 불안정 합니다\n 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+            Select select = new Select(PortCode, isDam, isZim);
 
+            Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"add");
+            getSelectPort.enqueue(new Callback<ModelZimData>() {
+                @Override
+                public void onResponse(Call<ModelZimData> call, Response<ModelZimData> response) {
+                    if(response.code() == 200) {
+                        if(response.body().getErrorcode() == 200){
+
+                            zzimInfo.putInt("search_category", SearchCategory);
+                            zzimInfo.putInt("search_zzim_position", PortPosition);
+                            zzimInfo.putInt("search_page", 0);
+                            zzimInfo.putString("search_code", PortCode);
+                            //찜하기
+                            if(SelectedState == 0) {
+                                zzimInfo.putBoolean("search_zzim_state", true);
+
+                                    if(SearchCategory == 1){
+                                        titleItemModels.get(PortPosition).setZim(true);
+                                        adapterAllPageTitle.notifyItemChanged(PortPosition);
+                                    }else if(SearchCategory == 2){
+                                        descItemModels.get(PortPosition).setZim(true);
+                                        adapterAllPageDesc.notifyItemChanged(PortPosition);
+                                    }else{
+                                        stockItemModels.get(PortPosition).setZim(true);
+                                        adapterAllPageStock.notifyItemChanged(PortPosition);
+                                    }
+                            }
+                            //찜 해제
+                            else{
+                                zzimInfo.putBoolean("search_zzim_state", false);
+
+                                if(SearchCategory == 1){
+                                    titleItemModels.get(PortPosition).setZim(false);
+                                    adapterAllPageTitle.notifyItemChanged(PortPosition);
+                                }else if(SearchCategory == 2){
+                                    descItemModels.get(PortPosition).setZim(false);
+                                    adapterAllPageDesc.notifyItemChanged(PortPosition);
+                                }else{
+                                    stockItemModels.get(PortPosition).setZim(false);
+                                    adapterAllPageStock.notifyItemChanged(PortPosition);
+                                }
+                            }
+                            RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
+                        }
+                    }
+                    else{
+                        Log.e("에러 값 ","값 : "+ response.errorBody().toString());
+                    }
+                }
+                @Override
+                public void onFailure(Call<ModelZimData> call, Throwable t) {
+                    Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 
     //최근 검색어 저장 이벤트
@@ -664,11 +668,11 @@ public class Fg_AllPageTab extends Fragment {
 
         if(requestCode == 600) {
             if(resultCode == 500) {
-                int codeD = data.getIntExtra("search_code_D",0);
+                String codeD = data.getStringExtra("search_code_D");
 
                 zzimInfo.putInt("search_category", 4);
                 zzimInfo.putInt("search_page", 0);
-                zzimInfo.putInt("search_code", codeD);
+                zzimInfo.putString("search_code", codeD);
 
                 zzimInfo.putBoolean("search_zzim_state", true);
                 RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
@@ -677,11 +681,11 @@ public class Fg_AllPageTab extends Fragment {
 
             }
             else if(resultCode == 501) {
-                int codeD = data.getIntExtra("search_code_D",0);
+                String codeD = data.getStringExtra("search_code_D");
 
                 zzimInfo.putInt("search_category", 4);
                 zzimInfo.putInt("search_page", 0);
-                zzimInfo.putInt("search_code", codeD);
+                zzimInfo.putString("search_code", codeD);
 
                 zzimInfo.putBoolean("search_zzim_state", false);
                 RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
@@ -704,41 +708,42 @@ public class Fg_AllPageTab extends Fragment {
     void RecyclerViewState(int stateNum){
         switch (stateNum) {
             //제목만 없음
-            case 201:
+            case 206:
                 AllPageBinding.allPageTabTitleRecyclerView.setVisibility(View.GONE);
                 AllPageBinding.allPageTabDescRecyclerView.setVisibility(View.VISIBLE);
                 AllPageBinding.allPageTabStockRecyclerView.setVisibility(View.VISIBLE);
                 break;
             //내용만 없음
-            case 202:
+            case 205:
                 AllPageBinding.allPageTabTitleRecyclerView.setVisibility(View.VISIBLE);
                 AllPageBinding.allPageTabDescRecyclerView.setVisibility(View.GONE);
                 AllPageBinding.allPageTabStockRecyclerView.setVisibility(View.VISIBLE);
                 break;
             //종목만 없음
-            case 205:
+            case 203:
                 AllPageBinding.allPageTabTitleRecyclerView.setVisibility(View.VISIBLE);
                 AllPageBinding.allPageTabDescRecyclerView.setVisibility(View.VISIBLE);
                 AllPageBinding.allPageTabStockRecyclerView.setVisibility(View.GONE);
                 break;
             //제목만 있음
-            case 207:
+            case 201:
                 AllPageBinding.allPageTabTitleRecyclerView.setVisibility(View.VISIBLE);
                 AllPageBinding.allPageTabDescRecyclerView.setVisibility(View.GONE);
                 AllPageBinding.allPageTabStockRecyclerView.setVisibility(View.GONE);
                 break;
             //내용만 있음
-            case 206:
+            case 202:
                 AllPageBinding.allPageTabTitleRecyclerView.setVisibility(View.GONE);
                 AllPageBinding.allPageTabDescRecyclerView.setVisibility(View.VISIBLE);
                 AllPageBinding.allPageTabStockRecyclerView.setVisibility(View.GONE);
                 break;
             //종목만 있음
-            case 203:
+            case 204:
                 AllPageBinding.allPageTabTitleRecyclerView.setVisibility(View.GONE);
                 AllPageBinding.allPageTabDescRecyclerView.setVisibility(View.GONE);
                 AllPageBinding.allPageTabStockRecyclerView.setVisibility(View.VISIBLE);
                 break;
+             // 전부 비었을때
             case 208:
                 AllPageBinding.allPageTabTitleRecyclerView.setVisibility(View.VISIBLE);
                 AllPageBinding.allPageTabDescRecyclerView.setVisibility(View.GONE);

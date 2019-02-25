@@ -12,10 +12,11 @@ public class ModelStockItem implements Parcelable {
     double rate;
     int sNum;
     String sname;
-    boolean select;
+    boolean isZim;
+    boolean isDam;
     int type;
 
-    public ModelStockItem(int category, int totalNum, String code, String name, double rate, int sNum, String sname, boolean select, int type) {
+    public ModelStockItem(int category, int totalNum, String code, String name, double rate, int sNum, String sname, boolean isZim, boolean isDam, int type) {
         this.category = category;
         this.totalNum = totalNum;
         this.code = code;
@@ -23,7 +24,8 @@ public class ModelStockItem implements Parcelable {
         this.rate = rate;
         this.sNum = sNum;
         this.sname = sname;
-        this.select = select;
+        this.isZim = isZim;
+        this.isDam = isDam;
         this.type = type;
     }
 
@@ -35,7 +37,8 @@ public class ModelStockItem implements Parcelable {
         rate = in.readDouble();
         sNum = in.readInt();
         sname = in.readString();
-        select = in.readByte() != 0;
+        isZim = in.readByte() != 0;
+        isDam = in.readByte() != 0;
         type = in.readInt();
     }
 
@@ -107,12 +110,20 @@ public class ModelStockItem implements Parcelable {
         this.sname = sname;
     }
 
-    public boolean isSelect() {
-        return select;
+    public boolean isZim() {
+        return isZim;
     }
 
-    public void setSelect(boolean select) {
-        this.select = select;
+    public void setZim(boolean zim) {
+        isZim = zim;
+    }
+
+    public boolean isDam() {
+        return isDam;
+    }
+
+    public void setDam(boolean dam) {
+        isDam = dam;
     }
 
     public int getType() {
@@ -137,7 +148,8 @@ public class ModelStockItem implements Parcelable {
         dest.writeDouble(rate);
         dest.writeInt(sNum);
         dest.writeString(sname);
-        dest.writeByte((byte) (select ? 1 : 0));
+        dest.writeByte((byte) (isZim ? 1 : 0));
+        dest.writeByte((byte) (isDam ? 1 : 0));
         dest.writeInt(type);
     }
 }

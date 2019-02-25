@@ -138,7 +138,7 @@ public class Fg_TitlePageTab extends Fragment {
 
                                             for(int a = 0 ; a < postTitleItemModels.size() ; a++) {
                                                 if(postTitleItemModels.get(a).getCode().equals(code)) {
-                                                    postTitleItemModels.get(a).setSelect(true);
+                                                    postTitleItemModels.get(a).setZim(true);
                                                     adapterTitlePage.notifyItemChanged(a);
                                                 }
                                             }
@@ -146,7 +146,7 @@ public class Fg_TitlePageTab extends Fragment {
 
                                             for(int a = 0 ; a < postTitleItemModels.size() ; a++) {
                                                 if(postTitleItemModels.get(a).getCode().equals(code)) {
-                                                    postTitleItemModels.get(a).setSelect(false);
+                                                    postTitleItemModels.get(a).setZim(false);
                                                     adapterTitlePage.notifyItemChanged(a);
                                                 }
                                             }
@@ -158,14 +158,14 @@ public class Fg_TitlePageTab extends Fragment {
                                         if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                             for(int a = 0 ; a < postTitleItemModels.size() ; a++) {
                                                 if(postTitleItemModels.get(a).getCode().equals(code)) {
-                                                    postTitleItemModels.get(a).setSelect(true);
+                                                    postTitleItemModels.get(a).setZim(true);
                                                     adapterTitlePage.notifyItemChanged(a);
                                                 }
                                             }
                                         } else {
                                             for(int a = 0 ; a < postTitleItemModels.size() ; a++) {
                                                 if(postTitleItemModels.get(a).getCode().equals(code)) {
-                                                    postTitleItemModels.get(a).setSelect(false);
+                                                    postTitleItemModels.get(a).setZim(false);
                                                     adapterTitlePage.notifyItemChanged(a);
                                                 }
                                             }
@@ -178,14 +178,14 @@ public class Fg_TitlePageTab extends Fragment {
                                     if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
                                         for(int a = 0 ; a < postTitleItemModels.size() ; a++) {
                                             if(postTitleItemModels.get(a).getCode().equals(code)) {
-                                                postTitleItemModels.get(a).setSelect(true);
+                                                postTitleItemModels.get(a).setZim(true);
                                                 adapterTitlePage.notifyItemChanged(a);
                                             }
                                         }
                                     } else {
                                         for(int a = 0 ; a < postTitleItemModels.size() ; a++) {
                                             if(postTitleItemModels.get(a).getCode().equals(code)) {
-                                                postTitleItemModels.get(a).setSelect(false);
+                                                postTitleItemModels.get(a).setZim(false);
                                                 adapterTitlePage.notifyItemChanged(a);
                                             }
                                         }
@@ -207,7 +207,7 @@ public class Fg_TitlePageTab extends Fragment {
             @Override
             public void onClick(int position) {
                 //찜 안된 상태 -> 찜 하기
-                if(postTitleItemModels.get(position).isSelect()){
+                if(postTitleItemModels.get(position).isZim()){
 
                     if(SharedPreferenceUtil.getInstance(portSearchPageActivity).getIntExtra("PortZzimCount") >= 25) {
                         //초과시 토스트

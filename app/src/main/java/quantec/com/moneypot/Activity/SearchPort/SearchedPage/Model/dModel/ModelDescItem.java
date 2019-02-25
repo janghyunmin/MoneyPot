@@ -11,17 +11,19 @@ public class ModelDescItem implements Parcelable {
     String name;
     String desc;
     double rate;
-    boolean select;
+    boolean isZim;
+    boolean isDam;
     int type;
 
-    public ModelDescItem(int category, int totalNum, String code, String name, String desc, double rate, boolean select, int type) {
+    public ModelDescItem(int category, int totalNum, String code, String name, String desc, double rate, boolean isZim, boolean isDam, int type) {
         this.category = category;
         this.totalNum = totalNum;
         this.code = code;
         this.name = name;
         this.desc = desc;
         this.rate = rate;
-        this.select = select;
+        this.isZim = isZim;
+        this.isDam = isDam;
         this.type = type;
     }
 
@@ -32,7 +34,8 @@ public class ModelDescItem implements Parcelable {
         name = in.readString();
         desc = in.readString();
         rate = in.readDouble();
-        select = in.readByte() != 0;
+        isZim = in.readByte() != 0;
+        isDam = in.readByte() != 0;
         type = in.readInt();
     }
 
@@ -96,12 +99,20 @@ public class ModelDescItem implements Parcelable {
         this.rate = rate;
     }
 
-    public boolean isSelect() {
-        return select;
+    public boolean isZim() {
+        return isZim;
     }
 
-    public void setSelect(boolean select) {
-        this.select = select;
+    public void setZim(boolean zim) {
+        isZim = zim;
+    }
+
+    public boolean isDam() {
+        return isDam;
+    }
+
+    public void setDam(boolean dam) {
+        isDam = dam;
     }
 
     public int getType() {
@@ -125,7 +136,8 @@ public class ModelDescItem implements Parcelable {
         dest.writeString(name);
         dest.writeString(desc);
         dest.writeDouble(rate);
-        dest.writeByte((byte) (select ? 1 : 0));
+        dest.writeByte((byte) (isZim ? 1 : 0));
+        dest.writeByte((byte) (isDam ? 1 : 0));
         dest.writeInt(type);
     }
 }
