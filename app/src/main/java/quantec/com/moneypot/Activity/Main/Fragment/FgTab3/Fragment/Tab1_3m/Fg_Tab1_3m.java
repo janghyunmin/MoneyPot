@@ -56,6 +56,7 @@ import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
 import quantec.com.moneypot.RxAndroid.RxEventBus;
+import quantec.com.moneypot.Util.DecimalScale.DecimalScale;
 import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
 import quantec.com.moneypot.databinding.FgFgtab3Fgtab13mBinding;
 import retrofit2.Call;
@@ -191,13 +192,13 @@ public class Fg_Tab1_3m extends Fragment {
 
                         if(response.body().getContent().get(a).getSelect() != null) {
                             tab1_3mItems.add(new ModelTab13m(response.body().getContent().get(a).getName(),
-                                    response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2), response.body().getContent().get(a).getSelect().isZim(),
+                                    response.body().getContent().get(a).getCode(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2), response.body().getContent().get(a).getSelect().isZim(),
                                     response.body().getContent().get(a).getSelect().isDam(),resID, false, response.body().getContent().get(a).getMinPrice(), response.body().getContent().get(a).getType()
                             ));
                         }
                         else{
                             tab1_3mItems.add(new ModelTab13m(response.body().getContent().get(a).getName(),
-                                    response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2), false,
+                                    response.body().getContent().get(a).getCode(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2), false,
                                     false, resID, false, response.body().getContent().get(a).getMinPrice(),response.body().getContent().get(a).getType()
                             ));
                         }
@@ -288,12 +289,12 @@ public class Fg_Tab1_3m extends Fragment {
                                             resID = mainActivity.getResources().getIdentifier(name,"drawable",packName);
                                             if(response.body().getContent().get(a).getSelect() != null) {
                                                 list.add(new ModelTab13m(response.body().getContent().get(a).getName(),
-                                                        response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2),response.body().getContent().get(a).getSelect().isZim(),
+                                                        response.body().getContent().get(a).getCode(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2),response.body().getContent().get(a).getSelect().isZim(),
                                                         response.body().getContent().get(a).getSelect().isDam(),resID, false, response.body().getContent().get(a).getMinPrice(), response.body().getContent().get(a).getType()
                                                 ));
                                             }else{
                                                 list.add(new ModelTab13m(response.body().getContent().get(a).getName(),
-                                                        response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2),false,
+                                                        response.body().getContent().get(a).getCode(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(a).getRateThr()*100), 2, 2),false,
                                                         false, resID, false, response.body().getContent().get(a).getMinPrice(), response.body().getContent().get(a).getType()
                                                 ));
                                             }
@@ -410,7 +411,7 @@ public class Fg_Tab1_3m extends Fragment {
                             if(response.code() == 200) {
                                 entries.clear();
                                 for(int a = 0 ; a < response.body().getContent().size() ; a++) {
-                                    entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                                    entries.add(new Entry(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                                 }
                                 OpenChartAnim = true;
                                 tab1_3mItems.get(position).setOnenChart(true);
@@ -668,38 +669,6 @@ public class Fg_Tab1_3m extends Fragment {
 
     }//onViewCreate 끝
 
-
-    public static double decimalScale(String decimal , int loc , int mode) {
-        BigDecimal bd = new BigDecimal(decimal);
-        BigDecimal result = null;
-        if(mode == 1) {
-            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
-        }
-        else if(mode == 2) {
-            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
-        }
-        else if(mode == 3) {
-            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
-        }
-        return result.doubleValue();
-    }
-
-
-    public static float decimalScale2(String decimal , int loc , int mode) {
-        BigDecimal bd = new BigDecimal(decimal);
-        BigDecimal result = null;
-        if(mode == 1) {
-            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
-        }
-        else if(mode == 2) {
-            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
-        }
-        else if(mode == 3) {
-            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
-        }
-        return result.floatValue();
-    }
-
     //각 차트의 1개월 ~ 누적 버튼
     void ChartDur(int position, int dur) {
 
@@ -710,7 +679,7 @@ public class Fg_Tab1_3m extends Fragment {
                 if(response.code() == 200) {
                     entries.clear();
                     for(int a = 0 ; a < response.body().getContent().size() ; a++) {
-                        entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                        entries.add(new Entry(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                     }
                     OpenChartAnim = true;
                     tab1_3mItems.get(position).setOnenChart(true);
@@ -740,6 +709,5 @@ public class Fg_Tab1_3m extends Fragment {
                 DataManager.get_INstance().setCheckTab1(true);
             }
         }
-
     }
 }

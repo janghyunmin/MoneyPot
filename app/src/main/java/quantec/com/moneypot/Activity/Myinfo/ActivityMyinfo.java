@@ -5,10 +5,12 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,7 +30,9 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
@@ -183,6 +187,7 @@ public class ActivityMyinfo extends AppCompatActivity {
             return charge;
         };
 
+
 //        Observable<Integer> src = Observable.fromArray(names)
 //                .filter(name -> name.startsWith("이"))
 //                .map(fee);
@@ -199,6 +204,20 @@ public class ActivityMyinfo extends AppCompatActivity {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(getObserver3());
 
+        List<Po> salses = new ArrayList<>();
+        salses.add(new Po("A", 1000));
+        salses.add(new Po("B", 2000));
+        salses.add(new Po("C", 3000));
+        salses.add(new Po("B", 3000));
+        salses.add(new Po("D", 3000));
+
+        Maybe<Integer> tv = Observable.fromIterable(salses)
+                .filter(sale -> "B".equals(sale.getName()))
+                .map(sale -> sale.getPrice())
+                .reduce((sale1, sale2) -> sale1+sale2);
+
+        tv.subscribe(total -> System.out.println("총 값 : "+ total));
+
 //        BlockingQueue<String> order = new ArrayBlockingQueue<>(100);
 //        order.add("1번");
 //        order.add("2번");
@@ -210,7 +229,6 @@ public class ActivityMyinfo extends AppCompatActivity {
 //        Callable<String> callable = new Callable<String>() {
 //            @Override
 //            public String call() throws Exception {
-//
 //                Thread.sleep(1000);
 //                return "100점";
 //            }
@@ -220,11 +238,35 @@ public class ActivityMyinfo extends AppCompatActivity {
 
     }
 
+    public class Po{
+        String name;
+        int price;
 
+        public Po(String name, int price) {
+            this.name = name;
+            this.price = price;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getPrice() {
+            return price;
+        }
+
+        public void setPrice(int price) {
+            this.price = price;
+        }
+    }
 
     private MaybeObserver<Integer> getObserver3(){
         return new MaybeObserver<Integer>() {
-            
+
             @Override
             public void onSubscribe(Disposable d) {
 

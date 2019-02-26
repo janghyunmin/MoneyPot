@@ -33,6 +33,7 @@ import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
 import quantec.com.moneypot.RxAndroid.RxEventBus;
+import quantec.com.moneypot.Util.DecimalScale.DecimalScale;
 import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
 import quantec.com.moneypot.databinding.ActivityDetailPortBinding;
 import retrofit2.Call;
@@ -443,7 +444,7 @@ public class ActivityDetailPort extends AppCompatActivity {
                     if(response.body().getContent().getPackEls().size() >= 5) {
                         for(int a = 0 ; a < 5 ; a++) {
                             investItemData5.add(new ModelInvestItemData(response.body().getContent().getPackEls().get(a).getElName(),
-                                    decimalScale(String.valueOf(response.body().getContent().getPackEls().get(a).getRate() * 100), 2, 2),
+                                    DecimalScale.decimalScale(String.valueOf(response.body().getContent().getPackEls().get(a).getRate() * 100), 2, 2),
                                     String.valueOf((int) response.body().getContent().getPackEls().get(a).getWeight())
                             ));
                         }
@@ -451,7 +452,7 @@ public class ActivityDetailPort extends AppCompatActivity {
                     }else {
                         for (int a = 0; a < response.body().getContent().getPackEls().size(); a++) {
                             investItemData5.add(new ModelInvestItemData(response.body().getContent().getPackEls().get(a).getElName(),
-                                    decimalScale(String.valueOf(response.body().getContent().getPackEls().get(a).getRate() * 100), 2, 2),
+                                    DecimalScale.decimalScale(String.valueOf(response.body().getContent().getPackEls().get(a).getRate() * 100), 2, 2),
                                     String.valueOf((int) response.body().getContent().getPackEls().get(a).getWeight())
                             ));
                         }
@@ -462,16 +463,16 @@ public class ActivityDetailPort extends AppCompatActivity {
                         CountSize++;
                         Detail.add(CountSize);
                         investItemData.add(new ModelInvestItemData(response.body().getContent().getPackEls().get(a).getElName(),
-                                decimalScale(String.valueOf(response.body().getContent().getPackEls().get(a).getRate()*100), 2, 2),
+                                DecimalScale.decimalScale(String.valueOf(response.body().getContent().getPackEls().get(a).getRate()*100), 2, 2),
                                 String.valueOf((int)response.body().getContent().getPackEls().get(a).getWeight())
                         ));
                         detailPageAdapter2.notifyDataSetChanged();
                     }
 
-                    rate = decimalScale(String.valueOf(response.body().getContent().getRate()*100), 2, 2);
-                    rate30 = decimalScale(String.valueOf(response.body().getContent().getRateOne()*100), 2, 2);
-                    rate90 = decimalScale(String.valueOf(response.body().getContent().getRateThr()*100), 2, 2);
-                    rate180 = decimalScale(String.valueOf(response.body().getContent().getRateSix()*100), 2, 2);
+                    rate = DecimalScale.decimalScale(String.valueOf(response.body().getContent().getRate()*100), 2, 2);
+                    rate30 = DecimalScale.decimalScale(String.valueOf(response.body().getContent().getRateOne()*100), 2, 2);
+                    rate90 = DecimalScale.decimalScale(String.valueOf(response.body().getContent().getRateThr()*100), 2, 2);
+                    rate180 = DecimalScale.decimalScale(String.valueOf(response.body().getContent().getRateSix()*100), 2, 2);
 
                     Drate.clear();
                     Drate.add(rate);
@@ -492,7 +493,7 @@ public class ActivityDetailPort extends AppCompatActivity {
                                 entries.clear();
 
                                 for(int a = 0 ; a < response.body().getContent().size() ; a++) {
-                                    entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                                    entries.add(new Entry(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                                 }
                                 detailPageAdapter2.notifyDataSetChanged();
                                 detailPageBinding.portDetailPageLoading.setVisibility(View.GONE);
@@ -533,7 +534,7 @@ public class ActivityDetailPort extends AppCompatActivity {
                     entries.clear();
 
                     for(int a = 0 ; a < response.body().getContent().size() ; a++) {
-                        entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                        entries.add(new Entry(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                     }
                     detailPageAdapter2.notifyDataSetChanged();
                     detailPageBinding.portDetailPageLoading.setVisibility(View.GONE);
@@ -578,35 +579,4 @@ public class ActivityDetailPort extends AppCompatActivity {
             finish();
         }
     }
-
-    public static double decimalScale(String decimal , int loc , int mode) {
-        BigDecimal bd = new BigDecimal(decimal);
-        BigDecimal result = null;
-        if(mode == 1) {
-            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
-        }
-        else if(mode == 2) {
-            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
-        }
-        else if(mode == 3) {
-            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
-        }
-        return result.doubleValue();
-    }
-
-    public static float decimalScale2(String decimal , int loc , int mode) {
-        BigDecimal bd = new BigDecimal(decimal);
-        BigDecimal result = null;
-        if(mode == 1) {
-            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
-        }
-        else if(mode == 2) {
-            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
-        }
-        else if(mode == 3) {
-            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
-        }
-        return result.floatValue();
-    }
-
 }

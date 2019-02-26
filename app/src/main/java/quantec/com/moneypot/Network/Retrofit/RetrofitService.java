@@ -71,8 +71,10 @@ public interface RetrofitService {
     Call<Object> getTestLogin(@Header("Content-Type") String content_type, @Body User user);
 
     //맞춤포트에서 추천포트 랭킹 탑10 불러옴
-    @GET("pack/getStHotList/{limit}")
-    Call<ModelTop10Item> getTop10(@Path("limit") int limit);
+//    @GET("pack/getStHotList/{limit}")
+//    Call<ModelTop10Item> getTop10(@Path("limit") int limit);
+    @POST("pack/getPage/{gubun}/{rate}/{page}/{size}")
+    Call<ModelTab13mRank> getTop10(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 
    //상세 페이지 불러옴
     @GET("pack/getDetail/{stCode}")

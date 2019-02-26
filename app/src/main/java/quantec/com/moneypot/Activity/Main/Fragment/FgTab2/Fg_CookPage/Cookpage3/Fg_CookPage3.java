@@ -50,6 +50,7 @@ import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
 import quantec.com.moneypot.RxAndroid.RxEventBus;
+import quantec.com.moneypot.Util.DecimalScale.DecimalScale;
 import quantec.com.moneypot.databinding.FgFgtab2Fgcookpage3Binding;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -164,7 +165,7 @@ public class Fg_CookPage3 extends Fragment {
                                 if(response.code() == 200) {
                                     entries3.clear();
                                     for(int a = 0 ; a < response.body().getContent().size() ; a++) {
-                                        entries3.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                                        entries3.add(new Entry(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                                     }
                                     modelMyCookLists.get(position).setOpenchart(true);
                                     adapterCookPage3.notifyDataSetChanged();
@@ -281,7 +282,7 @@ public class Fg_CookPage3 extends Fragment {
 
                             case RxEvent.ZZIM_PORT_TRANS_PAGE:
                                 modelMyCookLists.add(new ModelMyCookList(rxEvent.getBundle().getString("myportname"),
-                                        decimalScale(String.valueOf(rxEvent.getBundle().getDouble("myportDrate")*100), 2, 2), rxEvent.getBundle().getString("myportcode"),false, rxEvent.getBundle().getLong("myportcash"), null, 0, "", 11));
+                                        DecimalScale.decimalScale(String.valueOf(rxEvent.getBundle().getDouble("myportDrate")*100), 2, 2), rxEvent.getBundle().getString("myportcode"),false, rxEvent.getBundle().getLong("myportcash"), null, 0, "", 11));
 //                                Collections.sort(modelMyCookLists, new Comparator<ModelMyCookList>() {
 //                                    @Override
 //                                    public int compare(ModelMyCookList o1, ModelMyCookList o2) {
@@ -371,7 +372,7 @@ public class Fg_CookPage3 extends Fragment {
                 if(response.code() == 200) {
                     entries3.clear();
                     for(int a = 0 ; a < response.body().getContent().size() ; a++) {
-                        entries3.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                        entries3.add(new Entry(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                     }
                     modelMyCookLists.get(position).setOpenchart(true);
                     adapterCookPage3.notifyDataSetChanged();
@@ -412,12 +413,12 @@ public class Fg_CookPage3 extends Fragment {
 
                                 if(response.body().getContent().get(index).getFile() != null){
                                     modelMyCookLists.add(new ModelMyCookList(response.body().getContent().get(index).getName(),
-                                            decimalScale(String.valueOf(response.body().getContent().get(index).getRate()*100), 2, 2), response.body().getContent().get(index).getCode(),
+                                            DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(index).getRate()*100), 2, 2), response.body().getContent().get(index).getCode(),
                                             false, response.body().getContent().get(index).getMinPrice(), response.body().getContent().get(index).getFile().getHome()+response.body().getContent().get(index).getFile().getFileFullPath(),
                                             1,response.body().getContent().get(index).getDescript(), response.body().getContent().get(index).getType()));
                                 }else{
                                     modelMyCookLists.add(new ModelMyCookList(response.body().getContent().get(index).getName(),
-                                            decimalScale(String.valueOf(response.body().getContent().get(index).getRate()*100), 2, 2), response.body().getContent().get(index).getCode(),
+                                            DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(index).getRate()*100), 2, 2), response.body().getContent().get(index).getCode(),
                                             false, response.body().getContent().get(index).getMinPrice(), "",
                                             0,response.body().getContent().get(index).getDescript(), response.body().getContent().get(index).getType()));
                                 }
@@ -446,36 +447,6 @@ public class Fg_CookPage3 extends Fragment {
             modelMyCookLists.get(data.getIntExtra("PassPosition",0)).setDescript(data.getStringExtra("PassPortDesc"));
             adapterCookPage3.notifyDataSetChanged();
         }
-    }
-
-    public static double decimalScale(String decimal , int loc , int mode) {
-        BigDecimal bd = new BigDecimal(decimal);
-        BigDecimal result = null;
-        if(mode == 1) {
-            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
-        }
-        else if(mode == 2) {
-            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
-        }
-        else if(mode == 3) {
-            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
-        }
-        return result.doubleValue();
-    }
-
-    public static float decimalScale2(String decimal , int loc , int mode) {
-        BigDecimal bd = new BigDecimal(decimal);
-        BigDecimal result = null;
-        if(mode == 1) {
-            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
-        }
-        else if(mode == 2) {
-            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
-        }
-        else if(mode == 3) {
-            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
-        }
-        return result.floatValue();
     }
 
 }

@@ -51,6 +51,7 @@ import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
 import quantec.com.moneypot.RxAndroid.RxEventBus;
+import quantec.com.moneypot.Util.DecimalScale.DecimalScale;
 import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
 import quantec.com.moneypot.databinding.FgFgtab3Fgtab3amBinding;
 import retrofit2.Call;
@@ -150,12 +151,12 @@ public class Fg_Tab3_am extends Fragment {
 
                         if(response.body().getContent().get(a).getSelect() != null) {
                             tab3_amItems.add(new ModelTab3am(response.body().getContent().get(a).getName(),
-                                    response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),response.body().getContent().get(a).getSelect().isZim(),
+                                    response.body().getContent().get(a).getCode(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),response.body().getContent().get(a).getSelect().isZim(),
                                     response.body().getContent().get(a).getSelect().isDam(), resID, false, response.body().getContent().get(a).getMinPrice()
                             ));
                         }else{
                             tab3_amItems.add(new ModelTab3am(response.body().getContent().get(a).getName(),
-                                    response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),false,
+                                    response.body().getContent().get(a).getCode(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),false,
                                     false, resID, false, response.body().getContent().get(a).getMinPrice()
                             ));
                         }
@@ -250,12 +251,12 @@ public class Fg_Tab3_am extends Fragment {
 
                                             if(response.body().getContent().get(a).getSelect() != null) {
                                                 list.add(new ModelTab3am(response.body().getContent().get(a).getName(),
-                                                        response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),response.body().getContent().get(a).getSelect().isZim(),
+                                                        response.body().getContent().get(a).getCode(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),response.body().getContent().get(a).getSelect().isZim(),
                                                         response.body().getContent().get(a).getSelect().isDam(), resID, false, response.body().getContent().get(a).getMinPrice()
                                                 ));
                                             }else{
                                                 list.add(new ModelTab3am(response.body().getContent().get(a).getName(),
-                                                        response.body().getContent().get(a).getCode(), decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),false,
+                                                        response.body().getContent().get(a).getCode(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),false,
                                                         false, resID, false, response.body().getContent().get(a).getMinPrice()
                                                 ));
                                             }
@@ -370,7 +371,7 @@ public class Fg_Tab3_am extends Fragment {
                             if(response.code() == 200) {
                                 entries.clear();
                                 for(int a = 0 ; a < response.body().getContent().size() ; a++) {
-                                    entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                                    entries.add(new Entry(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                                 }
                                 OpenChartAnim_a = true;
                                 tab3_amItems.get(position).setOnenChart(true);
@@ -631,7 +632,7 @@ public class Fg_Tab3_am extends Fragment {
                 if(response.code() == 200) {
                     entries.clear();
                     for(int a = 0 ; a < response.body().getContent().size() ; a++) {
-                        entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                        entries.add(new Entry(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                     }
                     tab3_amItems.get(position).setOnenChart(true);
                     tab3_amAdapter.notifyDataSetChanged();
@@ -664,37 +665,4 @@ public class Fg_Tab3_am extends Fragment {
             }
         }
     }
-
-
-    public static double decimalScale(String decimal , int loc , int mode) {
-        BigDecimal bd = new BigDecimal(decimal);
-        BigDecimal result = null;
-        if(mode == 1) {
-            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
-        }
-        else if(mode == 2) {
-            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
-        }
-        else if(mode == 3) {
-            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
-        }
-        return result.doubleValue();
-    }
-
-
-    public static float decimalScale2(String decimal , int loc , int mode) {
-        BigDecimal bd = new BigDecimal(decimal);
-        BigDecimal result = null;
-        if(mode == 1) {
-            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
-        }
-        else if(mode == 2) {
-            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
-        }
-        else if(mode == 3) {
-            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
-        }
-        return result.floatValue();
-    }
-
 }

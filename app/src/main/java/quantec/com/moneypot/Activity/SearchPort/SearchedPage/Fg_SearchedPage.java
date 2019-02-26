@@ -40,6 +40,7 @@ import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
 import quantec.com.moneypot.RxAndroid.RxEventBus;
+import quantec.com.moneypot.Util.DecimalScale.DecimalScale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -260,11 +261,11 @@ public class Fg_SearchedPage extends Fragment {
                         for(int tCount = 0 ; tCount < T_ItemSize ; tCount++) {
                             if(response.body().getContent().get(tCount).getSelect() != null){
                                 titleItemModels.add(new ModelTitleItem(1, T_ItemSize, response.body().getContent().get(tCount).getCode()
-                                        , response.body().getContent().get(tCount).getName(), decimalScale(String.valueOf(response.body().getContent().get(tCount).getRate()*100), 2, 2)
+                                        , response.body().getContent().get(tCount).getName(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(tCount).getRate()*100), 2, 2)
                                         , response.body().getContent().get(tCount).getSelect().isZim(),response.body().getContent().get(tCount).getSelect().isDam(), 0));
                             }else{
                                 titleItemModels.add(new ModelTitleItem(1, T_ItemSize, response.body().getContent().get(tCount).getCode()
-                                        , response.body().getContent().get(tCount).getName(), decimalScale(String.valueOf(response.body().getContent().get(tCount).getRate()*100), 2, 2)
+                                        , response.body().getContent().get(tCount).getName(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(tCount).getRate()*100), 2, 2)
                                         , false, false, 0));
                             }
                         }
@@ -275,11 +276,11 @@ public class Fg_SearchedPage extends Fragment {
                         for(int ptCount = 0 ; ptCount < response.body().getTotalElements() ; ptCount++) {
                             if(response.body().getContent().get(ptCount).getSelect() != null){
                                 postTitleItemModels.add(new ModelPostTitleItem(1, response.body().getTotalElements(), response.body().getContent().get(ptCount).getCode()
-                                        , response.body().getContent().get(ptCount).getName(), decimalScale(String.valueOf(response.body().getContent().get(ptCount).getRate()*100), 2, 2)
+                                        , response.body().getContent().get(ptCount).getName(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(ptCount).getRate()*100), 2, 2)
                                         , response.body().getContent().get(ptCount).getSelect().isZim(), response.body().getContent().get(ptCount).getSelect().isDam(), 0));
                             }else{
                                 postTitleItemModels.add(new ModelPostTitleItem(1, response.body().getTotalElements(), response.body().getContent().get(ptCount).getCode()
-                                        , response.body().getContent().get(ptCount).getName(), decimalScale(String.valueOf(response.body().getContent().get(ptCount).getRate()*100), 2, 2)
+                                        , response.body().getContent().get(ptCount).getName(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(ptCount).getRate()*100), 2, 2)
                                         , false, false, 0));
                             }
                         }
@@ -313,11 +314,11 @@ public class Fg_SearchedPage extends Fragment {
 
                                             if(response.body().getContent().get(dCount).getSelect() != null){
                                                 descItemModels.add(new ModelDescItem(1, D_ItemSize, response.body().getContent().get(dCount).getCode()
-                                                        , response.body().getContent().get(dCount).getName(), response.body().getContent().get(dCount).getDescript(), decimalScale(String.valueOf(response.body().getContent().get(dCount).getRate()*100), 2, 2)
+                                                        , response.body().getContent().get(dCount).getName(), response.body().getContent().get(dCount).getDescript(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(dCount).getRate()*100), 2, 2)
                                                         , response.body().getContent().get(dCount).getSelect().isZim(), response.body().getContent().get(dCount).getSelect().isDam(), 0));
                                             }else{
                                                 descItemModels.add(new ModelDescItem(1, D_ItemSize, response.body().getContent().get(dCount).getCode()
-                                                        , response.body().getContent().get(dCount).getName(), response.body().getContent().get(dCount).getDescript(), decimalScale(String.valueOf(response.body().getContent().get(dCount).getRate()*100), 2, 2)
+                                                        , response.body().getContent().get(dCount).getName(), response.body().getContent().get(dCount).getDescript(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(dCount).getRate()*100), 2, 2)
                                                         , false, false, 0));
                                             }
 
@@ -329,7 +330,7 @@ public class Fg_SearchedPage extends Fragment {
                                         for(int pdCount = 0 ; pdCount < response.body().getTotalElements() ; pdCount++){
                                             postDescItemModels.add(new ModelPostDescItem(1, response.body().getTotalElements(), response.body().getContent().get(pdCount).getCode()
                                                     , response.body().getContent().get(pdCount).getName(), response.body().getContent().get(pdCount).getDescript()
-                                                    , decimalScale(String.valueOf(response.body().getContent().get(pdCount).getRate()*100), 2, 2)
+                                                    , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(pdCount).getRate()*100), 2, 2)
                                                     , false, 0));
                                         }
                                     searchStatus.add(1, 2);
@@ -359,13 +360,13 @@ public class Fg_SearchedPage extends Fragment {
                                                     if(response.body().getContent().get(sCount).getSelect() != null){
                                                         stockItemModels.add(new ModelStockItem(1, S_ItemSize
                                                                 , response.body().getContent().get(sCount).getCode(), response.body().getContent().get(sCount).getName()
-                                                                , decimalScale(String.valueOf(response.body().getContent().get(sCount).getRate()*100), 2, 2), 0
+                                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(sCount).getRate()*100), 2, 2), 0
                                                                 , response.body().getContent().get(sCount).getPackEls().get(0).getElName()
                                                                 , response.body().getContent().get(sCount).getSelect().isZim(), response.body().getContent().get(sCount).getSelect().isDam(), 0));
                                                     }else{
                                                         stockItemModels.add(new ModelStockItem(1, S_ItemSize
                                                                 , response.body().getContent().get(sCount).getCode(), response.body().getContent().get(sCount).getName()
-                                                                , decimalScale(String.valueOf(response.body().getContent().get(sCount).getRate()*100), 2, 2), 0
+                                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(sCount).getRate()*100), 2, 2), 0
                                                                 , response.body().getContent().get(sCount).getPackEls().get(0).getElName(), false, false, 0));
                                                     }
                                                 }
@@ -376,12 +377,12 @@ public class Fg_SearchedPage extends Fragment {
                                                     if(response.body().getContent().get(psCount).getSelect() != null){
                                                         postStockItemModels.add(new ModelPostStockItem(1, S_ItemSize
                                                                 , response.body().getContent().get(psCount).getCode(), response.body().getContent().get(psCount).getName()
-                                                                , decimalScale(String.valueOf(response.body().getContent().get(psCount).getRate()*100), 2, 2), 0
+                                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(psCount).getRate()*100), 2, 2), 0
                                                                 , response.body().getContent().get(psCount).getPackEls().get(0).getElName(), response.body().getContent().get(psCount).getSelect().isZim(), response.body().getContent().get(psCount).getSelect().isDam(),0));
                                                     }else{
                                                         postStockItemModels.add(new ModelPostStockItem(1, S_ItemSize
                                                                 , response.body().getContent().get(psCount).getCode(), response.body().getContent().get(psCount).getName()
-                                                                , decimalScale(String.valueOf(response.body().getContent().get(psCount).getRate()*100), 2, 2), 0
+                                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(psCount).getRate()*100), 2, 2), 0
                                                                 , response.body().getContent().get(psCount).getPackEls().get(0).getElName(), false, false, 0));
                                                     }
                                                 }
@@ -673,36 +674,4 @@ public class Fg_SearchedPage extends Fragment {
     public static void getSearchText(String string) {
         searchText = string;
     }
-
-    public static double decimalScale(String decimal , int loc , int mode) {
-        BigDecimal bd = new BigDecimal(decimal);
-        BigDecimal result = null;
-        if(mode == 1) {
-            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
-        }
-        else if(mode == 2) {
-            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
-        }
-        else if(mode == 3) {
-            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
-        }
-        return result.doubleValue();
-    }
-
-
-    public static float decimalScale2(String decimal , int loc , int mode) {
-        BigDecimal bd = new BigDecimal(decimal);
-        BigDecimal result = null;
-        if(mode == 1) {
-            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
-        }
-        else if(mode == 2) {
-            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
-        }
-        else if(mode == 3) {
-            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
-        }
-        return result.floatValue();
-    }
-
 }

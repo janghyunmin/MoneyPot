@@ -51,13 +51,16 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Adapter.AdapterTop10;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.dModel.ModelMainPortTop10Item3;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.dModel.ModelMainPortTop3Item10;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.nModel.ModelTop10Item;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Filter;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Activity.Myinfo.ActivityMyinfo;
 import quantec.com.moneypot.Activity.SearchPort.ActivitySearchPort;
 import quantec.com.moneypot.DataManager.DataManager;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
+import quantec.com.moneypot.Util.DecimalScale.DecimalScale;
 import quantec.com.moneypot.Util.TextTypeSpan.CustomTypefaceSpan;
 import quantec.com.moneypot.databinding.FgTab1Binding;
 import retrofit2.Call;
@@ -381,24 +384,25 @@ public class Fg_tab1 extends Fragment {
         adapterTop10 = new AdapterTop10(modelMainPortTop10Item3s, modelMainPortTop3Item10s, getContext());
         fgTab1Binding.firstPortPageRecyclerView.setAdapter(adapterTop10);
 
-        Call<ModelTop10Item> getData = RetrofitClient.getInstance().getService().getTop10(10);
-        getData.enqueue(new Callback<ModelTop10Item>() {
+        Filter filter = new Filter();
+        Call<ModelTab13mRank> getData = RetrofitClient.getInstance().getService().getTop10("application/json", filter, "H", 0,1,10);
+        getData.enqueue(new Callback<ModelTab13mRank>() {
             @Override
-            public void onResponse(Call<ModelTop10Item> call, Response<ModelTop10Item> response) {
+            public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                 if(response.code() == 200) {
                     for(int a = 0 ; a < 10 ; a++) {
                         if(a < 3) {
                             modelMainPortTop10Item3s.add(new ModelMainPortTop10Item3(a+1, response.body().getContent().get(a).getName(),
-                                    decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2), response.body().getContent().get(a).getCode()));
+                                    DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2), response.body().getContent().get(a).getCode()));
                         }
                         modelMainPortTop3Item10s.add(new ModelMainPortTop3Item10(a+1, response.body().getContent().get(a).getName(),
-                                decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),response.body().getContent().get(a).getCode()));
+                                DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),response.body().getContent().get(a).getCode()));
                     }
                     adapterTop10.notifyDataSetChanged();
                 }
             }
             @Override
-            public void onFailure(Call<ModelTop10Item> call, Throwable t) {
+            public void onFailure(Call<ModelTab13mRank> call, Throwable t) {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
@@ -673,7 +677,7 @@ public class Fg_tab1 extends Fragment {
                 if(response.code() == 200) {
                     middle_entries.clear();
                     for(int a = 0 ; a < response.body().getContent().size() ; a++) {
-                        middle_entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                        middle_entries.add(new Entry(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                     }
                     if(response.body().getTotalElements() != 0){
                         MiddleChart();
@@ -695,7 +699,7 @@ public class Fg_tab1 extends Fragment {
                 if(response.code() == 200) {
                     bottom_entries.clear();
                     for(int a = 0 ; a < response.body().getContent().size() ; a++) {
-                        bottom_entries.add(new Entry(a, decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                        bottom_entries.add(new Entry(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                     }
                     if(response.body().getTotalElements() != 0){
                         BottomChart();
@@ -707,35 +711,5 @@ public class Fg_tab1 extends Fragment {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
-    }
-
-    public static double decimalScale(String decimal , int loc , int mode) {
-        BigDecimal bd = new BigDecimal(decimal);
-        BigDecimal result = null;
-        if(mode == 1) {
-            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
-        }
-        else if(mode == 2) {
-            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
-        }
-        else if(mode == 3) {
-            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
-        }
-        return result.doubleValue();
-    }
-
-    public static float decimalScale2(String decimal , int loc , int mode) {
-        BigDecimal bd = new BigDecimal(decimal);
-        BigDecimal result = null;
-        if(mode == 1) {
-            result = bd.setScale(loc, BigDecimal.ROUND_DOWN);       //내림
-        }
-        else if(mode == 2) {
-            result = bd.setScale(loc, BigDecimal.ROUND_HALF_UP);   //반올림
-        }
-        else if(mode == 3) {
-            result = bd.setScale(loc, BigDecimal.ROUND_UP);             //올림
-        }
-        return result.floatValue();
     }
 }
