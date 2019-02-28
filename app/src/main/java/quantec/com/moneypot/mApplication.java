@@ -3,7 +3,11 @@ package quantec.com.moneypot;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.util.Random;
+
+import io.fabric.sdk.android.Fabric;
 
 public class mApplication extends Application {
 
@@ -12,6 +16,13 @@ public class mApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Fabric fabric = new Fabric.Builder(this)
+                .kits(new Crashlytics())
+                .debuggable(true)
+                .build();
+        Fabric.with(fabric);
+
 
         SharedPreferences mid = getSharedPreferences("user", MODE_PRIVATE);
         if (mid.getString("mid", "empty").equals("empty")) {

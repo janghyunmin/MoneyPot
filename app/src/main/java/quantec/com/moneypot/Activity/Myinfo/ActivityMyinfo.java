@@ -89,6 +89,34 @@ public class ActivityMyinfo extends AppCompatActivity {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
+//        String[] names = new String[]{"재경", "희성", "라성", "인영"};
+//        Observable<String> src = Observable.interval(3000L, TimeUnit.MILLISECONDS)
+//                .map(idx -> names[idx.intValue()])
+//                .take(names.length)
+//                .switchMap(name -> Observable.interval(3000L, TimeUnit.MILLISECONDS)
+//                        .map(unUsed -> "*" + name)
+//                        .take(1)
+//                );
+//        src.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(AndroidSchedulers.mainThread())
+//                .subscribe(getObserver());
+
+            Callable<String> callable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                Thread.sleep(1000);
+                return "100점";
+            }
+        };
+
+        Observable<String> source = Observable.fromCallable(callable)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread());
+        source.subscribe(System.out::println);
+
+        Log.e("1번", "1번");
+
         activityMyinfoBinding.myInfoPageCloseBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,76 +175,80 @@ public class ActivityMyinfo extends AppCompatActivity {
         CurrentButtonView.setTextColor(getResources().getColor(R.color.delete_pressed_text));
 
 //        String[] names = new String[]{"재경", "희성", "라성", "인영"};
-//        Observable<String> src = Observable.fromArray(names)
-//                .map(name -> "hello "+name);
-
-//        Observable<String> src = Observable.interval(100L, TimeUnit.MILLISECONDS)
-//                .map(idx -> names[idx.intValue()])
-//                .take(names.length)
-//                .concatMap(name -> Observable.interval(2000L, TimeUnit.MILLISECONDS)
-//                .map(unUsed -> "*" + name)
-//                .take(1)
-//                );
-
-//        Observable<String> src = Observable.interval(100L, TimeUnit.MILLISECONDS)
+////        Observable<String> src = Observable.fromArray(names)
+////                .map(name -> "hello "+name);
+//
+////        Observable<String> src = Observable.interval(100L, TimeUnit.MILLISECONDS)
+////                .map(idx -> names[idx.intValue()])
+////                .take(names.length)
+////                .concatMap(name -> Observable.interval(2000L, TimeUnit.MILLISECONDS)
+////                .map(unUsed -> "*" + name)
+////                .take(1)
+////                );
+//
+//        Observable<String> src = Observable.interval(3000L, TimeUnit.MILLISECONDS)
 //                .map(idx -> names[idx.intValue()])
 //                .take(names.length)
 //                .switchMap(name -> Observable.interval(2000L, TimeUnit.MILLISECONDS)
 //                        .map(unUsed -> "*" + name)
 //                        .take(1)
 //                );
-
-        String[] names = new String[]{"이상", "이하", "중간", "하락"};
-
-        Function<String, Integer> fee = name -> {
-            int charge = 0;
-            switch (name) {
-                case "이상":
-                    charge = 1000;
-                    break;
-                case "중간":
-                    charge = 500;
-                    break;
-                case "하락":
-                    charge = 300;
-                    break;
-                case "이하":
-                    charge = 100;
-                    break;
-            }
-            return charge;
-        };
-
-
-//        Observable<Integer> src = Observable.fromArray(names)
-//                .filter(name -> name.startsWith("이"))
-//                .map(fee);
-        Maybe<Integer> src = Observable.fromArray(names)
-                .filter(name -> name.startsWith("이"))
-                .map(fee)
-                .reduce((in1, in2) -> in1+in2);
-
-//        src.subscribeOn(Schedulers.io())
+//
+//                src.subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(getObserver2());
+//                .subscribe(getObserver());
 
-            src.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(getObserver3());
-
-        List<Po> salses = new ArrayList<>();
-        salses.add(new Po("A", 1000));
-        salses.add(new Po("B", 2000));
-        salses.add(new Po("C", 3000));
-        salses.add(new Po("B", 3000));
-        salses.add(new Po("D", 3000));
-
-        Maybe<Integer> tv = Observable.fromIterable(salses)
-                .filter(sale -> "B".equals(sale.getName()))
-                .map(sale -> sale.getPrice())
-                .reduce((sale1, sale2) -> sale1+sale2);
-
-        tv.subscribe(total -> System.out.println("총 값 : "+ total));
+//        String[] names = new String[]{"이상", "이하", "중간", "하락"};
+//
+//        Function<String, Integer> fee = name -> {
+//            int charge = 0;
+//            switch (name) {
+//                case "이상":
+//                    charge = 1000;
+//                    break;
+//                case "중간":
+//                    charge = 500;
+//                    break;
+//                case "하락":
+//                    charge = 300;
+//                    break;
+//                case "이하":
+//                    charge = 100;
+//                    break;
+//            }
+//            return charge;
+//        };
+//
+//
+////        Observable<Integer> src = Observable.fromArray(names)
+////                .filter(name -> name.startsWith("이"))
+////                .map(fee);
+//        Maybe<Integer> src = Observable.fromArray(names)
+//                .filter(name -> name.startsWith("이"))
+//                .map(fee)
+//                .reduce((in1, in2) -> in1+in2);
+//
+////        src.subscribeOn(Schedulers.io())
+////                .observeOn(AndroidSchedulers.mainThread())
+////                .subscribe(getObserver2());
+//
+//            src.subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(getObserver3());
+//
+//        List<Po> salses = new ArrayList<>();
+//        salses.add(new Po("A", 1000));
+//        salses.add(new Po("B", 2000));
+//        salses.add(new Po("C", 3000));
+//        salses.add(new Po("B", 3000));
+//        salses.add(new Po("D", 3000));
+//
+//        Maybe<Integer> tv = Observable.fromIterable(salses)
+//                .filter(sale -> "B".equals(sale.getName()))
+//                .map(sale -> sale.getPrice())
+//                .reduce((sale1, sale2) -> sale1+sale2);
+//
+//        tv.subscribe(total -> System.out.println("총 값 : "+ total));
 
 //        BlockingQueue<String> order = new ArrayBlockingQueue<>(100);
 //        order.add("1번");
@@ -237,6 +269,8 @@ public class ActivityMyinfo extends AppCompatActivity {
 //        source.subscribe(System.out::println);
 
     }
+
+
 
     public class Po{
         String name;
@@ -266,25 +300,18 @@ public class ActivityMyinfo extends AppCompatActivity {
 
     private MaybeObserver<Integer> getObserver3(){
         return new MaybeObserver<Integer>() {
-
             @Override
             public void onSubscribe(Disposable d) {
-
             }
-
             @Override
             public void onSuccess(Integer integer) {
                 Log.e("가격","가격 : "+integer);
             }
-
             @Override
             public void onError(Throwable e) {
-
             }
-
             @Override
             public void onComplete() {
-
             }
         };
     }

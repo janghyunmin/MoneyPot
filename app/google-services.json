@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "486996951422",
+    "firebase_url": "https://crash-89894.firebaseio.com",
+    "project_id": "crash-89894",
+    "storage_bucket": "crash-89894.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486996951422:android:438ec6c8febbae39",
+        "android_client_info": {
+          "package_name": "quantec.com.moneypot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486996951422-t94n7rqec4m5cahe0940i5kvbbpe4ktq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsmZGxgWv02n_BBtyPJXeK0ZiJTTGH2kk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
