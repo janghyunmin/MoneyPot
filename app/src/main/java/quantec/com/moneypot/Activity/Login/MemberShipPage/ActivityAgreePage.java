@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import quantec.com.moneypot.R;
 
@@ -102,11 +101,25 @@ public class ActivityAgreePage extends AppCompatActivity {
     void checkedNextBt() {
 
         if(selectBT[1] == 1 &&selectBT[2] == 1){
+            selectBT[0] = 1;
+            activity_agree_page_allImage.setBackgroundResource(R.drawable.start_on);
             activity_agree_page_BT.setEnabled(true);
             activity_agree_page_BT.setBackgroundResource(R.color.blue_color);
         }else{
+            selectBT[0] = 0;
+            activity_agree_page_allImage.setBackgroundResource(R.drawable.start_off);
             activity_agree_page_BT.setEnabled(false);
             activity_agree_page_BT.setBackgroundResource(R.color.greyish_brown);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(ActivityAgreePage.this, ActivityLoginMain.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.leftin_activity,R.anim.rightout_activity);
+
     }
 }

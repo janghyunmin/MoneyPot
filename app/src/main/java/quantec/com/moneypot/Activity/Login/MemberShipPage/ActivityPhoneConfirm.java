@@ -15,14 +15,13 @@ import quantec.com.moneypot.R;
 public class ActivityPhoneConfirm extends AppCompatActivity {
 
     private TextInputLayout activity_phone_confirm_namelayout, activity_phone_confirm_numberlayout, activity_phone_confirm_number2layout;
-    private EditText activity_phone_confirm_nameEdittext, activity_phone_confirm_numberEdittext, activity_phone_confirm_number2Edittext;
+    private EditText activity_phone_confirm_nameEdittext, activity_phone_confirm_numberEdittext;
     private TextView activity_phone_confirm_BT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_confirm);
-
 
         activity_phone_confirm_namelayout = (TextInputLayout) findViewById(R.id.activity_phone_confirm_namelayout);
         activity_phone_confirm_numberlayout = findViewById(R.id.activity_phone_confirm_numberlayout);
@@ -33,11 +32,9 @@ public class ActivityPhoneConfirm extends AppCompatActivity {
         activity_phone_confirm_BT = findViewById(R.id.activity_phone_confirm_BT);
 
         activity_phone_confirm_number2layout = findViewById(R.id.activity_phone_confirm_number2layout);
-        activity_phone_confirm_number2Edittext = findViewById(R.id.activity_phone_confirm_number2Edittext);
 
         activity_phone_confirm_nameEdittext.addTextChangedListener(new MyTextWatcher(activity_phone_confirm_nameEdittext));
         activity_phone_confirm_numberEdittext.addTextChangedListener(new MyTextWatcher(activity_phone_confirm_numberEdittext));
-
 
         activity_phone_confirm_BT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +48,6 @@ public class ActivityPhoneConfirm extends AppCompatActivity {
         if (!validateName()) {
             return;
         }
-
         if (!validateEmail()) {
             return;
         }
@@ -108,10 +104,8 @@ public class ActivityPhoneConfirm extends AppCompatActivity {
 
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
-
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
-
         public void afterTextChanged(Editable editable) {
             switch (view.getId()) {
                 case R.id.activity_phone_confirm_nameEdittext:

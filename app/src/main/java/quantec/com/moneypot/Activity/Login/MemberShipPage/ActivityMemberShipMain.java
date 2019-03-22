@@ -11,21 +11,19 @@ import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import permissions.dispatcher.NeedsPermission;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.Util.Permissions.PermissionsPhone;
 
-public class ActivityLogin extends AppCompatActivity {
+public class ActivityLoginMain extends AppCompatActivity {
 
     /**
      *
-     * 번호 권한은 온크리에이트에 두고 진행된 페이지에서 뒤로가기시 로그인페이지를 새로 불러주는 방식으로 퍼미션 체크를 다시 한다 ( 현재 미구현 )
+     * 번호 권한은 온크리에이트에 두고 진행된 페이지에서 뒤로가기시 로그인페이지를 새로 불러주는 방식으로 퍼미션 체크를 다시 한다
      *
      */
 
@@ -42,7 +40,7 @@ public class ActivityLogin extends AppCompatActivity {
         activity_login_phoneEdittext_noti = findViewById(R.id.activity_login_phoneEdittext_noti);
         activity_login_phoneEdittext_noti.setVisibility(View.GONE);
 
-        PermissionsPhone.getPhoneState(ActivityLogin.this);
+        PermissionsPhone.getPhoneState(ActivityLoginMain.this);
 
         activity_login_phoneEdittext_noti.addTextChangedListener(new TextWatcher() {
             @Override
@@ -63,8 +61,9 @@ public class ActivityLogin extends AppCompatActivity {
             public void onClick(View v) {
 
                  if(activity_login_phoneEdittext.getText().length() >= 10) {
-                     Intent intent = new Intent(ActivityLogin.this, ActivityAgreePage.class);
+                     Intent intent = new Intent(ActivityLoginMain.this, ActivityAgreePage.class);
                      startActivity(intent);
+                     finish();
                  }
                  else{
                      activity_login_phoneEdittext_noti.setVisibility(View.VISIBLE);
@@ -72,10 +71,7 @@ public class ActivityLogin extends AppCompatActivity {
 
             }
         });
-
-
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
