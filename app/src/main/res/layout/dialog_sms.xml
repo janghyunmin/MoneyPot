@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="303dp"
+    android:layout_height="187dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/tab1_dialog_layout_round"
+    android:layout_gravity="center"
+    >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="인증실패"
+        android:textColor="#666666"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="21dp"
+        />
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="본인 인증에 실패하였습니다."
+        android:layout_marginTop="30dp"
+        android:textSize="14sp"
+        android:textColor="@color/tab1_dialog_text"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/okBt"
+        android:layout_width="130dp"
+        android:layout_height="43dp"
+        android:background="@drawable/dialog_cancle_bt"
+        android:text="확인"
+        android:textColor="@color/normal_title_color"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtitle"
+        android:layout_marginTop="40dp"
+        />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/popup_title"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="인증요청"
+        android:textColor="@android:color/white"
+        android:textSize="18dp"
+        android:textStyle="bold" >
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/auth_popup"
+        android:layout_width="270dp"
+        android:layout_height="190dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/popup_msg"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="인증 요청이 왔습니다.\n\nFIDO 인증을 진행하시겠습니까?"
+            android:textColor="@android:color/black"
+            android:textSize="16dp" >
+        </TextView>
+
+        <LinearLayout
+            android:id="@+id/alert_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <Button
+                android:id="@+id/alert_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="확 인"
+                android:textColor="#ffffff" >
+            </Button>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/popup_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="2" >
+
+            <Button
+                android:id="@+id/popup_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:text="취 소"
+                android:textColor="#00569b" >
+            </Button>
+
+            <Button
+                android:id="@+id/popup_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="확 인"
+                android:textColor="#ffffff" >
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

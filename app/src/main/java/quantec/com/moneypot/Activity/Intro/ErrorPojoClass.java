@@ -1,7 +1,7 @@
 package quantec.com.moneypot.Activity.Intro;
 
 public class ErrorPojoClass {
-    int errorcode;
+    int status;
     String timestamp;
     String message;
     String details;
@@ -9,15 +9,15 @@ public class ErrorPojoClass {
     public ErrorPojoClass() {
     }
 
-    public int getErrorcode() {
-        return errorcode;
+    public int getStatus() {
+        return status;
     }
 
-    public void setErrorcode(int errorcode) {
-        this.errorcode = errorcode;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public java.lang.String getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
@@ -33,7 +33,7 @@ public class ErrorPojoClass {
         this.message = message;
     }
 
-    public java.lang.String getDetails() {
+    public String getDetails() {
         return details;
     }
 

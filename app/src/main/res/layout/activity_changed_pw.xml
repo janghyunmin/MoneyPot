@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="ChangerPw"
+            type="quantec.com.moneypot.Activity.MyInfomation.ActivityChangedPw"/>
+
+    </data>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+<android.support.constraint.ConstraintLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.MyInfomation.ActivityAuthPassword">
+
+    <ImageView
+        android:id="@+id/backBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="20dp"
+        />
+    <TextView
+        android:id="@+id/topTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호 재설정"
+        android:textSize="14dp"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        />
+    <TextView
+        android:id="@+id/regInfoPw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="신규 비밀번호 입력"
+        android:textSize="12dp"
+        android:textColor="#000000"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="39dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topTitle"
+        />
+    <EditText
+        android:id="@+id/regInfoPw_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호 확인"
+        android:textSize="18dp"
+        android:textColorHint="#CCCCCC"
+        android:inputType="textWebPassword"
+        app:layout_constraintTop_toBottomOf="@+id/regInfoPw"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        />
+    <ImageView
+        android:id="@+id/regInfoPw_edit_deleteBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_closebox_gray"
+        app:layout_constraintTop_toTopOf="@+id/regInfoPw_edit"
+        app:layout_constraintEnd_toEndOf="@+id/regInfoPw_edit"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:visibility="invisible"
+        />
+    <TextView
+        android:id="@+id/regInfoPwDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/regInfoPw_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="영문자, 숫자, 특수문자를 포함하여 8글자 이상"
+        android:layout_marginLeft="39dp"
+        android:textSize="10dp"
+        android:textColor="#9a9a9a"
+        />
+    <TextView
+        android:id="@+id/regInfoRPw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호 확인"
+        android:textSize="12dp"
+        android:textColor="#000000"
+        android:layout_marginTop="36dp"
+        android:layout_marginLeft="39dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/regInfoPwDesc"
+        />
+    <EditText
+        android:id="@+id/regInfoRPw_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호 재입력"
+        android:textSize="18dp"
+        android:textColorHint="#CCCCCC"
+        android:inputType="textWebPassword"
+        app:layout_constraintTop_toBottomOf="@+id/regInfoRPw"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        />
+    <ImageView
+        android:id="@+id/regInfoRPw_editText_deleteBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_closebox_gray"
+        app:layout_constraintTop_toTopOf="@+id/regInfoRPw_editText"
+        app:layout_constraintEnd_toEndOf="@+id/regInfoRPw_editText"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:visibility="invisible"
+        />
+    <TextView
+        android:id="@+id/regInfoRPwDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/regInfoRPw_editText"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="비밀번호가 일치하지 않습니다."
+        android:layout_marginLeft="39dp"
+        android:textSize="10dp"
+        android:textColor="#FF0000"
+        android:visibility="invisible"
+        />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        app:layout_constraintTop_toBottomOf="@+id/regInfoRPwDesc"
+        />
+</android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
+        <TextView
+            android:id="@+id/nextBt"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:background="#FAFAFA"
+            android:text="다음"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:textColor="#CCCCCC"
+            android:layout_alignParentBottom="true"
+            android:enabled="false"
+            />
+    </RelativeLayout>
+</layout>

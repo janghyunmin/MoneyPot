@@ -3,7 +3,6 @@ package quantec.com.moneypot.Util.Permissions;
 import android.support.v4.app.ActivityCompat;
 
 import permissions.dispatcher.PermissionUtils;
-import quantec.com.moneypot.Activity.Intro.ActivityIntro;
 import quantec.com.moneypot.Activity.PortProfileModify.ActivityPortProfileModify;
 
 public class PermissionsDispatcher {

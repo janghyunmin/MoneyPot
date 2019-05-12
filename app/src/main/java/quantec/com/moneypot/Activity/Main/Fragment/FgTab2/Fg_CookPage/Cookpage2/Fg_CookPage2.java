@@ -469,11 +469,11 @@ public class Fg_CookPage2 extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep(1500);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
                 DelayedRefresh = false;
 //                Call<ModelFgTab4ZimData> getData = RetrofitClient.getInstance().getService().getZimDamList();
                 Filter filter = new Filter();

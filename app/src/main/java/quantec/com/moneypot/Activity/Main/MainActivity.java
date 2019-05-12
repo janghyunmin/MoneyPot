@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import com.roughike.bottombar.OnTabSelectListener;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -34,13 +33,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
+import quantec.com.moneypot.Activity.BaseActivity.BaseActivity;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Fg_tab1;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_tab2;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fg_tab3;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab4.Fg_tab4;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab5.Fg_tab5;
 import quantec.com.moneypot.DataManager.ChartManager;
-import quantec.com.moneypot.Dialog.LoadingMakePort.DialogLoadingMakingPort;
+import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
 import quantec.com.moneypot.ModelCommon.nModel.PotDto;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
@@ -54,7 +54,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     ActivityMainBinding activityMainBinding;
     //포트만들기 로딩시 뒤로가기 막아둠
@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         activityMainBinding.setMainActivity(this);
+
+        mainList.add(0, this);
 
         activityMainBinding.makePortLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -522,8 +524,8 @@ public class MainActivity extends AppCompatActivity {
                                 finishChart.clear();
                                 portName.clear();
 
-                                for(int index = 0 ; index < response.body().getContent().getPackEls().size() ; index++){
-                                    portName.add(response.body().getContent().getPackEls().get(index).getElName());
+                                for(int index = 0 ; index < response.body().getContent().getPotEls().size() ; index++){
+                                    portName.add(response.body().getContent().getPotEls().get(index).getElName());
                                 }
 
 //                                for(int a = 0 ; a < response.body().getElements().size() ; a++) {

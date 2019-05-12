@@ -34,4 +34,11 @@
     <color name="gray_brown_color">#505050</color>
     <color name="green_basket_color">#09A9A9</color>
     <color name="greyish_brown">#505050</color>
+    
+    <color name="button_enable">#fafafa</color>
+    <color name="button_enable_text">#cccccc</color>
+    <color name="text_red_color">#f02626</color>
+    <color name="text_white_color">#FFFFFF</color>
+    <color name="text_gray_color">#9a9a9a</color>
+    <color name="text_black_color">#000000</color>
 </resources>

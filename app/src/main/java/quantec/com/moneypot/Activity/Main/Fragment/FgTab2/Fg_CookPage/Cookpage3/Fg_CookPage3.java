@@ -2,7 +2,6 @@ package quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,22 +9,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -36,13 +30,8 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Adapter.AdapterCookPage3;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Dialog.DialogDeleteMyPort;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.dModel.ModelMyCookList;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelDeleteMyPort;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelMyChartItem;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelMyPotList;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage3.Model.nModel.ModelgetMyPortList;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mChartData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelTab13mRank;
-import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Select;
 import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
 import quantec.com.moneypot.Activity.PortProfileModify.ActivityPortProfileModify;
@@ -55,8 +44,6 @@ import quantec.com.moneypot.databinding.FgFgtab2Fgcookpage3Binding;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class Fg_CookPage3 extends Fragment {
 
@@ -302,7 +289,7 @@ public class Fg_CookPage3 extends Fragment {
                             case RxEvent.COOK_PAGE_BASKET:
                                 //전체삭제 이벤트
                                 if(rxEvent.getBundle().getInt("basket") == 3) {
-//                                    CookMyDelete(0, 0, 1);
+                                    CookMyDeleteALL();
                                 }
                                 break;
                             case RxEvent.ZZIM_PORT_LOAD:
@@ -319,7 +306,6 @@ public class Fg_CookPage3 extends Fragment {
                 });
 
     }//onViewCreate 끝
-
 
     //개별 삭제 취소
     private View.OnClickListener leftListener = new View.OnClickListener() {
@@ -339,8 +325,6 @@ public class Fg_CookPage3 extends Fragment {
 
     //내가 만든 포트 삭제
     //개별 삭제 확인
-    //하나지울때는 opt=0
-    //전체 지울 때는 opt=1
     void CookMyDelete(String code, int position) {
 
         Call<Object> getData = RetrofitClient.getInstance().getService().getDelMyPot(code);
@@ -353,6 +337,27 @@ public class Fg_CookPage3 extends Fragment {
                     adapterCookPage3.notifyItemRemoved(position);
                     adapterCookPage3.notifyItemRangeChanged(position, modelMyCookLists.size());
                     customDialog.dismiss();
+                }
+            }
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.e("레트로핏 실패", "값 : " + t.getMessage());
+            }
+        });
+    }
+
+    //내가 만든 포트 삭제
+    //전체 삭제 확인
+    void CookMyDeleteALL() {
+
+        Call<Object> getData = RetrofitClient.getInstance().getService().getDelMyPotAll();
+        getData.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.code() == 200) {
+
+                    modelMyCookLists.clear();
+                    adapterCookPage3.notifyDataSetChanged();
                 }
             }
             @Override
@@ -392,22 +397,20 @@ public class Fg_CookPage3 extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep(1500);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
                 DelayedRefresh = false;
-//                Filter filter = new Filter();
-                //내가 만든 포트 데이터 초기 불러옴
-//                Call<ModelMyPotList> getTest2 = RetrofitClient.getInstance().getService().getMyPotList("application/json", filter, 180,0,10);
+
                 Filter filter = new Filter();
                 Call<ModelTab13mRank> getTest2 = RetrofitClient.getInstance().getService().getPageList("application/json", filter, "U", 0,1,30);
                 getTest2.enqueue(new Callback<ModelTab13mRank>() {
                     @Override
                     public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                         if(response.code() == 200) {
-                            if(response.body().getErrorcode() == 200){
+                            if(response.body().getStatus() == 200){
                             modelMyCookLists.clear();
                             for(int index = 0 ; index < response.body().getContent().size() ; index++) {
 

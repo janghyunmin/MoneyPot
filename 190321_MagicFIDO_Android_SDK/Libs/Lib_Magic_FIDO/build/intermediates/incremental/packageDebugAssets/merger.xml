@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/assets"/><source path="/Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/build/generated/assets/shaders/debug"/></dataSet><dataSet config="debug"><source path="/Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/debug/assets"/></dataSet></merger>

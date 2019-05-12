@@ -1,233 +1,401 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+    <data>
+        <variable
+            name="AgreePage"
+            type="quantec.com.moneypot.Activity.Login.MemberShipPage.ActivityAgreePage"/>
+
+    </data>
+
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Login.ActivityAgreePage">
+    tools:context=".Activity.Login.MemberShipPage.ActivityAgreePage">
 
     <LinearLayout
         android:id="@+id/activity_agree_page_top"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="56dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="5dp"
         >
         <ImageView
+            android:id="@+id/agreePage_backBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/backlogo"
+            android:src="@drawable/btn_back"
+            android:layout_marginLeft="16dp"
             />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="217dp"
             android:layout_height="wrap_content"
             android:text="약관 동의"
             android:textColor="#000000"
-            android:textSize="14dp"
-            android:layout_marginLeft="10dp"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:layout_marginLeft="32dp"
             />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/activity_agree_page_allCheck"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="51dp"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@+id/activity_agree_page_top"
         android:gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
         >
         <ImageView
-            android:id="@+id/activity_agree_page_allImage"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@drawable/start_off"
+            android:id="@+id/serviceAllCheckBt"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="36dp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="약관에 모두 동의"
-            android:textSize="13dp"
-            android:layout_marginLeft="5dp"
+            android:text="머니포트의 모든 약관에 동의합니다."
+            android:textSize="14dp"
+            android:layout_marginLeft="6dp"
+            android:textColor="#000000"
             />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/activity_agree_page_firstBT"
+        <TextView
+            android:id="@+id/serviceTitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="머니포트 서비스"
+            android:textSize="12dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginTop="16dp"
+            android:textColor="#000000"
+            app:layout_constraintTop_toBottomOf="@+id/activity_agree_page_allCheck"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+    <ImageView
+        android:id="@+id/serviceTitle1_bt1"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/serviceTitle1_text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/activity_agree_page_allCheck"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        >
-        <ImageView
-            android:id="@+id/activity_agree_page_firstImage"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@drawable/start_off"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="머니포트 필수 항목 모두 동의"
-            android:textSize="13dp"
-            android:layout_marginLeft="5dp"
-            />
-    </LinearLayout>
+        android:text="서비스 이용약관"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle1"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="56dp"
+        android:textSize="12dp"
+        />
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_arrow_right_whitegray_16_dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="6dp"
+        />
 
-    <LinearLayout
-        android:id="@+id/activity_agree_page_firstBT_contents"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/activity_agree_page_firstBT"
+
+    <ImageView
+        android:id="@+id/serviceTitle1_bt2"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle1_text1"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="30dp"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서비스 이용약관 >"
-            android:textSize="10dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서비스 이용약관 >"
-            android:textSize="10dp"
-            android:layout_marginTop="5dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서비스 이용약관 >"
-            android:textSize="10dp"
-            android:layout_marginTop="5dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서비스 이용약관 >"
-            android:textSize="10dp"
-            android:layout_marginTop="5dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서비스 이용약관 >"
-            android:textSize="10dp"
-            android:layout_marginTop="5dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서비스 이용약관 >"
-            android:textSize="10dp"
-            android:layout_marginTop="5dp"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/activity_agree_page_secondBT"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/serviceTitle1_text2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/activity_agree_page_firstBT_contents"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        >
-        <ImageView
-            android:id="@+id/activity_agree_page_secondImage"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@drawable/start_off"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="휴대폰/카드 본인확인서비스"
-            android:textSize="13dp"
-            android:layout_marginLeft="5dp"
-            />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/activity_agree_page_cecondBT_contents"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/activity_agree_page_secondBT"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="30dp"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서비스 이용약관 >"
-            android:textSize="10dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서비스 이용약관 >"
-            android:textSize="10dp"
-            android:layout_marginTop="5dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서비스 이용약관 >"
-            android:textSize="10dp"
-            android:layout_marginTop="5dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서비스 이용약관 >"
-            android:textSize="10dp"
-            android:layout_marginTop="5dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서비스 이용약관 >"
-            android:textSize="10dp"
-            android:layout_marginTop="5dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="서비스 이용약관 >"
-            android:textSize="10dp"
-            android:layout_marginTop="5dp"
-            />
-    </LinearLayout>
+        android:text="개인정보 수집 / 이용 약관"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle1_text1"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="56dp"
+        android:textSize="12dp"
+        />
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_arrow_right_whitegray_16_dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle1_text1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="6dp"
+        />
 
 
     <TextView
-        android:id="@+id/activity_agree_page_BT"
+        android:id="@+id/serviceTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="휴대폰 본인 확인 서비스"
+        android:textColor="#000000"
+        android:textSize="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle1_text2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="36dp"
+        />
+
+    <ImageView
+        android:id="@+id/serviceTitle2_bt1"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/serviceTitle2_text1"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="다음"
-        android:textColor="#FFFFFF"
-        android:background="#FF0000"
+        android:layout_height="wrap_content"
+        android:text="개인정보 수집 이용 및 위탁 동의"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle2"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="56dp"
+        android:textSize="12dp"
+        />
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_arrow_right_whitegray_16_dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle2"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="6dp"
+        />
+
+
+    <ImageView
+    android:id="@+id/serviceTitle2_bt2"
+    android:layout_width="16dp"
+    android:layout_height="16dp"
+    app:layout_constraintTop_toBottomOf="@+id/serviceTitle2_text1"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_marginLeft="36dp"
+    android:layout_marginTop="6dp"
+    />
+    <TextView
+        android:id="@+id/serviceTitle2_text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="고유 식별 정보 처리 동의"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle2_text1"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="56dp"
+        android:textSize="12dp"
+        />
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_arrow_right_whitegray_16_dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle2_text1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="6dp"
+        />
+
+    <ImageView
+        android:id="@+id/serviceTitle2_bt3"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle2_text2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/serviceTitle2_text3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="휴대폰 본인 확인 서비스 이용약관"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle2_text2"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="56dp"
+        android:textSize="12dp"
+        />
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_arrow_right_whitegray_16_dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle2_text2"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="6dp"
+        />
+
+
+    <ImageView
+        android:id="@+id/serviceTitle2_bt4"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle2_text3"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/serviceTitle2_text4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="통신사 / 카드사 본인 확인 이용약관"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle2_text3"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="56dp"
+        android:textSize="12dp"
+        />
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_arrow_right_whitegray_16_dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle2_text3"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="6dp"
+        />
+
+
+
+    <TextView
+        android:id="@+id/serviceTitle3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="휴대폰 본인 확인 서비스"
+        android:textColor="#000000"
+        android:textSize="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle2_text4"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="36dp"
+        />
+
+
+    <ImageView
+        android:id="@+id/serviceTitle3_bt1"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle3"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/serviceTitle3_text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="맞춤형 광고 동의 (선택)"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle3"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="56dp"
+        android:textSize="12dp"
+        />
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_arrow_right_whitegray_16_dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle3"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="6dp"
+        />
+
+
+    <ImageView
+        android:id="@+id/serviceTitle3_bt2"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle3_text1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/serviceTitle3_text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SMS 마케팅 수신 정보 이용 동의  (선택)"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle3_text1"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="56dp"
+        android:textSize="12dp"
+        />
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_arrow_right_whitegray_16_dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle3_text1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="6dp"
+        />
+
+
+    <ImageView
+        android:id="@+id/serviceTitle3_bt3"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle3_text2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/serviceTitle3_text3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PUSH 마케팅 수신 정보 이용 동의 (선택)"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle3_text2"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="56dp"
+        android:textSize="12dp"
+        />
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_arrow_right_whitegray_16_dp"
+        app:layout_constraintTop_toBottomOf="@+id/serviceTitle3_text2"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="6dp"
+        />
+
+
+    <TextView
+        android:id="@+id/nextBt"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#FAFAFA"
+        android:text="다음"
+        android:textSize="18dp"
         android:gravity="center"
+        android:textColor="#CCCCCC"
         />
 
 </android.support.constraint.ConstraintLayout>
+</layout>

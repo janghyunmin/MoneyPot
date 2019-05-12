@@ -17,7 +17,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,6 @@ import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Model.nModel.ModelZimData;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab3.Fragment.Tab1_3m.Select;
 import quantec.com.moneypot.Activity.Payment.ActivityPayment;
-import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Fragment.AllPageTab.Model.nModel.ModelPortZzim;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
@@ -366,6 +364,9 @@ public class ActivityDetailPort extends AppCompatActivity {
 //                }
 //            }
 //        });
+
+
+
     }
 
     // 포트 담기 이벤트
@@ -441,30 +442,30 @@ public class ActivityDetailPort extends AppCompatActivity {
 
                     detailPageBinding.portDetailPageTitleText.setText(response.body().getContent().getName());
 
-                    if(response.body().getContent().getPackEls().size() >= 5) {
+                    if(response.body().getContent().getPotEls().size() >= 5) {
                         for(int a = 0 ; a < 5 ; a++) {
-                            investItemData5.add(new ModelInvestItemData(response.body().getContent().getPackEls().get(a).getElName(),
-                                    DecimalScale.decimalScale(String.valueOf(response.body().getContent().getPackEls().get(a).getRate() * 100), 2, 2),
-                                    String.valueOf((int) response.body().getContent().getPackEls().get(a).getWeight())
+                            investItemData5.add(new ModelInvestItemData(response.body().getContent().getPotEls().get(a).getElName(),
+                                    DecimalScale.decimalScale(String.valueOf(response.body().getContent().getPotEls().get(a).getRate() * 100), 2, 2),
+                                    String.valueOf((int) response.body().getContent().getPotEls().get(a).getWeight())
                             ));
                         }
                         detailPageAdapter2.notifyDataSetChanged();
                     }else {
-                        for (int a = 0; a < response.body().getContent().getPackEls().size(); a++) {
-                            investItemData5.add(new ModelInvestItemData(response.body().getContent().getPackEls().get(a).getElName(),
-                                    DecimalScale.decimalScale(String.valueOf(response.body().getContent().getPackEls().get(a).getRate() * 100), 2, 2),
-                                    String.valueOf((int) response.body().getContent().getPackEls().get(a).getWeight())
+                        for (int a = 0; a < response.body().getContent().getPotEls().size(); a++) {
+                            investItemData5.add(new ModelInvestItemData(response.body().getContent().getPotEls().get(a).getElName(),
+                                    DecimalScale.decimalScale(String.valueOf(response.body().getContent().getPotEls().get(a).getRate() * 100), 2, 2),
+                                    String.valueOf((int) response.body().getContent().getPotEls().get(a).getWeight())
                             ));
                         }
                         detailPageAdapter2.notifyDataSetChanged();
                     }
 
-                    for(int a = 0 ; a < response.body().getContent().getPackEls().size() ; a++) {
+                    for(int a = 0 ; a < response.body().getContent().getPotEls().size() ; a++) {
                         CountSize++;
                         Detail.add(CountSize);
-                        investItemData.add(new ModelInvestItemData(response.body().getContent().getPackEls().get(a).getElName(),
-                                DecimalScale.decimalScale(String.valueOf(response.body().getContent().getPackEls().get(a).getRate()*100), 2, 2),
-                                String.valueOf((int)response.body().getContent().getPackEls().get(a).getWeight())
+                        investItemData.add(new ModelInvestItemData(response.body().getContent().getPotEls().get(a).getElName(),
+                                DecimalScale.decimalScale(String.valueOf(response.body().getContent().getPotEls().get(a).getRate()*100), 2, 2),
+                                String.valueOf((int)response.body().getContent().getPotEls().get(a).getWeight())
                         ));
                         detailPageAdapter2.notifyDataSetChanged();
                     }

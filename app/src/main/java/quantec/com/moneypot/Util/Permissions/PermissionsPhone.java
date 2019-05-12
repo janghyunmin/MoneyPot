@@ -1,10 +1,9 @@
 package quantec.com.moneypot.Util.Permissions;
 
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 import permissions.dispatcher.PermissionUtils;
-import quantec.com.moneypot.Activity.Login.ActivityLogin;
+import quantec.com.moneypot.Activity.Login.MemberShipPage.ActivityMemberShipMain;
 
 public class PermissionsPhone {
     private static final int PHONESTATE = 1;
@@ -13,7 +12,7 @@ public class PermissionsPhone {
     private PermissionsPhone(){
     }
 
-    public static void getPhoneState(ActivityLogin target){
+    public static void getPhoneState(ActivityMemberShipMain target){
         if(PermissionUtils.hasSelfPermissions(target, PERMISSION_PHONESTATE)){
             target.getPhoneNumber();
         }else{
@@ -21,7 +20,7 @@ public class PermissionsPhone {
         }
     }
 
-    public static void onRequestPermissionsResult(ActivityLogin target, int requestCode, int[] grantResults){
+    public static void onRequestPermissionsResult(ActivityMemberShipMain target, int requestCode, int[] grantResults){
 
         switch (requestCode) {
             case PHONESTATE:

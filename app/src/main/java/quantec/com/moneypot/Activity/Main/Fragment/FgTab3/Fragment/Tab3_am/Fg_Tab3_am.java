@@ -175,7 +175,7 @@ public class Fg_Tab3_am extends Fragment {
                         Log.e("스프링 에러", "에러메시지 값 : "+ mError.getDetails());
                         Log.e("스프링 에러", "에러메시지 값 : "+ mError.getMessage());
                         Log.e("스프링 에러", "에러메시지 값 : "+ mError.getTimestamp());
-                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getErrorcode());
+                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getStatus());
                     } catch (IOException e) {
                         // handle failure to read error
                     }
@@ -278,7 +278,7 @@ public class Fg_Tab3_am extends Fragment {
                                             Log.e("스프링 에러", "에러메시지 값 : "+ mError.getDetails());
                                             Log.e("스프링 에러", "에러메시지 값 : "+ mError.getMessage());
                                             Log.e("스프링 에러", "에러메시지 값 : "+ mError.getTimestamp());
-                                            Log.e("스프링 에러", "에러메시지 값 : "+ mError.getErrorcode());
+                                            Log.e("스프링 에러", "에러메시지 값 : "+ mError.getStatus());
                                         } catch (IOException e) {
                                             // handle failure to read error
                                         }

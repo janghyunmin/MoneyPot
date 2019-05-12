@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/numKeyboardrowLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:gravity="bottom"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/num_row_insertbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f2f2f2"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:layout_weight="4"
+            android:background="@drawable/ds_no_textfield"
+            android:orientation="horizontal"
+            android:weightSum="1" >
+
+            <TextView
+                android:id="@+id/num_rowkey_insertPin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:background="@android:color/transparent"
+                android:ellipsize="start"
+                android:gravity="center_vertical"
+                android:padding="0dp"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="8pt" />
+
+            <ImageButton
+                android:id="@+id/row_insert_box_delete"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.2"
+                android:background="@android:color/transparent"
+                android:contentDescription="전체지움"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_back_blue"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="6"
+            android:orientation="horizontal"
+            android:weightSum="2" >
+
+            <ImageButton
+                android:id="@+id/num_rowkey_ok"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/ds_btn_done_bg_selector"
+                android:contentDescription="확인"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_textfield_ok" />
+
+            <ImageButton
+                android:id="@+id/num_rowkey_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/ds_btn_cancel_bg_selector"
+                android:contentDescription="취소"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_textfield_cancel" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rowNumkeyboard"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="#cbd3da"
+        android:orientation="vertical"
+        android:splitMotionEvents="false"
+        android:weightSum="3" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:splitMotionEvents="false" >
+
+            <com.dreamsecurity.magicvkeypad.MagicVKeypadButton
+                android:id="@+id/key_row_np1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/ds_no_txt_bg_selector"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_no_01" />
+
+            <com.dreamsecurity.magicvkeypad.MagicVKeypadButton
+                android:id="@+id/key_row_np2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/ds_no_txt_bg_selector"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_no_02" />
+
+            <com.dreamsecurity.magicvkeypad.MagicVKeypadButton
+                android:id="@+id/key_row_np3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/ds_no_txt_bg_selector"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_no_03" />
+
+            <ImageButton
+                android:id="@+id/key_row_delete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ds_btn_ok_bg_selector"
+                android:contentDescription="지움"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_back" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="6dp"
+            android:layout_weight="1"
+            android:splitMotionEvents="false" >
+
+            <com.dreamsecurity.magicvkeypad.MagicVKeypadButton
+                android:id="@+id/key_row_np4"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/ds_no_txt_bg_selector"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_no_04" />
+
+            <com.dreamsecurity.magicvkeypad.MagicVKeypadButton
+                android:id="@+id/key_row_np5"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/ds_no_txt_bg_selector"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_no_05" />
+
+            <com.dreamsecurity.magicvkeypad.MagicVKeypadButton
+                android:id="@+id/key_row_np6"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/ds_no_txt_bg_selector"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_no_06" />
+
+            <com.dreamsecurity.magicvkeypad.MagicVKeypadButton
+                android:id="@+id/key_row_np0"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ds_no_txt_bg_selector"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_no_00" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1"
+            android:splitMotionEvents="false" >
+
+            <com.dreamsecurity.magicvkeypad.MagicVKeypadButton
+                android:id="@+id/key_row_np7"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/ds_no_txt_bg_selector"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_no_07" />
+
+            <com.dreamsecurity.magicvkeypad.MagicVKeypadButton
+                android:id="@+id/key_row_np8"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/ds_no_txt_bg_selector"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_no_08" />
+
+            <com.dreamsecurity.magicvkeypad.MagicVKeypadButton
+                android:id="@+id/key_row_np9"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/ds_no_txt_bg_selector"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_no_09" />
+
+            <ImageButton
+                android:id="@+id/key_row_replace"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ds_btn_shift_bg_selector"
+                android:contentDescription="재배열"
+                android:scaleType="centerInside"
+                android:src="@drawable/ds_btn_no_replace" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

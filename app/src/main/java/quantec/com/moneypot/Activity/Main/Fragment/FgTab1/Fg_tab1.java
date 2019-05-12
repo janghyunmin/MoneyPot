@@ -41,12 +41,16 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
+import quantec.com.moneypot.Activity.Intro.ErrorPojoClass;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Adapter.AdapterTop10;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.dModel.ModelMainPortTop10Item3;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab1.Model.dModel.ModelMainPortTop3Item10;
@@ -385,7 +389,7 @@ public class Fg_tab1 extends Fragment {
         fgTab1Binding.firstPortPageRecyclerView.setAdapter(adapterTop10);
 
         Filter filter = new Filter();
-        Call<ModelTab13mRank> getData = RetrofitClient.getInstance().getService().getTop10("application/json", filter, "H", 0,1,10);
+        Call<ModelTab13mRank> getData = RetrofitClient.getInstance(mainActivity).getService().getTop10("application/json", filter, "H", 0,1,10);
         getData.enqueue(new Callback<ModelTab13mRank>() {
             @Override
             public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
@@ -399,6 +403,20 @@ public class Fg_tab1 extends Fragment {
                                 DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(a).getRate()*100), 2, 2),response.body().getContent().get(a).getCode()));
                     }
                     adapterTop10.notifyDataSetChanged();
+                }else if(response.code() == 406){
+
+//                    Log.e("에러값", "값 "+response.body());
+                    Gson gson = new GsonBuilder().create();
+                    ErrorPojoClass mError = new ErrorPojoClass();
+                    try {
+                        mError= gson.fromJson(response.errorBody().string(),ErrorPojoClass .class);
+                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getDetails());
+                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getMessage());
+                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getTimestamp());
+                        Log.e("스프링 에러", "에러메시지 값 : "+ mError.getStatus());
+                    } catch (IOException e) {
+                        // handle failure to read error
+                    }
                 }
             }
             @Override

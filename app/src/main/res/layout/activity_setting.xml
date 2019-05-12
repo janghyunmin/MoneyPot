@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ActivitySetting.ActivitySetting">
+
+    <ImageView
+        android:id="@+id/backBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="20dp"
+        />
+    <TextView
+        android:id="@+id/topTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="설정"
+        android:textSize="14dp"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        />
+
+
+    <TextView
+        android:id="@+id/usingProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이용중인 상품"
+        app:layout_constraintTop_toBottomOf="@+id/topTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="34dp"
+        android:layout_marginStart="24dp"
+        android:textSize="12dp"
+        />
+
+
+    <TextView
+        android:id="@+id/productTitle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textSize="14dp"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toBottomOf="@+id/usingProduct"
+        android:layout_marginStart="24dp"
+        android:gravity="center_vertical"
+        android:text="상품 정보 및 서비스 해지"
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_right_gray_18_dp"
+        app:layout_constraintTop_toTopOf="@+id/productTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/productTitle"
+        app:layout_constraintEnd_toEndOf="@+id/productTitle"
+        android:layout_marginEnd="24dp"
+        />
+
+    <View
+        android:id="@+id/productTitleLine"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="#f4f4f4"
+        app:layout_constraintTop_toBottomOf="@+id/productTitle"
+        />
+
+
+
+    <TextView
+        android:id="@+id/alram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="알림"
+        app:layout_constraintTop_toBottomOf="@+id/productTitleLine"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="24dp"
+        android:textSize="12dp"
+        />
+
+    <TextView
+        android:id="@+id/alramTitle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textSize="14dp"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toBottomOf="@+id/alram"
+        android:layout_marginStart="24dp"
+        android:gravity="center_vertical"
+        android:text="마케팅 문자 알림"
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_right_gray_18_dp"
+        app:layout_constraintTop_toTopOf="@+id/alramTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/alramTitle"
+        app:layout_constraintEnd_toEndOf="@+id/alramTitle"
+        android:layout_marginEnd="24dp"
+        />
+
+    <View
+        android:id="@+id/alramTitleLine"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="#f4f4f4"
+        app:layout_constraintTop_toBottomOf="@+id/alramTitle"
+        />
+
+
+
+    <TextView
+        android:id="@+id/secession"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원탈퇴"
+        app:layout_constraintTop_toBottomOf="@+id/alramTitleLine"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="24dp"
+        android:textSize="12dp"
+        android:textColor="@color/red_text_color"
+        />
+
+    <TextView
+        android:id="@+id/secessionTitle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textSize="14dp"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toBottomOf="@+id/secession"
+        android:layout_marginStart="24dp"
+        android:gravity="center_vertical"
+        android:text="개인 정보와 설정이 모두 삭제됩니다."
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_right_gray_18_dp"
+        app:layout_constraintTop_toTopOf="@+id/secessionTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/secessionTitle"
+        app:layout_constraintEnd_toEndOf="@+id/secessionTitle"
+        android:layout_marginEnd="24dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f4f4f4"
+        app:layout_constraintTop_toBottomOf="@+id/secessionTitle"
+        />
+
+</android.support.constraint.ConstraintLayout>

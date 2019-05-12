@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +34,6 @@ import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Model.dModel.ModelP
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Model.dModel.ModelPostTitleItem;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Model.dModel.ModelStockItem;
 import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Model.dModel.ModelTitleItem;
-import quantec.com.moneypot.Activity.SearchPort.SearchedPage.Model.nModel.ModelSearchPage;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
@@ -361,13 +359,13 @@ public class Fg_SearchedPage extends Fragment {
                                                         stockItemModels.add(new ModelStockItem(1, S_ItemSize
                                                                 , response.body().getContent().get(sCount).getCode(), response.body().getContent().get(sCount).getName()
                                                                 , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(sCount).getRate()*100), 2, 2), 0
-                                                                , response.body().getContent().get(sCount).getPackEls().get(0).getElName()
+                                                                , response.body().getContent().get(sCount).getPotEls().get(0).getElName()
                                                                 , response.body().getContent().get(sCount).getSelect().isZim(), response.body().getContent().get(sCount).getSelect().isDam(), 0));
                                                     }else{
                                                         stockItemModels.add(new ModelStockItem(1, S_ItemSize
                                                                 , response.body().getContent().get(sCount).getCode(), response.body().getContent().get(sCount).getName()
                                                                 , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(sCount).getRate()*100), 2, 2), 0
-                                                                , response.body().getContent().get(sCount).getPackEls().get(0).getElName(), false, false, 0));
+                                                                , response.body().getContent().get(sCount).getPotEls().get(0).getElName(), false, false, 0));
                                                     }
                                                 }
                                                 stockItemModels.add(new ModelStockItem(2, response.body().getTotalElements(), "", "", 0, 0, "", false, false, 0));
@@ -378,12 +376,12 @@ public class Fg_SearchedPage extends Fragment {
                                                         postStockItemModels.add(new ModelPostStockItem(1, S_ItemSize
                                                                 , response.body().getContent().get(psCount).getCode(), response.body().getContent().get(psCount).getName()
                                                                 , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(psCount).getRate()*100), 2, 2), 0
-                                                                , response.body().getContent().get(psCount).getPackEls().get(0).getElName(), response.body().getContent().get(psCount).getSelect().isZim(), response.body().getContent().get(psCount).getSelect().isDam(),0));
+                                                                , response.body().getContent().get(psCount).getPotEls().get(0).getElName(), response.body().getContent().get(psCount).getSelect().isZim(), response.body().getContent().get(psCount).getSelect().isDam(),0));
                                                     }else{
                                                         postStockItemModels.add(new ModelPostStockItem(1, S_ItemSize
                                                                 , response.body().getContent().get(psCount).getCode(), response.body().getContent().get(psCount).getName()
                                                                 , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(psCount).getRate()*100), 2, 2), 0
-                                                                , response.body().getContent().get(psCount).getPackEls().get(0).getElName(), false, false, 0));
+                                                                , response.body().getContent().get(psCount).getPotEls().get(0).getElName(), false, false, 0));
                                                     }
                                                 }
 
@@ -445,146 +443,7 @@ public class Fg_SearchedPage extends Fragment {
             }
         });
 
-//        //검색 시 최초는 무조건 페이지 1로 고정
-//        Call<ModelSearchPage> getData = RetrofitClient.getInstance().getService().getSearch(searchText, 1);
-//        getData.enqueue(new Callback<ModelSearchPage>() {
-//            @Override
-//            public void onResponse(Call<ModelSearchPage> call, Response<ModelSearchPage> response) {
-//                //검색 결과 있을때
-//                if (response.code() == 200) {
-//
-//                    titleItemModels.clear();
-//                    descItemModels.clear();
-//                    stockItemModels.clear();
-//                    emptyItemModels.clear();
-//
-//                    postTitleItemModels.clear();
-//                    postDescItemModels.clear();
-//                    postStockItemModels.clear();
-//
-//                    int T_ItemSize, D_ItemSize, S_ItemSize;
-//                    if(response.body().getTitle().get(0).getTotalNum() >= 5) {
-//                        T_ItemSize = 5;
-//                    }else{
-//                        T_ItemSize = response.body().getTitle().get(0).getTotalNum();
-//                    }
-//
-//                    if(response.body().getDescript().get(0).getTotalNum() >= 3) {
-//                        D_ItemSize = 3;
-//                    }else{
-//                        D_ItemSize = response.body().getDescript().get(0).getTotalNum();
-//                    }
-//
-//                    if(response.body().getStock().get(0).getTotalNum() >= 3) {
-//                        S_ItemSize = 3;
-//                    }else{
-//                        S_ItemSize = response.body().getStock().get(0).getTotalNum();
-//                    }
-//                    // == 제목 데이터 == //
-//                    titleItemModels.add(0, new ModelTitleItem(response.body().getRes_code(),response.body().getTitle().get(0).getTotalNum(), 0, "0", 0, 0, 0));
-//
-//                    for(int tCount = 0 ; tCount < T_ItemSize ; tCount++) {
-//                        titleItemModels.add(new ModelTitleItem(response.body().getRes_code(), response.body().getTitle().get(0).getTotalNum(), response.body().getTitle().get(0).getData().get(tCount).getCode()
-//                                , response.body().getTitle().get(0).getData().get(tCount).getName(), response.body().getTitle().get(0).getData().get(tCount).getRate()
-//                                , response.body().getTitle().get(0).getData().get(tCount).getSelect(), response.body().getTitle().get(0).getData().get(tCount).getType()));
-//                        if(tCount == T_ItemSize-1) {
-//                            titleItemModels.add(new ModelTitleItem(response.body().getRes_code(), response.body().getTitle().get(0).getTotalNum(), 0, "0", 0, 0, 0));
-//                        }
-//                    }
-//
-//                    // ==제목 전체 데이터 == //
-//                    postTitleItemModels.add(0, new ModelPostTitleItem(response.body().getRes_code(), response.body().getTitle().get(0).getTotalNum(), 0, "0", 0, 0, 0));
-//
-//                    for(int ptCount = 0 ; ptCount < response.body().getTitle().get(0).getTotalNum() ; ptCount++) {
-//                        postTitleItemModels.add(new ModelPostTitleItem(response.body().getRes_code(), response.body().getTitle().get(0).getTotalNum(), response.body().getTitle().get(0).getData().get(ptCount).getCode()
-//                                , response.body().getTitle().get(0).getData().get(ptCount).getName(), response.body().getTitle().get(0).getData().get(ptCount).getRate()
-//                                , response.body().getTitle().get(0).getData().get(ptCount).getSelect(), response.body().getTitle().get(0).getData().get(ptCount).getType()));
-//                    }
-//
-//
-//                    // == 내용 데이터 == //
-//                    descItemModels.add(0, new ModelDescItem(response.body().getRes_code(), response.body().getDescript().get(0).getTotalNum(), 0, "0", "0", 0, 0, 0));
-//                    for(int dCount = 0 ; dCount < D_ItemSize ; dCount++) {
-//
-//                        descItemModels.add(new ModelDescItem(response.body().getRes_code(), response.body().getDescript().get(0).getTotalNum(), response.body().getDescript().get(0).getData().get(dCount).getCode()
-//                                , response.body().getDescript().get(0).getData().get(dCount).getName(), response.body().getDescript().get(0).getData().get(dCount).getDesc()
-//                                , response.body().getDescript().get(0).getData().get(dCount).getRate(), response.body().getDescript().get(0).getData().get(dCount).getSelect()
-//                                , response.body().getDescript().get(0).getData().get(dCount).getType()));
-//
-//                        if(dCount == D_ItemSize-1) {
-//                            descItemModels.add(new ModelDescItem(response.body().getRes_code(), response.body().getDescript().get(0).getTotalNum(), 0, "0", "0", 0, 0, 0));
-//                        }
-//                    }
-//
-//
-//                    // ==내용 전체 데이터 ==//
-//                    postDescItemModels.add(0, new ModelPostDescItem(response.body().getRes_code(), response.body().getDescript().get(0).getTotalNum(), 0, "0", "0", 0, 0, 0));
-//
-//                    for(int pdCount = 0 ; pdCount < response.body().getDescript().get(0).getTotalNum() ; pdCount++){
-//                        postDescItemModels.add(new ModelPostDescItem(response.body().getRes_code(), response.body().getDescript().get(0).getTotalNum(), response.body().getDescript().get(0).getData().get(pdCount).getCode()
-//                                , response.body().getDescript().get(0).getData().get(pdCount).getName(), response.body().getDescript().get(0).getData().get(pdCount).getDesc()
-//                                , response.body().getDescript().get(0).getData().get(pdCount).getRate(), response.body().getDescript().get(0).getData().get(pdCount).getSelect()
-//                                , response.body().getDescript().get(0).getData().get(pdCount).getType()));
-//                    }
-//
-//
-//                    // == 종목 데이터 == //
-//                    stockItemModels.add(0, new ModelStockItem(response.body().getRes_code(), response.body().getStock().get(0).getTotalNum(), 0, "0", 0,0, "0", 0, 0));
-//                    for(int sCount = 0 ; sCount < S_ItemSize ; sCount++) {
-//                        stockItemModels.add(new ModelStockItem(response.body().getRes_code(), response.body().getStock().get(0).getTotalNum()
-//                                , response.body().getStock().get(0).getData().get(sCount).getCode(), response.body().getStock().get(0).getData().get(sCount).getName()
-//                                , response.body().getStock().get(0).getData().get(sCount).getRate(), response.body().getStock().get(0).getData().get(sCount).getsNum()
-//                                , response.body().getStock().get(0).getData().get(sCount).getElements().get(0).getSname(), response.body().getStock().get(0).getData().get(sCount).getSelect()
-//                                , response.body().getStock().get(0).getData().get(sCount).getType()));
-//
-//                        if(sCount == S_ItemSize-1) {
-//                            stockItemModels.add(new ModelStockItem(response.body().getRes_code(), response.body().getStock().get(0).getTotalNum(), 0, "0", 0, 0, "0", 0, 0));
-//                        }
-//                    }
-//
-//                    // ==종목 전체 데이터 == //
-//                    postStockItemModels.add(0, new ModelPostStockItem(response.body().getRes_code(), response.body().getStock().get(0).getTotalNum(), 0, "0", 0, 0, "0", 0, 0));
-//                    for(int psCount = 0 ; psCount < response.body().getStock().get(0).getTotalNum() ; psCount++){
-//                        postStockItemModels.add(new ModelPostStockItem(response.body().getRes_code(), response.body().getStock().get(0).getTotalNum(), response.body().getStock().get(0).getData().get(psCount).getCode()
-//                                , response.body().getStock().get(0).getData().get(psCount).getName(), response.body().getStock().get(0).getData().get(psCount).getRate()
-//                                , response.body().getStock().get(0).getData().get(psCount).getsNum(), response.body().getStock().get(0).getData().get(psCount).getElements().get(0).getSname()
-//                                , response.body().getStock().get(0).getData().get(psCount).getSelect(), response.body().getStock().get(0).getData().get(psCount).getType()));
-//                    }
-//
-//                    //포트 제목, 내용, 종목 모두 없을때 -> 검색 제안
-//                    if(response.body().getRes_code() == 208) {
-//
-//                        // == 검색결과 없을때  검색 제안 데이터 == //
-//                        titleItemModels.add(new ModelTitleItem(response.body().getRes_code(), 0,0,"0", 0, 0, 0));
-//
-//                        emptyItemModels.add(0, new ModelEmptyItem(response.body().getRes_code(), 0, 0, "0"));
-//                        emptyItemModels.add(1, new ModelEmptyItem(response.body().getRes_code(), 0, 0, "0"));
-//                        for(int gCount = 0 ; gCount < response.body().getSuggest().get(0).getTotalNum() ; gCount++) {
-//
-//                            emptyItemModels.add(new ModelEmptyItem(response.body().getRes_code(), response.body().getSuggest().get(0).getTotalNum()
-//                                    , response.body().getSuggest().get(0).getData().get(gCount).getCode(), response.body().getSuggest().get(0).getData().get(gCount).getName()));
-//                        }
-//
-//                    }
-//
-//                    bundle.putParcelableArrayList("title_list", titleItemModels);
-//                    bundle.putParcelableArrayList("desc_list", descItemModels);
-//                    bundle.putParcelableArrayList("stock_list", stockItemModels);
-//                    bundle.putParcelableArrayList("empty_list", emptyItemModels);
-//                    bundle.putParcelableArrayList("post_title_list", postTitleItemModels);
-//                    bundle.putParcelableArrayList("post_desc_list", postDescItemModels);
-//                    bundle.putParcelableArrayList("post_stock_list", postStockItemModels);
-//                    setViewPager(port_search_page_searchPort_viewpager);
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ModelSearchPage> call, Throwable t) {
-//                Log.e("레트로핏 실패", "값 : " + t.getMessage());
-//            }
-//        });
-
     }
-
 
     private void setViewPager(ViewPager viewPager){
         Fg_AllPageTab allPageTab = new Fg_AllPageTab();

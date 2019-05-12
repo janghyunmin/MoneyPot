@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "486996951422",
-    "firebase_url": "https://crash-89894.firebaseio.com",
-    "project_id": "crash-89894",
-    "storage_bucket": "crash-89894.appspot.com"
+    "project_number": "524776088028",
+    "firebase_url": "https://mpot-crashlytic.firebaseio.com",
+    "project_id": "mpot-crashlytic",
+    "storage_bucket": "mpot-crashlytic.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:486996951422:android:438ec6c8febbae39",
+        "mobilesdk_app_id": "1:524776088028:android:438ec6c8febbae39",
         "android_client_info": {
           "package_name": "quantec.com.moneypot"
         }
       },
       "oauth_client": [
         {
-          "client_id": "486996951422-t94n7rqec4m5cahe0940i5kvbbpe4ktq.apps.googleusercontent.com",
+          "client_id": "524776088028-6bktmn0mpl2ldaq931pa1j0fn9lmu22s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAsmZGxgWv02n_BBtyPJXeK0ZiJTTGH2kk"
+          "current_key": "AIzaSyALTbitUfNhzuLmmZ8rEMDXv8tYOQm7hdM"
         }
       ],
       "services": {

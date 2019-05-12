@@ -16,6 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import io.reactivex.Observer;
@@ -23,6 +28,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.AllCookList.ActivityAllCookList;
 import quantec.com.moneypot.Activity.DetailPort.ActivityDetailPort;
+import quantec.com.moneypot.Activity.Intro.ErrorPojoClass;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Adapter.AdapterHot;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Adapter.AdapterStable;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage1.Fragment.Fg_NewItem;
@@ -387,11 +393,11 @@ public class Fg_CookPage1 extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep(1500);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 
                 Filter filter = new Filter();
                 //내가 만든 포트 데이터 초기 불러옴
@@ -400,7 +406,7 @@ public class Fg_CookPage1 extends Fragment {
                     @Override
                     public void onResponse(Call<ModelTab13mRank> call, Response<ModelTab13mRank> response) {
                         if(response.code() == 200) {
-                            if(response.body().getErrorcode() == 200) {
+                            if(response.body().getStatus() == 200) {
                                 modelHotLists.clear();
                                 modelStableLists.clear();
 
@@ -435,6 +441,21 @@ public class Fg_CookPage1 extends Fragment {
 
                                 fgcookpage1Binding.fgCookpage1LoadingBar.setVisibility(View.GONE);
                             }
+                        }else if(response.code() == 406){
+
+                            Log.e("에러값", "값 : "+ response.body());
+
+//                            Gson gson = new GsonBuilder().create();
+//                            ErrorPojoClass mError = new ErrorPojoClass();
+//                            try {
+//                                mError= gson.fromJson(response.errorBody().string(),ErrorPojoClass.class);
+//                                Log.e("스프링 에러", "에러메시지 값 : "+ mError.getDetails());
+//                                Log.e("스프링 에러", "에러메시지 값 : "+ mError.getMessage());
+//                                Log.e("스프링 에러", "에러메시지 값 : "+ mError.getTimestamp());
+//                                Log.e("스프링 에러", "에러메시지 값 : "+ mError.getStatus());
+//                            } catch (IOException e) {
+//                                // handle failure to read error
+//                            }
                         }
                     }
                     @Override

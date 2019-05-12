@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/asm_display_png_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/title_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/auth_title_layout" />
+
+    <TextView
+        android:id="@+id/infoText"
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/title_box"
+        android:layout_marginBottom="10dp"
+        android:background="#e1e4e7"
+        android:text="  전자서명 원문 내용 확인"
+        android:textColor="#5c6781"
+        android:textSize="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnLayout"
+        android:layout_below="@+id/infoText"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/certi_field"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/pngView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"            
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txt_asm_dtc_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="111111111"
+            android:textColor="@android:color/white"
+            android:textSize="16dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
+        android:background="#eff3f6"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <Button
+            android:id="@+id/btn_asm_dtc_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/auth_btn_cancel"
+            android:onClick="onClickCancel"
+            android:text="취소"
+            android:textColor="#00569b" />
+
+        <Button
+            android:id="@+id/btn_asm_dtc_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/auth_btn_ok"
+            android:onClick="onClickConfirm"
+            android:text="확인"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+</RelativeLayout>

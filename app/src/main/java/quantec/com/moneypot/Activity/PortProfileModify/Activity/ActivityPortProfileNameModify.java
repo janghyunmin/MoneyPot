@@ -126,7 +126,7 @@ public class ActivityPortProfileNameModify extends AppCompatActivity {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            if(mError.getErrorcode() == 44001){
+                            if(mError.getStatus() == 44001){
                                 Toast.makeText(ActivityPortProfileNameModify.this, "포트이름에 금칙어가 포함되어 있습니다\n수정 후에 다시 시도해주세요.",Toast.LENGTH_SHORT).show();
                             }
                         }

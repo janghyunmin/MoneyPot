@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="303dp"
+android:layout_height="187dp"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:background="@drawable/tab1_dialog_layout_round"
+android:layout_gravity="center">
+<TextView
+    android:id="@+id/fido_finger_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="14dp"
+    android:textColor="@color/text_gray_color"
+    android:layout_marginTop="17dp"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:text="@string/dialog_fido_finger_title"
+    />
+<TextView
+    android:id="@+id/fido_finger_sub"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="14dp"
+    android:textColor="@color/normal_text_color"
+    android:layout_marginTop="10dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:text="@string/dialog_fido_finger_sub"
+    app:layout_constraintTop_toBottomOf="@+id/fido_finger_title"
+    android:gravity="center"
+    />
+
+
+<TextView
+    android:id="@+id/fido_finger_cancleBt"
+    android:layout_width="130dp"
+    android:layout_height="43dp"
+    android:background="@drawable/dialog_cancle_bt"
+    android:text="취소"
+    android:textSize="14dp"
+    android:textColor="@color/normal_title_color"
+    android:gravity="center"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/fido_finger_sub"
+    android:layout_marginTop="40dp"
+    android:layout_marginStart="18dp"
+    />
+
+<TextView
+    android:id="@+id/fido_finger_resistBt"
+    android:layout_width="130dp"
+    android:layout_height="43dp"
+    android:background="@drawable/dialog_ok_bt"
+    android:text="확인"
+    android:textSize="14dp"
+    android:textColor="@color/normal_title_color"
+    android:gravity="center"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/fido_finger_sub"
+    android:layout_marginTop="40dp"
+    android:layout_marginRight="18dp"
+    />
+
+</android.support.constraint.ConstraintLayout>

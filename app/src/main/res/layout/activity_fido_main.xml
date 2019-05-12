@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_centerHorizontal="true"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_vertical_margin" >
+
+    <Button
+        android:id="@+id/Register"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Registration"
+        android:textColor="@android:color/black"
+        android:textSize="13dp" />
+
+    <Button
+        android:id="@+id/Authentication"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Authentication"
+        android:textColor="@android:color/black"
+        android:textSize="13dp" />
+
+    <Button
+        android:id="@+id/Deregeister"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Deregistration"
+        android:textColor="@android:color/black"
+        android:textSize="13dp" />
+
+    <Button
+        android:id="@+id/facetIDButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="RP\'s FacetID"
+        android:textColor="@android:color/black"
+        android:textSize="13dp" />
+
+    <Button
+        android:id="@+id/isAvailableButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="isAvailable FIDO"
+        android:textColor="@android:color/black"
+        android:textSize="13dp" />
+
+    <Button
+        android:id="@+id/propButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Configuration"
+        android:textColor="@android:color/black"
+        android:textSize="13dp" />
+
+</LinearLayout>

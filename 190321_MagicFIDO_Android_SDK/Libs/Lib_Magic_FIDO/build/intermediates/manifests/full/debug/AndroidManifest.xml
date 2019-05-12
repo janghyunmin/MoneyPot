@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.dream.magic.fido.one" >
+
+    <uses-sdk
+        android:minSdkVersion="18"
+        android:targetSdkVersion="26" />
+
+    <!-- FIDO SDK 에 필요한 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+  /
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
+    <application android:allowBackup="false" >
+
+        <!-- anroid 28 이상에서 apache http 사용하기 위해 필요 -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <!-- FIDO SDK 에서 사용 되는 Activity 추가 필요 -->
+        <activity
+            android:name="com.dream.magic.fido.rpsdk.client.FidoSDKActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.dream.magic.fido.client.process.UAFClient"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.dream.magic.fido.client.asm.ui.AsmListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.dream.magic.fido.authenticator.asm.api.ASMProcessorActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.dream.magic.fido.authenticator.finger.local.UserLocal_Normal_Activity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.dreamsecurity.lib_passcode.ui.Passcode_UI"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.dreamsecurity.lib_passcode.ui.Passcode_UI_Square"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <!-- FIDO SDK Activity -->
+    </application>
+
+</manifest>

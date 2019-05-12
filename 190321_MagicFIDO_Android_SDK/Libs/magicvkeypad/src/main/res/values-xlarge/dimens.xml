@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="ok_cancel_button_text">20dp</dimen>
+        <dimen name="ok_cancel_button_height">60dp</dimen>
+           <dimen name="button_padding">0dp</dimen>
+               <dimen name="insertbox_text">12pt</dimen>
+        
+
+</resources>

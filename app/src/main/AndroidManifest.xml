@@ -3,23 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="quantec.com.moneypot">
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- network 상태를 미리 체크하여 연결 안된 경우 다이얼로그를 보여주려면 아래 permission 추가 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- android test 돌릴 때 화면 lock 풀어야 로그인 touch 가능 -->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <!-- 지문인식 -->
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!-- FIDO SDK Permission -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
     <application
         android:name=".mApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_push_logo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_push_logo"
@@ -28,8 +29,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".Activity.Main.MainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Intro.ActivityIntro"
             android:screenOrientation="portrait">
@@ -49,6 +49,14 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <service
+            android:name=".Util.FCM.MyFirebaseMessagingService"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".Activity.Myinfo.ActivityMyinfo"
@@ -77,10 +85,23 @@
         <activity
             android:name=".Activity.PortProfileModify.Activity.ActivityPortProfileDescModify"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.Login.ActivityLogin"></activity>
-        <activity android:name=".Activity.Login.ActivityUserResist" />
-        <activity android:name=".Activity.Login.ActivityAgreePage" />
-        <activity android:name=".Activity.Login.ActivityPhoneConfirm" />
+        <activity android:name=".Activity.Login.MemberShipPage.ActivityMemberShipMain">
+
+             <!--<intent-filter>-->
+             <!--<action android:name="android.intent.action.MAIN" />-->
+             <!--<category android:name="android.intent.category.LAUNCHER" />-->
+             <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".Activity.Login.MemberShipPage.ActivityAgreePage" />
+        <activity android:name=".Activity.Login.MemberShipPage.ActivityPhoneConfirm">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
         <activity android:name=".ActivityTestBottom">
 
             <!-- <intent-filter> -->
@@ -91,6 +112,103 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".ActivityTestParalla">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".ActivityTestChart">
+
+             <!--<intent-filter>-->
+             <!--<action android:name="android.intent.action.MAIN" />-->
+
+
+             <!--<category android:name="android.intent.category.LAUNCHER" />-->
+             <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name=".FIDO.AuthenticationActivity"
+            android:label="Authentication" />
+        <activity
+            android:name=".FIDO.DeregisterActivity"
+            android:label="Deregister" />
+        <activity
+            android:name="com.dream.magic.fido.rpsdk.client.FidoSDKActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.dream.magic.fido.client.process.UAFClient"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.dream.magic.fido.client.asm.ui.AsmListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.dream.magic.fido.authenticator.asm.api.ASMProcessorActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.dream.magic.fido.authenticator.finger.local.UserLocal_Normal_Activity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.dreamsecurity.lib_passcode.ui.Passcode_UI"
+            android:screenOrientation="portrait" />
+        <!-- <activity android:name=".MagicKeyPad.FullModeActivity" /> -->
+        <activity android:name="com.dreamsecurity.magicvkeypad.activitytype.DSNumActivity" />
+        <activity android:name="com.dreamsecurity.magicvkeypad.activitytype.DSCharActivity" />
+        <activity
+            android:name=".MagicKeyPad.HalfModeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".Activity.Login.MemberShipPage.ActivityRegInfo">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".Activity.Login.LoginPage.ActivityLoginPage">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".Activity.FIDO.ActivityRegFido" />
+        <activity android:name=".Activity.FIDO.ActivityAuthFidoDouble" />
+        <activity android:name=".Activity.FIDO.ActivityAuthFidoSingle" />
+        <activity android:name=".Activity.Login.MemberShipPage.ActivityRePhoneConfirm" />
+        <activity android:name=".Activity.Login.MemberShipPage.ActivityRePassword" />
+        <activity android:name=".Activity.MyInfomation.ActivityMyInfomation" />
+        <activity android:name=".Activity.FIDO.ActivityReFidoResistor" />
+        <activity android:name=".Activity.MyInfomation.ActivityAuthPassword" />
+        <activity android:name=".Activity.MyInfomation.ActivityChangedPw" />
+        <activity android:name=".Activity.MyInfomation.ActivityPhoneEmail" />
+        <activity android:name=".Activity.ClientCenter.ActivityClientCenter" />
+        <activity android:name=".Activity.ClientCenter.ActivityQuestion" />
+        <activity android:name=".Activity.ClientCenter.ActivityWebViewQuestion" />
+        <activity android:name=".Activity.ClientCenter.ActivityUseGuide" />
+        <activity android:name=".Activity.MyInfomation.CustomRecyclerView.ExpandActivity" />
+        <activity android:name=".Activity.ClientCenter.ActivityAppVersion" />
+        <activity android:name=".Activity.ClientCenter.ActivityInquiry" />
+        <activity android:name=".Activity.ActivityNotice.ActivityNotice" />
+        <activity android:name=".Activity.ActivitySetting.ActivitySetting" />
+        <activity android:name=".Activity.MyInfomation.ActivityChangedEmail" />
+        <activity android:name=".Activity.ActivityLifeChallenge.ActivityLifeChallenge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

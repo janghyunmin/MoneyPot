@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rectangle_dark_gray">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="라이프 챌린지"
+        android:textSize="12dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/text_black_color"
+        />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginLeft="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="15dp"
+        android:paddingBottom="15dp"
+        />
+
+    <TextView
+        android:id="@+id/priceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/titleSpace"
+        app:layout_constraintTop_toBottomOf="@+id/chart"
+        android:text="총 달성 금액"
+        android:textSize="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        />
+
+    <View
+        android:id="@+id/titleSpace"
+        android:layout_width="1dp"
+        android:layout_height="15dp"
+        android:background="#bcbcbc"
+        app:layout_constraintTop_toBottomOf="@+id/chart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="23dp"
+        />
+
+    <TextView
+        android:id="@+id/priceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/chart"
+        app:layout_constraintStart_toEndOf="@+id/titleSpace"
+        android:textSize="16dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        />
+
+
+
+
+    <TextView
+        android:id="@+id/priceTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/titleSpace2"
+        app:layout_constraintTop_toBottomOf="@+id/priceTitle"
+        android:text="총 투자 금액"
+        android:textSize="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        />
+
+    <View
+        android:id="@+id/titleSpace2"
+        android:layout_width="1dp"
+        android:layout_height="15dp"
+        android:background="#bcbcbc"
+        app:layout_constraintTop_toBottomOf="@+id/priceTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="23dp"
+        />
+
+    <TextView
+        android:id="@+id/priceText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/priceTitle"
+        app:layout_constraintStart_toEndOf="@+id/titleSpace2"
+        android:textSize="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        />
+
+
+    <TextView
+        android:id="@+id/priceTitle3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/titleSpace3"
+        app:layout_constraintTop_toBottomOf="@+id/priceTitle2"
+        android:text="총 수익금"
+        android:textSize="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        />
+
+    <View
+        android:id="@+id/titleSpace3"
+        android:layout_width="1dp"
+        android:layout_height="15dp"
+        android:background="#bcbcbc"
+        app:layout_constraintTop_toBottomOf="@+id/priceTitle2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="23dp"
+        />
+
+    <TextView
+        android:id="@+id/priceText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/priceTitle2"
+        app:layout_constraintStart_toEndOf="@+id/titleSpace3"
+        android:textSize="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@+id/priceText3"
+        />
+
+</android.support.constraint.ConstraintLayout>

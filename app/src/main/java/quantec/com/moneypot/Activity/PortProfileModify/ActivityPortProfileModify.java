@@ -46,7 +46,7 @@ import quantec.com.moneypot.Activity.PortProfileModify.Dialog.DialogImageReset;
 import quantec.com.moneypot.Activity.PortProfileModify.Dialog.DialogModifyCancle;
 import quantec.com.moneypot.Activity.PortProfileModify.Model.nModel.ModelImageSavedData;
 import quantec.com.moneypot.BuildConfig;
-import quantec.com.moneypot.Dialog.LoadingMakePort.DialogLoadingMakingPort;
+import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.Util.FileUtil.FileUtil;

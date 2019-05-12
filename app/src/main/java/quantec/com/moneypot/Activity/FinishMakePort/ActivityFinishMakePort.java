@@ -2,7 +2,6 @@ package quantec.com.moneypot.Activity.FinishMakePort;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,7 +9,6 @@ import android.graphics.Paint;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -43,7 +41,7 @@ import quantec.com.moneypot.Activity.Intro.ErrorPojoClass;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.Cookpage2.Fg_CookPage2;
 import quantec.com.moneypot.ModelCommon.nModel.SavedPotDto;
 import quantec.com.moneypot.DataManager.ChartManager;
-import quantec.com.moneypot.Dialog.LoadingMakePort.DialogLoadingMakingPort;
+import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.databinding.ActivityFinishMakePortBinding;
@@ -267,7 +265,7 @@ public class ActivityFinishMakePort extends AppCompatActivity {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            if(mError.getErrorcode() == 44001){
+                            if(mError.getStatus() == 44001){
                                 Toast.makeText(ActivityFinishMakePort.this, "포트이름에 금칙어가 포함되어 있습니다\n수정 후에 다시 시도해주세요.",Toast.LENGTH_SHORT).show();
                                 loadingCustomMakingPort.dismiss();
                             }

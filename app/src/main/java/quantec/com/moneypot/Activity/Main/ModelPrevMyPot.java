@@ -57,7 +57,7 @@ public class ModelPrevMyPot {
         int view;
         int status;
         String date;
-        ArrayList<PackEls> packEls = new ArrayList<>();
+        ArrayList<PackEls> potEls = new ArrayList<>();
 
         Codes codes;
         File file;
@@ -184,12 +184,12 @@ public class ModelPrevMyPot {
             this.date = date;
         }
 
-        public ArrayList<PackEls> getPackEls() {
-            return packEls;
+        public ArrayList<PackEls> getPotEls() {
+            return potEls;
         }
 
-        public void setPackEls(ArrayList<PackEls> packEls) {
-            this.packEls = packEls;
+        public void setPotEls(ArrayList<PackEls> potEls) {
+            this.potEls = potEls;
         }
 
         public Codes getCodes() {

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+
+    <TextView
+        android:id="@+id/versionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:textSize="15dp"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="32dp"
+        android:text="RP ServerURL"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/black" />
+
+    <EditText
+        android:id="@+id/edtprop"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:ems="10"
+        android:textColor="@android:color/black" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/edtprop1"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtprop"
+        android:ems="10"
+        android:textColor="@android:color/black" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/edtprop2"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtprop1"
+        android:ems="10"
+        android:textColor="@android:color/black" >
+
+        <requestFocus />
+    </EditText>
+
+    <LinearLayout
+        android:id="@+id/checkLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtprop2"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/fed_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Federation Mode"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/checkSSLLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkLayout"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/SSL_Check_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="SSLCert Check Mode"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/changedo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkSSLLayout"
+        android:text="Save"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/txt_facetId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edtprop"
+        android:layout_below="@+id/changedo"
+        android:layout_marginTop="24dp"
+        android:text="FacetID for RP Client"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/black"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/textfacet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edtprop"
+        android:layout_below="@+id/txt_facetId"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        android:textColor="@android:color/black"
+        android:visibility="gone" />
+
+</RelativeLayout>

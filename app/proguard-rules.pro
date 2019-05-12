@@ -25,3 +25,10 @@
 -dontwarn okhttp3.internal.**
 -dontwarn okio.**
 -dontwarn retrofit2.Platform$Java8
+
+-keepattributes Signature -dontwarn com.dream.magic.** -keep class com.dream.magic.** {*;}
+-dontwarn com.dreamsecurity.** -keep class com.dreamsecurity.** {*;}
+-dontwarn org.apache.http.** -keep class org.apache.http.** {*;}
+-keepattributes InnerClasses -keep class **.R -keep class **.R$* {
+<fields>;
+}

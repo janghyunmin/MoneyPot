@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    >
+
+        <TextView
+            android:id="@+id/topText"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="통신사 선택"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            android:background="@drawable/bottom_sheet_line"
+            />
+
+        <ImageView
+            android:id="@+id/closeBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="14dp"
+            android:layout_marginRight="29dp"
+            />
+
+    <TextView
+        android:id="@+id/sktBt"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:text="SKT"
+        android:textColor="#9A9A9A"
+        android:textSize="14dp"
+        app:layout_constraintTop_toBottomOf="@+id/topText"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/ktBt"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:text="KT"
+        android:textColor="#9A9A9A"
+        android:textSize="14dp"
+        app:layout_constraintTop_toBottomOf="@+id/sktBt"
+        android:gravity="center"
+        android:background="@drawable/bottom_sheet_line"
+        />
+
+    <TextView
+        android:id="@+id/lgBt"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:text="LG U+"
+        android:textColor="#9A9A9A"
+        android:textSize="14dp"
+        app:layout_constraintTop_toBottomOf="@+id/ktBt"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/sktRBt"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:text="SKT 알뜰폰"
+        android:textColor="#9A9A9A"
+        android:textSize="14dp"
+        app:layout_constraintTop_toBottomOf="@+id/lgBt"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/ktRBt"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:text="KT 알뜰폰"
+        android:textColor="#9A9A9A"
+        android:textSize="14dp"
+        app:layout_constraintTop_toBottomOf="@+id/sktRBt"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/lgRBt"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:text="LG U+ 알뜰폰"
+        android:textColor="#9A9A9A"
+        android:textSize="14dp"
+        app:layout_constraintTop_toBottomOf="@+id/ktRBt"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        app:layout_constraintTop_toBottomOf="@+id/lgRBt"
+        android:background="@drawable/bottom_sheet_line"
+        />
+
+</android.support.constraint.ConstraintLayout>

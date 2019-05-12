@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ClientCenter.ActivityClientCenter">
+
+    <ImageView
+        android:id="@+id/backBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="20dp"
+        />
+    <TextView
+        android:id="@+id/topTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="고객센터"
+        android:textSize="14dp"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        />
+
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:text="자주 묻는 질문"
+        android:textSize="16dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/topTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical"
+        android:paddingStart="25dp"
+        />
+    <ImageView
+        android:id="@+id/questionImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_down_gray"
+        app:layout_constraintTop_toTopOf="@+id/question"
+        app:layout_constraintBottom_toBottomOf="@+id/question"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        />
+    <View
+        android:id="@+id/questionLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccccc"
+        app:layout_constraintTop_toBottomOf="@+id/question"
+        />
+
+
+    <TextView
+        android:id="@+id/guide"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:text="앱 이용 가이드"
+        android:textSize="16dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/questionLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical"
+        android:paddingStart="25dp"
+        />
+    <ImageView
+        android:id="@+id/guideImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_down_gray"
+        app:layout_constraintTop_toTopOf="@+id/guide"
+        app:layout_constraintBottom_toBottomOf="@+id/guide"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        />
+    <View
+        android:id="@+id/guideLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccccc"
+        app:layout_constraintTop_toBottomOf="@+id/guide"
+        />
+
+
+    <TextView
+        android:id="@+id/inquiry"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:text="1:1 문의"
+        android:textSize="16dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/guideLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical"
+        android:paddingStart="25dp"
+        />
+    <ImageView
+        android:id="@+id/inquiryImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_down_gray"
+        app:layout_constraintTop_toTopOf="@+id/inquiry"
+        app:layout_constraintBottom_toBottomOf="@+id/inquiry"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        />
+    <View
+        android:id="@+id/inquiryLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccccc"
+        app:layout_constraintTop_toBottomOf="@+id/inquiry"
+        />
+
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:text="약관 및 사업자 정보"
+        android:textSize="16dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/inquiryLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical"
+        android:paddingStart="25dp"
+        />
+    <ImageView
+        android:id="@+id/infoImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_down_gray"
+        app:layout_constraintTop_toTopOf="@+id/info"
+        app:layout_constraintBottom_toBottomOf="@+id/info"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        />
+    <View
+        android:id="@+id/infoLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccccc"
+        app:layout_constraintTop_toBottomOf="@+id/info"
+        />
+
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:text="앱 버전"
+        android:textSize="16dp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/infoLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical"
+        android:paddingStart="25dp"
+        />
+    <ImageView
+        android:id="@+id/versionImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_down_gray"
+        app:layout_constraintTop_toTopOf="@+id/version"
+        app:layout_constraintBottom_toBottomOf="@+id/version"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        />
+    <View
+        android:id="@+id/versionLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccccc"
+        app:layout_constraintTop_toBottomOf="@+id/version"
+        />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="303dp"
+    android:layout_height="187dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/tab1_dialog_layout_round"
+    android:layout_gravity="center"
+    >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="가입취소"
+        android:textSize="14dp"
+        android:textColor="#9a9a9a"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="21dp"
+        />
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="확인을 누르시면,\n모든 가입 절차가 취소됩니다."
+        android:layout_marginTop="20dp"
+        android:textSize="14dp"
+        android:textColor="@color/tab1_dialog_text"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.3"
+        />
+
+    <TextView
+        android:id="@+id/cancleBt"
+        android:layout_width="130dp"
+        android:layout_height="43dp"
+        android:background="@drawable/dialog_cancle_bt"
+        android:text="취소"
+        android:textSize="14dp"
+        android:textColor="@color/normal_title_color"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtitle"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="18dp"
+        />
+
+    <TextView
+        android:id="@+id/okBt"
+        android:layout_width="130dp"
+        android:layout_height="43dp"
+        android:background="@drawable/dialog_ok_bt"
+        android:text="확인"
+        android:textSize="14dp"
+        android:textColor="@color/normal_title_color"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtitle"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="18dp"
+        />
+
+</android.support.constraint.ConstraintLayout>

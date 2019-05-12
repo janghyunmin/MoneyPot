@@ -36,4 +36,11 @@
         <item name="colorAccent">#FF0000</item>                    <!-- 하단 움직이는 바 색-->
     </style>
 
+
+    <style name="TextInputLayoutWithPrimaryColor" parent="Widget.Design.TextInputLayout">
+        <item name="colorAccent">#382</item>
+        <item name="colorPrimary">@color/TabColor</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    </style>
+
 </resources>

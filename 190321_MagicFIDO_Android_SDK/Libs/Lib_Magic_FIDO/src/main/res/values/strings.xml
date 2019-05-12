@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- =======================SDK========================== -->
+
+    <!-- English -->
+
+    <string name="RP_SUCCESS">Pass</string>
+    <string name="RP_USER_CANCEL">Canceled by user</string>
+    <string name="RP_INVALID_PARAMETER">Invalid Parameter</string>
+    <string name="RP_CHANNEL_BINDING">Invalid TLS Certificate</string>
+    <string name="RP_SET_KCERTIFICATE">An error is occurred during generating KCERTIFICATE</string>
+    <string name="RP_NOT_MATCH_FIDO_CLIENT">The FIDO Client is not installed</string>
+    <string name="RP_JSON_PARSER">JSON Parsing Error</string>
+    <string name="RP_INVALID_CERT_PATH">Invalid certificate path</string>
+    <string name="RP_UNTRUSTED_FACET_ID">Untrusted RPClient</string>
+    <string name="RP_NO_SUITABLE_AUTHENTICATOR">No suitable authenticator is installed</string>
+    <string name="RP_UNSUPPORTED_VERSION">Not supported UAF Protocol Version</string>
+    <string name="RP_NETOWRK_ERROR_STATE">Network Error. Please try again after check your network connection.</string>
+    <string name="RP_NOT_REGISTER_SIGNCERT">There is no certificate registered in the authentication device.</string>
+    <string name="RP_NOT_SUPPORT_FUNCTION">This feature is not supported. Please check the FIDOType.</string>
+    <string name="RP_CANNOT_USE_FIDO">FIDO unsupporting device</string>
+    <string name="RP_NOT_MATCH_FINGER">Failed fingerprint authentication</string>
+    <string name="RP_NOT_MATCH_PW_CERT">Wrong certificate password.</string>
+    <string name="RP_NOT_MATCH_REG_FINGER">This Fingerprint is not registered in FIDO.</string>
+    <string name="RP_ERROR_ATTESTATION_KEY">Failed security conformity</string>
+    <string name="RP_FORBIDDEN_FIDO">Error occurred. FIDO service is temporarily unavailable. Please try later.</string>
+    <string name="RP_ALREADY_REGI_USER">This userID exist. Please register your new device with the userID.</string>
+    <string name="RP_NOT_EXIST_USER_DATA">The userID exist but no authentication data on this device. Please register your new device with the userID.</string>
+    <string name="RP_REMOVE_KEYSTORE_IN_SW">The registered fingerprint record was initialized as the Lock-Screen mode got changed. Please re-register your fingerprint and then try again.</string>
+    <string name="RP_UNKNOWN">Unknown Error</string>
+    <string name="RP_UNACCEPTED_PERMISSION">Unaccepted Permission</string>
+    <string name="RP_INVALID_USERNAME">The useranme does not support \' \'(blank character) and Korean.</string>
+
+    <!-- 17.09.16 추가 String -->
+    <string name="RP_LOCAL_FAIL_CHANGE">Local Authentication setting is failed for changing type.</string>
+    <string name="RP_LOCAL_FAIL_RESET">Local Authentication setting is failed for reset type.</string>
+    <string name="RP_LOCAL_FAIL_VERIFY">Local Authentication setting is failed for verification type.</string>
+    <string name="RP_LOCAL_FAIL_VERIFY_Locking">Local Authentication setting is failed for verification type. Please try again after 30 seconds.</string>
+    <string name="RP_USER_SELECT_REREG">User Selected Re-registration</string>
+    <string name="RP_BIO_STATE_CHANGED">Bio state is Changed</string>
+
+    <string name="RP_NOT_REGIST_AUTHENTICATOR">인증장치의 값이 등록되어 있지 않습니다.</string>
+    <string name="RP_ERROR_MAX_LOCK_COUNT_OVER">인증장치 잠금 허용 횟수를 초과하였습니다.</string>
+    <string name="RP_IGNORE_LOCK_OPTION_SET">기 설정 된 값이 있으며, 시도한 이력이 있습니다. 설정값을 다시 확인하시기 바랍니다.</string>
+
+
+
+    <!-- =======================Authenticator========================== -->
+
+    <!-- English -->
+
+    <!-- ========================================================================= -->
+    <!-- Authenticator  FIDO Result Description -->
+    <!--
+    	 *주의 사항*
+    	  1. 아래의 String에서 name을 변경 금지 => 변경 할 경우, 오류 발생.
+    	  2. Invalid_CertPW_Retry 에서 첫번째 인자는 남은 횟수이며, 두번째 인자는 정해진 시도 횟수 입니다.
+    	     (값을 빼거나, 없애면 안됨)
+    	  3. Invaild_Cert_PW 에서 첫번째 인자는 정해진 시도 횟수 입니다.
+    	     (값을 빼거나, 없애면 안됨)
+    -->
+
+    <!-- 지문 타임 아웃 -->
+    <string name="VerifyFingerPrintTimeOut">Fingerprint authentication service is canceled due to timeout.</string>
+
+    <!-- Alert창 타이틀 -->
+    <string name="AlertTitle">Notice</string>
+
+    <!-- 지문 인증 할 때, 연속으로 5번 틀려서 Time제한 걸린 후 인증 취소 했을 경우 -->
+    <string name="Invaild_Reg_Finger_Fail">Fingerprint authentication service has been failed consecutively. Please try later.</string>
+
+    <!-- 지문등록을 하였지만, 기기에 등록 된 지문을 삭제하여 아무것도 없는 경우에 인증을 시도하였을 경우 -->
+    <string name="CannotUseFingerPrint">Device can not be used because there is no registered fingerprint.</string>
+    <!-- 지문 인증을 할 수 없는 단말기일 경우 -->
+    <string name="EnableDevice">Not supported Device.</string>
+
+    <!-- 2016-09-19 추가 부분 -->
+    <!-- 보안키 설정에 실패 추가 부분-->
+    <string name="Invalid_Set_AttestKey">There was a problem loading your security key.\nPlease try again.</string>
+
+    <!-- 설정된 인증값을 변경하려 할 경우 -->
+    <string name="changeValue">It is already registered.\n Do you want to change setting?</string>
+
+    <!-- Alret -->
+    <string name="Alert_OK">OK</string>
+
+    <!-- ========================================================================= -->
+    <!-- KFIDO 영역 -->
+
+    <!-- N번 시도 후 틀렸을 경우 -->
+    <string name="Invalid_CertPW_Retry">The cert\'s password is wrong.(%1$d tmies)\nTry again.\nThe rety count is %2$d times.</string>
+
+    <!-- 정해진 횟수동안 인증을 하지 못하였을 경우 -->
+    <string name="Invaild_Cert_PW">The cert\'s password remains %1$d times.\nPlease try later.</string>
+
+    <!-- ========================================================================= -->
+
+    <!-- Transaction 부분 -->
+    <string name="Tran_Text">Transaction Confirmation</string>
+    <string name="Tran_OK">OK</string>
+    <string name="Tran_Cancel">Cancel</string>
+
+    <!-- ==============================Finger============================= -->
+
+    <!-- UI Message -->
+    <string name="fip_m_verify">Progressing fingerprint\nauthentication</string>
+
+    <string name="fip_m_cancel">사용 안함</string>
+    <!-- Default Message -->
+    <string name="fip_m_explain">손가락을 지문 인식 센서에 올려주세요.</string>
+
+    <!-- SpassFingerprint.STATUS_FAILED && ADNROID_M.STATUS_FAILED -->
+    <string name="fip_m_fail">Mismatching fingerprint</string>
+
+    <!-- SpassFingerprint.STATUS_TIMEOUT_FAILED -->
+    <string name="fip_m_timeout">Terminating fingerprint authentication service due to timeout.</string>
+
+    <!-- SpassFingerprint.STATUS_SENSOR_FAILED -->
+    <string name="fip_m_sensor_fail">An error occurred on fingerprint sensor.\nPlease check and try again.</string>
+
+    <!-- SpassFingerprint.STATUS_QUALITY_FAILED -->
+    <string name="fip_m_quality_fail">Only a few areas of your fingerprint were being recognized, Please try again.</string>
+
+    <!-- SpassFingerprint.STATUS_USER_CANCELLED_BY_TOUCH_OUTSIDE -->
+    <string name="fip_m_user_by_touch_outside_fail">Authentication failed. Please put your fingerprint on the fingerprint recognition button.</string>
+
+    <!-- SpassFingerprint.STATUS_AUTHENTIFICATION_FAILED -->
+    <string name="fip_m_authentification_fail">Fingerprint authentication failed.\nPlease check and then proceed.</string>
+
+    <string name="fip_m_notreg"> Moving to the Settings menu as no fingerprint registered.\n(The fingerprint recognition button location may be different on each device.) </string>
+
+
+    <!-- ==============================Passcode============================= -->
+    <!-- 인증시 title -->
+    <string name="pc_t_verify">패스코드</string>
+    <!--등록시 title-->
+    <string name="pc_t_regist">패스코드 등록</string>
+    <!--변경시 title-->
+    <string name="pc_t_modify">패스코드 변경</string>
+    <!--인증시 message-->
+    <string name="pc_m_verify"> 6자리 비밀번호를 입력해주세요. </string>
+    <!--등록시 message-->
+    <string name="pc_m_regist"> 6자리 비밀번호를 입력해주세요. </string>
+    <!--변경시 message-->
+    <string name="pc_m_modify"> 비밀번호를 입력하세요. </string>
+    <!--패스코드 인증 실패-->
+    <string name="pc_m_fail"> 비밀번호가 일치하지 않습니다. (%1$d/%2$d) </string>
+    <!--입력한 두 인증번호 불일치 -->
+    <string name="pc_m_mismatch"> 두 비밀번호가 일치하지 않습니다. </string>
+    <!--인증 시도 초과 -->
+    <string name="pc_m_lock"> 비밀번호가 잠겼습니다. (%d초) </string>
+    <!--패스코드 길이가 최소 길이보다 미만 -->
+    <string name="pc_m_short"> 비밀번호 길이가 짧습니다. </string>
+    <!--패스코드 길이가 최대 길이보다 초과 -->
+    <string name="pc_m_long"> 비밀번호 길이가 깁니다. </string>
+    <!--패스코드 형식 불일치-->
+    <string name="pc_m_expression"> 비밀번호 형식이 옳지 않습니다. </string>
+    <!--패스코드 미입력-->
+    <string name="pc_m_empty"> 비밀번호가 비어있습니다. </string>
+    <!--패스코드 등록 화면으로 이동 -->
+    <string name="pc_m_notreg"> 비밀번호가 등록되어 있지 않아 등록 화면으로 이동합니다. </string>
+    <!--현재 비밀번호 입력 -->
+    <string name="pc_m_hint_verify"> 6자리 비밀번호를 입력해주세요. </string>
+    <!--신규 비밀번호 입력 -->
+    <string name="pc_m_hint_input"> 6자리 비밀번호를 입력해주세요. </string>
+    <!--신규 비밀번호 확인 입력 -->
+    <string name="pc_m_hint_reinput"> 입력하신 비밀번호를 \n 한 번 더 입력해주세요. </string>
+    <!-- =================================================================== -->
+
+    <!-- ==============================Pattern============================= -->
+    <!-- 인증시 title -->
+    <string name="pt_t_verify">패턴 인증</string>
+    <!--등록시 title-->
+    <string name="pt_t_regist">패턴 등록</string>
+    <!--변경시 title-->
+    <string name="pt_t_modify">패턴 변경</string>
+    <!--패턴 입력-->
+    <string name="pt_m_hint_verify">패턴을 입력하세요.</string>
+    <!--등록 할 패턴 입력-->
+    <string name="pt_m_hint_input">등록 할 패턴을 입력하세요.</string>
+    <!--등록 할 패턴 재입력-->
+    <string name="pt_m_hint_reinput">등록 할 패턴을 다시 입력하세요.</string>
+    <!--입력한 패턴 불일치-->
+    <string name="pt_m_mismatch"> 입력한 두 개의 패턴이 일치하지 않습니다. </string>
+    <!-- 패턴 인증 실패-->
+    <string name="pt_m_fail">패턴이 일치하지 않습니다. (%1$d/%2$d)</string>
+    <!-- 패턴 등록 화면으로 이동 -->
+    <string name="pt_m_notreg">패턴이 설정되어 있지 않습니다.\n패턴 설정 후 사용해 주세요.</string>
+    <!-- 최소 입력 수 미만  -->
+    <string name="pt_m_short">최소한 %d개를 연결하여야 합니다.</string>
+    <!-- 패턴 잠김 -->
+    <string name="pt_m_lock">패턴이 잠겼습니다. (%d초)</string>
+
+    <!-- =================================================================== -->
+
+
+</resources>

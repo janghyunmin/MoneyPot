@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ClientCenter.ActivityQuestion">
+
+    <ImageView
+        android:id="@+id/backBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="20dp"
+        />
+    <TextView
+        android:id="@+id/topTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="자주 묻는 질문"
+        android:textSize="14dp"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        />
+
+    <EditText
+        android:id="@+id/searchEditText"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:background="@drawable/gray_box"
+        app:layout_constraintTop_toBottomOf="@+id/topTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:hint="찾고 싶은 문의사항을 검색 해주세요."
+        android:textSize="12dp"
+        android:paddingStart="25dp"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        />
+
+    <ImageView
+        android:id="@+id/searchEditTextImg"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/ic_top_search_red"
+        app:layout_constraintStart_toStartOf="@+id/searchEditText"
+        app:layout_constraintTop_toTopOf="@+id/searchEditText"
+        app:layout_constraintBottom_toBottomOf="@+id/searchEditText"
+        android:layout_marginStart="5dp"
+        />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/searchEditText"
+        android:layout_marginTop="10dp"
+        app:tabBackground="@drawable/tab_line"
+        app:tabMode="fixed"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</android.support.constraint.ConstraintLayout>
