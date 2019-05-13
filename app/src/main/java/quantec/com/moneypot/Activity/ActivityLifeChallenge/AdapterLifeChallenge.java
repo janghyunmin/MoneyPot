@@ -37,6 +37,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     private final int BOTSELECT3 = 6;
     private final int BOTMONTHLYSELECT = 7;
     private final int BOTCHART2 = 8;
+    private final int BOTSPACE = 9;
 
     ArrayList<ModelLifeCSelectList> lifeCSelectLists;
     ArrayList<ModelLifeCTextList> lifeCTextLists;
@@ -157,6 +158,9 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         }
         else if(viewType == BOTCHART2){
             return new BotChart2ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botchart2, parent, false));
+        }
+        else if(viewType == BOTSPACE){
+            return new BotSpaceViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botspace, parent, false));
         }
         else {
             return new BotEndViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botend, parent, false));
@@ -544,6 +548,9 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         else if(lifeCTextLists.get(position).getCategory() == 8){
             return BOTCHART2;
         }
+        else if(lifeCTextLists.get(position).getCategory() == 9){
+            return BOTSPACE;
+        }
         else{
             return BOTEND;
         }
@@ -670,6 +677,13 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             priceText2 = itemView.findViewById(R.id.priceText2);
             priceText3 = itemView.findViewById(R.id.priceText3);
 
+        }
+    }
+
+    public class BotSpaceViewHolder extends RecyclerView.ViewHolder {
+
+        public BotSpaceViewHolder(View itemView) {
+            super(itemView);
         }
     }
 

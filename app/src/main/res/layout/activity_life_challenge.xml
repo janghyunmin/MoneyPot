@@ -31,29 +31,76 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:overScrollMode="never"
+        android:paddingBottom="5dp"
         />
 
    <View
        android:id="@+id/bottomLayout"
        android:layout_width="match_parent"
        android:layout_height="56dp"
-       android:background="#448c8c8c"
+       android:background="#8c8c8c"
        app:layout_constraintBottom_toBottomOf="parent"
+       android:visibility="invisible"
        />
 
-    <EditText
-        android:id="@+id/talkEditText"
+    <quantec.com.moneypot.Util.SoftKeyboardUtil.KeyPressEditText
+        android:id="@+id/talkEditText2"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/rectangle_dark_gray"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="73dp"
+        android:maxWidth="250dp"
+        android:maxLines="1"
+        android:maxLength="10"
+        android:paddingStart="10dp"
+        android:enabled="false"
+        android:textAlignment="center"
+        android:textColor="@color/text_black_color"
+        android:inputType="textWebEditText"
+        android:visibility="invisible"
+        android:imeOptions="actionDone"
+        />
+
+    <quantec.com.moneypot.Util.SoftKeyboardUtil.KeyPressEditText
+        android:id="@+id/talkEditText"
+        android:layout_width="120dp"
+        android:layout_height="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/rectangle_dark_gray"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="69dp"
         android:maxWidth="250dp"
         android:maxLines="1"
+        android:maxLength="10"
         android:paddingStart="10dp"
         android:enabled="false"
+        android:textAlignment="center"
+        android:textColor="@color/text_black_color"
+        android:inputType="number"
+        android:visibility="invisible"
+        android:imeOptions="actionDone"
+        />
+
+    <TextView
+        android:id="@+id/talkEditTextUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="만원"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toTopOf="@+id/talkEditText"
+        app:layout_constraintBottom_toBottomOf="@+id/talkEditText"
+        app:layout_constraintStart_toEndOf="@+id/talkEditText"
+        android:textSize="14dp"
+        android:layout_marginStart="10dp"
+        android:visibility="invisible"
         />
 
     <TextView
@@ -64,10 +111,11 @@
         android:textColor="@color/text_black_color"
         app:layout_constraintTop_toTopOf="@+id/talkEditText"
         app:layout_constraintBottom_toBottomOf="@+id/talkEditText"
+        app:layout_constraintEnd_toEndOf="parent"
         android:textSize="14dp"
-        app:layout_constraintStart_toEndOf="@+id/talkEditText"
-        android:layout_marginStart="10dp"
+        android:layout_marginEnd="30dp"
         android:enabled="false"
+        android:visibility="invisible"
         />
 
 
@@ -79,18 +127,18 @@
         app:wheel_curved="true"
         app:wheel_cyclic="true"
         app:wheel_item_align="center"
-        app:wheel_item_text_size="20dp"
+        app:wheel_item_text_size="23dp"
         app:wheel_item_text_color="@color/text_black_color"
         app:wheel_selected_item_text_color="@color/red_text_color"
-        app:wheel_item_space="10dp"
-        android:background="#969696"
+        app:wheel_item_space="12dp"
+        android:background="#bebebe"
         android:visibility="invisible"
         />
 
     <TextView
         android:id="@+id/pickerWheelBt"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:text="확인"
         android:textColor="@color/text_black_color"
         android:gravity="center"
