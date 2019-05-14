@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+        android:id="@+id/endTitle"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="30초만에 가입하고 상품 확인하자."
@@ -19,6 +20,45 @@
         android:background="@drawable/rectangle_dark_gray"
         android:textSize="16dp"
         android:textColor="@color/text_black_color"
+        />
+
+    <TextView
+        android:id="@+id/endRetryBt"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:text="다시 하기"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toBottomOf="@+id/endTitle"
+        app:layout_constraintEnd_toStartOf="@+id/endSpace"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:background="#a9a9a9"
+        android:textSize="14dp"
+        />
+
+    <View
+        android:id="@+id/endSpace"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/endTitle"
+        />
+
+    <TextView
+        android:id="@+id/endJoinBt"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:text="30초 가입 이동"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toBottomOf="@+id/endTitle"
+        app:layout_constraintStart_toEndOf="@+id/endSpace"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:background="#85bc95"
+        android:textSize="14dp"
         />
 
 </android.support.constraint.ConstraintLayout>

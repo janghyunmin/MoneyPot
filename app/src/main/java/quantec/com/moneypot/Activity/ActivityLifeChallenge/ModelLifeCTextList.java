@@ -6,7 +6,6 @@ public class ModelLifeCTextList {
     int category;
     String time;
 
-
     public ModelLifeCTextList(String talk, int category, String time) {
         Talk = talk;
         this.category = category;

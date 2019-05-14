@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/rectangle_dark_gray">
+    android:background="@drawable/rectangle_dark_gray"
+    android:layout_marginTop="50dp">
 
     <TextView
         android:layout_width="wrap_content"

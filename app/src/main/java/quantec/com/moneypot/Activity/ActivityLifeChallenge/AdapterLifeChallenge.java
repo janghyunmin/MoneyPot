@@ -3,10 +3,12 @@ package quantec.com.moneypot.Activity.ActivityLifeChallenge;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -38,6 +40,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     private final int BOTMONTHLYSELECT = 7;
     private final int BOTCHART2 = 8;
     private final int BOTSPACE = 9;
+    private final int BOTLOADING = 10;
 
     ArrayList<ModelLifeCSelectList> lifeCSelectLists;
     ArrayList<ModelLifeCTextList> lifeCTextLists;
@@ -130,6 +133,25 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         this.botMonthlyNoClick = botMonthlyNoClick;
     }
 
+
+    private BotEndJoinClick botEndJoinClick;
+    public interface BotEndJoinClick {
+        public void onClick(int position);
+    }
+
+    private BotEndRetryBt botEndRetryBt;
+    public interface BotEndRetryBt {
+        public void onClick(int position);
+    }
+
+    public void setBotEndJoinClick(BotEndJoinClick botEndJoinClick) {
+        this.botEndJoinClick = botEndJoinClick;
+    }
+
+    public void setBotEndRetryBt(BotEndRetryBt botEndRetryBt) {
+        this.botEndRetryBt = botEndRetryBt;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -162,6 +184,9 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         else if(viewType == BOTSPACE){
             return new BotSpaceViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botspace, parent, false));
         }
+        else if(viewType == BOTLOADING){
+            return new BotLoadingViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botloading, parent, false));
+        }
         else {
             return new BotEndViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botend, parent, false));
         }
@@ -173,6 +198,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         if(holder instanceof BotTalkViewHolder){
 
             ((BotTalkViewHolder)holder).talk.setText(lifeCTextLists.get(position).getTalk());
+
             if(!lifeCTextLists.get(position).getTime().equals("")){
                 ((BotTalkViewHolder)holder).time.setText(lifeCTextLists.get(position).getTime());
             }
@@ -250,8 +276,6 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         else if(holder instanceof BotChartViewHolder){
 
             if(constView) {
-
-//                chartInfoLsits
 
                 constView = false;
 
@@ -345,6 +369,24 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
         }
         else if(holder instanceof BotEndViewHolder){
+
+            ((BotEndViewHolder)holder).endJoinBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(botEndJoinClick != null) {
+                        botEndJoinClick.onClick(position);
+                    }
+                }
+            });
+
+            ((BotEndViewHolder)holder).endRetryBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(botEndRetryBt != null) {
+                        botEndRetryBt.onClick(position);
+                    }
+                }
+            });
 
         }
         else if(holder instanceof BotSelect2ViewHolder){
@@ -551,6 +593,9 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         else if(lifeCTextLists.get(position).getCategory() == 9){
             return BOTSPACE;
         }
+        else if(lifeCTextLists.get(position).getCategory() == 10){
+            return BOTLOADING;
+        }
         else{
             return BOTEND;
         }
@@ -560,12 +605,16 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     public class BotTalkViewHolder extends RecyclerView.ViewHolder {
 
         TextView talk, time;
+        ConstraintLayout botTalk;
 
         public BotTalkViewHolder(View itemView) {
             super(itemView);
 
             talk = itemView.findViewById(R.id.talk);
             time = itemView.findViewById(R.id.time);
+
+            botTalk = itemView.findViewById(R.id.botTalk);
+            botTalk.setAnimation(AnimationUtils.loadAnimation(context, R.anim.bot_fade));
         }
     }
 
@@ -584,9 +633,12 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     public class BotSelctViewHolder extends RecyclerView.ViewHolder {
 
         TextView select1, select2, select3, select4, selectTitle, time;
+        ConstraintLayout botSelect;
 
         public BotSelctViewHolder(View itemView) {
             super(itemView);
+            botSelect = itemView.findViewById(R.id.botSelect);
+            botSelect.setAnimation(AnimationUtils.loadAnimation(context, R.anim.bot_fade));
 
             select1 = itemView.findViewById(R.id.select1);
             select2 = itemView.findViewById(R.id.select2);
@@ -615,17 +667,28 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public class BotEndViewHolder extends RecyclerView.ViewHolder {
+
+        TextView endJoinBt, endRetryBt;
+
         public BotEndViewHolder(View itemView) {
             super(itemView);
+
+            endJoinBt = itemView.findViewById(R.id.endJoinBt);
+            endRetryBt = itemView.findViewById(R.id.endRetryBt);
         }
     }
 
     public class BotSelect2ViewHolder extends RecyclerView.ViewHolder {
 
         TextView yesTalk, noTalk, selectTitle, time;
+        ConstraintLayout botSelect2;
+
 
         public BotSelect2ViewHolder(View itemView) {
             super(itemView);
+
+            botSelect2 = itemView.findViewById(R.id.botSelect2);
+            botSelect2.setAnimation(AnimationUtils.loadAnimation(context, R.anim.bot_fade));
 
             yesTalk = itemView.findViewById(R.id.yesTalk);
             noTalk = itemView.findViewById(R.id.noTalk);
@@ -637,9 +700,13 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     public class BotSelect3ViewHolder extends RecyclerView.ViewHolder {
 
         TextView monthlyBt, totalBt, time, selectTitle;
+        ConstraintLayout botSelect3;
 
         public BotSelect3ViewHolder(View itemView) {
             super(itemView);
+
+            botSelect3 = itemView.findViewById(R.id.botSelect3);
+            botSelect3.setAnimation(AnimationUtils.loadAnimation(context, R.anim.bot_fade));
 
             monthlyBt = itemView.findViewById(R.id.monthlyBt);
             totalBt = itemView.findViewById(R.id.totalBt);
@@ -651,6 +718,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     public class BotMonthlySelectViewHolder extends RecyclerView.ViewHolder {
 
         TextView yesBt, noBt, time, selectTitle;
+        ConstraintLayout botMonthlySelect;
 
         public BotMonthlySelectViewHolder(View itemView) {
             super(itemView);
@@ -659,6 +727,9 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             noBt = itemView.findViewById(R.id.noBt);
             time = itemView.findViewById(R.id.time);
             selectTitle = itemView.findViewById(R.id.selectTitle);
+
+            botMonthlySelect = itemView.findViewById(R.id.botMonthlySelect);
+            botMonthlySelect.setAnimation(AnimationUtils.loadAnimation(context, R.anim.bot_fade));
 
         }
     }
@@ -683,6 +754,12 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     public class BotSpaceViewHolder extends RecyclerView.ViewHolder {
 
         public BotSpaceViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    public class BotLoadingViewHolder extends RecyclerView.ViewHolder {
+        public BotLoadingViewHolder(View itemView) {
             super(itemView);
         }
     }
