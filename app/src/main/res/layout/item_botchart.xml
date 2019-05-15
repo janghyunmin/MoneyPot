@@ -5,9 +5,11 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/rectangle_dark_gray"
-    android:layout_marginTop="50dp">
+    android:layout_marginTop="50dp"
+    >
 
     <TextView
+        android:id="@+id/chartTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,11 +27,23 @@
         android:layout_height="250dp"
         android:layout_marginRight="24dp"
         android:layout_marginLeft="24dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/chartTitle"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
         android:paddingBottom="15dp"
         />
+
+    <!--<com.github.mikephil.charting.charts.CombinedChart-->
+        <!--android:id="@+id/chart"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="250dp"-->
+        <!--android:layout_marginRight="24dp"-->
+        <!--android:layout_marginLeft="24dp"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/chartTitle"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:layout_marginBottom="15dp"-->
+        <!--android:paddingBottom="15dp"-->
+        <!--/>-->
 
     <TextView
         android:id="@+id/priceTitle"
@@ -142,5 +156,20 @@
         android:layout_height="50dp"
         app:layout_constraintTop_toBottomOf="@+id/priceText3"
         />
+
+
+    <LinearLayout
+        android:id="@+id/chartLoading"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        >
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

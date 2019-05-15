@@ -16,6 +16,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -180,42 +182,19 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                 if(category == 0){
 
-//                    visibleDestinyTitle(false);
-//
-//                    lifeCTextLists.add(new ModelLifeCTextList("내집마련",1, time));
-//                    lifeCTextLists.add(new ModelLifeCTextList("멋지다!! 정해 놓은 목표금액이 있어?",5 ,time));
-//
-//                    adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
-//
-//                    recyclerView.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
-//                        }
-//                    }, 100);
-
                     visibleDestinyTitle(false);
 
                     lifeCTextLists.add(new ModelLifeCTextList("내집마련",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("멋지다!! 정해 놓은 목표금액이 있어?",5 ,time));
 
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
+                    adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
 
-                                    lifeCTextLists.add(new ModelLifeCTextList("멋지다!! 정해 놓은 목표금액이 있어?",5 ,time));
-                                    adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
-
-                                    recyclerView.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
-                                        }
-                                    }, 100);
-
-
-                        }
-                    }, 700);
-
+                     recyclerView.postDelayed(new Runnable() {
+                             @Override
+                             public void run() {
+                                recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                                   }
+                             }, 100);
 
                 }
                 else if(category == 1){
@@ -415,7 +394,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     recyclerView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-3);
                         }
                     }, 100);
 
@@ -426,8 +405,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(talkEditText.getWindowToken(), 0);
-
-                    visiblePrice(true);
 
                     monthlyPrice = Long.valueOf(talkEditText.getText().toString());
 
@@ -458,13 +435,12 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                         recyclerView.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                                recyclerView.smoothScrollToPosition(lifeCTextLists.size()-3);
                             }
                         }, 100);
                     }else{
 
                         Toast.makeText(ActivityLifeChallenge.this, "월 투자금액이 모자랍니다.",Toast.LENGTH_SHORT).show();
-
                     }
 
                 }
@@ -503,8 +479,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     }else{
 
-                        visiblePrice(true);
-
                         lifeCTextLists.add(new ModelLifeCTextList("월에 얼마씩 넣을꺼야?",0, time));
 
                         talkEditText.setText("");
@@ -518,6 +492,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                                 recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
                             }
                         }, 100);
+
+                        visiblePrice(true);
 
                         chartFlag = true;
 
@@ -536,8 +512,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     finalPrice = Long.valueOf(talkEditText.getText().toString());
 
                     if(finalPrice >= 500){
-
-                        visiblePrice(true);
 
                         Date date = new Date();
                         String time = new SimpleDateFormat("aa hh:mm").format(date);
@@ -558,6 +532,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                                 recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
                             }
                         }, 100);
+
+                        visiblePrice(true);
 
                         monthlyFlag = true;
 
@@ -604,7 +580,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     recyclerView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-3);
                         }
                     }, 100);
 
@@ -655,8 +631,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(talkEditText.getWindowToken(), 0);
 
-//                    monYearFlag = false;
-
                     Date date = new Date();
                     String time = new SimpleDateFormat("aa hh:mm").format(date);
 
@@ -682,7 +656,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     recyclerView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-3);
                         }
                     }, 100);
 
@@ -765,7 +739,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     recyclerView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-3);
                         }
                     }, 100);
 
@@ -800,7 +774,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     recyclerView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-3);
                         }
                     }, 100);
 
@@ -816,8 +790,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
             @Override
             public void onClick(int position) {
 
-                visiblePrice(true);
-
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
 
@@ -831,6 +803,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                         recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
                     }
                 }, 100);
+
+                visiblePrice(true);
 
                 talkEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
                 talkEditText.setEnabled(true);
@@ -850,18 +824,31 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
 
-                lifeCTextLists.add(new ModelLifeCTextList("아니, 없어",1, time));
-                lifeCTextLists.add(new ModelLifeCTextList("괜찮아, 이제부터 시작해도 늦지 않았으니까!",0, time));
-                lifeCTextLists.add(new ModelLifeCTextList("월마다 조금씩 모으고 싶어?\n아니면 한번에 모아둔 돈으로 투자해볼까?",6, time));
+                        lifeCTextLists.add(new ModelLifeCTextList("아니, 없어",1, time));
 
-                adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
-                recyclerView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
-                    }
-                }, 100);
 
+                        lifeCTextLists.add(new ModelLifeCTextList("괜찮아, 이제부터 시작해도 늦지 않았으니까!",0, time));
+                        adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
+                        recyclerView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                            }
+                        });
+
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                lifeCTextLists.add(new ModelLifeCTextList("월마다 조금씩 모으고 싶어?\n아니면 한번에 모아둔 돈으로 투자해볼까?",6, time));
+                                adapterLifeChallenge.notifyDataSetChanged();
+                                recyclerView.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                                    }
+                                });
+                            }
+                        }, 700);
             }
         });
 
@@ -869,8 +856,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         adapterLifeChallenge.setBotMonthlyYesClick(new AdapterLifeChallenge.BotMonthlyYesClick() {
             @Override
             public void onClick(int position) {
-
-                visiblePrice(true);
 
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
@@ -887,6 +872,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     @Override
                     public void run() {
                         recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                        visiblePrice(true);
                     }
                 }, 100);
 
@@ -934,7 +920,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 recyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-3);
                     }
                 }, 100);
 
@@ -947,8 +933,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
             @Override
             public void onClick(int position) {
 
-                visiblePrice(true);
-
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
                 lifeCTextLists.add(new ModelLifeCTextList("월 마다!",1, time));
@@ -959,8 +943,15 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 talkEditText.setEnabled(false);
                 sendBt.setEnabled(false);
 
-                recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
                 adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
+                recyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                    }
+                }, 100);
+
+                visiblePrice(true);
 
                 monFlag = true;
 
@@ -976,8 +967,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
             @Override
             public void onClick(int position) {
 
-                visiblePrice(true);
-
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
                 lifeCTextLists.add(new ModelLifeCTextList("모아둔 돈으로 한번에!",1, time));
@@ -988,8 +977,15 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 talkEditText.setEnabled(false);
                 sendBt.setEnabled(false);
 
-                recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
                 adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
+                recyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                    }
+                }, 100);
+
+                visiblePrice(true);
 
                 totalFlag = true;
 
@@ -1027,8 +1023,11 @@ public class ActivityLifeChallenge extends AppCompatActivity{
     private void visibleDestinyTitle(boolean visible){
         if(visible){
             bottomLayout.setVisibility(View.VISIBLE);
+            bottomLayout.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
             talkEditText2.setVisibility(View.VISIBLE);
+            talkEditText2.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
             sendBt.setVisibility(View.VISIBLE);
+            sendBt.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
         }else{
             bottomLayout.setVisibility(View.GONE);
             talkEditText2.setVisibility(View.GONE);
@@ -1039,9 +1038,13 @@ public class ActivityLifeChallenge extends AppCompatActivity{
     private void visiblePrice(boolean visible){
         if(visible){
             bottomLayout.setVisibility(View.VISIBLE);
+            bottomLayout.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
             talkEditText.setVisibility(View.VISIBLE);
+            talkEditText.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
             sendBt.setVisibility(View.VISIBLE);
+            sendBt.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
             talkEditTextUnit.setVisibility(View.VISIBLE);
+            talkEditTextUnit.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
         }else{
             bottomLayout.setVisibility(View.GONE);
             talkEditText.setVisibility(View.GONE);
@@ -1061,6 +1064,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
             pickerWheelBt.setVisibility(View.INVISIBLE);
         }
     }
+
 
     private void calculatedYield() {
 
@@ -1114,18 +1118,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         chartInfoLsits.add(new ModelChartInfoLsit(String.valueOf(calTotalPrice*10000), String.valueOf(calYield*10000), String.valueOf(calPotYear), String.valueOf(calNormalYear), "", ""));
     }
 
-    private KeyPressEditText.OnPressListener onBackPressListener = new KeyPressEditText.OnPressListener() {
-        @Override
-        public void onPress() {
-        }
-    };
-
-    private KeyPressEditText.OnPressDoneListener onPressDoneListener = new KeyPressEditText.OnPressDoneListener() {
-        @Override
-        public void onPressDone() {
-        }
-    };
-
     private void calculatedYield2(){
 
         entries.add(new Entry(0, 0, 0));
@@ -1133,8 +1125,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         entries.add(new Entry(1, price*10000, 0));
 
         for(int yield = 2 ; yield <= selectYear ; yield++){
-           price = (price+(monthlyPrice*12))*1.1f;
-           entries.add(new Entry(yield, price*10000, 0));
+            price = (price+(monthlyPrice*12))*1.1f;
+            entries.add(new Entry(yield, price*10000, 0));
         }
 
         calTotalPrice = (long)(monthlyPrice*12*selectYear);
@@ -1176,5 +1168,122 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         }
         chartInfoLsits.add(new ModelChartInfoLsit(String.valueOf(calTotalPrice*10000),String.valueOf(calYield*10000),"","",String.valueOf((long)price*10000), String.valueOf((long)price2*10000)));
     }
+
+
+//    private void calculatedYield() {
+//
+//        entries.add(new Entry(0, (basicPrice*10000), 0));
+//
+//        float price = (basicPrice + (monthlyPrice * 12)) * 1.1f;
+//
+//        entries.add(new Entry(1, price*10000, 0));
+//
+//        calPotYear = 1;
+//        calTotalPrice = (long) (basicPrice + monthlyPrice);
+//        calYield = (long) (price - calTotalPrice);
+//
+//        if (price < finalPrice) {
+//
+//            for (int yield = 2; yield < 10000; yield++) {
+//
+//                price = (price + (monthlyPrice * 12)) * 1.1f;
+//                entries.add(new Entry(yield, price*10000, 0));
+//
+//                if (price >= finalPrice) {
+//
+//                    calPotYear = yield;
+//                    calTotalPrice = (long) (basicPrice + (monthlyPrice * 12 * yield));
+//                    calYield = (long) (price - calTotalPrice);
+//
+//                    break;
+//                }
+//            }
+//        }
+//
+//        entries2.add(new Entry(0, basicPrice*10000, 0));
+//        float price2 = (basicPrice + (monthlyPrice * 12)) * 1.03f;
+//        entries2.add(new Entry(1, price2*10000, 0));
+//
+//        calNormalYear = 1;
+//
+//        if(price2 < finalPrice){
+//
+//            for (int yield2 = 2; yield2 < 1000; yield2++) {
+//                price2 = (price2 + (monthlyPrice * 12)) * 1.03f;
+//                entries2.add(new Entry(yield2, price2*10000, 0));
+//
+//                if (price2 >= finalPrice) {
+//
+//                    calNormalYear = yield2;
+//                    break;
+//                }
+//            }
+//        }
+//        chartInfoLsits.add(new ModelChartInfoLsit(String.valueOf(calTotalPrice*10000), String.valueOf(calYield*10000), String.valueOf(calPotYear), String.valueOf(calNormalYear), "", ""));
+//    }
+//
+//    private void calculatedYield2(){
+//
+//        entries.add(new Entry(0, 0, 0));
+//        float price = (monthlyPrice*12)*1.1f;
+//        entries.add(new Entry(1, price*10000, 0));
+//
+//        for(int yield = 2 ; yield <= selectYear ; yield++){
+//           price = (price+(monthlyPrice*12))*1.1f;
+//           entries.add(new Entry(yield, price*10000, 0));
+//        }
+//
+//        calTotalPrice = (long)(monthlyPrice*12*selectYear);
+//        calYield = (long)(price - calTotalPrice);
+//
+//        entries2.add(new Entry(0, 0, 0));
+//        float price2 = (monthlyPrice*12)*1.03f;
+//        entries2.add(new Entry(1, price2*10000, 0));
+//
+//        for(int yield2 = 2; yield2 <= selectYear ; yield2++){
+//            price2 = (price2+(monthlyPrice*12))*1.03f;
+//            entries2.add(new Entry(yield2, price2*10000, 0));
+//        }
+//        chartInfoLsits.add(new ModelChartInfoLsit(String.valueOf(calTotalPrice*10000),String.valueOf(calYield*10000),"","",String.valueOf((long)price*10000), String.valueOf((long)price2*10000)));
+//    }
+//
+//
+//    private void calculatedYield3(){
+//
+//        entries.add(new Entry(0, hadPrice, 0));
+//        float price = hadPrice*1.1f;
+//        entries.add(new Entry(1, price*10000, 0));
+//
+//        for(int yield = 2 ; yield <= selectYear ; yield++){
+//            price = price*1.1f;
+//            entries.add(new Entry(yield, price*10000, 0));
+//        }
+//
+//        calTotalPrice = (long)(hadPrice*selectYear);
+//        calYield = (long)(price - calTotalPrice);
+//
+//        entries2.add(new Entry(0, hadPrice, 0));
+//        float price2 = hadPrice*1.03f;
+//        entries2.add(new Entry(1, price2*10000, 0));
+//
+//        for(int yield2 = 2; yield2 <= selectYear ; yield2++){
+//            price2 = price2*1.03f;
+//            entries2.add(new Entry(yield2, price2*10000, 0));
+//        }
+//        chartInfoLsits.add(new ModelChartInfoLsit(String.valueOf(calTotalPrice*10000),String.valueOf(calYield*10000),"","",String.valueOf((long)price*10000), String.valueOf((long)price2*10000)));
+//    }
+
+
+    private KeyPressEditText.OnPressListener onBackPressListener = new KeyPressEditText.OnPressListener() {
+        @Override
+        public void onPress() {
+        }
+    };
+
+    private KeyPressEditText.OnPressDoneListener onPressDoneListener = new KeyPressEditText.OnPressDoneListener() {
+        @Override
+        public void onPressDone() {
+        }
+    };
 
 }

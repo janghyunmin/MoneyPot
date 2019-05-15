@@ -1,28 +1,38 @@
 package quantec.com.moneypot.Activity.ActivityLifeChallenge;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.MPPointF;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 import quantec.com.moneypot.R;
 
@@ -55,6 +65,13 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     List<Entry> entries2;
 
     ArrayList<ModelChartInfoLsit> chartInfoLsits;
+
+    float potX, potY;
+    Canvas canvas;
+    float currentX, maxX;
+
+
+    boolean changedLine = false;
 
     public AdapterLifeChallenge(ArrayList<ModelLifeCSelectList> lifeCSelectLists, ArrayList<ModelLifeCTextList> lifeCTextLists,
                                 Context context, List<Entry> entries, LineDataSet lineDataSet, LineData lineData, List<Entry> entries2, ArrayList<ModelChartInfoLsit> chartInfoLsits) {
@@ -275,7 +292,8 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         }
         else if(holder instanceof BotChartViewHolder){
 
-            if(constView) {
+
+       if(constView) {
 
                 constView = false;
 
@@ -287,8 +305,10 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 lineDataSet.setHighlightEnabled(true);
                 lineDataSet.setDrawHighlightIndicators(true);
                 lineDataSet.setDrawHorizontalHighlightIndicator(false);
-                lineDataSet.setHighLightColor(R.color.chart_limit_line_color);
-                lineDataSet.setHighlightLineWidth(1f);
+                lineDataSet.setDrawVerticalHighlightIndicator(false);
+//                lineDataSet.setHighLightColor(R.color.chart_limit_line_color);
+                lineDataSet.setHighlightLineWidth(0f);
+                lineDataSet.setHighLightColor(Color.parseColor("#FFFFFFFF"));
                 lineDataSet.setDrawCircles(false);
 
 
@@ -297,30 +317,23 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 lineDataSet2.setColor(Color.parseColor("#E1E1E1"));
                 lineDataSet2.setDrawHorizontalHighlightIndicator(false);
                 lineDataSet2.setDrawValues(false);
+                lineDataSet2.setHighLightColor(Color.parseColor("#FFFFFFFF"));
                 lineDataSet2.setHighlightEnabled(true);
                 lineDataSet2.setDrawHighlightIndicators(true);
                 lineDataSet2.setDrawHorizontalHighlightIndicator(false);
-                lineDataSet2.setHighLightColor(R.color.chart_limit_line_color);
-                lineDataSet2.setHighlightLineWidth(1f);
+                lineDataSet2.setDrawVerticalHighlightIndicator(false);
+                lineDataSet2.setHighlightLineWidth(0f);
                 lineDataSet2.setDrawCircles(false);
 
                 lineDataSets.add(lineDataSet);
                 lineDataSets.add(lineDataSet2);
 
-
                 lineData = new LineData(lineDataSets);
-                lineData.setHighlightEnabled(true);
-
-//            xAxis = ((BotChartViewHolder) holder).chart.getXAxis();
-//            xAxis.setDrawLabels(true);
-//            xAxis.setDrawGridLines(false);
-//            xAxis.setDrawAxisLine(true);
-//            xAxis.setEnabled(true);
+                lineData.setHighlightEnabled(false);
 
                 xAxis = ((BotChartViewHolder) holder).chart.getXAxis();
                 xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
                 xAxis.setGranularity(1);
-//            xAxis.setLabelCount(20, true);
                 xAxis.setDrawLabels(true);
                 xAxis.setDrawGridLines(false);
                 xAxis.setDrawAxisLine(true);
@@ -355,18 +368,200 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 ((BotChartViewHolder) holder).chart.setScaleEnabled(false);
                 ((BotChartViewHolder) holder).chart.invalidate();
 
-
                 ((BotChartViewHolder) holder).priceText.setText(chartInfoLsits.get(0).getPotYear()+"년" + "( "+chartInfoLsits.get(0).getNormalYear()+"년 )");
                 ((BotChartViewHolder) holder).priceText2.setText(chartInfoLsits.get(0).getTotalPrice()+"원");
                 ((BotChartViewHolder) holder).priceText3.setText(chartInfoLsits.get(0).getYieldPrice()+"원");
+
+
+                maxX = ((BotChartViewHolder) holder).chart.getXRange();
+
+                CustomMarkerView marker = new CustomMarkerView(context, R.layout.item_chart_marker);
+                marker.setChartView(((BotChartViewHolder) holder).chart);
+
+                ((BotChartViewHolder) holder).chart.highlightValue(new Highlight(entries.get(entries.size()-1).getX(), entries.get(entries.size()-1).getY(), 0), false);
+
+                marker.setEnabled(false);
+
+                ((BotChartViewHolder) holder).chart.getMarkerView();
+                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
+                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
+                ((BotChartViewHolder) holder).chart.setMarker(marker);
+                ((BotChartViewHolder) holder).chart.invalidate();
+
+
+                ((BotChartViewHolder) holder).chart.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
             }
 
-//            maxX = ((BotChartViewHolder) holder).chart.getXRange();
 
-//            CustomMarkerView marker = new CustomMarkerView(context,R.layout.item_chart_marker);
-//            marker.setChartView(((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mChartChartView);
-//            ((FgTab13mViewHolder) holder).itemTextBinding.fragment3Tab13mChartChartView.setMarker(marker);
 
+//            if(constView) {
+//
+//                constView = false;
+//
+//                lineDataSet = new LineDataSet(entries, "전략수익률");
+//                lineDataSet.setLineWidth(1.5f);
+//                lineDataSet.setColor(Color.parseColor("#FFFF0000"));
+//                lineDataSet.setDrawHorizontalHighlightIndicator(false);
+//                lineDataSet.setDrawValues(false);
+//                lineDataSet.setHighlightEnabled(true);
+//                lineDataSet.setDrawHighlightIndicators(true);
+//                lineDataSet.setDrawHorizontalHighlightIndicator(false);
+//                lineDataSet.setDrawVerticalHighlightIndicator(false);
+////                lineDataSet.setHighLightColor(R.color.chart_limit_line_color);
+//                lineDataSet.setHighlightLineWidth(0f);
+//                lineDataSet.setHighLightColor(Color.parseColor("#FFFFFFFF"));
+//                lineDataSet.setDrawCircles(false);
+//
+//
+//                lineDataSet2 = new LineDataSet(entries2, "시장수익률");
+//                lineDataSet2.setLineWidth(1.5f);
+//                lineDataSet2.setColor(Color.parseColor("#E1E1E1"));
+//                lineDataSet2.setDrawHorizontalHighlightIndicator(false);
+//                lineDataSet2.setDrawValues(false);
+//                lineDataSet2.setHighLightColor(Color.parseColor("#FFFFFFFF"));
+//                lineDataSet2.setHighlightEnabled(true);
+//                lineDataSet2.setDrawHighlightIndicators(true);
+//                lineDataSet2.setDrawHorizontalHighlightIndicator(false);
+//                lineDataSet2.setDrawVerticalHighlightIndicator(false);
+////                lineDataSet2.setHighLightColor(R.color.chart_limit_line_color);
+//                lineDataSet2.setHighlightLineWidth(0f);
+//                lineDataSet2.setDrawCircles(false);
+//
+//                lineDataSets.add(lineDataSet);
+//                lineDataSets.add(lineDataSet2);
+//
+//                lineData = new LineData(lineDataSets);
+//                lineData.setHighlightEnabled(false);
+//
+////            xAxis = ((BotChartViewHolder) holder).chart.getXAxis();
+////            xAxis.setDrawLabels(true);
+////            xAxis.setDrawGridLines(false);
+////            xAxis.setDrawAxisLine(true);
+////            xAxis.setEnabled(true);
+//
+//                xAxis = ((BotChartViewHolder) holder).chart.getXAxis();
+//                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//                xAxis.setGranularity(1);
+////            xAxis.setLabelCount(20, true);
+//                xAxis.setDrawLabels(true);
+//                xAxis.setDrawGridLines(false);
+//                xAxis.setDrawAxisLine(true);
+//                xAxis.setEnabled(true);
+//
+//                YAxis yAxis = ((BotChartViewHolder) holder).chart.getAxisLeft();
+//                yAxis.setDrawLabels(false);
+//                yAxis.setDrawGridLines(false);
+//                yAxis.setDrawAxisLine(false);
+//                yAxis.setEnabled(false);
+//
+//                YAxis yAxi1 = ((BotChartViewHolder) holder).chart.getAxisRight();
+//                yAxi1.setDrawLabels(false);
+//                yAxi1.setDrawGridLines(false);
+//                yAxi1.setDrawAxisLine(false);
+//                yAxi1.setEnabled(false);
+//
+//                Legend legend = ((BotChartViewHolder) holder).chart.getLegend();
+//                legend.setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);
+//                legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+//                legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+//                legend.setEnabled(true);
+//                legend.setDrawInside(true);
+//
+//                ((BotChartViewHolder) holder).chart.setDescription(null);
+//                ((BotChartViewHolder) holder).chart.setDrawGridBackground(false);
+//                ((BotChartViewHolder) holder).chart.setData(lineData);
+//                ((BotChartViewHolder) holder).chart.setDoubleTapToZoomEnabled(false);
+//                ((BotChartViewHolder) holder).chart.setDrawGridBackground(false);
+//                ((BotChartViewHolder) holder).chart.animateY(600, Easing.EasingOption.EaseInCubic);
+//                ((BotChartViewHolder) holder).chart.setPinchZoom(false);
+//                ((BotChartViewHolder) holder).chart.setScaleEnabled(false);
+//                ((BotChartViewHolder) holder).chart.invalidate();
+//
+//                ((BotChartViewHolder) holder).priceText.setText(chartInfoLsits.get(0).getPotYear()+"년" + "( "+chartInfoLsits.get(0).getNormalYear()+"년 )");
+//                ((BotChartViewHolder) holder).priceText2.setText(chartInfoLsits.get(0).getTotalPrice()+"원");
+//                ((BotChartViewHolder) holder).priceText3.setText(chartInfoLsits.get(0).getYieldPrice()+"원");
+//
+//                CustomMarkerView marker = new CustomMarkerView(context, R.layout.item_chart_marker);
+//                marker.setChartView(((BotChartViewHolder) holder).chart);
+//
+//                Highlight highlight = new Highlight(entries.get(entries.size()-1).getX(), entries.get(entries.size()-1).getY(), 0);
+//                ((BotChartViewHolder) holder).chart.highlightValue(highlight, false);
+//
+////                ((BotChartViewHolder) holder).chart.highlightValue(highlight, false);
+//
+////                ((BotChartViewHolder) holder).chart.highlightValue(entries.get(entries.size()-1).getX(), entries.get(entries.size()-1).getY(), 0, true);
+//
+////                ((BotChartViewHolder) holder).chart.getMarkerView();
+////                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
+////                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
+////                ((BotChartViewHolder) holder).chart.setMarker(marker);
+////                ((BotChartViewHolder) holder).chart.invalidate();
+//
+////                ((BotChartViewHolder) holder).chart.highlightValue(entries2.get(entries2.size()-1).getX(), entries2.get(entries2.size()-1).getY(), 1, true);
+////                marker.refreshContent(null, highlight);
+////                marker.setEnabled(false);
+////
+////                ((BotChartViewHolder) holder).chart.getMarkerView();
+////                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
+////                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
+////                ((BotChartViewHolder) holder).chart.setMarker(marker);
+////                ((BotChartViewHolder) holder).chart.invalidate();
+//
+//                Highlight highlight2 = new Highlight(entries2.get(entries2.size()-1).getX(), entries2.get(entries2.size()-1).getY(), 1);
+//                ((BotChartViewHolder) holder).chart.highlightValue(highlight2, false);
+//                marker.setEnabled(false);
+//
+//                ((BotChartViewHolder) holder).chart.getMarkerView();
+//                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
+//                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
+//                ((BotChartViewHolder) holder).chart.setMarker(marker);
+//                ((BotChartViewHolder) holder).chart.invalidate();
+//
+////                marker.refreshContent(entries2.get(0), highlight2);
+////                marker.setEnabled(false);
+////                ((BotChartViewHolder) holder).chart.getMarkerView();
+////                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
+////                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
+////                ((BotChartViewHolder) holder).chart.setMarker(marker);
+////                ((BotChartViewHolder) holder).chart.invalidate();
+//
+////                Highlight highlight2 = new Highlight(entries2.get(entries2.size()-1).getX(),entries2.get(entries2.size()-1).getY(), 0);
+////                ((BotChartViewHolder) holder).chart.highlightValue(highlight2, true);
+////                marker.refreshContent(null, highlight2);
+////                marker.setEnabled(false);
+////
+////                ((BotChartViewHolder) holder).chart.getMarkerView();
+////                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
+////                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
+////                ((BotChartViewHolder) holder).chart.setMarker(marker);
+////                ((BotChartViewHolder) holder).chart.invalidate();
+//
+////                CustomMarkerView2 marker2 = new CustomMarkerView2(context, R.layout.item_chart_marker);
+////                marker2.setChartView(((BotChartViewHolder) holder).chart);
+////
+////                Highlight highlight2 = new Highlight(entries2.get(entries2.size()-1).getX(),entries2.get(entries2.size()-1).getY(), 0);
+////                ((BotChartViewHolder) holder).chart.highlightValue(highlight2, true);
+////                marker2.refreshContent(null, highlight2);
+////                marker2.setEnabled(false);
+////                ((BotChartViewHolder) holder).chart.getMarkerView();
+////                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
+////                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
+////                ((BotChartViewHolder) holder).chart.setMarker(marker2);
+////                ((BotChartViewHolder) holder).chart.invalidate();
+//
+//
+//                ((BotChartViewHolder) holder).chart.setOnTouchListener(new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//                        return true;
+//                    }
+//                });
+//            }
         }
         else if(holder instanceof BotEndViewHolder){
 
@@ -483,21 +678,20 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 lineDataSet.setColor(Color.parseColor("#FFFF0000"));
                 lineDataSet.setDrawHorizontalHighlightIndicator(false);
                 lineDataSet.setDrawValues(false);
-                lineDataSet.setHighlightEnabled(true);
-                lineDataSet.setDrawHighlightIndicators(true);
+                lineDataSet.setHighlightEnabled(false);
+                lineDataSet.setDrawHighlightIndicators(false);
                 lineDataSet.setDrawHorizontalHighlightIndicator(false);
                 lineDataSet.setHighLightColor(R.color.chart_limit_line_color);
                 lineDataSet.setHighlightLineWidth(1f);
                 lineDataSet.setDrawCircles(false);
-
 
                 lineDataSet2 = new LineDataSet(entries2, "시장수익률");
                 lineDataSet2.setLineWidth(1.5f);
                 lineDataSet2.setColor(Color.parseColor("#E1E1E1"));
                 lineDataSet2.setDrawHorizontalHighlightIndicator(false);
                 lineDataSet2.setDrawValues(false);
-                lineDataSet2.setHighlightEnabled(true);
-                lineDataSet2.setDrawHighlightIndicators(true);
+                lineDataSet2.setHighlightEnabled(false);
+                lineDataSet2.setDrawHighlightIndicators(false);
                 lineDataSet2.setDrawHorizontalHighlightIndicator(false);
                 lineDataSet2.setHighLightColor(R.color.chart_limit_line_color);
                 lineDataSet2.setHighlightLineWidth(1f);
@@ -508,7 +702,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
 
                 lineData = new LineData(lineDataSets);
-                lineData.setHighlightEnabled(true);
+                lineData.setHighlightEnabled(false);
 
                 xAxis = ((BotChart2ViewHolder) holder).chart.getXAxis();
                 xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -551,11 +745,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 ((BotChart2ViewHolder) holder).priceText2.setText(chartInfoLsits.get(0).getTotalPrice()+"원");
                 ((BotChart2ViewHolder) holder).priceText3.setText(chartInfoLsits.get(0).getYieldPrice()+"원");
             }
-
-
         }
-
-
     }
 
     @Override
@@ -653,6 +843,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
         LineChart chart;
         TextView priceText, priceText2, priceText3;
+        LinearLayout chartLoading;
 
         public BotChartViewHolder(View itemView) {
             super(itemView);
@@ -663,6 +854,14 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             priceText2 = itemView.findViewById(R.id.priceText2);
             priceText3 = itemView.findViewById(R.id.priceText3);
 
+            chartLoading = itemView.findViewById(R.id.chartLoading);
+            android.os.Handler handler = new android.os.Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    chartLoading.setVisibility(View.GONE);
+                }
+            }, 1500);
         }
     }
 
@@ -738,6 +937,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
         LineChart chart;
         TextView priceText, priceText2, priceText3;
+        LinearLayout chartLoading;
 
         public BotChart2ViewHolder(View itemView) {
             super(itemView);
@@ -747,6 +947,15 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             priceText = itemView.findViewById(R.id.priceText);
             priceText2 = itemView.findViewById(R.id.priceText2);
             priceText3 = itemView.findViewById(R.id.priceText3);
+
+            chartLoading = itemView.findViewById(R.id.chartLoading);
+            android.os.Handler handler = new android.os.Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    chartLoading.setVisibility(View.GONE);
+                }
+            }, 1500);
 
         }
     }
@@ -763,5 +972,83 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
         }
     }
+
+
+
+    public class CustomMarkerView extends MarkerView {
+        private TextView tvContent;
+        private TextView tvContent2;
+        public CustomMarkerView(Context context, int layoutResource){
+            super(context, layoutResource);
+            tvContent = findViewById(R.id.tvContent);
+            tvContent2 = findViewById(R.id.tvContent2);
+
+            tvContent.setText("달성금액");
+            tvContent2.setText("50억");
+        }
+
+        @Override
+        public void refreshContent(Entry e, Highlight highlight) {
+
+//            tvContent.setText("달성금액");
+//            tvContent2.setText("50억");
+
+            currentX = e.getX();
+//            if (e instanceof CandleEntry) {
+//                CandleEntry ce = (CandleEntry) e;
+//                String num = String.format("%.2f",e.getY());
+//                tvContent.setText(("" + ce.getData()).replace("-","."));
+//                tvContent2.setText(num+"%");
+//            } else {
+//
+//                String num = String.format("%.2f",e.getY());
+//
+//                tvContent.setText(("" + e.getData()).replace("-","."));
+//                tvContent2.setText(num+"%");
+//            }
+            super.refreshContent(e, highlight);
+        }
+
+        @Override
+        public MPPointF getOffset() {
+
+            if(maxX/3 < currentX) {
+                return new MPPointF(-(getWidth())-40, -getHeight()+80);
+            }else{
+                return new MPPointF((getWidth()/5), -getHeight()+80);
+            }
+        }
+
+        @Override
+        public void draw(Canvas canvas, float posX, float posY) {
+
+            Paint paint = new Paint();
+            paint.setColor(context.getResources().getColor(R.color.chart_point_color));
+            paint.setStrokeWidth(5f);
+            paint.setStyle(Paint.Style.FILL);
+            canvas.drawCircle(posX, posY,18, paint);
+            super.draw(canvas, posX, posY);
+        }
+
+    }
+
+//    public class CustomMarkerView2 extends MarkerView {
+//
+//        public CustomMarkerView2(Context context, int layoutResource){
+//            super(context, layoutResource);
+//        }
+//
+//        @Override
+//        public void draw(Canvas canvas, float posX, float posY) {
+//
+//            Paint paint = new Paint();
+//            paint.setColor(context.getResources().getColor(R.color.gray_brown_color));
+//            paint.setStrokeWidth(5f);
+//            paint.setStyle(Paint.Style.FILL);
+//            canvas.drawCircle(posX, posY,18, paint);
+//            super.draw(canvas, posX, posY);
+//        }
+//
+//    }
 
 }

@@ -208,7 +208,8 @@
         <activity android:name=".Activity.ActivityNotice.ActivityNotice" />
         <activity android:name=".Activity.ActivitySetting.ActivitySetting" />
         <activity android:name=".Activity.MyInfomation.ActivityChangedEmail" />
-        <activity android:name=".Activity.ActivityLifeChallenge.ActivityLifeChallenge">
+        <activity android:name=".Activity.ActivityLifeChallenge.ActivityLifeChallenge"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
