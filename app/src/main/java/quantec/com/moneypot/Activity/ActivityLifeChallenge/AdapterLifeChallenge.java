@@ -7,6 +7,10 @@ import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -51,6 +55,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     private final int BOTCHART2 = 8;
     private final int BOTSPACE = 9;
     private final int BOTLOADING = 10;
+    private final int BOTSPACESMALL = 11;
 
     ArrayList<ModelLifeCSelectList> lifeCSelectLists;
     ArrayList<ModelLifeCTextList> lifeCTextLists;
@@ -204,6 +209,9 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         else if(viewType == BOTLOADING){
             return new BotLoadingViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botloading, parent, false));
         }
+        else if(viewType == BOTSPACESMALL){
+            return new BotSpaceSmallViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botspacesmall, parent, false));
+        }
         else {
             return new BotEndViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botend, parent, false));
         }
@@ -214,7 +222,15 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
         if(holder instanceof BotTalkViewHolder){
 
-            ((BotTalkViewHolder)holder).talk.setText(lifeCTextLists.get(position).getTalk());
+            if(lifeCTextLists.get(position).getSubTitle().isEmpty()){
+                ((BotTalkViewHolder)holder).talk.setText(lifeCTextLists.get(position).getTalk());
+            }else{
+                String title = lifeCTextLists.get(position).getTalk()+"\n"+lifeCTextLists.get(position).getSubTitle();
+                SpannableStringBuilder ssb = new SpannableStringBuilder(title);
+                ssb.setSpan(new ForegroundColorSpan(Color.GRAY), 27, 52, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new AbsoluteSizeSpan(10, true), 27,52, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ((BotTalkViewHolder)holder).talk.setText(ssb);
+            }
 
             if(!lifeCTextLists.get(position).getTime().equals("")){
                 ((BotTalkViewHolder)holder).time.setText(lifeCTextLists.get(position).getTime());
@@ -226,7 +242,6 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             if(!lifeCTextLists.get(position).getTime().equals("")){
                 ((MyTalkViewHolder)holder).time.setText(lifeCTextLists.get(position).getTime());
             }
-
         }
         else if(holder instanceof BotSelctViewHolder){
 
@@ -245,6 +260,8 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                         ((BotSelctViewHolder)holder).select2.setEnabled(false);
                         ((BotSelctViewHolder)holder).select3.setEnabled(false);
                         ((BotSelctViewHolder)holder).select4.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select5.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select6.setEnabled(false);
                     }
                 }
             });
@@ -258,6 +275,8 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                         ((BotSelctViewHolder)holder).select2.setEnabled(false);
                         ((BotSelctViewHolder)holder).select3.setEnabled(false);
                         ((BotSelctViewHolder)holder).select4.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select5.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select6.setEnabled(false);
                     }
                 }
             });
@@ -271,6 +290,8 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                         ((BotSelctViewHolder)holder).select2.setEnabled(false);
                         ((BotSelctViewHolder)holder).select3.setEnabled(false);
                         ((BotSelctViewHolder)holder).select4.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select5.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select6.setEnabled(false);
                     }
                 }
             });
@@ -284,6 +305,37 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                         ((BotSelctViewHolder)holder).select2.setEnabled(false);
                         ((BotSelctViewHolder)holder).select3.setEnabled(false);
                         ((BotSelctViewHolder)holder).select4.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select5.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select6.setEnabled(false);
+                    }
+                }
+            });
+
+            ((BotSelctViewHolder)holder).select5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(botSelectClick != null) {
+                        botSelectClick.onClick(lifeCSelectLists.get(4).getCategory());
+                        ((BotSelctViewHolder)holder).select1.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select2.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select3.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select4.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select5.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select6.setEnabled(false);
+                    }
+                }
+            });
+            ((BotSelctViewHolder)holder).select6.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(botSelectClick != null) {
+                        botSelectClick.onClick(lifeCSelectLists.get(5).getCategory());
+                        ((BotSelctViewHolder)holder).select1.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select2.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select3.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select4.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select5.setEnabled(false);
+                        ((BotSelctViewHolder)holder).select6.setEnabled(false);
                     }
                 }
             });
@@ -746,6 +798,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 ((BotChart2ViewHolder) holder).priceText3.setText(chartInfoLsits.get(0).getYieldPrice()+"원");
             }
         }
+
     }
 
     @Override
@@ -786,6 +839,9 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         else if(lifeCTextLists.get(position).getCategory() == 10){
             return BOTLOADING;
         }
+        else if(lifeCTextLists.get(position).getCategory() == 11){
+            return BOTSPACESMALL;
+        }
         else{
             return BOTEND;
         }
@@ -822,7 +878,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
     public class BotSelctViewHolder extends RecyclerView.ViewHolder {
 
-        TextView select1, select2, select3, select4, selectTitle, time;
+        TextView select1, select2, select3, select4, select5, select6, selectTitle, time;
         ConstraintLayout botSelect;
 
         public BotSelctViewHolder(View itemView) {
@@ -834,6 +890,9 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             select2 = itemView.findViewById(R.id.select2);
             select3 = itemView.findViewById(R.id.select3);
             select4 = itemView.findViewById(R.id.select4);
+            select5 = itemView.findViewById(R.id.select5);
+            select6 = itemView.findViewById(R.id.select6);
+
             selectTitle = itemView.findViewById(R.id.selectTitle);
             time = itemView.findViewById(R.id.time);
         }
@@ -973,6 +1032,11 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    public class BotSpaceSmallViewHolder extends RecyclerView.ViewHolder {
+        public BotSpaceSmallViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
 
 
     public class CustomMarkerView extends MarkerView {

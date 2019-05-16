@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,6 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +46,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
     ArrayList<ModelLifeCTextList> lifeCTextLists;
     AdapterLifeChallenge adapterLifeChallenge;
     ArrayList<ModelLifeCSelectList> lifeCSelectLists;
-    TextView sendBt;
+    TextView sendBt, yesBt, noBt, yesBt3, noBt3;
     KeyPressEditText talkEditText, talkEditText2;
 
     ArrayList<ModelChartInfoLsit> chartInfoLsits;
@@ -74,9 +76,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
     int calPotYear, calNormalYear;
 
     WheelYearPicker pickerWheel;
-    TextView pickerWheelBt, talkEditTextUnit;
+    TextView pickerWheelBt;
 
-    View bottomLayout;
+    LinearLayout bottomLayout, bottomLayout2, bottomLayout3;
     Handler handler = new Handler();
 
     @Override
@@ -99,7 +101,15 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         }
         bottomLayout = findViewById(R.id.bottomLayout);
 
-        talkEditTextUnit = findViewById(R.id.talkEditTextUnit);
+        yesBt = findViewById(R.id.yesBt);
+        noBt = findViewById(R.id.noBt);
+        bottomLayout2 = findViewById(R.id.bottomLayout2);
+
+        bottomLayout3 = findViewById(R.id.bottomLayout3);
+        yesBt3 = findViewById(R.id.yesBt3);
+        noBt3 = findViewById(R.id.noBt3);
+
+
 
         pickerWheel = findViewById(R.id.pickerWheel);
         pickerWheel.setYearStart(1);
@@ -136,34 +146,25 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         recyclerView.setAdapter(adapterLifeChallenge);
 
 
-        lifeCTextLists.add(new ModelLifeCTextList("안녕? 나는 챗봇이야. 만나서 반가워!",0, ""));
+        lifeCTextLists.add(new ModelLifeCTextList("안녕? 나는 챗봇이야. \n너의 목표를 이뤄줄 수 있도록 도와줄게!","", 0, ""));
         adapterLifeChallenge.notifyDataSetChanged();
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                lifeCTextLists.add(new ModelLifeCTextList("너의 목표를 이루어 줄 수 있도록 도와줄게!",0, ""));
-
-                adapterLifeChallenge.notifyDataSetChanged();
 
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                        lifeCTextLists.add(new ModelLifeCTextList("제일 먼저, 왜 투자가 하고 싶어?",2, tiem));
+                        lifeCTextLists.add(new ModelLifeCTextList("먼저, 투자하려는 목적이 뭐야?","",2, tiem));
 
-                        lifeCSelectLists.add(new ModelLifeCSelectList("내집마련",0));
-                        lifeCSelectLists.add(new ModelLifeCSelectList("빌딩사기",1));
-                        lifeCSelectLists.add(new ModelLifeCSelectList("땅사기",2));
-                        lifeCSelectLists.add(new ModelLifeCSelectList("직접입력",3));
+                        lifeCSelectLists.add(new ModelLifeCSelectList("내 집 마련",0));
+                        lifeCSelectLists.add(new ModelLifeCSelectList("자동차 구입",1));
+                        lifeCSelectLists.add(new ModelLifeCSelectList("노후 준비",2));
+                        lifeCSelectLists.add(new ModelLifeCSelectList("자녀 학비",3));
+                        lifeCSelectLists.add(new ModelLifeCSelectList("여행 자금",4));
+                        lifeCSelectLists.add(new ModelLifeCSelectList("직접 입력",5));
 
                         adapterLifeChallenge.notifyDataSetChanged();
                     }
                 }, 700);
-
-            }
-        }, 700);
 
 
         recyclerView.postDelayed(new Runnable() {
@@ -184,8 +185,11 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     visibleDestinyTitle(false);
 
-                    lifeCTextLists.add(new ModelLifeCTextList("내집마련",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("멋지다!! 정해 놓은 목표금액이 있어?",5 ,time));
+                    lifeCTextLists.add(new ModelLifeCTextList("내 집 마련","",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("멋지다! 혹시 정해놓은 목표 금액이 있을까?","",0 ,time));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",11,""));
+
+                    visibleSelectBt(true);
 
                     adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
 
@@ -201,8 +205,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     visibleDestinyTitle(false);
 
-                    lifeCTextLists.add(new ModelLifeCTextList("빌딩사기",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("멋지다!! 정해 놓은 목표금액이 있어?",5 ,time));
+                    lifeCTextLists.add(new ModelLifeCTextList("자동차 구입","",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("멋지다! 혹시 정해놓은 목표 금액이 있을까?","",5 ,time));
 
                     adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
 
@@ -217,8 +221,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     visibleDestinyTitle(false);
 
-                    lifeCTextLists.add(new ModelLifeCTextList("땅사기",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("멋지다!! 정해 놓은 목표금액이 있어?",5 ,time));
+                    lifeCTextLists.add(new ModelLifeCTextList("노후 준비","",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("멋지다! 혹시 정해놓은 목표 금액이 있을까?","",5 ,time));
 
                     adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
 
@@ -229,7 +233,41 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                         }
                     }, 100);
                 }
+
                 else if(category == 3){
+
+                    visibleDestinyTitle(false);
+
+                    lifeCTextLists.add(new ModelLifeCTextList("자녀 학비","",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("멋지다! 혹시 정해놓은 목표 금액이 있을까?","",5 ,time));
+
+                    adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
+
+                    recyclerView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                        }
+                    }, 100);
+                }
+
+                else if(category == 4){
+
+                    visibleDestinyTitle(false);
+
+                    lifeCTextLists.add(new ModelLifeCTextList("여행 자금","",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("멋지다! 혹시 정해놓은 목표 금액이 있을까?","",5 ,time));
+
+                    adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
+
+                    recyclerView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                        }
+                    }, 100);
+                }
+                else if(category == 5){
 
                     visibleDestinyTitle(true);
 
@@ -346,8 +384,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     TextFlag = false;
 
-                    lifeCTextLists.add(new ModelLifeCTextList(talkEditText2.getText().toString(),1, tiem));
-                    lifeCTextLists.add(new ModelLifeCTextList("멋지다!! 정해 놓은 목표금액이 있어?",5, time));
+                    lifeCTextLists.add(new ModelLifeCTextList(talkEditText2.getText().toString(),"",1, tiem));
+                    lifeCTextLists.add(new ModelLifeCTextList("멋지다! 혹시 정해놓은 목표 금액이 있을까?","",5, time));
 
                     talkEditText2.setText("");
                     talkEditText2.setEnabled(false);
@@ -375,8 +413,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     selectYear = Long.valueOf(talkEditText.getText().toString());
 
-                    lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"년",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!",0, time));
+                    lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"년","",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!","",0, time));
 
                     talkEditText.setText("");
                     talkEditText.setEnabled(false);
@@ -386,9 +424,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     calculatedYield();
 
-                    lifeCTextLists.add(new ModelLifeCTextList("",3, tiem));
-                    lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?",0, ""));
-                    lifeCTextLists.add(new ModelLifeCTextList("",4, ""));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",3, tiem));
+                    lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?","",0, ""));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",4, ""));
 
                     adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
                     recyclerView.postDelayed(new Runnable() {
@@ -414,8 +452,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                         Date date = new Date();
                         String time = new SimpleDateFormat("aa hh:mm").format(date);
 
-                        lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원",1, time));
-                        lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!",0, time));
+                        lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원","",1, time));
+                        lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!","",0, time));
 
                         visiblePrice(false);
 
@@ -427,9 +465,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                         calculatedYield();
 
-                        lifeCTextLists.add(new ModelLifeCTextList("",3, time));
-                        lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?",0, ""));
-                        lifeCTextLists.add(new ModelLifeCTextList("",4, ""));
+                        lifeCTextLists.add(new ModelLifeCTextList("","",3, time));
+                        lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?","",0, ""));
+                        lifeCTextLists.add(new ModelLifeCTextList("","",4, ""));
 
                         adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
                         recyclerView.postDelayed(new Runnable() {
@@ -459,11 +497,12 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     basicPrice = Float.valueOf(talkEditText.getText().toString());
 
-                    lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원","",1, time));
 
                     if(basicPrice >= 10){
 
-                        lifeCTextLists.add(new ModelLifeCTextList("월마다 일정 금액을 추가로 투자할 계획이 있어?", 7, time));
+                        lifeCTextLists.add(new ModelLifeCTextList("월마다 일정 금액을 추가로 투자할 계획이 있어?", "*적립식 투자는 최소 10만원부터 가능합니다.",0, time));
+                        lifeCTextLists.add(new ModelLifeCTextList("", "", 11, ""));
 
                         talkEditText.setText("");
                         talkEditText.setEnabled(false);
@@ -477,9 +516,11 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                             }
                         }, 100);
 
+                        visibleSelectBt3(true);
+
                     }else{
 
-                        lifeCTextLists.add(new ModelLifeCTextList("월에 얼마씩 넣을꺼야?",0, time));
+                        lifeCTextLists.add(new ModelLifeCTextList("월에 얼마씩 넣을꺼야?","",0, time));
 
                         talkEditText.setText("");
                         talkEditText.setEnabled(false);
@@ -518,8 +559,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                         PriceFlag = false;
 
-                        lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원",1, time));
-                        lifeCTextLists.add(new ModelLifeCTextList("초기 자본금은 얼마를 원해?",0, time));
+                        lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원","",1, time));
+                        lifeCTextLists.add(new ModelLifeCTextList("그럼, 현재 준비되어 있는 돈이 있을까?","",0, time));
 
                         talkEditText.setText("");
                         talkEditText.setEnabled(false);
@@ -561,8 +602,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     selectYear = (long)pickerWheel.getSelectedYear();
 
-                    lifeCTextLists.add(new ModelLifeCTextList(String.valueOf(selectYear)+"년",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!",0, time));
+                    lifeCTextLists.add(new ModelLifeCTextList(String.valueOf(selectYear)+"년","",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!","",0, time));
 
                     talkEditText.setText("");
                     talkEditText.setEnabled(false);
@@ -572,9 +613,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     calculatedYield3();
 
-                    lifeCTextLists.add(new ModelLifeCTextList("",8, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?",0, ""));
-                    lifeCTextLists.add(new ModelLifeCTextList("",4, ""));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",8, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?","",0, ""));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",4, ""));
 
                     adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
                     recyclerView.postDelayed(new Runnable() {
@@ -602,10 +643,10 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     hadPrice = Long.valueOf(talkEditText.getText().toString());
 
-                    lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("몇 년 동안 투자하고 싶어?",0, time));
+                    lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원","",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("몇 년 동안 투자하고 싶어?","",0, time));
 
-                    lifeCTextLists.add(new ModelLifeCTextList("",9,""));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",9,""));
 
                     visibleYear(true);
 
@@ -637,8 +678,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     selectYear = (long)pickerWheel.getSelectedYear();
 
-                    lifeCTextLists.add(new ModelLifeCTextList(String.valueOf(selectYear)+"년",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!",0, time));
+                    lifeCTextLists.add(new ModelLifeCTextList(String.valueOf(selectYear)+"년","",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!","",0, time));
 
                     talkEditText.setText("");
                     talkEditText.setEnabled(false);
@@ -648,9 +689,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     calculatedYield2();
 
-                    lifeCTextLists.add(new ModelLifeCTextList("",8, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?",0, ""));
-                    lifeCTextLists.add(new ModelLifeCTextList("",4, ""));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",8, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?","",0, ""));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",4, ""));
 
                     adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
                     recyclerView.postDelayed(new Runnable() {
@@ -678,10 +719,10 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     monthlyPrice = Long.valueOf(talkEditText.getText().toString());
 
-                    lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("몇 년 동안 투자하고 싶어?",0, time));
+                    lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원","",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("몇 년 동안 투자하고 싶어?","",0, time));
 
-                    lifeCTextLists.add(new ModelLifeCTextList("",9,""));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",9,""));
 
                     visibleYear(true);
 
@@ -720,8 +761,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     selectYear = (long)pickerWheel.getCurrentYear();
 
-                    lifeCTextLists.add(new ModelLifeCTextList(String.valueOf(selectYear)+"년",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!",0, time));
+                    lifeCTextLists.add(new ModelLifeCTextList(String.valueOf(selectYear)+"년","",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!","",0, time));
 
                     talkEditText.setText("");
                     talkEditText.setEnabled(false);
@@ -731,9 +772,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     calculatedYield2();
 
-                    lifeCTextLists.add(new ModelLifeCTextList("",8, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?",0, ""));
-                    lifeCTextLists.add(new ModelLifeCTextList("",4, ""));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",8, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?","",0, ""));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",4, ""));
 
                     adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
                     recyclerView.postDelayed(new Runnable() {
@@ -755,8 +796,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     selectYear = (long)pickerWheel.getCurrentYear();
 
-                    lifeCTextLists.add(new ModelLifeCTextList(String.valueOf(selectYear)+"년",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!",0, time));
+                    lifeCTextLists.add(new ModelLifeCTextList(String.valueOf(selectYear)+"년","",1, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!","",0, time));
 
                     talkEditText.setText("");
                     talkEditText.setEnabled(false);
@@ -766,9 +807,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     calculatedYield3();
 
-                    lifeCTextLists.add(new ModelLifeCTextList("",8, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?",0, ""));
-                    lifeCTextLists.add(new ModelLifeCTextList("",4, ""));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",8, time));
+                    lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?","",0, ""));
+                    lifeCTextLists.add(new ModelLifeCTextList("","",4, ""));
 
                     adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
                     recyclerView.postDelayed(new Runnable() {
@@ -786,71 +827,71 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         });
 
 
-        adapterLifeChallenge.setBotSelect2YesClick(new AdapterLifeChallenge.BotSelect2YesClick() {
-            @Override
-            public void onClick(int position) {
+//        adapterLifeChallenge.setBotSelect2YesClick(new AdapterLifeChallenge.BotSelect2YesClick() {
+//            @Override
+//            public void onClick(int position) {
+//
+//                Date date = new Date();
+//                String time = new SimpleDateFormat("aa hh:mm").format(date);
+//
+//                lifeCTextLists.add(new ModelLifeCTextList("응, 있지!",1, time));
+//                lifeCTextLists.add(new ModelLifeCTextList("와, 궁금하다! 얼마인지 알려줄 수 있어?",0, time));
+//
+//                adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
+//                recyclerView.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+//                    }
+//                }, 100);
+//
+//                visiblePrice(true);
+//
+//                talkEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+//                talkEditText.setEnabled(true);
+//                sendBt.setEnabled(true);
+//
+//                PriceFlag = true;
+//
+//            }
+//        });
 
-                Date date = new Date();
-                String time = new SimpleDateFormat("aa hh:mm").format(date);
-
-                lifeCTextLists.add(new ModelLifeCTextList("응, 있지!",1, time));
-                lifeCTextLists.add(new ModelLifeCTextList("와, 궁금하다! 얼마인지 알려줄 수 있어?",0, time));
-
-                adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
-                recyclerView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
-                    }
-                }, 100);
-
-                visiblePrice(true);
-
-                talkEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                talkEditText.setEnabled(true);
-                sendBt.setEnabled(true);
-
-                PriceFlag = true;
-
-            }
-        });
-
-        adapterLifeChallenge.setBotSelect2NoClick(new AdapterLifeChallenge.BotSelect2NoClick() {
-            @Override
-            public void onClick(int position) {
-
-                visiblePrice(false);
-
-                Date date = new Date();
-                String time = new SimpleDateFormat("aa hh:mm").format(date);
-
-                        lifeCTextLists.add(new ModelLifeCTextList("아니, 없어",1, time));
-
-
-                        lifeCTextLists.add(new ModelLifeCTextList("괜찮아, 이제부터 시작해도 늦지 않았으니까!",0, time));
-                        adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
-                        recyclerView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
-                            }
-                        });
-
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                lifeCTextLists.add(new ModelLifeCTextList("월마다 조금씩 모으고 싶어?\n아니면 한번에 모아둔 돈으로 투자해볼까?",6, time));
-                                adapterLifeChallenge.notifyDataSetChanged();
-                                recyclerView.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
-                                    }
-                                });
-                            }
-                        }, 700);
-            }
-        });
+//        adapterLifeChallenge.setBotSelect2NoClick(new AdapterLifeChallenge.BotSelect2NoClick() {
+//            @Override
+//            public void onClick(int position) {
+//
+//                visiblePrice(false);
+//
+//                Date date = new Date();
+//                String time = new SimpleDateFormat("aa hh:mm").format(date);
+//
+//                        lifeCTextLists.add(new ModelLifeCTextList("아니, 없어",1, time));
+//
+//
+//                        lifeCTextLists.add(new ModelLifeCTextList("괜찮아, 이제부터 시작해도 늦지 않았으니까!",0, time));
+//                        adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
+//                        recyclerView.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+//                            }
+//                        });
+//
+//                        handler.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                lifeCTextLists.add(new ModelLifeCTextList("월마다 조금씩 모으고 싶어?\n아니면 한번에 모아둔 돈으로 투자해볼까?",6, time));
+//                                adapterLifeChallenge.notifyDataSetChanged();
+//                                recyclerView.post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+//                                    }
+//                                });
+//                            }
+//                        }, 700);
+//            }
+//        });
 
         //월마다 할래
         adapterLifeChallenge.setBotMonthlyYesClick(new AdapterLifeChallenge.BotMonthlyYesClick() {
@@ -860,8 +901,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
 
-                lifeCTextLists.add(new ModelLifeCTextList("응, 있지!",1, time));
-                lifeCTextLists.add(new ModelLifeCTextList("월에 얼마씩 넣을꺼야?",0, time));
+                lifeCTextLists.add(new ModelLifeCTextList("응, 있지!","",1, time));
+                lifeCTextLists.add(new ModelLifeCTextList("월에 얼마씩 넣을꺼야?","",0, time));
 
                 talkEditText.setText("");
                 talkEditText.setEnabled(false);
@@ -895,13 +936,13 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
 
-                lifeCTextLists.add(new ModelLifeCTextList("아니, 없어",1, time));
+                lifeCTextLists.add(new ModelLifeCTextList("아니, 없어","",1, time));
 
                 chartFlag = false;
 
                 monthlyPrice = 0L;
 
-                lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!",0, time));
+                lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!","",0, time));
 
                 talkEditText.setText("");
                 talkEditText.setEnabled(false);
@@ -911,10 +952,10 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                 calculatedYield();
 
-                lifeCTextLists.add(new ModelLifeCTextList("",3, time));
-                lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?",0, ""));
+                lifeCTextLists.add(new ModelLifeCTextList("","",3, time));
+                lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?","",0, ""));
 
-                lifeCTextLists.add(new ModelLifeCTextList("",4, ""));
+                lifeCTextLists.add(new ModelLifeCTextList("","",4, ""));
 
                 adapterLifeChallenge.notifyDataSetChanged();
                 recyclerView.postDelayed(new Runnable() {
@@ -935,9 +976,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
-                lifeCTextLists.add(new ModelLifeCTextList("월 마다!",1, time));
+                lifeCTextLists.add(new ModelLifeCTextList("월 마다!","",1, time));
 
-                lifeCTextLists.add(new ModelLifeCTextList("월에 얼마씩 넣을꺼야?",0, time));
+                lifeCTextLists.add(new ModelLifeCTextList("월에 얼마씩 넣을꺼야?","",0, time));
 
                 talkEditText.setText("");
                 talkEditText.setEnabled(false);
@@ -969,9 +1010,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
-                lifeCTextLists.add(new ModelLifeCTextList("모아둔 돈으로 한번에!",1, time));
+                lifeCTextLists.add(new ModelLifeCTextList("모아둔 돈으로 한번에!","",1, time));
 
-                lifeCTextLists.add(new ModelLifeCTextList("얼마나 넣을 생각이야?",0, time));
+                lifeCTextLists.add(new ModelLifeCTextList("얼마나 넣을 생각이야?","",0, time));
 
                 talkEditText.setText("");
                 talkEditText.setEnabled(false);
@@ -1017,6 +1058,156 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         });
 
 
+        yesBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                visibleSelectBt(false);
+
+                Date date = new Date();
+                String time = new SimpleDateFormat("aa hh:mm").format(date);
+
+                lifeCTextLists.remove(lifeCTextLists.size()-1);
+                lifeCTextLists.add(new ModelLifeCTextList("응, 있지!","",1, time));
+                lifeCTextLists.add(new ModelLifeCTextList("와, 궁금하다! 얼마인지 알려줄 수 있어?","",0, time));
+
+                adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
+                recyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                    }
+                }, 100);
+
+                visiblePrice(true);
+
+                talkEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                talkEditText.setEnabled(true);
+                sendBt.setEnabled(true);
+
+                PriceFlag = true;
+
+            }
+        });
+
+        noBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                visibleSelectBt(false);
+
+                visiblePrice(false);
+
+                Date date = new Date();
+                String time = new SimpleDateFormat("aa hh:mm").format(date);
+
+                lifeCTextLists.remove(lifeCTextLists.size()-1);
+                lifeCTextLists.add(new ModelLifeCTextList("아니, 없어","",1, time));
+
+
+                lifeCTextLists.add(new ModelLifeCTextList("괜찮아, 이제부터 시작해도 늦지 않았으니까!","",0, time));
+                adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
+                recyclerView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                    }
+                });
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lifeCTextLists.add(new ModelLifeCTextList("월마다 조금씩 모으고 싶어?\n아니면 한번에 모아둔 돈으로 투자해볼까?","",6, time));
+                        adapterLifeChallenge.notifyDataSetChanged();
+                        recyclerView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                            }
+                        });
+                    }
+                }, 700);
+            }
+        });
+
+
+        yesBt3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                visibleSelectBt3(false);
+
+                Date date = new Date();
+                String time = new SimpleDateFormat("aa hh:mm").format(date);
+
+                lifeCTextLists.remove(lifeCTextLists.size()-1);
+                lifeCTextLists.add(new ModelLifeCTextList("응, 있지!","",1, time));
+                lifeCTextLists.add(new ModelLifeCTextList("월에 얼마씩 넣을꺼야?","",0, time));
+
+                talkEditText.setText("");
+                talkEditText.setEnabled(false);
+                sendBt.setEnabled(false);
+
+                adapterLifeChallenge.notifyItemChanged(lifeCTextLists.size()-1);
+                recyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
+                        visiblePrice(true);
+                    }
+                }, 100);
+
+                chartFlag = true;
+
+                talkEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                talkEditText.setEnabled(true);
+                sendBt.setEnabled(true);
+
+
+            }
+        });
+
+        noBt3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                visibleSelectBt3(false);
+
+                visiblePrice(false);
+
+                Date date = new Date();
+                String time = new SimpleDateFormat("aa hh:mm").format(date);
+
+                lifeCTextLists.remove(lifeCTextLists.size()-1);
+                lifeCTextLists.add(new ModelLifeCTextList("아니, 없어","",1, time));
+
+                chartFlag = false;
+
+                monthlyPrice = 0L;
+
+                lifeCTextLists.add(new ModelLifeCTextList("좋아! 이제 너만을 위한 라이프 챌린지가 완성됐어!!","",0, time));
+
+                talkEditText.setText("");
+                talkEditText.setEnabled(false);
+                sendBt.setEnabled(false);
+
+                entries.clear();
+
+                calculatedYield();
+
+                lifeCTextLists.add(new ModelLifeCTextList("","",3, time));
+                lifeCTextLists.add(new ModelLifeCTextList("너만을 위한 상품이 준비되어 있어!\n바로 확인해볼래?","",0, ""));
+
+                lifeCTextLists.add(new ModelLifeCTextList("","",4, ""));
+
+                adapterLifeChallenge.notifyDataSetChanged();
+                recyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.smoothScrollToPosition(lifeCTextLists.size()-3);
+                    }
+                }, 100);
+            }
+        });
+
+
     }// onCreate 끝
 
 
@@ -1024,32 +1215,40 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         if(visible){
             bottomLayout.setVisibility(View.VISIBLE);
             bottomLayout.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
-            talkEditText2.setVisibility(View.VISIBLE);
-            talkEditText2.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
-            sendBt.setVisibility(View.VISIBLE);
-            sendBt.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
         }else{
             bottomLayout.setVisibility(View.GONE);
             talkEditText2.setVisibility(View.GONE);
-            sendBt.setVisibility(View.GONE);
+            talkEditText.setVisibility(View.VISIBLE);
         }
     }
+
+    private void visibleSelectBt(boolean visible){
+        if(visible){
+            bottomLayout2.setVisibility(View.VISIBLE);
+            bottomLayout2.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up_select));
+        }else{
+            bottomLayout2.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void visibleSelectBt3(boolean visible){
+        if(visible){
+            bottomLayout3.setVisibility(View.VISIBLE);
+            bottomLayout3.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up_select));
+        }else{
+            bottomLayout3.setVisibility(View.INVISIBLE);
+        }
+    }
+
 
     private void visiblePrice(boolean visible){
         if(visible){
             bottomLayout.setVisibility(View.VISIBLE);
-            bottomLayout.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
             talkEditText.setVisibility(View.VISIBLE);
-            talkEditText.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
-            sendBt.setVisibility(View.VISIBLE);
-            sendBt.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
-            talkEditTextUnit.setVisibility(View.VISIBLE);
-            talkEditTextUnit.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
+            bottomLayout.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bot_up));
         }else{
             bottomLayout.setVisibility(View.GONE);
             talkEditText.setVisibility(View.GONE);
-            sendBt.setVisibility(View.GONE);
-            talkEditTextUnit.setVisibility(View.GONE);
         }
     }
 

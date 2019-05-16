@@ -34,89 +34,250 @@
         android:paddingBottom="5dp"
         />
 
-   <View
-       android:id="@+id/bottomLayout"
-       android:layout_width="match_parent"
-       android:layout_height="56dp"
-       android:background="#8c8c8c"
-       app:layout_constraintBottom_toBottomOf="parent"
-       android:visibility="invisible"
-       />
-
-    <quantec.com.moneypot.Util.SoftKeyboardUtil.KeyPressEditText
-        android:id="@+id/talkEditText2"
+    <LinearLayout
+        android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/rectangle_dark_gray"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="73dp"
-        android:maxWidth="250dp"
-        android:maxLines="1"
-        android:maxLength="10"
-        android:paddingStart="10dp"
-        android:enabled="false"
-        android:textAlignment="center"
-        android:textColor="@color/text_black_color"
-        android:inputType="textWebEditText"
+        android:background="#f4f4f4"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:visibility="invisible"
-        android:imeOptions="actionDone"
-        />
+        >
+        <ImageView
+            android:id="@+id/botInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_question_gray"
+            android:layout_marginStart="16dp"
+            />
 
-    <quantec.com.moneypot.Util.SoftKeyboardUtil.KeyPressEditText
-        android:id="@+id/talkEditText"
-        android:layout_width="120dp"
-        android:layout_height="36dp"
+        <quantec.com.moneypot.Util.SoftKeyboardUtil.KeyPressEditText
+            android:id="@+id/talkEditText2"
+            android:layout_width="220dp"
+            android:layout_height="36dp"
+            android:background="@drawable/circle_gray_line"
+            android:maxWidth="250dp"
+            android:maxLines="1"
+            android:maxLength="15"
+            android:paddingStart="10dp"
+            android:enabled="false"
+            android:textAlignment="center"
+            android:textColor="@color/text_black_color"
+            android:inputType="textWebEditText"
+            android:imeOptions="actionDone"
+            android:hint="목적을 입력해 주세요."
+            android:layout_marginStart="12dp"
+            android:textSize="14dp"
+            android:visibility="visible"
+            />
+
+        <quantec.com.moneypot.Util.SoftKeyboardUtil.KeyPressEditText
+            android:id="@+id/talkEditText"
+            android:layout_width="220dp"
+            android:layout_height="36dp"
+            android:background="@drawable/circle_gray_line"
+            android:maxWidth="250dp"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:paddingStart="10dp"
+            android:enabled="false"
+            android:textAlignment="center"
+            android:textColor="@color/text_black_color"
+            android:inputType="number"
+            android:imeOptions="actionDone"
+            android:hint="금액을 입력해 주세요."
+            android:layout_marginStart="12dp"
+            android:textSize="14dp"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/sendBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textColor="@color/text_black_color"
+            android:text="보내기"
+            android:layout_marginStart="14dp"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/bottomLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/rectangle_dark_gray"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="69dp"
-        android:maxWidth="250dp"
-        android:maxLines="1"
-        android:maxLength="10"
-        android:paddingStart="10dp"
-        android:enabled="false"
-        android:textAlignment="center"
-        android:textColor="@color/text_black_color"
-        android:inputType="number"
+        android:background="#f4f4f4"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:visibility="invisible"
-        android:imeOptions="actionDone"
-        />
+        >
+        <ImageView
+            android:id="@+id/botInfo2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_question_gray"
+            android:layout_marginStart="16dp"
+            />
 
-    <TextView
-        android:id="@+id/talkEditTextUnit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="만원"
-        android:textColor="@color/text_black_color"
-        app:layout_constraintTop_toTopOf="@+id/talkEditText"
-        app:layout_constraintBottom_toBottomOf="@+id/talkEditText"
-        app:layout_constraintStart_toEndOf="@+id/talkEditText"
-        android:textSize="14dp"
-        android:layout_marginStart="10dp"
-        android:visibility="invisible"
-        />
+        <TextView
+            android:id="@+id/yesBt"
+            android:layout_width="82dp"
+            android:layout_height="40dp"
+            android:text="응, 있지!"
+            android:textSize="14dp"
+            android:textColor="@color/text_black_color"
+            android:gravity="center"
+            android:background="@drawable/circle_gray_line"
+            android:layout_marginStart="54dp"
+            />
+        <TextView
+            android:id="@+id/noBt"
+            android:layout_width="82dp"
+            android:layout_height="40dp"
+            android:text="아니, 없어."
+            android:textSize="14dp"
+            android:textColor="@color/text_black_color"
+            android:gravity="center"
+            android:background="@drawable/circle_gray_line"
+            android:layout_marginStart="16dp"
+            />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/sendBt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="보내기"
-        android:textColor="@color/text_black_color"
-        app:layout_constraintTop_toTopOf="@+id/talkEditText"
-        app:layout_constraintBottom_toBottomOf="@+id/talkEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="14dp"
-        android:layout_marginEnd="30dp"
-        android:enabled="false"
+
+    <LinearLayout
+        android:id="@+id/bottomLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#f4f4f4"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:visibility="invisible"
-        />
+        >
+        <ImageView
+            android:id="@+id/botInfo3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_question_gray"
+            android:layout_marginStart="16dp"
+            />
+
+        <TextView
+            android:id="@+id/yesBt3"
+            android:layout_width="82dp"
+            android:layout_height="40dp"
+            android:text="응, 있지!"
+            android:textSize="14dp"
+            android:textColor="@color/text_black_color"
+            android:gravity="center"
+            android:background="@drawable/circle_gray_line"
+            android:layout_marginStart="54dp"
+            />
+        <TextView
+            android:id="@+id/noBt3"
+            android:layout_width="82dp"
+            android:layout_height="40dp"
+            android:text="아니, 없어."
+            android:textSize="14dp"
+            android:textColor="@color/text_black_color"
+            android:gravity="center"
+            android:background="@drawable/circle_gray_line"
+            android:layout_marginStart="16dp"
+            />
+    </LinearLayout>
+
+
+   <!--<View-->
+       <!--android:id="@+id/bottomLayout"-->
+       <!--android:layout_width="match_parent"-->
+       <!--android:layout_height="56dp"-->
+       <!--android:background="#8c8c8c"-->
+       <!--app:layout_constraintBottom_toBottomOf="parent"-->
+       <!--android:visibility="invisible"-->
+       <!--/>-->
+
+    <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--/>-->
+
+    <!--<quantec.com.moneypot.Util.SoftKeyboardUtil.KeyPressEditText-->
+        <!--android:id="@+id/talkEditText2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="36dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--android:background="@drawable/rectangle_dark_gray"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginEnd="73dp"-->
+        <!--android:maxWidth="250dp"-->
+        <!--android:maxLines="1"-->
+        <!--android:maxLength="10"-->
+        <!--android:paddingStart="10dp"-->
+        <!--android:enabled="false"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textColor="@color/text_black_color"-->
+        <!--android:inputType="textWebEditText"-->
+        <!--android:visibility="invisible"-->
+        <!--android:imeOptions="actionDone"-->
+        <!--/>-->
+
+    <!--<quantec.com.moneypot.Util.SoftKeyboardUtil.KeyPressEditText-->
+        <!--android:id="@+id/talkEditText"-->
+        <!--android:layout_width="120dp"-->
+        <!--android:layout_height="36dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--android:background="@drawable/rectangle_dark_gray"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginEnd="69dp"-->
+        <!--android:maxWidth="250dp"-->
+        <!--android:maxLines="1"-->
+        <!--android:maxLength="10"-->
+        <!--android:paddingStart="10dp"-->
+        <!--android:enabled="false"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textColor="@color/text_black_color"-->
+        <!--android:inputType="number"-->
+        <!--android:visibility="invisible"-->
+        <!--android:imeOptions="actionDone"-->
+        <!--/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/talkEditTextUnit"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="만원"-->
+        <!--android:textColor="@color/text_black_color"-->
+        <!--app:layout_constraintTop_toTopOf="@+id/talkEditText"-->
+        <!--app:layout_constraintBottom_toBottomOf="@+id/talkEditText"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/talkEditText"-->
+        <!--android:textSize="14dp"-->
+        <!--android:layout_marginStart="10dp"-->
+        <!--android:visibility="invisible"-->
+        <!--/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/sendBt"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="보내기"-->
+        <!--android:textColor="@color/text_black_color"-->
+        <!--app:layout_constraintTop_toTopOf="@+id/talkEditText"-->
+        <!--app:layout_constraintBottom_toBottomOf="@+id/talkEditText"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--android:textSize="14dp"-->
+        <!--android:layout_marginEnd="30dp"-->
+        <!--android:enabled="false"-->
+        <!--android:visibility="invisible"-->
+        <!--/>-->
 
 
     <quantec.com.moneypot.Activity.ActivityLifeChallenge.WheelYearPicker

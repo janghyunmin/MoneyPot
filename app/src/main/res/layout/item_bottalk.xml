@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
-        android:text="와! 멋지다 정해 놓은 목표 금액은 있어?"
+        android:lineSpacingMultiplier="1.2"
         />
 
     <TextView

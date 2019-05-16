@@ -14,10 +14,9 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="20dp"
         >
-
         <TextView
             android:id="@+id/selectTitle"
-            android:layout_width="match_parent"
+            android:layout_width="207dp"
             android:layout_height="50dp"
             android:gravity="center"
             android:background="@drawable/chatbot_select_gray"
@@ -28,7 +27,7 @@
 
         <TextView
             android:id="@+id/select1"
-            android:layout_width="200dp"
+            android:layout_width="207dp"
             android:layout_height="50dp"
             android:text="내 집 마련"
             android:gravity="center"
@@ -37,25 +36,43 @@
             />
         <TextView
             android:id="@+id/select2"
-            android:layout_width="200dp"
+            android:layout_width="207dp"
             android:layout_height="50dp"
-            android:text="빌딩 사기"
+            android:text="자동차 구입"
             android:gravity="center"
             android:textColor="@color/text_black_color"
             android:background="@drawable/chatbot_select_white"
             />
         <TextView
             android:id="@+id/select3"
-            android:layout_width="200dp"
+            android:layout_width="207dp"
             android:layout_height="50dp"
-            android:text="땅 사기"
+            android:text="노후 준비"
             android:gravity="center"
             android:textColor="@color/text_black_color"
             android:background="@drawable/chatbot_select_white"
             />
         <TextView
             android:id="@+id/select4"
-            android:layout_width="200dp"
+            android:layout_width="207dp"
+            android:layout_height="50dp"
+            android:text="자녀 학비"
+            android:gravity="center"
+            android:textColor="@color/text_black_color"
+            android:background="@drawable/chatbot_select_white"
+            />
+        <TextView
+            android:id="@+id/select5"
+            android:layout_width="207dp"
+            android:layout_height="50dp"
+            android:text="여행 자금"
+            android:gravity="center"
+            android:textColor="@color/text_black_color"
+            android:background="@drawable/chatbot_select_white"
+            />
+        <TextView
+            android:id="@+id/select6"
+            android:layout_width="207dp"
             android:layout_height="50dp"
             android:text="직접 입력"
             android:gravity="center"
