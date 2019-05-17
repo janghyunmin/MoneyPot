@@ -152,11 +152,14 @@
         android:background="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
         >
         <ProgressBar
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -34,11 +34,13 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Handler;
 
 import quantec.com.moneypot.R;
+import quantec.com.moneypot.Util.MoneyFormatToWon.MoneyFormatToWon;
 
 public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -48,7 +50,6 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     private final int MYTALK = 1;
     private final int BOTSELECT = 2;
     private final int BOTCHART = 3;
-    private final int BOTEND = 4;
     private final int BOTSELECT2 = 5;
     private final int BOTSELECT3 = 6;
     private final int BOTMONTHLYSELECT = 7;
@@ -209,11 +210,11 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         else if(viewType == BOTLOADING){
             return new BotLoadingViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botloading, parent, false));
         }
-        else if(viewType == BOTSPACESMALL){
+//        else if(viewType == BOTSPACESMALL){
+//            return new BotSpaceSmallViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botspacesmall, parent, false));
+//        }
+        else{
             return new BotSpaceSmallViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botspacesmall, parent, false));
-        }
-        else {
-            return new BotEndViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botend, parent, false));
         }
     }
 
@@ -222,9 +223,17 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
         if(holder instanceof BotTalkViewHolder){
 
-            if(lifeCTextLists.get(position).getSubTitle().isEmpty()){
+            if(lifeCTextLists.get(position).getSubTitle().isEmpty() && lifeCTextLists.get(position).getLongSubTitle().isEmpty()){
                 ((BotTalkViewHolder)holder).talk.setText(lifeCTextLists.get(position).getTalk());
-            }else{
+            }
+            else if(lifeCTextLists.get(position).getSubTitle().isEmpty() && !lifeCTextLists.get(position).getLongSubTitle().isEmpty()){
+                String title = lifeCTextLists.get(position).getTalk()+"\n"+lifeCTextLists.get(position).getLongSubTitle();
+                SpannableStringBuilder ssb = new SpannableStringBuilder(title);
+                ssb.setSpan(new ForegroundColorSpan(Color.GRAY), 35, 61, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new AbsoluteSizeSpan(10, true), 35,61, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ((BotTalkViewHolder)holder).talk.setText(ssb);
+            }
+            else{
                 String title = lifeCTextLists.get(position).getTalk()+"\n"+lifeCTextLists.get(position).getSubTitle();
                 SpannableStringBuilder ssb = new SpannableStringBuilder(title);
                 ssb.setSpan(new ForegroundColorSpan(Color.GRAY), 27, 52, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -232,7 +241,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 ((BotTalkViewHolder)holder).talk.setText(ssb);
             }
 
-            if(!lifeCTextLists.get(position).getTime().equals("")){
+            if(!lifeCTextLists.get(position).getTime().isEmpty()){
                 ((BotTalkViewHolder)holder).time.setText(lifeCTextLists.get(position).getTime());
             }
 
@@ -349,7 +358,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
                 constView = false;
 
-                lineDataSet = new LineDataSet(entries, "전략수익률");
+                lineDataSet = new LineDataSet(entries, "머니포트");
                 lineDataSet.setLineWidth(1.5f);
                 lineDataSet.setColor(Color.parseColor("#FFFF0000"));
                 lineDataSet.setDrawHorizontalHighlightIndicator(false);
@@ -364,7 +373,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 lineDataSet.setDrawCircles(false);
 
 
-                lineDataSet2 = new LineDataSet(entries2, "시장수익률");
+                lineDataSet2 = new LineDataSet(entries2, "예적금");
                 lineDataSet2.setLineWidth(1.5f);
                 lineDataSet2.setColor(Color.parseColor("#E1E1E1"));
                 lineDataSet2.setDrawHorizontalHighlightIndicator(false);
@@ -420,9 +429,12 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 ((BotChartViewHolder) holder).chart.setScaleEnabled(false);
                 ((BotChartViewHolder) holder).chart.invalidate();
 
-                ((BotChartViewHolder) holder).priceText.setText(chartInfoLsits.get(0).getPotYear()+"년" + "( "+chartInfoLsits.get(0).getNormalYear()+"년 )");
-                ((BotChartViewHolder) holder).priceText2.setText(chartInfoLsits.get(0).getTotalPrice()+"원");
-                ((BotChartViewHolder) holder).priceText3.setText(chartInfoLsits.get(0).getYieldPrice()+"원");
+                ((BotChartViewHolder) holder).priceText.setText(chartInfoLsits.get(0).getPotYear()+"년");
+                ((BotChartViewHolder) holder).yearText.setText(chartInfoLsits.get(0).getNormalYear()+"년");
+
+                ((BotChartViewHolder) holder).priceText2.setText(MoneyFormatToWon.moneyFormatToWon(chartInfoLsits.get(0).getTotalPrice())+"원");
+                ((BotChartViewHolder) holder).priceText3.setText(MoneyFormatToWon.moneyFormatToWon(chartInfoLsits.get(0).getYieldPrice())+"원");
+
 
 
                 maxX = ((BotChartViewHolder) holder).chart.getXRange();
@@ -448,7 +460,6 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                     }
                 });
             }
-
 
 
 //            if(constView) {
@@ -615,27 +626,27 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 //                });
 //            }
         }
-        else if(holder instanceof BotEndViewHolder){
-
-            ((BotEndViewHolder)holder).endJoinBt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(botEndJoinClick != null) {
-                        botEndJoinClick.onClick(position);
-                    }
-                }
-            });
-
-            ((BotEndViewHolder)holder).endRetryBt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(botEndRetryBt != null) {
-                        botEndRetryBt.onClick(position);
-                    }
-                }
-            });
-
-        }
+//        else if(holder instanceof BotEndViewHolder){
+//
+//            ((BotEndViewHolder)holder).endJoinBt.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if(botEndJoinClick != null) {
+//                        botEndJoinClick.onClick(position);
+//                    }
+//                }
+//            });
+//
+//            ((BotEndViewHolder)holder).endRetryBt.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if(botEndRetryBt != null) {
+//                        botEndRetryBt.onClick(position);
+//                    }
+//                }
+//            });
+//
+//        }
         else if(holder instanceof BotSelect2ViewHolder){
 
             if(!lifeCTextLists.get(position).getTime().equals("")){
@@ -839,12 +850,15 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         else if(lifeCTextLists.get(position).getCategory() == 10){
             return BOTLOADING;
         }
-        else if(lifeCTextLists.get(position).getCategory() == 11){
+        else {
             return BOTSPACESMALL;
         }
-        else{
-            return BOTEND;
-        }
+//        else if(lifeCTextLists.get(position).getCategory() == 11){
+//            return BOTSPACESMALL;
+//        }
+//        else{
+//            return BOTEND;
+//        }
     }
 
 
@@ -901,7 +915,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     public class BotChartViewHolder extends RecyclerView.ViewHolder {
 
         LineChart chart;
-        TextView priceText, priceText2, priceText3;
+        TextView priceText, priceText2, priceText3, yearText;
         LinearLayout chartLoading;
 
         public BotChartViewHolder(View itemView) {
@@ -912,6 +926,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             priceText = itemView.findViewById(R.id.priceText);
             priceText2 = itemView.findViewById(R.id.priceText2);
             priceText3 = itemView.findViewById(R.id.priceText3);
+            yearText = itemView.findViewById(R.id.yearText);
 
             chartLoading = itemView.findViewById(R.id.chartLoading);
             android.os.Handler handler = new android.os.Handler();
@@ -924,17 +939,17 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public class BotEndViewHolder extends RecyclerView.ViewHolder {
-
-        TextView endJoinBt, endRetryBt;
-
-        public BotEndViewHolder(View itemView) {
-            super(itemView);
-
-            endJoinBt = itemView.findViewById(R.id.endJoinBt);
-            endRetryBt = itemView.findViewById(R.id.endRetryBt);
-        }
-    }
+//    public class BotEndViewHolder extends RecyclerView.ViewHolder {
+//
+//        TextView endJoinBt, endRetryBt;
+//
+//        public BotEndViewHolder(View itemView) {
+//            super(itemView);
+//
+//            endJoinBt = itemView.findViewById(R.id.endJoinBt);
+//            endRetryBt = itemView.findViewById(R.id.endRetryBt);
+//        }
+//    }
 
     public class BotSelect2ViewHolder extends RecyclerView.ViewHolder {
 
