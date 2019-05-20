@@ -17,9 +17,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -34,10 +37,8 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.MPPointF;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.Util.MoneyFormatToWon.MoneyFormatToWon;
@@ -72,12 +73,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
     ArrayList<ModelChartInfoLsit> chartInfoLsits;
 
-    float potX, potY;
-    Canvas canvas;
     float currentX, maxX;
-
-
-    boolean changedLine = false;
 
     public AdapterLifeChallenge(ArrayList<ModelLifeCSelectList> lifeCSelectLists, ArrayList<ModelLifeCTextList> lifeCTextLists,
                                 Context context, List<Entry> entries, LineDataSet lineDataSet, LineData lineData, List<Entry> entries2, ArrayList<ModelChartInfoLsit> chartInfoLsits) {
@@ -110,13 +106,6 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         public void onClick(int position);
     }
 
-    public void setBotSelect2YesClick(BotSelect2YesClick botSelect2YesClick) {
-        this.botSelect2YesClick = botSelect2YesClick;
-    }
-
-    public void setBotSelect2NoClick(BotSelect2NoClick botSelect2NoClick) {
-        this.botSelect2NoClick = botSelect2NoClick;
-    }
 
 
     private BotSelect3MonthlyBtClick botSelect3MonthlyBtClick;
@@ -129,13 +118,6 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         public void onClick(int position);
     }
 
-    public void setBotSelect3MonthlyBtClick(BotSelect3MonthlyBtClick botSelect3MonthlyBtClick) {
-        this.botSelect3MonthlyBtClick = botSelect3MonthlyBtClick;
-    }
-
-    public void setBotSelect3TatalBtClick(BotSelect3TatalBtClick botSelect3TatalBtClick) {
-        this.botSelect3TatalBtClick = botSelect3TatalBtClick;
-    }
 
 
     private BotMonthlyYesClick botMonthlyYesClick;
@@ -210,9 +192,6 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         else if(viewType == BOTLOADING){
             return new BotLoadingViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botloading, parent, false));
         }
-//        else if(viewType == BOTSPACESMALL){
-//            return new BotSpaceSmallViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botspacesmall, parent, false));
-//        }
         else{
             return new BotSpaceSmallViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_botspacesmall, parent, false));
         }
@@ -242,7 +221,10 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             }
 
             if(!lifeCTextLists.get(position).getTime().isEmpty()){
+                ((BotTalkViewHolder)holder).time.setVisibility(View.VISIBLE);
                 ((BotTalkViewHolder)holder).time.setText(lifeCTextLists.get(position).getTime());
+            }else{
+                ((BotTalkViewHolder)holder).time.setVisibility(View.GONE);
             }
 
         }
@@ -367,7 +349,6 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 lineDataSet.setDrawHighlightIndicators(true);
                 lineDataSet.setDrawHorizontalHighlightIndicator(false);
                 lineDataSet.setDrawVerticalHighlightIndicator(false);
-//                lineDataSet.setHighLightColor(R.color.chart_limit_line_color);
                 lineDataSet.setHighlightLineWidth(0f);
                 lineDataSet.setHighLightColor(Color.parseColor("#FFFFFFFF"));
                 lineDataSet.setDrawCircles(false);
@@ -413,6 +394,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 yAxi1.setEnabled(false);
 
                 Legend legend = ((BotChartViewHolder) holder).chart.getLegend();
+                legend.setForm(Legend.LegendForm.CIRCLE);
                 legend.setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);
                 legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
                 legend.setOrientation(Legend.LegendOrientation.VERTICAL);
@@ -434,7 +416,6 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
                 ((BotChartViewHolder) holder).priceText2.setText(MoneyFormatToWon.moneyFormatToWon(chartInfoLsits.get(0).getTotalPrice())+"원");
                 ((BotChartViewHolder) holder).priceText3.setText(MoneyFormatToWon.moneyFormatToWon(chartInfoLsits.get(0).getYieldPrice())+"원");
-
 
 
                 maxX = ((BotChartViewHolder) holder).chart.getXRange();
@@ -460,193 +441,8 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                     }
                 });
             }
-
-
-//            if(constView) {
-//
-//                constView = false;
-//
-//                lineDataSet = new LineDataSet(entries, "전략수익률");
-//                lineDataSet.setLineWidth(1.5f);
-//                lineDataSet.setColor(Color.parseColor("#FFFF0000"));
-//                lineDataSet.setDrawHorizontalHighlightIndicator(false);
-//                lineDataSet.setDrawValues(false);
-//                lineDataSet.setHighlightEnabled(true);
-//                lineDataSet.setDrawHighlightIndicators(true);
-//                lineDataSet.setDrawHorizontalHighlightIndicator(false);
-//                lineDataSet.setDrawVerticalHighlightIndicator(false);
-////                lineDataSet.setHighLightColor(R.color.chart_limit_line_color);
-//                lineDataSet.setHighlightLineWidth(0f);
-//                lineDataSet.setHighLightColor(Color.parseColor("#FFFFFFFF"));
-//                lineDataSet.setDrawCircles(false);
-//
-//
-//                lineDataSet2 = new LineDataSet(entries2, "시장수익률");
-//                lineDataSet2.setLineWidth(1.5f);
-//                lineDataSet2.setColor(Color.parseColor("#E1E1E1"));
-//                lineDataSet2.setDrawHorizontalHighlightIndicator(false);
-//                lineDataSet2.setDrawValues(false);
-//                lineDataSet2.setHighLightColor(Color.parseColor("#FFFFFFFF"));
-//                lineDataSet2.setHighlightEnabled(true);
-//                lineDataSet2.setDrawHighlightIndicators(true);
-//                lineDataSet2.setDrawHorizontalHighlightIndicator(false);
-//                lineDataSet2.setDrawVerticalHighlightIndicator(false);
-////                lineDataSet2.setHighLightColor(R.color.chart_limit_line_color);
-//                lineDataSet2.setHighlightLineWidth(0f);
-//                lineDataSet2.setDrawCircles(false);
-//
-//                lineDataSets.add(lineDataSet);
-//                lineDataSets.add(lineDataSet2);
-//
-//                lineData = new LineData(lineDataSets);
-//                lineData.setHighlightEnabled(false);
-//
-////            xAxis = ((BotChartViewHolder) holder).chart.getXAxis();
-////            xAxis.setDrawLabels(true);
-////            xAxis.setDrawGridLines(false);
-////            xAxis.setDrawAxisLine(true);
-////            xAxis.setEnabled(true);
-//
-//                xAxis = ((BotChartViewHolder) holder).chart.getXAxis();
-//                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//                xAxis.setGranularity(1);
-////            xAxis.setLabelCount(20, true);
-//                xAxis.setDrawLabels(true);
-//                xAxis.setDrawGridLines(false);
-//                xAxis.setDrawAxisLine(true);
-//                xAxis.setEnabled(true);
-//
-//                YAxis yAxis = ((BotChartViewHolder) holder).chart.getAxisLeft();
-//                yAxis.setDrawLabels(false);
-//                yAxis.setDrawGridLines(false);
-//                yAxis.setDrawAxisLine(false);
-//                yAxis.setEnabled(false);
-//
-//                YAxis yAxi1 = ((BotChartViewHolder) holder).chart.getAxisRight();
-//                yAxi1.setDrawLabels(false);
-//                yAxi1.setDrawGridLines(false);
-//                yAxi1.setDrawAxisLine(false);
-//                yAxi1.setEnabled(false);
-//
-//                Legend legend = ((BotChartViewHolder) holder).chart.getLegend();
-//                legend.setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);
-//                legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-//                legend.setOrientation(Legend.LegendOrientation.VERTICAL);
-//                legend.setEnabled(true);
-//                legend.setDrawInside(true);
-//
-//                ((BotChartViewHolder) holder).chart.setDescription(null);
-//                ((BotChartViewHolder) holder).chart.setDrawGridBackground(false);
-//                ((BotChartViewHolder) holder).chart.setData(lineData);
-//                ((BotChartViewHolder) holder).chart.setDoubleTapToZoomEnabled(false);
-//                ((BotChartViewHolder) holder).chart.setDrawGridBackground(false);
-//                ((BotChartViewHolder) holder).chart.animateY(600, Easing.EasingOption.EaseInCubic);
-//                ((BotChartViewHolder) holder).chart.setPinchZoom(false);
-//                ((BotChartViewHolder) holder).chart.setScaleEnabled(false);
-//                ((BotChartViewHolder) holder).chart.invalidate();
-//
-//                ((BotChartViewHolder) holder).priceText.setText(chartInfoLsits.get(0).getPotYear()+"년" + "( "+chartInfoLsits.get(0).getNormalYear()+"년 )");
-//                ((BotChartViewHolder) holder).priceText2.setText(chartInfoLsits.get(0).getTotalPrice()+"원");
-//                ((BotChartViewHolder) holder).priceText3.setText(chartInfoLsits.get(0).getYieldPrice()+"원");
-//
-//                CustomMarkerView marker = new CustomMarkerView(context, R.layout.item_chart_marker);
-//                marker.setChartView(((BotChartViewHolder) holder).chart);
-//
-//                Highlight highlight = new Highlight(entries.get(entries.size()-1).getX(), entries.get(entries.size()-1).getY(), 0);
-//                ((BotChartViewHolder) holder).chart.highlightValue(highlight, false);
-//
-////                ((BotChartViewHolder) holder).chart.highlightValue(highlight, false);
-//
-////                ((BotChartViewHolder) holder).chart.highlightValue(entries.get(entries.size()-1).getX(), entries.get(entries.size()-1).getY(), 0, true);
-//
-////                ((BotChartViewHolder) holder).chart.getMarkerView();
-////                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
-////                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
-////                ((BotChartViewHolder) holder).chart.setMarker(marker);
-////                ((BotChartViewHolder) holder).chart.invalidate();
-//
-////                ((BotChartViewHolder) holder).chart.highlightValue(entries2.get(entries2.size()-1).getX(), entries2.get(entries2.size()-1).getY(), 1, true);
-////                marker.refreshContent(null, highlight);
-////                marker.setEnabled(false);
-////
-////                ((BotChartViewHolder) holder).chart.getMarkerView();
-////                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
-////                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
-////                ((BotChartViewHolder) holder).chart.setMarker(marker);
-////                ((BotChartViewHolder) holder).chart.invalidate();
-//
-//                Highlight highlight2 = new Highlight(entries2.get(entries2.size()-1).getX(), entries2.get(entries2.size()-1).getY(), 1);
-//                ((BotChartViewHolder) holder).chart.highlightValue(highlight2, false);
-//                marker.setEnabled(false);
-//
-//                ((BotChartViewHolder) holder).chart.getMarkerView();
-//                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
-//                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
-//                ((BotChartViewHolder) holder).chart.setMarker(marker);
-//                ((BotChartViewHolder) holder).chart.invalidate();
-//
-////                marker.refreshContent(entries2.get(0), highlight2);
-////                marker.setEnabled(false);
-////                ((BotChartViewHolder) holder).chart.getMarkerView();
-////                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
-////                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
-////                ((BotChartViewHolder) holder).chart.setMarker(marker);
-////                ((BotChartViewHolder) holder).chart.invalidate();
-//
-////                Highlight highlight2 = new Highlight(entries2.get(entries2.size()-1).getX(),entries2.get(entries2.size()-1).getY(), 0);
-////                ((BotChartViewHolder) holder).chart.highlightValue(highlight2, true);
-////                marker.refreshContent(null, highlight2);
-////                marker.setEnabled(false);
-////
-////                ((BotChartViewHolder) holder).chart.getMarkerView();
-////                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
-////                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
-////                ((BotChartViewHolder) holder).chart.setMarker(marker);
-////                ((BotChartViewHolder) holder).chart.invalidate();
-//
-////                CustomMarkerView2 marker2 = new CustomMarkerView2(context, R.layout.item_chart_marker);
-////                marker2.setChartView(((BotChartViewHolder) holder).chart);
-////
-////                Highlight highlight2 = new Highlight(entries2.get(entries2.size()-1).getX(),entries2.get(entries2.size()-1).getY(), 0);
-////                ((BotChartViewHolder) holder).chart.highlightValue(highlight2, true);
-////                marker2.refreshContent(null, highlight2);
-////                marker2.setEnabled(false);
-////                ((BotChartViewHolder) holder).chart.getMarkerView();
-////                ((BotChartViewHolder) holder).chart.setDrawMarkers(true);
-////                ((BotChartViewHolder) holder).chart.getData().setHighlightEnabled(true);
-////                ((BotChartViewHolder) holder).chart.setMarker(marker2);
-////                ((BotChartViewHolder) holder).chart.invalidate();
-//
-//
-//                ((BotChartViewHolder) holder).chart.setOnTouchListener(new View.OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
-//                        return true;
-//                    }
-//                });
-//            }
         }
-//        else if(holder instanceof BotEndViewHolder){
-//
-//            ((BotEndViewHolder)holder).endJoinBt.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(botEndJoinClick != null) {
-//                        botEndJoinClick.onClick(position);
-//                    }
-//                }
-//            });
-//
-//            ((BotEndViewHolder)holder).endRetryBt.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(botEndRetryBt != null) {
-//                        botEndRetryBt.onClick(position);
-//                    }
-//                }
-//            });
-//
-//        }
+
         else if(holder instanceof BotSelect2ViewHolder){
 
             if(!lifeCTextLists.get(position).getTime().equals("")){
@@ -736,7 +532,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
                 constView = false;
 
-                lineDataSet = new LineDataSet(entries, "전략수익률");
+                lineDataSet = new LineDataSet(entries, "머니포트");
                 lineDataSet.setLineWidth(1.5f);
                 lineDataSet.setColor(Color.parseColor("#FFFF0000"));
                 lineDataSet.setDrawHorizontalHighlightIndicator(false);
@@ -748,7 +544,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 lineDataSet.setHighlightLineWidth(1f);
                 lineDataSet.setDrawCircles(false);
 
-                lineDataSet2 = new LineDataSet(entries2, "시장수익률");
+                lineDataSet2 = new LineDataSet(entries2, "예적금");
                 lineDataSet2.setLineWidth(1.5f);
                 lineDataSet2.setColor(Color.parseColor("#E1E1E1"));
                 lineDataSet2.setDrawHorizontalHighlightIndicator(false);
@@ -788,6 +584,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 yAxi1.setEnabled(false);
 
                 Legend legend = ((BotChart2ViewHolder) holder).chart.getLegend();
+                legend.setForm(Legend.LegendForm.CIRCLE);
                 legend.setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);
                 legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
                 legend.setOrientation(Legend.LegendOrientation.VERTICAL);
@@ -804,12 +601,36 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 ((BotChart2ViewHolder) holder).chart.setScaleEnabled(false);
                 ((BotChart2ViewHolder) holder).chart.invalidate();
 
-                ((BotChart2ViewHolder) holder).priceText.setText(chartInfoLsits.get(0).getPotTotal()+"원 \n" + "( "+chartInfoLsits.get(0).getNormalTotal()+"원 )");
-                ((BotChart2ViewHolder) holder).priceText2.setText(chartInfoLsits.get(0).getTotalPrice()+"원");
-                ((BotChart2ViewHolder) holder).priceText3.setText(chartInfoLsits.get(0).getYieldPrice()+"원");
+                ((BotChart2ViewHolder) holder).priceText.setText(MoneyFormatToWon.moneyFormatToWon(chartInfoLsits.get(0).getPotTotal())+"원");
+                ((BotChart2ViewHolder) holder).yearText.setText(MoneyFormatToWon.moneyFormatToWon(chartInfoLsits.get(0).getNormalTotal())+"원");
+                ((BotChart2ViewHolder) holder).priceText2.setText(MoneyFormatToWon.moneyFormatToWon(chartInfoLsits.get(0).getTotalPrice())+"원");
+                ((BotChart2ViewHolder) holder).priceText3.setText(MoneyFormatToWon.moneyFormatToWon(chartInfoLsits.get(0).getYieldPrice())+"원");
+
+
+                maxX = ((BotChart2ViewHolder) holder).chart.getXRange();
+
+                CustomMarkerView2 marker = new CustomMarkerView2(context, R.layout.item_chart_marker);
+                marker.setChartView(((BotChart2ViewHolder) holder).chart);
+
+                ((BotChart2ViewHolder) holder).chart.highlightValue(new Highlight(entries.get(entries.size()-1).getX(), entries.get(entries.size()-1).getY(), 0), false);
+
+                marker.setEnabled(false);
+
+                ((BotChart2ViewHolder) holder).chart.getMarkerView();
+                ((BotChart2ViewHolder) holder).chart.setDrawMarkers(true);
+                ((BotChart2ViewHolder) holder).chart.getData().setHighlightEnabled(true);
+                ((BotChart2ViewHolder) holder).chart.setMarker(marker);
+                ((BotChart2ViewHolder) holder).chart.invalidate();
+
+
+                ((BotChart2ViewHolder) holder).chart.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
             }
         }
-
     }
 
     @Override
@@ -853,12 +674,6 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         else {
             return BOTSPACESMALL;
         }
-//        else if(lifeCTextLists.get(position).getCategory() == 11){
-//            return BOTSPACESMALL;
-//        }
-//        else{
-//            return BOTEND;
-//        }
     }
 
 
@@ -917,6 +732,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
         LineChart chart;
         TextView priceText, priceText2, priceText3, yearText;
         LinearLayout chartLoading;
+        ImageView loadingImage;
 
         public BotChartViewHolder(View itemView) {
             super(itemView);
@@ -928,33 +744,28 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             priceText3 = itemView.findViewById(R.id.priceText3);
             yearText = itemView.findViewById(R.id.yearText);
 
+            loadingImage = itemView.findViewById(R.id.loadingImage);
+
             chartLoading = itemView.findViewById(R.id.chartLoading);
+            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(loadingImage);
+            Glide.with(context).load(R.drawable.loading).override(80, 80).into(gifImage);
             android.os.Handler handler = new android.os.Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+
+                    loadingImage.setVisibility(View.GONE);
                     chartLoading.setVisibility(View.GONE);
                 }
-            }, 1500);
+            }, 4000);
         }
     }
-
-//    public class BotEndViewHolder extends RecyclerView.ViewHolder {
-//
-//        TextView endJoinBt, endRetryBt;
-//
-//        public BotEndViewHolder(View itemView) {
-//            super(itemView);
-//
-//            endJoinBt = itemView.findViewById(R.id.endJoinBt);
-//            endRetryBt = itemView.findViewById(R.id.endRetryBt);
-//        }
-//    }
 
     public class BotSelect2ViewHolder extends RecyclerView.ViewHolder {
 
         TextView yesTalk, noTalk, selectTitle, time;
         ConstraintLayout botSelect2;
+
 
 
         public BotSelect2ViewHolder(View itemView) {
@@ -1010,8 +821,9 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
     public class BotChart2ViewHolder extends RecyclerView.ViewHolder {
 
         LineChart chart;
-        TextView priceText, priceText2, priceText3;
+        TextView priceText, priceText2, priceText3, yearText;
         LinearLayout chartLoading;
+        ImageView loadingImage;
 
         public BotChart2ViewHolder(View itemView) {
             super(itemView);
@@ -1022,14 +834,21 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             priceText2 = itemView.findViewById(R.id.priceText2);
             priceText3 = itemView.findViewById(R.id.priceText3);
 
+            yearText = itemView.findViewById(R.id.yearText);
             chartLoading = itemView.findViewById(R.id.chartLoading);
+
+            loadingImage = itemView.findViewById(R.id.loadingImage);
+            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(loadingImage);
+            Glide.with(context).load(R.drawable.loading).override(80, 80).into(gifImage);
             android.os.Handler handler = new android.os.Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+
+                    loadingImage.setVisibility(View.GONE);
                     chartLoading.setVisibility(View.GONE);
                 }
-            }, 1500);
+            }, 4000);
 
         }
     }
@@ -1063,28 +882,14 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             tvContent2 = findViewById(R.id.tvContent2);
 
             tvContent.setText("달성금액");
-            tvContent2.setText("50억");
         }
 
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
 
-//            tvContent.setText("달성금액");
-//            tvContent2.setText("50억");
-
             currentX = e.getX();
-//            if (e instanceof CandleEntry) {
-//                CandleEntry ce = (CandleEntry) e;
-//                String num = String.format("%.2f",e.getY());
-//                tvContent.setText(("" + ce.getData()).replace("-","."));
-//                tvContent2.setText(num+"%");
-//            } else {
-//
-//                String num = String.format("%.2f",e.getY());
-//
-//                tvContent.setText(("" + e.getData()).replace("-","."));
-//                tvContent2.setText(num+"%");
-//            }
+            tvContent2.setText((long)e.getY()+"원");
+
             super.refreshContent(e, highlight);
         }
 
@@ -1111,23 +916,39 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
-//    public class CustomMarkerView2 extends MarkerView {
-//
-//        public CustomMarkerView2(Context context, int layoutResource){
-//            super(context, layoutResource);
-//        }
-//
-//        @Override
-//        public void draw(Canvas canvas, float posX, float posY) {
-//
-//            Paint paint = new Paint();
-//            paint.setColor(context.getResources().getColor(R.color.gray_brown_color));
-//            paint.setStrokeWidth(5f);
-//            paint.setStyle(Paint.Style.FILL);
-//            canvas.drawCircle(posX, posY,18, paint);
-//            super.draw(canvas, posX, posY);
-//        }
-//
-//    }
 
+    public class CustomMarkerView2 extends MarkerView {
+        private TextView tvContent;
+        private TextView tvContent2;
+        public CustomMarkerView2(Context context, int layoutResource){
+            super(context, layoutResource);
+            tvContent = findViewById(R.id.tvContent);
+            tvContent2 = findViewById(R.id.tvContent2);
+            tvContent.setText("달성금액");
+        }
+        @Override
+        public void refreshContent(Entry e, Highlight highlight) {
+            currentX = e.getX();
+            tvContent2.setText((long)e.getY()+"원");
+
+            super.refreshContent(e, highlight);
+        }
+        @Override
+        public MPPointF getOffset() {
+            if(maxX/3 < currentX) {
+                return new MPPointF(-(getWidth())-40, -getHeight()+80);
+            }else{
+                return new MPPointF((getWidth()/5), -getHeight()+80);
+            }
+        }
+        @Override
+        public void draw(Canvas canvas, float posX, float posY) {
+            Paint paint = new Paint();
+            paint.setColor(context.getResources().getColor(R.color.chart_point_color));
+            paint.setStrokeWidth(5f);
+            paint.setStyle(Paint.Style.FILL);
+            canvas.drawCircle(posX, posY,18, paint);
+            super.draw(canvas, posX, posY);
+        }
+    }
 }

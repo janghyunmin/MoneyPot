@@ -186,7 +186,7 @@
         app:layout_constraintTop_toBottomOf="@+id/infoTitle"
         />
 
-    n <LinearLayout
+    <LinearLayout
         android:id="@+id/chartLoading"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -194,13 +194,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:gravity="center_horizontal"
-
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         >
-        <ProgressBar
+        <ImageView
+            android:id="@+id/loadingImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="70dp"
             />
+
+        <!--<ProgressBar-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="40dp"-->
+            <!--/>-->
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -246,7 +246,7 @@ public interface RetrofitService {
 
     /**
      *
-     * FIDO AuthCode 갱신 데이터
+     * Email 인증
      *
      */
     @POST("Auth/sendAuthEmail")
