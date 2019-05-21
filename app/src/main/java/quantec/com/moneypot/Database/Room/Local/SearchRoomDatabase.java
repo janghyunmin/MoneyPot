@@ -1,12 +1,9 @@
 package quantec.com.moneypot.Database.Room.Local;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
-import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import quantec.com.moneypot.Database.Room.Entry.RoomEntity;
 
@@ -34,7 +31,7 @@ import quantec.com.moneypot.Database.Room.Entry.RoomEntity;
 //        }
 //    };
 
-@Database(entities = {RoomEntity.class}, version = 1, exportSchema = true)
+@Database(entities = {RoomEntity.class}, version = 1, exportSchema = false)
 public abstract class SearchRoomDatabase extends RoomDatabase {
 
 //    //Add column

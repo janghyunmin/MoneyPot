@@ -420,7 +420,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
                 maxX = ((BotChartViewHolder) holder).chart.getXRange();
 
-                CustomMarkerView marker = new CustomMarkerView(context, R.layout.item_chart_marker);
+                CustomMarkerView marker = new CustomMarkerView(context, R.layout.item_chatbotchart_marker);
                 marker.setChartView(((BotChartViewHolder) holder).chart);
 
                 ((BotChartViewHolder) holder).chart.highlightValue(new Highlight(entries.get(entries.size()-1).getX(), entries.get(entries.size()-1).getY(), 0), false);
@@ -609,7 +609,7 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
 
                 maxX = ((BotChart2ViewHolder) holder).chart.getXRange();
 
-                CustomMarkerView2 marker = new CustomMarkerView2(context, R.layout.item_chart_marker);
+                CustomMarkerView2 marker = new CustomMarkerView2(context, R.layout.item_chatbotchart_marker);
                 marker.setChartView(((BotChart2ViewHolder) holder).chart);
 
                 ((BotChart2ViewHolder) holder).chart.highlightValue(new Highlight(entries.get(entries.size()-1).getX(), entries.get(entries.size()-1).getY(), 0), false);
@@ -621,7 +621,6 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
                 ((BotChart2ViewHolder) holder).chart.getData().setHighlightEnabled(true);
                 ((BotChart2ViewHolder) holder).chart.setMarker(marker);
                 ((BotChart2ViewHolder) holder).chart.invalidate();
-
 
                 ((BotChart2ViewHolder) holder).chart.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -881,14 +880,14 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             tvContent = findViewById(R.id.tvContent);
             tvContent2 = findViewById(R.id.tvContent2);
 
-            tvContent.setText("달성금액");
+            tvContent.setText("목표 금액 달성!");
         }
 
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
 
             currentX = e.getX();
-            tvContent2.setText((long)e.getY()+"원");
+//            tvContent2.setText((long)e.getY()+"원");
 
             super.refreshContent(e, highlight);
         }
@@ -924,12 +923,12 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             super(context, layoutResource);
             tvContent = findViewById(R.id.tvContent);
             tvContent2 = findViewById(R.id.tvContent2);
-            tvContent.setText("달성금액");
+            tvContent.setText("목표 금액 달성!");
         }
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
             currentX = e.getX();
-            tvContent2.setText((long)e.getY()+"원");
+//            tvContent2.setText((long)e.getY()+"원");
 
             super.refreshContent(e, highlight);
         }

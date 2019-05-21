@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 27
@@ -42,6 +43,10 @@ android {
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
+
+//    realm {
+//        syncEnabled = true
+//    }
 }
 
 dependencies {

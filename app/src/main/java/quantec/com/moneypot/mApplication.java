@@ -8,10 +8,12 @@ import com.crashlytics.android.Crashlytics;
 import java.util.Random;
 
 import io.fabric.sdk.android.Fabric;
+import io.realm.Realm;
 
 public class mApplication extends Application {
 
     public static String UID = "";
+
 
     @Override
     public void onCreate() {
@@ -22,6 +24,8 @@ public class mApplication extends Application {
                 .debuggable(true)
                 .build();
         Fabric.with(fabric);
+
+        Realm.init(this);
 
 
         SharedPreferences mid = getSharedPreferences("user", MODE_PRIVATE);
