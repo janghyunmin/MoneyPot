@@ -123,4 +123,6 @@ dependencies {
 
     implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
 
+    implementation 'com.airbnb.android:lottie:2.6.0'
+
 }

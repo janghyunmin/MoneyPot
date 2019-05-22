@@ -13,6 +13,7 @@ import com.dream.magic.fido.rpsdk.client.MagicFIDOUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import quantec.com.moneypot.Activity.ActivityIntroBeginPage;
 import quantec.com.moneypot.Activity.FIDO.ActivityAuthFidoDouble;
 import quantec.com.moneypot.Activity.FIDO.ActivityAuthFidoSingle;
 import quantec.com.moneypot.Activity.FIDO.ActivityReFidoResistor;
@@ -126,7 +127,7 @@ public class ActivityIntro extends AppCompatActivity {
 
         if(userId.isEmpty()){
 
-            Intent intent = new Intent(this, ActivityMemberShipMain.class);
+            Intent intent = new Intent(this, ActivityIntroBeginPage.class);
             Handler mHandler = new Handler();
             mHandler.postDelayed(new Runnable() {
                 @Override
@@ -137,6 +138,18 @@ public class ActivityIntro extends AppCompatActivity {
                     finish();
                 }
             }, 1300);
+
+//            Intent intent = new Intent(this, ActivityMemberShipMain.class);
+//            Handler mHandler = new Handler();
+//            mHandler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            }, 1300);
 
         }else{
 

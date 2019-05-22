@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.github.mikephil.charting.animation.Easing;
@@ -743,20 +744,27 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             priceText3 = itemView.findViewById(R.id.priceText3);
             yearText = itemView.findViewById(R.id.yearText);
 
-            loadingImage = itemView.findViewById(R.id.loadingImage);
+//            loadingImage = itemView.findViewById(R.id.loadingImage);
 
             chartLoading = itemView.findViewById(R.id.chartLoading);
-            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(loadingImage);
-            Glide.with(context).load(R.drawable.loading).override(80, 80).into(gifImage);
-            android.os.Handler handler = new android.os.Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
 
-                    loadingImage.setVisibility(View.GONE);
-                    chartLoading.setVisibility(View.GONE);
-                }
-            }, 4000);
+
+            LottieAnimationView animationView = itemView.findViewById(R.id.animation_view);
+            animationView.setAnimation("chatbot.json");
+            animationView.loop(false);
+            animationView.playAnimation();
+
+//            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(loadingImage);
+//            Glide.with(context).load(R.drawable.loading).override(80, 80).into(gifImage);
+//            android.os.Handler handler = new android.os.Handler();
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                    loadingImage.setVisibility(View.GONE);
+//                    chartLoading.setVisibility(View.GONE);
+//                }
+//            }, 4000);
         }
     }
 
@@ -836,18 +844,25 @@ public class AdapterLifeChallenge extends RecyclerView.Adapter<RecyclerView.View
             yearText = itemView.findViewById(R.id.yearText);
             chartLoading = itemView.findViewById(R.id.chartLoading);
 
-            loadingImage = itemView.findViewById(R.id.loadingImage);
-            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(loadingImage);
-            Glide.with(context).load(R.drawable.loading).override(80, 80).into(gifImage);
-            android.os.Handler handler = new android.os.Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
+//            loadingImage = itemView.findViewById(R.id.loadingImage);
 
-                    loadingImage.setVisibility(View.GONE);
-                    chartLoading.setVisibility(View.GONE);
-                }
-            }, 4000);
+
+            LottieAnimationView animationView = itemView.findViewById(R.id.animation_view);
+            animationView.setAnimation("chatbot.json");
+            animationView.loop(false);
+            animationView.playAnimation();
+
+//            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(loadingImage);
+//            Glide.with(context).load(R.drawable.loading).override(80, 80).into(gifImage);
+//            android.os.Handler handler = new android.os.Handler();
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                    loadingImage.setVisibility(View.GONE);
+//                    chartLoading.setVisibility(View.GONE);
+//                }
+//            }, 4000);
 
         }
     }

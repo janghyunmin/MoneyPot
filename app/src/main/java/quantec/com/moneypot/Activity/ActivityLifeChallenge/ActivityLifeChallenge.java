@@ -28,10 +28,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
+import quantec.com.moneypot.Activity.Login.MemberShipPage.ActivityMemberShipMain;
 import quantec.com.moneypot.Database.Realm.ChatBot;
 import quantec.com.moneypot.Database.Realm.ChatBotTalkList;
 import quantec.com.moneypot.Dialog.DialogChatbotInfo;
@@ -53,7 +56,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
     boolean TextFlag = false;
     boolean PriceFlag = false;
-    boolean yearFlag = false;
     boolean monthlyFlag = false;
     boolean chartFlag = false;
 
@@ -66,7 +68,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
     List<Entry> entries;
     LineDataSet lineDataSet;
     LineData lineData;
-
     List<Entry> entries2;
 
     Long finalPrice, monthlyPrice, selectYear, hadPrice;
@@ -128,6 +129,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         pickerWheel = findViewById(R.id.pickerWheel);
         pickerWheel.setYearStart(1);
         pickerWheel.setYearEnd(50);
+
         pickerWheelBt = findViewById(R.id.pickerWheelBt);
 
         sendBt = findViewById(R.id.sendBt);
@@ -166,47 +168,56 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         lifeCSelectLists.add(new ModelLifeCSelectList("여행 자금",4));
         lifeCSelectLists.add(new ModelLifeCSelectList("직접 입력",5));
 
+        initVisible();
+
         realm = Realm.getDefaultInstance();
         RealmResults<ChatBot> results = realm.where(ChatBot.class)
                 .findAllAsync();
 
         if(results.where().count() == 0){
 
-            realm.beginTransaction();
-            chatBot = realm.createObject(ChatBot.class);
+            /**
+             *
+             * 렘 카운트 증가되는 이슈사항
+             *
+             * 아래 코드를 넣어주면 렘에 데이터를 인서트 해주지 않아도 빈 데이터 값이 들어가서 카운트가 1로 증가되는것으로 보인다.
+             * 따라서 필요한 위치 ( 마지막에 계산하는 메소드 )에 넣어줘서 해결함
+             *
+             * realm.beginTransaction();
+             * chatBot = realm.createObject(ChatBot.class);
+             *
+             */
 
             lifeCTextLists.add(new ModelLifeCTextList("안녕? 나는 챗봇이야. \n너의 목표를 이뤄줄 수 있도록 도와줄게!","", "",0, ""));
 
             lifeCTextLists.add(new ModelLifeCTextList("먼저, 투자하려는 목적이 뭐야?","","",2, tiem));
             recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
 
-        }else{
-            results.addChangeListener(new RealmChangeListener<RealmResults<ChatBot>>() {
-                @Override
-                public void onChange(RealmResults<ChatBot> chatBots) {
+        }
+        else{
 
                     lifeCTextLists.add(new ModelLifeCTextList("안녕? 나는 챗봇이야. \n너의 목표를 이뤄줄 수 있도록 도와줄게!","", "",0, ""));
                     lifeCTextLists.add(new ModelLifeCTextList("먼저, 투자하려는 목적이 뭐야?","","",2, tiem));
 
-                    if(chatBots.get(0).getChartState()==0){
-                        realmCalYield(chatBots.get(0).getBasicPrice(), chatBots.get(0).getMonthlyPrice(), chatBots.get(0).getFinalPrice());
+                    if(results.get(0).getChartState() == 0){
+                        realmCalYield(results.get(0).getBasicPrice(), results.get(0).getMonthlyPrice(), results.get(0).getFinalPrice());
 
+                    }
+                    else if(results.get(0).getChartState() == 1){
+                        realmCalYield2(results.get(0).getSelectYear(), results.get(0).getMonthlyPrice());
                     }
                     else {
-                        realmCalYield2(chatBots.get(0).getSelectYear(), chatBots.get(0).getMonthlyPrice());
+                        realmCalYield3(results.get(0).getSelectYear(), results.get(0).getHadPrice());
                     }
 
-                    for(ChatBotTalkList chatBotTalkList : chatBots.get(0).getChatBotTalkLists()){
+                    for(ChatBotTalkList chatBotTalkList : results.get(0).getChatBotTalkLists()){
 
                         lifeCTextLists.add(new ModelLifeCTextList(chatBotTalkList.getTalk(),chatBotTalkList.getSubTitle(),chatBotTalkList.getLongSubTitle(),chatBotTalkList.getCategory()
                                 , chatBotTalkList.getTime()));
                     }
 
                     realmVisible();
-
                     ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(lifeCTextLists.size()-2, -50);
-                }
-            });
         }
 
         adapterLifeChallenge.setBotSelectClick(new AdapterLifeChallenge.BotSelectClick() {
@@ -218,9 +229,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                 if(category == 0){
 
-                    addTmpChatBotList(false, "내 집 마련","","",1,time, 0, 0, 0, 0, 0, 0);
-                    addTmpChatBotList(false, "멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0,time,
-                            0, 0, 0, 0, 0, 0);
+                    addTmpChatBotList(false, "내 집 마련","","",1,time);
+                    addTmpChatBotList(false, "멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0,time);
 
                     lifeCTextLists.add(new ModelLifeCTextList("내 집 마련","","",1, time));
                     lifeCTextLists.add(new ModelLifeCTextList("멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0 ,time));
@@ -237,8 +247,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 }
                 else if(category == 1){
 
-                    addTmpChatBotList(false, "자동차 구입","","",1,time, 0, 0, 0, 0, 0, 0);
-                    addTmpChatBotList(false,"멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0,time, 0, 0, 0, 0, 0, 0);
+                    addTmpChatBotList(false, "자동차 구입","","",1,time);
+                    addTmpChatBotList(false,"멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0,time);
 
                     lifeCTextLists.add(new ModelLifeCTextList("자동차 구입","","",1, time));
                     lifeCTextLists.add(new ModelLifeCTextList("멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0 ,time));
@@ -254,8 +264,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 }
                 else if(category == 2){
 
-                    addTmpChatBotList(false,"노후 준비","","",1,time, 0, 0, 0, 0, 0, 0);
-                    addTmpChatBotList(false, "멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0,time, 0, 0, 0, 0, 0, 0);
+                    addTmpChatBotList(false,"노후 준비","","",1,time);
+                    addTmpChatBotList(false, "멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0,time);
 
                     lifeCTextLists.add(new ModelLifeCTextList("노후 준비","","",1, time));
                     lifeCTextLists.add(new ModelLifeCTextList("멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0 ,time));
@@ -272,6 +282,10 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                 else if(category == 3){
 
+                    addTmpChatBotList(false, "자녀 학비","","",1,time);
+                    addTmpChatBotList(false,"멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0,time);
+
+
                     lifeCTextLists.add(new ModelLifeCTextList("자녀 학비","","",1, time));
                     lifeCTextLists.add(new ModelLifeCTextList("멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0 ,time));
 
@@ -287,8 +301,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                 else if(category == 4){
 
-                    addTmpChatBotList(false, "여행 자금","","",1,time, 0, 0, 0, 0, 0, 0);
-                    addTmpChatBotList(false, "멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0,time, 0, 0, 0, 0, 0, 0);
+                    addTmpChatBotList(false, "여행 자금","","",1,time);
+                    addTmpChatBotList(false, "멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0,time);
 
                     lifeCTextLists.add(new ModelLifeCTextList("여행 자금","","",1, time));
                     lifeCTextLists.add(new ModelLifeCTextList("멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0 ,time));
@@ -402,8 +416,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     TextFlag = false;
 
-                    addTmpChatBotList(false, talkEditText2.getText().toString(),"","",1,time, 0, 0, 0, 0, 0, 0);
-                    addTmpChatBotList(false, "멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0,time, 0, 0, 0, 0, 0, 0);
+                    addTmpChatBotList(false, talkEditText2.getText().toString(),"","",1,time);
+                    addTmpChatBotList(false, "멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0,time);
 
                     lifeCTextLists.add(new ModelLifeCTextList(talkEditText2.getText().toString(),"","",1, tiem));
                     lifeCTextLists.add(new ModelLifeCTextList("멋지다! 혹시 정해놓은 목표 금액이 있을까?","","",0, time));
@@ -422,38 +436,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     }, 30);
                 }
 
-                if(yearFlag){
-
-                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(talkEditText.getWindowToken(), 0);
-
-                    Date date = new Date();
-                    String time = new SimpleDateFormat("aa hh:mm").format(date);
-
-                    yearFlag = false;
-
-                    selectYear = Long.valueOf(talkEditText.getText().toString());
-
-                    lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"년","","",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 잠시만 기다려줘~","","",0, time));
-
-                    talkEditText.setText("");
-                    talkEditText.setEnabled(false);
-                    sendBt.setEnabled(false);
-
-                    entries.clear();
-
-                    calculatedYield();
-
-                    lifeCTextLists.add(new ModelLifeCTextList("","","",3, tiem));
-                    lifeCTextLists.add(new ModelLifeCTextList("이제 너만을 위한 라이프 챌린지가 완성됐어!\n딱 맞는 상품이 있는데, 바로 확인해볼래?","","",0, ""));
-
-                    ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(lifeCTextLists.size()-3, -50);
-
-                    visiblePrice(false);
-
-                }
-
                 if(chartFlag){
 
                     InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
@@ -470,10 +452,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                         Date date = new Date();
                         String time = new SimpleDateFormat("aa hh:mm").format(date);
 
-                        addTmpChatBotList(false, talkEditText.getText().toString()+"만원","","",1,time,
-                                0, 0, 0, 0, 0, 0);
-                        addTmpChatBotList(false, "좋아! 잠시만 기다려줘~","","",0,time,
-                                0, 0, 0, 0, 0, 0);
+                        addTmpChatBotList(false, talkEditText.getText().toString()+"만원","","",1,time);
+                        addTmpChatBotList(false, "좋아! 잠시만 기다려줘~","","",0,time);
 
                         lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원","","",1, time));
                         lifeCTextLists.add(new ModelLifeCTextList("좋아! 잠시만 기다려줘~","","",0, time));
@@ -486,10 +466,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                         calculatedYield();
 
-                        addTmpChatBotList(false, "","","",3,"", 0,
-                                0, 0, 0, 0, 0);
+                        addTmpChatBotList(false, "","","",3,"");
                         addTmpChatBotList(false, "이제 너만을 위한 라이프 챌린지가 완성됐어!\n딱 맞는 상품이 있는데, 바로 확인해볼래?",
-                                "","",0,"", 0, 0, 0, 0, 0, 0);
+                                "","",0,"");
 
                         lifeCTextLists.add(new ModelLifeCTextList("","","",3, time));
                         lifeCTextLists.add(new ModelLifeCTextList("이제 너만을 위한 라이프 챌린지가 완성됐어!\n딱 맞는 상품이 있는데, 바로 확인해볼래?","","",0, ""));
@@ -517,16 +496,14 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     basicPrice = Float.valueOf(talkEditText.getText().toString());
 
 
-                    addTmpChatBotList(false, talkEditText.getText().toString()+"만원","","",1,time,
-                            0, 0, 0, 0, 0, 0);
+                    addTmpChatBotList(false, talkEditText.getText().toString()+"만원","","",1,time);
 
 
                     lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원","","",1, time));
 
                     if(basicPrice >= 10){
 
-                        addTmpChatBotList(false, "월마다 일정 금액을 추가로 투자할 계획이 있어?","*적립식 투자는 최소 10만원부터 가능합니다.","",0,time,
-                                0, 0, 0, 0, 0, 0);
+                        addTmpChatBotList(false, "월마다 일정 금액을 추가로 투자할 계획이 있어?","*적립식 투자는 최소 10만원부터 가능합니다.","",0,time);
                         lifeCTextLists.add(new ModelLifeCTextList("월마다 일정 금액을 추가로 투자할 계획이 있어?", "*적립식 투자는 최소 10만원부터 가능합니다.","",0, time));
 
                         talkEditText.setText("");
@@ -546,7 +523,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
 
                         addTmpChatBotList(false, "아하… 그러면 월마다 추가로 투자를 해야겠다!\n" +
-                                "얼마씩 투자할래?","","*적립식 투자는 최소 10만원부터 가능합니다.",0,time, 0, 0, 0, 0, 0, 0);
+                                "얼마씩 투자할래?","","*적립식 투자는 최소 10만원부터 가능합니다.",0,time);
 
                         lifeCTextLists.add(new ModelLifeCTextList("아하… 그러면 월마다 추가로 투자를 해야겠다!\n" +
                                 "얼마씩 투자할래?","","*적립식 투자는 최소 10만원부터 가능합니다.",0, time));
@@ -586,10 +563,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                         PriceFlag = false;
 
-                        addTmpChatBotList(false, talkEditText.getText().toString()+"만원","","",1,time,
-                                0, 0, 0, 0, 0, 0);
-                        addTmpChatBotList(false, "그럼, 현재 준비되어 있는 돈이 있을까?","","",0,time,
-                                0, 0, 0, 0, 0, 0);
+                        addTmpChatBotList(false, talkEditText.getText().toString()+"만원","","",1,time);
+                        addTmpChatBotList(false, "그럼, 현재 준비되어 있는 돈이 있을까?","","",0,time);
 
                         lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원","","",1, time));
                         lifeCTextLists.add(new ModelLifeCTextList("그럼, 현재 준비되어 있는 돈이 있을까?","","",0, time));
@@ -618,40 +593,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     }
                 }
 
-                //목표금액 없이 모은금액 전부 넣을때 기간 설정
-                if(totalYearFlag){
-
-                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(talkEditText.getWindowToken(), 0);
-
-                    totalYearFlag = false;
-
-                    Date date = new Date();
-                    String time = new SimpleDateFormat("aa hh:mm").format(date);
-
-                    selectYear = (long)pickerWheel.getSelectedYear();
-
-                    lifeCTextLists.add(new ModelLifeCTextList(String.valueOf(selectYear)+"년","","",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 잠시만 기다려줘~","","",0, time));
-
-                    talkEditText.setText("");
-                    talkEditText.setEnabled(false);
-                    sendBt.setEnabled(false);
-
-                    entries.clear();
-
-
-                    calculatedYield3();
-
-                    lifeCTextLists.add(new ModelLifeCTextList("","","",8, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("이제 너만을 위한 라이프 챌린지가 완성됐어!\n딱 맞는 상품이 있는데, 바로 확인해볼래?","","",0, ""));
-
-                    ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(lifeCTextLists.size()-3, -50);
-
-                    visiblePrice(false);
-                }
-
-
                 //목표금액 없이 모아둔돈 전부 넣을때
                 if(totalFlag){
 
@@ -664,6 +605,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     String time = new SimpleDateFormat("aa hh:mm").format(date);
 
                     hadPrice = Long.valueOf(talkEditText.getText().toString());
+
+                    addTmpChatBotList(false, talkEditText.getText().toString()+"만원","","",1,time);
+                    addTmpChatBotList(false, "몇 년 동안 투자하고 싶어?","","",0,time);
 
                     lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원","","",1, time));
                     lifeCTextLists.add(new ModelLifeCTextList("몇 년 동안 투자하고 싶어?","","",0, time));
@@ -685,39 +629,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     totalYearFlag = true;
                 }
 
-
-                //목표금액 없이 월마다 넣을때 기간 설정
-                if(monYearFlag){
-
-                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(talkEditText.getWindowToken(), 0);
-
-                    Date date = new Date();
-                    String time = new SimpleDateFormat("aa hh:mm").format(date);
-
-
-                    selectYear = (long)pickerWheel.getSelectedYear();
-
-                    lifeCTextLists.add(new ModelLifeCTextList(String.valueOf(selectYear)+"년","","",1, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("좋아! 잠시만 기다려줘~","","",0, time));
-
-                    talkEditText.setText("");
-                    talkEditText.setEnabled(false);
-                    sendBt.setEnabled(false);
-
-                    entries.clear();
-
-                    calculatedYield2();
-
-                    lifeCTextLists.add(new ModelLifeCTextList("","","",8, time));
-                    lifeCTextLists.add(new ModelLifeCTextList("이제 너만을 위한 라이프 챌린지가 완성됐어!\n딱 맞는 상품이 있는데, 바로 확인해볼래?","","",0, ""));
-
-                    ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(lifeCTextLists.size()-3, -50);
-
-                    visiblePrice(false);
-
-                }
-
                 //목표금액 없이 월마다 넣을때
                 if(monFlag){
 
@@ -731,10 +642,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     monthlyPrice = Long.valueOf(talkEditText.getText().toString());
 
-                    addTmpChatBotList(false, talkEditText.getText().toString()+"만원","","",1,time,
-                            1, 0, 0, 0, 0, 0);
-                    addTmpChatBotList(false, "몇 년 동안 투자하고 싶어?","","",0,time,
-                            1, 0, 0, 0, 0, 0);
+                    addTmpChatBotList(false, talkEditText.getText().toString()+"만원","","",1,time);
+                    addTmpChatBotList(false, "몇 년 동안 투자하고 싶어?","","",0,time);
 
                     lifeCTextLists.add(new ModelLifeCTextList(talkEditText.getText().toString()+"만원","","",1, time));
                     lifeCTextLists.add(new ModelLifeCTextList("몇 년 동안 투자하고 싶어?","","",0, time));
@@ -774,10 +683,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     selectYear = (long)pickerWheel.getCurrentYear();
 
-                    addTmpChatBotList(false, String.valueOf(selectYear)+"년","","",1,time,
-                            1, 0, 0, 0, 0, 0);
-                    addTmpChatBotList(false, "좋아! 잠시만 기다려줘~","","",0,time,
-                            1, 0, 0, 0, 0, 0);
+                    addTmpChatBotList(false, String.valueOf(selectYear)+"년","","",1,time);
+                    addTmpChatBotList(false, "좋아! 잠시만 기다려줘~","","",0,time);
 
                     lifeCTextLists.add(new ModelLifeCTextList(String.valueOf(selectYear)+"년","","",1, time));
                     lifeCTextLists.add(new ModelLifeCTextList("좋아! 잠시만 기다려줘~","","",0, time));
@@ -790,10 +697,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     calculatedYield2();
 
-                    addTmpChatBotList(false, "","","",8,"",
-                            1, 0, 0, 0, 0, 0);
-                    addTmpChatBotList(false, "이제 너만을 위한 라이프 챌린지가 완성됐어!\n딱 맞는 상품이 있는데, 바로 확인해볼래?","","",0,"",
-                            1, 0, 0, 0, 0, 0);
+                    addTmpChatBotList(false, "","","",8,"");
+                    addTmpChatBotList(false, "이제 너만을 위한 라이프 챌린지가 완성됐어!\n딱 맞는 상품이 있는데, 바로 확인해볼래?","","",0,"");
 
                     lifeCTextLists.add(new ModelLifeCTextList("","","",8, time));
                     lifeCTextLists.add(new ModelLifeCTextList("이제 너만을 위한 라이프 챌린지가 완성됐어!\n딱 맞는 상품이 있는데, 바로 확인해볼래?","","",0, ""));
@@ -814,6 +719,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     selectYear = (long)pickerWheel.getCurrentYear();
 
+                    addTmpChatBotList(false, String.valueOf(selectYear)+"년","","",1,"");
+                    addTmpChatBotList(false, "좋아! 잠시만 기다려줘~","","",0,"");
+
                     lifeCTextLists.add(new ModelLifeCTextList(String.valueOf(selectYear)+"년","","",1, time));
                     lifeCTextLists.add(new ModelLifeCTextList("좋아! 잠시만 기다려줘~","","",0, time));
 
@@ -822,8 +730,11 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                     sendBt.setEnabled(false);
 
                     entries.clear();
-
                     calculatedYield3();
+
+
+                    addTmpChatBotList(false, "","","",8,"");
+                    addTmpChatBotList(false, "이제 너만을 위한 라이프 챌린지가 완성됐어!\n딱 맞는 상품이 있는데, 바로 확인해볼래?","","",0,"");
 
                     lifeCTextLists.add(new ModelLifeCTextList("","","",8, time));
                     lifeCTextLists.add(new ModelLifeCTextList("이제 너만을 위한 라이프 챌린지가 완성됐어!\n딱 맞는 상품이 있는데, 바로 확인해볼래?","","",0, ""));
@@ -832,6 +743,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                     visibleYear(false);
                     visiblePrice(false);
+
+                    insertRealmData();
 
                 }
 
@@ -846,8 +759,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
 
-                addTmpChatBotList(false, "응, 있지!","","",1,time, 0, 0, 0, 0, 0, 0);
-                addTmpChatBotList(false, "와, 궁금하다! 얼마인지 알려줄 수 있어?","","",0,time, 0, 0, 0, 0, 0, 0);
+                addTmpChatBotList(false, "응, 있지!","","",1,time);
+                addTmpChatBotList(false, "와, 궁금하다! 얼마인지 알려줄 수 있어?","","",0,time);
 
                 lifeCTextLists.add(new ModelLifeCTextList("응, 있지!","","",1, time));
                 lifeCTextLists.add(new ModelLifeCTextList("와, 궁금하다! 얼마인지 알려줄 수 있어?","","",0, time));
@@ -874,28 +787,24 @@ public class ActivityLifeChallenge extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                visibleSelectBt4(true);
-
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
 
-                addTmpChatBotList(false, "아니, 없어","","",1,time,
-                        1, 0, 0, 0, 0, 0);
-                addTmpChatBotList(false, "상관 없어. 지금부터 시작하면 돼!","","",0,time,
-                        1, 0, 0, 0, 0, 0);
+                addTmpChatBotList(false, "아니, 없어","","",1,time);
+                addTmpChatBotList(false, "상관 없어. 지금부터 시작하면 돼!","","",0,time);
 
                 lifeCTextLists.add(new ModelLifeCTextList("아니, 없어","","",1, time));
                 lifeCTextLists.add(new ModelLifeCTextList("상관 없어. 지금부터 시작하면 돼!","","",0, time));
                 recyclerView.post(new Runnable() {
                     @Override
                     public void run() {
+                        visibleSelectBt4(true);
                         recyclerView.smoothScrollToPosition(lifeCTextLists.size()-1);
                     }
                 });
 
 
-                addTmpChatBotList(false, "월 마다 조금씩 모으고 싶어?\n아니면 한 번에 모아둔 돈으로 투자해볼까?","","",0,time,
-                        1, 0, 0, 0, 0, 0);
+                addTmpChatBotList(false, "월 마다 조금씩 모으고 싶어?\n아니면 한 번에 모아둔 돈으로 투자해볼까?","","",0,time);
 
                 lifeCTextLists.add(new ModelLifeCTextList("월 마다 조금씩 모으고 싶어?\n아니면 한 번에 모아둔 돈으로 투자해볼까?","","",0, time));
                 adapterLifeChallenge.notifyDataSetChanged();
@@ -918,8 +827,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
 
-                addTmpChatBotList(false, "응, 있지!","","",1,time, 0, 0, 0, 0, 0, 0);
-                addTmpChatBotList(false, "월에 얼마씩 넣을꺼야?","","",0,time, 0, 0, 0, 0, 0, 0);
+                addTmpChatBotList(false, "응, 있지!","","",1,time);
+                addTmpChatBotList(false, "월에 얼마씩 넣을꺼야?","","",0,time);
 
                 lifeCTextLists.add(new ModelLifeCTextList("응, 있지!","","",1, time));
                 lifeCTextLists.add(new ModelLifeCTextList("월에 얼마씩 넣을꺼야?","","",0, time));
@@ -955,14 +864,14 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
 
-                addTmpChatBotList(false,"아니, 없어","","",1,time, 0, 0, 0, 0, 0, 0);
+                addTmpChatBotList(false,"아니, 없어","","",1,time);
 
                 lifeCTextLists.add(new ModelLifeCTextList("아니, 없어","","",1, time));
 
                 chartFlag = false;
                 monthlyPrice = 0L;
 
-                addTmpChatBotList(false, "좋아! 잠시만 기다려줘~","","",0,time, 0, 0, 0, 0, 0, 0);
+                addTmpChatBotList(false, "좋아! 잠시만 기다려줘~","","",0,time);
 
                 lifeCTextLists.add(new ModelLifeCTextList("좋아! 잠시만 기다려줘~","","",0, time));
 
@@ -977,10 +886,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 calculatedYield();
                 visiblePrice(false);
 
-                addTmpChatBotList(false, "","","",3,"", 0,
-                        0, 0, 0, 0, 0);
+                addTmpChatBotList(false, "","","",3,"");
                 addTmpChatBotList(false, "이제 너만을 위한 라이프 챌린지가 완성됐어!\n딱 맞는 상품이 있는데, 바로 확인해볼래?",
-                        "","",0,"", 0, 0, 0, 0, 0, 0);
+                        "","",0,"");
 
                 lifeCTextLists.add(new ModelLifeCTextList("","","",3, time));
                 lifeCTextLists.add(new ModelLifeCTextList("이제 너만을 위한 라이프 챌린지가 완성됐어!\n딱 맞는 상품이 있는데, 바로 확인해볼래?","","",0, ""));
@@ -997,10 +905,8 @@ public class ActivityLifeChallenge extends AppCompatActivity{
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
 
-                addTmpChatBotList(false, "월 마다!","","",1,time, 1,
-                        0, 0, 0, 0, 0);
-                addTmpChatBotList(false, "월에 얼마씩 넣을꺼야?","","",0,time, 1,
-                        0, 0, 0, 0, 0);
+                addTmpChatBotList(false, "월 마다!","","",1,time);
+                addTmpChatBotList(false, "월에 얼마씩 넣을꺼야?","","",0,time);
 
                 lifeCTextLists.add(new ModelLifeCTextList("월 마다!","","",1, time));
                 lifeCTextLists.add(new ModelLifeCTextList("월에 얼마씩 넣을꺼야?","","",0, time));
@@ -1035,6 +941,11 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                 Date date = new Date();
                 String time = new SimpleDateFormat("aa hh:mm").format(date);
+
+                addTmpChatBotList(false, "모아둔 돈으로 한번에!","","",1,time);
+                addTmpChatBotList(false, "월에 얼마씩 넣을꺼야?","","",0,time);
+
+
                 lifeCTextLists.add(new ModelLifeCTextList("모아둔 돈으로 한번에!","","",1, time));
                 lifeCTextLists.add(new ModelLifeCTextList("얼마나 넣을 생각이야?","","",0, time));
 
@@ -1072,6 +983,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
                 results.deleteAllFromRealm();
                 realm.commitTransaction();
+                realm.close();
 
                 Intent intent = new Intent(ActivityLifeChallenge.this, ActivityLifeChallenge.class);
                 startActivity(intent);
@@ -1080,14 +992,19 @@ public class ActivityLifeChallenge extends AppCompatActivity{
             }
         });
 
-        //가입하기
+        //30초 가입하기
         joinBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                Intent intent = new Intent(ActivityLifeChallenge.this, ActivityMemberShipMain.class);
+                startActivity(intent);
+                finish();
+
             }
         });
 
+        //챌린지 봇 정보 보기
         botInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1111,7 +1028,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
             chatBotTalkList.setCategory(tmpChatBotTalkList.getCategory());
             chatBotTalkList.setTime(tmpChatBotTalkList.getTime());
             chatBot.getChatBotTalkLists().add(chatBotTalkList);
-
         }
 
         realm.commitTransaction();
@@ -1119,11 +1035,7 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
     //챗봇 대화 임시 저장
     private void addTmpChatBotList(boolean endState, String talk, String subTitle,
-                                   String longSubTitle, int category, String time,
-                                   int chartState, long basicPrice,
-                                   long monthlyPrice, long selectYear,
-                                   long hadPrice, long finalPrice){
-
+                                   String longSubTitle, int category, String time){
 
         tmpChatBotTalkLists.add(new TmpChatBotTalkList(talk, time, subTitle,longSubTitle, category));
 
@@ -1153,6 +1065,16 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         }
     };
 
+    private void initVisible(){
+        talkEditText2.setVisibility(View.VISIBLE);
+        sendBt.setVisibility(View.VISIBLE);
+        yesBt.setVisibility(View.GONE);
+        noBt.setVisibility(View.GONE);
+        yesBt3.setVisibility(View.GONE);
+        noBt3.setVisibility(View.GONE);
+        monthBt.setVisibility(View.GONE);
+        allBt.setVisibility(View.GONE);
+    }
 
     private void visibleSelectBt(boolean visible){
         if(visible){
@@ -1314,8 +1236,38 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         chartInfoLsits.add(new ModelChartInfoLsit(String.valueOf(calTotalPrice*10000),String.valueOf(calYield*10000),"","",String.valueOf((long)price*10000), String.valueOf((long)price2*10000)));
     }
 
+    private void realmCalYield3(long selectYear, long hadPrice){
+
+        finishedChart = true;
+
+        entries.add(new Entry(0, hadPrice, hadPrice));
+        float price = hadPrice*1.1f;
+        entries.add(new Entry(1, price*10000, price*10000));
+
+        for(int yield = 2 ; yield <= selectYear ; yield++){
+            price = price*1.1f;
+            entries.add(new Entry(yield, price*10000, price*10000));
+        }
+
+        calTotalPrice = (long)(hadPrice*selectYear);
+        calYield = (long)(price - calTotalPrice);
+
+        entries2.add(new Entry(0, hadPrice, hadPrice));
+        float price2 = hadPrice*1.03f;
+        entries2.add(new Entry(1, price2*10000, price2*10000));
+
+        for(int yield2 = 2; yield2 <= selectYear ; yield2++){
+            price2 = price2*1.03f;
+            entries2.add(new Entry(yield2, price2*10000, price2*10000));
+        }
+        chartInfoLsits.add(new ModelChartInfoLsit(String.valueOf(calTotalPrice*10000),String.valueOf(calYield*10000),"","",String.valueOf((long)price*10000), String.valueOf((long)price2*10000)));
+    }
+
 
     private void calculatedYield() {
+        realm.beginTransaction();
+        chatBot = realm.createObject(ChatBot.class);
+
 
         chatBot.setChartState(0);
         chatBot.setBasicPrice(basicPrice);
@@ -1374,6 +1326,9 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
     private void calculatedYield2(){
 
+        realm.beginTransaction();
+        chatBot = realm.createObject(ChatBot.class);
+
         chatBot.setChartState(1);
         chatBot.setSelectYear(selectYear);
         chatBot.setMonthlyPrice(monthlyPrice);
@@ -1405,6 +1360,13 @@ public class ActivityLifeChallenge extends AppCompatActivity{
 
 
     private void calculatedYield3(){
+
+        realm.beginTransaction();
+        chatBot = realm.createObject(ChatBot.class);
+
+        chatBot.setChartState(2);
+        chatBot.setSelectYear(selectYear);
+        chatBot.setHadPrice(hadPrice);
 
         finishedChart = true;
 
@@ -1455,11 +1417,6 @@ public class ActivityLifeChallenge extends AppCompatActivity{
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
 }
 
 

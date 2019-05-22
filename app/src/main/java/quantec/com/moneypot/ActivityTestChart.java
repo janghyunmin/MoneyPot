@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -84,6 +85,12 @@ public class ActivityTestChart extends AppCompatActivity {
         l.setXEntrySpace(7f);
         l.setYEntrySpace(5f);
         l.setTextColor(Color.WHITE);
+
+        LottieAnimationView animationView = findViewById(R.id.animation_view);
+        animationView.setAnimation("LottieLogo1.json");
+        animationView.loop(false);
+        animationView.playAnimation();
+
     }
 
     private void setData() {
