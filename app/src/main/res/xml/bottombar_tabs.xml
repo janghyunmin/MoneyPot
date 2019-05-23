@@ -4,26 +4,26 @@
     <tabs>
         <tab
             id="@+id/tab1"
-            icon="@drawable/ic_bottom_target_off"
+            icon="@drawable/bottom_icon1"
             title="맞춤포트"
             />
         <tab
             id="@+id/tab2"
-            icon="@drawable/ic_bottom_search_off"
+            icon="@drawable/bottom_icon2"
             title="포트요리"
             />
         <tab
             id="@+id/tab3"
-            icon="@drawable/ic_bottom_rank_off"
+            icon="@drawable/bottom_icon3"
             title="포트마켓"/>
         <tab
             id="@+id/tab4"
-            icon="@drawable/ic_bottom_cart_off"
+            icon="@drawable/bottom_icon4"
             title="찜한포트"
             />
         <tab
             id="@+id/tab5"
-            icon="@drawable/ic_bottom_all_off"
+            icon="@drawable/bottom_icon5"
             title="전체보기"
             />
     </tabs>

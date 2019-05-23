@@ -2,10 +2,18 @@ package quantec.com.moneypot.Activity.Main.Fragment.FgTab1;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,6 +29,11 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     ArrayList<ModelFitPotList> modelFitPotLists;
     Context context;
 
+    boolean isFront = true;
+    private int DURATION = 500;
+    private float centerX;
+    private float centerY;
+
     public AdapterFitPot(ArrayList<ModelFitPotList> modelFitPotLists, Context context) {
         this.modelFitPotLists = modelFitPotLists;
         this.context = context;
@@ -33,6 +46,33 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void setEmptyTotalPriceClick(EmptyTotalPriceClick emptyTotalPriceClick) {
         this.emptyTotalPriceClick = emptyTotalPriceClick;
+    }
+
+    private EmptyLifeChallengeClick emptyLifeChallengeClick;
+    public interface EmptyLifeChallengeClick{
+        public void onClick(int position);
+    }
+
+    public void setEmptyLifeChallengeClick(EmptyLifeChallengeClick emptyLifeChallengeClick) {
+        this.emptyLifeChallengeClick = emptyLifeChallengeClick;
+    }
+
+    private LifeChallengeClick lifeChallengeClick;
+    public interface LifeChallengeClick{
+        public void onClick(int position);
+    }
+
+    public void setLifeChallengeClick(LifeChallengeClick lifeChallengeClick) {
+        this.lifeChallengeClick = lifeChallengeClick;
+    }
+
+    private ChangedStViewClick changedStViewClick;
+    public interface ChangedStViewClick {
+        public void onClick(int position);
+    }
+
+    public void setChangedStViewClick(ChangedStViewClick changedStViewClick) {
+        this.changedStViewClick = changedStViewClick;
     }
 
     @NonNull
@@ -66,12 +106,27 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             });
-
         }
+
         else if(holder instanceof TotalPriceViewHolder){
+
+            if(!modelFitPotLists.get(position).isEmpty){
+
+            }else{
+                ((TotalPriceViewHolder)holder).webView.loadUrl(modelFitPotLists.get(position).getWebViewUrl());
+            }
 
         }
         else if(holder instanceof EmptyLifeChallengeViewHolder){
+
+            ((EmptyLifeChallengeViewHolder)holder).cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(emptyLifeChallengeClick != null) {
+                        emptyLifeChallengeClick.onClick(position);
+                    }
+                }
+            });
 
         }
         else if(holder instanceof LifeChallengeViewHolder){
@@ -86,6 +141,38 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             ((LifeChallengeViewHolder)holder).lifeStName.setText(modelFitPotLists.get(position).getLifeStTitle());
             ((LifeChallengeViewHolder)holder).lifeStYield.setText(modelFitPotLists.get(position).getLifeStYeild());
+
+            ((LifeChallengeViewHolder)holder).deleteBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(lifeChallengeClick != null) {
+                        lifeChallengeClick.onClick(position);
+                    }
+                }
+            });
+
+
+            ((LifeChallengeViewHolder)holder).lifeRecomBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+//                    applyRotation(((LifeChallengeViewHolder)holder).flipView, ((LifeChallengeViewHolder)holder).front,((LifeChallengeViewHolder)holder).back,
+//                            0f, 90f, 180f, 0f);
+                    applyRotation(((LifeChallengeViewHolder)holder).flipView, ((LifeChallengeViewHolder)holder).front,((LifeChallengeViewHolder)holder).back,
+                            0f, 90f, 180f, 0f);
+                }
+            });
+
+            ((LifeChallengeViewHolder)holder).lifeRecomBt2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    applyRotation(((LifeChallengeViewHolder)holder).flipView, ((LifeChallengeViewHolder)holder).front,((LifeChallengeViewHolder)holder).back,
+//                            180f, 270f, 360f, 0f);
+                    applyRotation(((LifeChallengeViewHolder)holder).flipView, ((LifeChallengeViewHolder)holder).front,((LifeChallengeViewHolder)holder).back,
+                            360f, 270f, 180f, 0f);
+
+                }
+            });
 
         }
 
@@ -122,13 +209,19 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class EmptyLifeChallengeViewHolder extends RecyclerView.ViewHolder {
 
+        CardView cardView;
+
         public EmptyLifeChallengeViewHolder(View itemView) {
             super(itemView);
+
+            cardView = itemView.findViewById(R.id.cardView);
         }
     }
     public class LifeChallengeViewHolder extends RecyclerView.ViewHolder {
 
-        TextView lifeTitle, lifeContent, lifeYear, lifePrice, lifePlan, lifeExp, lifeType, lifeStName, lifeStYield;
+        TextView lifeTitle, lifeContent, lifeYear, lifePrice, lifePlan, lifeExp, lifeType, lifeStName, lifeStYield, deleteBt, lifeRecomBt, lifeRecomBt2;
+        FrameLayout flipView;
+        ConstraintLayout front, back;
 
         public LifeChallengeViewHolder(View itemView) {
             super(itemView);
@@ -142,6 +235,14 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             lifeType = itemView.findViewById(R.id.lifeType);
             lifeStName = itemView.findViewById(R.id.lifeStName);
             lifeStYield = itemView.findViewById(R.id.lifeStYield);
+            deleteBt = itemView.findViewById(R.id.deleteBt);
+
+            flipView = itemView.findViewById(R.id.flipView);
+            front = itemView.findViewById(R.id.front);
+            back = itemView.findViewById(R.id.back);
+            lifeRecomBt = itemView.findViewById(R.id.lifeRecomBt);
+            lifeRecomBt2 = itemView.findViewById(R.id.lifeRecomBt2);
+
 
         }
     }
@@ -155,9 +256,99 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             makeBt = itemView.findViewById(R.id.makeBt);
         }
     }
+
+
     public class TotalPriceViewHolder extends RecyclerView.ViewHolder {
+
+        WebView webView;
+
         public TotalPriceViewHolder(View itemView) {
             super(itemView);
+
+            webView = itemView.findViewById(R.id.webView);
+
+            WebSettings mws=webView.getSettings();//Mobile Web Setting
+            mws.setJavaScriptEnabled(true);//자바스크립트 허용
+            mws.setLoadWithOverviewMode(true);//컨텐츠가 웹뷰보다 클 경우 스크린 크기에 맞게 조정
+
+            webView.setWebViewClient(new WebViewClient(){
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    view.loadUrl(url);
+                    return true;
+                }
+            });
+
         }
     }
+
+
+
+    private void applyRotation(View view, View frontView, View backView, float start, float end, float mid, float depth){
+        this.centerX = view.getWidth() / 2.0f;
+        this.centerY = view.getHeight() / 2.0f;
+
+        Rotate3dAnimation rot = new Rotate3dAnimation(start, mid, centerX, centerY, depth, true);
+        rot.setDuration(DURATION);
+        rot.setInterpolator(new AccelerateInterpolator());
+        rot.setAnimationListener(new DisplayNextView(view, frontView, backView, mid, end, depth));
+        view.startAnimation(rot);
+    }
+
+    private class DisplayNextView implements Animation.AnimationListener {
+
+        private float mid;
+        private float end;
+        private float depth;
+        private View view;
+        private View frontView, backView;
+
+        public DisplayNextView(View view, View frontView, View backView,float mid, float end, float depth) {
+            this.mid = mid;
+            this.end = end;
+            this.depth = depth;
+            this.view = view;
+            this.frontView = frontView;
+            this.backView = backView;
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+
+            view.post(new Runnable() {
+                @Override
+                public void run() {
+
+                    if(isFront){
+                        frontView.setVisibility(View.GONE);
+                        backView.setVisibility(View.VISIBLE);
+                        isFront = false;
+
+                    }else{
+                        frontView.setVisibility(View.VISIBLE);
+                        backView.setVisibility(View.GONE);
+                        isFront = true;
+                    }
+
+//                    Rotate3dAnimation rot = new Rotate3dAnimation(mid, end, centerX, centerY, depth, true);
+//                    rot.setDuration(DURATION);
+//                    rot.setInterpolator(new AccelerateInterpolator());
+//                    view.startAnimation(rot);
+
+                }
+            });
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    }
+
 }

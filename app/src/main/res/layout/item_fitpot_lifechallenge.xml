@@ -14,6 +14,17 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/deleteBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="삭제하기"
+            app:layout_constraintBottom_toTopOf="@+id/lifeImage"
+            app:layout_constraintEnd_toEndOf="@+id/lifeImage"
+            android:textSize="11dp"
+            android:textColor="@color/text_black_color"
+            />
+
+        <TextView
             android:id="@+id/lifeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,65 +134,196 @@
             android:layout_marginEnd="20dp"
             />
 
-        <ImageView
-            android:id="@+id/liftStImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_control"
-            app:layout_constraintTop_toBottomOf="@+id/lifeLine"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="20dp"
-            />
-
-        <TextView
-            android:id="@+id/lifeStName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="안전형 연금 투자 전략"
-            app:layout_constraintTop_toTopOf="@+id/liftStImage"
-            app:layout_constraintBottom_toBottomOf="@+id/liftStImage"
-            app:layout_constraintStart_toEndOf="@+id/liftStImage"
-            android:layout_marginStart="10dp"
-            android:textSize="15dp"
-            android:textColor="@color/text_black_color"
-            />
-
-        <TextView
-            android:id="@+id/lifeStYield"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="17.91%"
-            app:layout_constraintTop_toTopOf="@+id/liftStImage"
-            app:layout_constraintBottom_toBottomOf="@+id/liftStImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="20dp"
-            android:textSize="15dp"
-            android:textColor="@color/red_text_color"
-            />
-
-        <TextView
-            android:id="@+id/lifeRecomBt"
+        <FrameLayout
+            android:id="@+id/flipView"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="더 강력한 상품을 추천해드릴까요?"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="6dp"
-            android:textSize="10dp"
-            android:gravity="center"
-            />
-
-        <ImageView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_info_off_gray"
-            app:layout_constraintTop_toTopOf="@+id/lifeRecomBt"
-            app:layout_constraintBottom_toBottomOf="@+id/lifeRecomBt"
-            app:layout_constraintEnd_toEndOf="@+id/lifeRecomBt"
-            android:layout_marginEnd="70dp"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/lifeLine"
+            >
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/front"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/liftStImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_control"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    />
+                <TextView
+                    android:id="@+id/lifeStName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="안전형 연금 투자 전략"
+                    app:layout_constraintTop_toTopOf="@+id/liftStImage"
+                    app:layout_constraintBottom_toBottomOf="@+id/liftStImage"
+                    app:layout_constraintStart_toEndOf="@+id/liftStImage"
+                    android:layout_marginStart="10dp"
+                    android:textSize="15dp"
+                    android:textColor="@color/text_black_color"
+                    />
+                <TextView
+                    android:id="@+id/lifeStYield"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="17.91%"
+                    app:layout_constraintTop_toTopOf="@+id/liftStImage"
+                    app:layout_constraintBottom_toBottomOf="@+id/liftStImage"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="20dp"
+                    android:textSize="15dp"
+                    android:textColor="@color/red_text_color"
+                    />
+                <TextView
+                    android:id="@+id/lifeRecomBt"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="더 강력한 상품을 추천해드릴까요?"
+                    app:layout_constraintTop_toBottomOf="@+id/lifeStName"
+                    android:textSize="10dp"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_info_off_gray"
+                    app:layout_constraintTop_toTopOf="@+id/lifeRecomBt"
+                    app:layout_constraintBottom_toBottomOf="@+id/lifeRecomBt"
+                    app:layout_constraintEnd_toEndOf="@+id/lifeRecomBt"
+                    android:layout_marginEnd="70dp"
+                    />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/back"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                >
+
+                <ImageView
+                    android:id="@+id/liftStImage2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_control"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    />
+                <TextView
+                    android:id="@+id/lifeStName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="반대편입니다."
+                    app:layout_constraintTop_toTopOf="@+id/liftStImage2"
+                    app:layout_constraintBottom_toBottomOf="@+id/liftStImage2"
+                    app:layout_constraintStart_toEndOf="@+id/liftStImage2"
+                    android:layout_marginStart="10dp"
+                    android:textSize="15dp"
+                    android:textColor="@color/text_black_color"
+                    />
+                <TextView
+                    android:id="@+id/lifeStYield2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100.78%"
+                    app:layout_constraintTop_toTopOf="@+id/liftStImage2"
+                    app:layout_constraintBottom_toBottomOf="@+id/liftStImage2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="20dp"
+                    android:textSize="15dp"
+                    android:textColor="@color/red_text_color"
+                    />
+                <TextView
+                    android:id="@+id/lifeRecomBt2"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="반대로 돌아가보세요?"
+                    app:layout_constraintTop_toBottomOf="@+id/lifeStName2"
+                    android:textSize="10dp"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_info_off_gray"
+                    app:layout_constraintTop_toTopOf="@+id/lifeRecomBt2"
+                    app:layout_constraintBottom_toBottomOf="@+id/lifeRecomBt2"
+                    app:layout_constraintEnd_toEndOf="@+id/lifeRecomBt2"
+                    android:layout_marginEnd="70dp"
+                    />
+
+            </android.support.constraint.ConstraintLayout>
+        </FrameLayout>
+
+        <!--<ImageView-->
+            <!--android:id="@+id/liftStImage"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/ic_control"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/lifeLine"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginStart="20dp"-->
+            <!--/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/lifeStName"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="안전형 연금 투자 전략"-->
+            <!--app:layout_constraintTop_toTopOf="@+id/liftStImage"-->
+            <!--app:layout_constraintBottom_toBottomOf="@+id/liftStImage"-->
+            <!--app:layout_constraintStart_toEndOf="@+id/liftStImage"-->
+            <!--android:layout_marginStart="10dp"-->
+            <!--android:textSize="15dp"-->
+            <!--android:textColor="@color/text_black_color"-->
+            <!--/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/lifeStYield"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="17.91%"-->
+            <!--app:layout_constraintTop_toTopOf="@+id/liftStImage"-->
+            <!--app:layout_constraintBottom_toBottomOf="@+id/liftStImage"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--android:layout_marginEnd="20dp"-->
+            <!--android:textSize="15dp"-->
+            <!--android:textColor="@color/red_text_color"-->
+            <!--/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/lifeRecomBt"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:text="더 강력한 상품을 추천해드릴까요?"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--android:layout_marginBottom="6dp"-->
+            <!--android:textSize="10dp"-->
+            <!--android:gravity="center"-->
+            <!--/>-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/ic_info_off_gray"-->
+            <!--app:layout_constraintTop_toTopOf="@+id/lifeRecomBt"-->
+            <!--app:layout_constraintBottom_toBottomOf="@+id/lifeRecomBt"-->
+            <!--app:layout_constraintEnd_toEndOf="@+id/lifeRecomBt"-->
+            <!--android:layout_marginEnd="70dp"-->
+            <!--/>-->
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

@@ -3,6 +3,7 @@ package quantec.com.moneypot.Activity.Main.Fragment.FgTab1;
 public class ModelFitPotList {
 
     boolean isEmpty;
+    String webViewUrl;
     String liftTitle;
     String lifeContent;
     String lifeYear;
@@ -13,8 +14,9 @@ public class ModelFitPotList {
     String lifeStTitle;
     String lifeStYeild;
 
-    public ModelFitPotList(boolean isEmpty, String liftTitle, String lifeContent, String lifeYear, String lifePrice, String lifePlan, String lifeExp, String lifeType, String lifeStTitle, String lifeStYeild) {
+    public ModelFitPotList(boolean isEmpty, String webViewUrl, String liftTitle, String lifeContent, String lifeYear, String lifePrice, String lifePlan, String lifeExp, String lifeType, String lifeStTitle, String lifeStYeild) {
         this.isEmpty = isEmpty;
+        this.webViewUrl = webViewUrl;
         this.liftTitle = liftTitle;
         this.lifeContent = lifeContent;
         this.lifeYear = lifeYear;
@@ -32,6 +34,14 @@ public class ModelFitPotList {
 
     public void setEmpty(boolean empty) {
         isEmpty = empty;
+    }
+
+    public String getWebViewUrl() {
+        return webViewUrl;
+    }
+
+    public void setWebViewUrl(String webViewUrl) {
+        this.webViewUrl = webViewUrl;
     }
 
     public String getLiftTitle() {

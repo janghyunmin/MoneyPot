@@ -30,6 +30,7 @@ import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.components.Legend;
@@ -82,6 +83,8 @@ public class Fg_tab1 extends Fragment {
     ArrayList<ModelFitPotList> modelFitPotLists;
     AdapterFitPot adapterFitPot;
 
+    boolean limitedLife = false;
+
     public Fg_tab1() {}
 
     @Nullable
@@ -118,15 +121,66 @@ public class Fg_tab1 extends Fragment {
 
         fgTab1Binding.recyclerView.setAdapter(adapterFitPot);
 
+        modelFitPotLists.add(0, new ModelFitPotList(false, "","", "", "", "", "", "", "", "", ""));
+//        modelFitPotLists.add(0, new ModelFitPotList(true, "http://pizzaplanet.tistory.com/","", "", "", "", "", "", "", "", ""));
 
-        modelFitPotLists.add(0, new ModelFitPotList(false, "", "", "", "", "", "", "", "", ""));
-        modelFitPotLists.add(new ModelFitPotList(true, "내집마련", "정말 더 없이 좋은 나만의 인생 라이프", "30", "1000000000",
-                "장기플랜", "투자의 고수", "조심조심", "안정형을 추구하는 연금 투자 전략", "44.56"));
-        modelFitPotLists.add(new ModelFitPotList(false, "", "", "", "", "", "", "", "", ""));
+        modelFitPotLists.add(new ModelFitPotList(true, "","내집마련", "정말 더 없이 좋은 나만의 인생 라이프", "30", "1000000000",
+                "장기플랜", "투자의 고수", "조심조심", "안정형을 추구하는 연금 투자 전략", "44.56%"));
+        modelFitPotLists.add(new ModelFitPotList(false, "","", "", "", "", "", "", "", "", ""));
 
+        adapterFitPot.setEmptyTotalPriceClick(new AdapterFitPot.EmptyTotalPriceClick() {
+            @Override
+            public void onClick(int position) {
+//                Intent intent = new Intent()
+                Toast.makeText(mainActivity, "계좌 개설로 이동됩니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        adapterFitPot.setEmptyLifeChallengeClick(new AdapterFitPot.EmptyLifeChallengeClick() {
+            @Override
+            public void onClick(int position) {
+                modelFitPotLists.add(modelFitPotLists.size()-1, new ModelFitPotList(true, "","내집마련"+(modelFitPotLists.size()-1), "정말 더 없이 좋은 나만의 인생 라이프", "30", "1000000000",
+                        "장기플랜", "투자의 고수", "조심조심", "안정형을 추구하는 연금 투자 전략", "44.56%"));
+                visibleAddLife();
+            }
+        });
+
+        adapterFitPot.setLifeChallengeClick(new AdapterFitPot.LifeChallengeClick() {
+            @Override
+            public void onClick(int position) {
+                modelFitPotLists.remove(position);
+                visibleAddLife();
+            }
+        });
 
     }//onViewCreate 끝
 
+
+    private void visibleAddLife(){
+
+        if(modelFitPotLists.size() == 12){
+
+            modelFitPotLists.remove(modelFitPotLists.size()-1);
+            adapterFitPot.notifyDataSetChanged();
+
+            limitedLife = true;
+
+        }else{
+
+            if(limitedLife){
+
+                limitedLife = false;
+
+                modelFitPotLists.add(modelFitPotLists.size(), new ModelFitPotList(false, "","", "", "", "", "", "", "", "", ""));
+                adapterFitPot.notifyDataSetChanged();
+
+            }else{
+                adapterFitPot.notifyDataSetChanged();
+            }
+
+        }
+
+    }
 }
 
 
