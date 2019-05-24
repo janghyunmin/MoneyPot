@@ -29,24 +29,23 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".Activity.Main.MainActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".Activity.Intro.ActivityIntro"
             android:screenOrientation="portrait">
 
-             <!--<intent-filter>-->
-             <!--<action android:name="android.intent.action.MAIN" />-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
 
-             <!--<category android:name="android.intent.category.LAUNCHER" />-->
-             <!--</intent-filter>-->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <provider
@@ -130,13 +129,11 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".ActivityTestChart">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".FIDO.AuthenticationActivity"
@@ -211,20 +208,23 @@
         <activity android:name=".Activity.ClientCenter.ActivityQuestion" />
         <activity android:name=".Activity.ClientCenter.ActivityWebViewQuestion" />
         <activity android:name=".Activity.ClientCenter.ActivityUseGuide" />
-        <!--<activity android:name=".Activity.MyInfomation.CustomRecyclerView.ExpandActivity" />-->
+        <!-- <activity android:name=".Activity.MyInfomation.CustomRecyclerView.ExpandActivity" /> -->
         <activity android:name=".Activity.ClientCenter.ActivityAppVersion" />
         <activity android:name=".Activity.ClientCenter.ActivityInquiry" />
         <activity android:name=".Activity.ActivityNotice.ActivityNotice" />
         <activity android:name=".Activity.ActivitySetting.ActivitySetting" />
         <activity android:name=".Activity.MyInfomation.ActivityChangedEmail" />
         <activity android:name=".Activity.ActivityLifeChallenge.ActivityLifeChallenge">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".Activity.ActivityIntroBeginPage"></activity>
+        <activity android:name=".Activity.ActivityIntroBeginPage" />
+        <activity android:name=".Activity.Main.Fragment.FgTab2.ActivityPotCook"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/titleLeagueView"
+    >
+
+    <TextView
+        android:id="@+id/potLeagueTitle"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:text="포트리그"
+        android:textSize="14dp"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="bottom"
+        android:layout_marginStart="16dp"
+        />
+    <TextView
+        android:id="@+id/potLeagueContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/potLeagueTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="최대 오백만원의 상금과 함께 상품 판의 기회까지!"
+        android:textSize="11dp"
+        android:textColor="@color/text_gray_color"
+        android:layout_marginStart="16dp"
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_right_gray_24_dp_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/potLeagueContent"
+        />
+    <View
+        android:id="@+id/potLeagueLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f4f4f4"
+        app:layout_constraintTop_toBottomOf="@+id/potLeagueContent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        />
+
+</android.support.constraint.ConstraintLayout>
