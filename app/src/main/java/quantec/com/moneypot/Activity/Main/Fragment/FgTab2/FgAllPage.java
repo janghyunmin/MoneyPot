@@ -1,6 +1,7 @@
 package quantec.com.moneypot.Activity.Main.Fragment.FgTab2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,7 +36,7 @@ public class FgAllPage extends Fragment {
 
     private MainActivity mainActivity;
 
-    TextView myPotNon, myPotName, myPotTime, myPotYield;
+    TextView myPotNon, myPotName, myPotTime, myPotYield, myPotBt;
     ConstraintLayout myPot;
 
     public FgAllPage() {
@@ -50,6 +51,8 @@ public class FgAllPage extends Fragment {
 
         myPotNon = view.findViewById(R.id.myPotNon);
         myPot = view.findViewById(R.id.myPot);
+
+        myPotBt = view.findViewById(R.id.myPotBt);
 
         myPotName = view.findViewById(R.id.myPotName);
         myPotTime = view.findViewById(R.id.myPotTime);
@@ -145,6 +148,17 @@ public class FgAllPage extends Fragment {
             @Override
             public void onClick(int position) {
                 Toast.makeText(mainActivity, position+"등 랭커 상세보기", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        myPotBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(mainActivity, ActivityPotCook.class);
+                startActivity(intent);
+
             }
         });
 
