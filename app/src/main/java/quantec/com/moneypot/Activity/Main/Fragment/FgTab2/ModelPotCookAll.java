@@ -7,13 +7,15 @@ public class ModelPotCookAll {
     String stTitle;
     String stSubTitle;
     String imgUrl;
+    String stCode;
 
-    public ModelPotCookAll(boolean openView, boolean addSt, String stTitle, String stSubTitle, String imgUrl) {
+    public ModelPotCookAll(boolean openView, boolean addSt, String stTitle, String stSubTitle, String imgUrl, String stCode) {
         this.openView = openView;
         this.addSt = addSt;
         this.stTitle = stTitle;
         this.stSubTitle = stSubTitle;
         this.imgUrl = imgUrl;
+        this.stCode = stCode;
     }
 
     public boolean isOpenView() {
@@ -54,5 +56,13 @@ public class ModelPotCookAll {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String getStCode() {
+        return stCode;
+    }
+
+    public void setStCode(String stCode) {
+        this.stCode = stCode;
     }
 }

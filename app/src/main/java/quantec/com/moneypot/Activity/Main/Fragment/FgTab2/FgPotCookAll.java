@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import quantec.com.moneypot.R;
+import quantec.com.moneypot.RxAndroid.RxEvent;
+import quantec.com.moneypot.RxAndroid.RxEventBus;
 import quantec.com.moneypot.Util.DecimalScale.DecimalScale;
 
 public class FgPotCookAll extends Fragment{
@@ -33,11 +36,13 @@ public class FgPotCookAll extends Fragment{
 
     int currentPosition;
 
-
     //차트
     List<Entry> entries;
     LineDataSet lineDataSet;
     LineData lineData;
+
+    Bundle stList;
+    int itemCount;
 
     public FgPotCookAll() {
     }
@@ -49,6 +54,8 @@ public class FgPotCookAll extends Fragment{
         View view = inflater.inflate(R.layout.fg_potcookall, container, false);
 
         initializeViews();
+
+        stList = new Bundle();
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -83,12 +90,12 @@ public class FgPotCookAll extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        modelPotCookAlls.add(new ModelPotCookAll(false,false,"대한민국 국가대표 기업들", "KODEX200", ""));
-        modelPotCookAlls.add(new ModelPotCookAll(false,false,"세계 경제를 이끄는 중국 기업", "TIGER 차이나CSI300", ""));
-        modelPotCookAlls.add(new ModelPotCookAll(false,false,"한국 경제의 중심! 삼성의 계열사", "KODEX 삼성그룹", ""));
-        modelPotCookAlls.add(new ModelPotCookAll(false,false,"헬스케어 업종에 투자", "TIGER 헬스케어", ""));
-        modelPotCookAlls.add(new ModelPotCookAll(false,false,"핵심은 4차 산업 기술", "TIGER 글로벌 4차산업 혁신기술(합성 H)", ""));
-        modelPotCookAlls.add(new ModelPotCookAll(false,false,"한국을 IT 강국으로 이끈 기업들", "TIGER 200 IT", ""));
+        modelPotCookAlls.add(new ModelPotCookAll(false,false,"대한민국 국가대표 기업들", "KODEX200", "", ""));
+        modelPotCookAlls.add(new ModelPotCookAll(false,false,"세계 경제를 이끄는 중국 기업", "TIGER 차이나CSI300", "", ""));
+        modelPotCookAlls.add(new ModelPotCookAll(false,false,"한국 경제의 중심! 삼성의 계열사", "KODEX 삼성그룹", "", ""));
+        modelPotCookAlls.add(new ModelPotCookAll(false,false,"헬스케어 업종에 투자", "TIGER 헬스케어", "", ""));
+        modelPotCookAlls.add(new ModelPotCookAll(false,false,"핵심은 4차 산업 기술", "TIGER 글로벌 4차산업 혁신기술(합성 H)", "", ""));
+        modelPotCookAlls.add(new ModelPotCookAll(false,false,"한국을 IT 강국으로 이끈 기업들", "TIGER 200 IT", "", ""));
 
 
         for(int a = 0; a < 100 ; a++){
@@ -118,8 +125,25 @@ public class FgPotCookAll extends Fragment{
 
                 if(modelPotCookAlls.get(position).isAddSt()){
                     modelPotCookAlls.get(position).setAddSt(false);
+
+                    itemCount--;
+                    stList.putBoolean("click", false);
+                    stList.putInt("count",itemCount);
+                    stList.putString("code", modelPotCookAlls.get(position).getStCode());
+                    stList.putString("title", modelPotCookAlls.get(position).getStTitle());
+
+                    RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_SELECT_ITEM, stList));
+
                 }else{
                     modelPotCookAlls.get(position).setAddSt(true);
+
+                    itemCount++;
+                    Log.e("전 갯수","값 : "+itemCount);
+                    stList.putBoolean("click", true);
+                    stList.putInt("count",itemCount);
+                    stList.putString("code", modelPotCookAlls.get(position).getStCode());
+                    stList.putString("title", modelPotCookAlls.get(position).getStTitle());
+                    RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_SELECT_ITEM, stList));
                 }
 
                 adapterPotCookAll.notifyDataSetChanged();

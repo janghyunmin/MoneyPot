@@ -379,68 +379,68 @@ public class MainActivity extends BaseActivity {
                                 break;
 
                             case RxEvent.ZZIM_PORT_SELECT_ITEM:
-                                if(rxEvent.getBundle().getBoolean("click")) {
-                                    pre_cash = pre_cash+rxEvent.getBundle().getLong("mincost");
-                                    Total_Cash = pre_cash;
-                                    portCount = rxEvent.getBundle().getInt("count");
-                                    code.add(rxEvent.getBundle().getString("code"));
-
-                                    portName.add(rxEvent.getBundle().getString("title"));
-
-                                    activityMainBinding.makePortCash.setText(String.valueOf(pre_cash));
-                                    activityMainBinding.makePortNumber.setText(String.valueOf(portCount)+"개");
-                                    activityMainBinding.makePortPreNumber.setText(String.valueOf(portCount)+"개");
-                                    if(portCount < 2) {
-                                        activityMainBinding.makePortNumber.setTextColor(getResources().getColor(R.color.delete_pressed_text));
-                                        activityMainBinding.makePortPreNumber.setTextColor(getResources().getColor(R.color.delete_pressed_text));
-                                        SelectItemFinishState[0] = false;
-                                        PortMakeButton();
-                                    }else{
-                                        activityMainBinding.makePortNumber.setTextColor(getResources().getColor(R.color.make_port_blue_color));
-                                        activityMainBinding.makePortPreNumber.setTextColor(getResources().getColor(R.color.make_port_blue_color));
-                                        SelectItemFinishState[0] = true;
-                                        PortMakeButton();
-                                    }
-                                    if(portCount < 2) {
-                                        activityMainBinding.makePortTitleInfoText.setText("포트 만들기는 2개 부터 가능합니다.");
-                                        activityMainBinding.makePortTitlePreInfoText.setText("포트 만들기는 2개 부터 가능합니다.");
-                                    }else{
-                                        activityMainBinding.makePortTitleInfoText.setText("선택하신 포트의 최소 투자 금액은 "+String.valueOf(pre_cash)+"만원 입니다.");
-                                        activityMainBinding.makePortTitlePreInfoText.setText("선택하신 포트의 최소 투자 금액은 "+String.valueOf(pre_cash)+"만원 입니다.");
-                                    }
-                                    update_cash = 0;
-
-                                }else{
-                                    pre_cash = pre_cash-rxEvent.getBundle().getLong("mincost");
-                                    Total_Cash = pre_cash;
-                                    activityMainBinding.makePortCash.setText(String.valueOf(pre_cash));
-                                    portCount = rxEvent.getBundle().getInt("count");
-                                    code.remove(code.indexOf(rxEvent.getBundle().getString("code")));
-
-                                    portName.remove(portName.indexOf(rxEvent.getBundle().getString("title")));
-
-                                    activityMainBinding.makePortNumber.setText(String.valueOf(portCount)+"개");
-                                    activityMainBinding.makePortPreNumber.setText(String.valueOf(portCount)+"개");
-                                    if(portCount < 2) {
-                                        activityMainBinding.makePortNumber.setTextColor(getResources().getColor(R.color.delete_pressed_text));
-                                        activityMainBinding.makePortPreNumber.setTextColor(getResources().getColor(R.color.delete_pressed_text));
-                                        SelectItemFinishState[0] = false;
-                                        PortMakeButton();
-                                    }else{
-                                        activityMainBinding.makePortNumber.setTextColor(getResources().getColor(R.color.make_port_blue_color));
-                                        activityMainBinding.makePortPreNumber.setTextColor(getResources().getColor(R.color.make_port_blue_color));
-                                        SelectItemFinishState[0] = true;
-                                        PortMakeButton();
-                                    }
-                                    if(portCount < 2) {
-                                        activityMainBinding.makePortTitleInfoText.setText("포트 만들기는 2개 부터 가능합니다.");
-                                        activityMainBinding.makePortTitlePreInfoText.setText("포트 만들기는 2개 부터 가능합니다.");
-                                    }else{
-                                        activityMainBinding.makePortTitleInfoText.setText("선택하신 포트의 최소 투자 금액은 "+String.valueOf(pre_cash)+"만원 입니다.");
-                                        activityMainBinding.makePortTitlePreInfoText.setText("선택하신 포트의 최소 투자 금액은 "+String.valueOf(pre_cash)+"만원 입니다.");
-                                    }
-                                    update_cash = 0;
-                                }
+//                                if(rxEvent.getBundle().getBoolean("click")) {
+//                                    pre_cash = pre_cash+rxEvent.getBundle().getLong("mincost");
+//                                    Total_Cash = pre_cash;
+//                                    portCount = rxEvent.getBundle().getInt("count");
+//                                    code.add(rxEvent.getBundle().getString("code"));
+//
+//                                    portName.add(rxEvent.getBundle().getString("title"));
+//
+//                                    activityMainBinding.makePortCash.setText(String.valueOf(pre_cash));
+//                                    activityMainBinding.makePortNumber.setText(String.valueOf(portCount)+"개");
+//                                    activityMainBinding.makePortPreNumber.setText(String.valueOf(portCount)+"개");
+//                                    if(portCount < 2) {
+//                                        activityMainBinding.makePortNumber.setTextColor(getResources().getColor(R.color.delete_pressed_text));
+//                                        activityMainBinding.makePortPreNumber.setTextColor(getResources().getColor(R.color.delete_pressed_text));
+//                                        SelectItemFinishState[0] = false;
+//                                        PortMakeButton();
+//                                    }else{
+//                                        activityMainBinding.makePortNumber.setTextColor(getResources().getColor(R.color.make_port_blue_color));
+//                                        activityMainBinding.makePortPreNumber.setTextColor(getResources().getColor(R.color.make_port_blue_color));
+//                                        SelectItemFinishState[0] = true;
+//                                        PortMakeButton();
+//                                    }
+//                                    if(portCount < 2) {
+//                                        activityMainBinding.makePortTitleInfoText.setText("포트 만들기는 2개 부터 가능합니다.");
+//                                        activityMainBinding.makePortTitlePreInfoText.setText("포트 만들기는 2개 부터 가능합니다.");
+//                                    }else{
+//                                        activityMainBinding.makePortTitleInfoText.setText("선택하신 포트의 최소 투자 금액은 "+String.valueOf(pre_cash)+"만원 입니다.");
+//                                        activityMainBinding.makePortTitlePreInfoText.setText("선택하신 포트의 최소 투자 금액은 "+String.valueOf(pre_cash)+"만원 입니다.");
+//                                    }
+//                                    update_cash = 0;
+//
+//                                }else{
+//                                    pre_cash = pre_cash-rxEvent.getBundle().getLong("mincost");
+//                                    Total_Cash = pre_cash;
+//                                    activityMainBinding.makePortCash.setText(String.valueOf(pre_cash));
+//                                    portCount = rxEvent.getBundle().getInt("count");
+//                                    code.remove(code.indexOf(rxEvent.getBundle().getString("code")));
+//
+//                                    portName.remove(portName.indexOf(rxEvent.getBundle().getString("title")));
+//
+//                                    activityMainBinding.makePortNumber.setText(String.valueOf(portCount)+"개");
+//                                    activityMainBinding.makePortPreNumber.setText(String.valueOf(portCount)+"개");
+//                                    if(portCount < 2) {
+//                                        activityMainBinding.makePortNumber.setTextColor(getResources().getColor(R.color.delete_pressed_text));
+//                                        activityMainBinding.makePortPreNumber.setTextColor(getResources().getColor(R.color.delete_pressed_text));
+//                                        SelectItemFinishState[0] = false;
+//                                        PortMakeButton();
+//                                    }else{
+//                                        activityMainBinding.makePortNumber.setTextColor(getResources().getColor(R.color.make_port_blue_color));
+//                                        activityMainBinding.makePortPreNumber.setTextColor(getResources().getColor(R.color.make_port_blue_color));
+//                                        SelectItemFinishState[0] = true;
+//                                        PortMakeButton();
+//                                    }
+//                                    if(portCount < 2) {
+//                                        activityMainBinding.makePortTitleInfoText.setText("포트 만들기는 2개 부터 가능합니다.");
+//                                        activityMainBinding.makePortTitlePreInfoText.setText("포트 만들기는 2개 부터 가능합니다.");
+//                                    }else{
+//                                        activityMainBinding.makePortTitleInfoText.setText("선택하신 포트의 최소 투자 금액은 "+String.valueOf(pre_cash)+"만원 입니다.");
+//                                        activityMainBinding.makePortTitlePreInfoText.setText("선택하신 포트의 최소 투자 금액은 "+String.valueOf(pre_cash)+"만원 입니다.");
+//                                    }
+//                                    update_cash = 0;
+//                                }
                                 break;
 
                             // 만든 포트 저장 시 탭2 ( 내가 만든 포트 페이지 )로 이동
