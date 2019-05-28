@@ -1,5 +1,8 @@
 package quantec.com.moneypot.Activity.Main.Fragment.FgTab2;
 
+import android.content.Intent;
+import android.os.Build;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,13 +10,20 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,21 +43,70 @@ public class ActivityPotCook extends AppCompatActivity {
     TabLayout tabLayout;
 
     int currentPage = 0;
-    TextView defaultNum, defaultTitle, nextBt, prevBt, okBt;
+    TextView defaultNum, defaultTitle, nextBt, prevBt, okBt, stableBt, middleBt, adventBt, priceText, upBT1, upBT2, upBT3,upBT4,upBT5, infoText;
     LinearLayout next2Bt;
+    View goToPriceBt;
 
-//    ArrayList<ModelPortList> modelPortLists;
     ArrayList<String> stCode = new ArrayList<>();
     ArrayList<String> stName = new ArrayList<>();
 
     int portCount;
+    ImageView downBt, refreshBt;
+    ConstraintLayout portControlView;
+
+    LinearLayout dimLayout;
+
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    ArrayList<ModelPortList> modelPortLists;
+    AdapterPotCook adapterPotCook;
+
+    boolean recyclerViewState = false;
+    long investPrice = 200;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pot_cook);
 
-//        modelPortLists = new ArrayList<>();
+        //스테이터스 바 색상 변경 -> 화이트
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }else{
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.main_page_status_bar_color));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        goToPriceBt = findViewById(R.id.goToPriceBt);
+
+        infoText = findViewById(R.id.infoText);
+        refreshBt = findViewById(R.id.refreshBt);
+
+        upBT1 = findViewById(R.id.upBT1);
+        upBT2 = findViewById(R.id.upBT2);
+        upBT3 = findViewById(R.id.upBT3);
+        upBT4 = findViewById(R.id.upBT4);
+        upBT5 = findViewById(R.id.upBT5);
+
+        stableBt = findViewById(R.id.stableBt);
+        middleBt = findViewById(R.id.middleBt);
+        adventBt = findViewById(R.id.adventBt);
+        priceText = findViewById(R.id.priceText);
+
+        priceText.setText(String.valueOf(investPrice));
+
+        dimLayout = findViewById(R.id.dimLayout);
+
+        downBt = findViewById(R.id.downBt);
+        portControlView = findViewById(R.id.portControlView);
 
         defaultTitle = findViewById(R.id.defaultTitle);
         defaultNum = findViewById(R.id.defaultNum);
@@ -59,6 +118,29 @@ public class ActivityPotCook extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        modelPortLists = new ArrayList<>();
+        adapterPotCook = new AdapterPotCook(modelPortLists, this);
+
+        recyclerView.setAdapter(adapterPotCook);
+
+        modelPortLists.add(new ModelPortList("","은행이자 처럼 차곡, 고배당","배당"));
+        modelPortLists.add(new ModelPortList("","시장에서 급감하는 기업들","기본"));
+        modelPortLists.add(new ModelPortList("","은행이자 차곡이~","배당"));
+        modelPortLists.add(new ModelPortList("","은호도 안주는 그냥당당당","채권"));
+
+        dimLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
@@ -88,6 +170,8 @@ public class ActivityPotCook extends AppCompatActivity {
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
+                        dimLayout.setVisibility(View.VISIBLE);
+                        portControlView.setVisibility(View.VISIBLE);
                         nextBt.setEnabled(false);
                     }
                     @Override
@@ -95,6 +179,7 @@ public class ActivityPotCook extends AppCompatActivity {
                         nextBt.setVisibility(View.INVISIBLE);
                         prevBt.setEnabled(true);
                         okBt.setEnabled(true);
+                        downBt.setVisibility(View.VISIBLE);
                     }
                     @Override
                     public void onAnimationRepeat(Animation animation) {
@@ -119,7 +204,11 @@ public class ActivityPotCook extends AppCompatActivity {
                 animation3.setFillEnabled(false);
                 animation3.setAnimationListener(new Animation.AnimationListener() {
                     @Override
-                    public void onAnimationStart(Animation animation) {}
+                    public void onAnimationStart(Animation animation) {
+                        dimLayout.setVisibility(View.GONE);
+                        portControlView.setVisibility(View.GONE);
+                        downBt.setVisibility(View.INVISIBLE);
+                    }
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         prevBt.setEnabled(false);
@@ -155,18 +244,26 @@ public class ActivityPotCook extends AppCompatActivity {
                                     stName.add(rxEvent.getBundle().getString("title"));
 
                                     if(portCount == 0){
+
+                                        nextBtState(false);
+
                                         defaultNum.setText("선택 없음");
                                         defaultTitle.setText("2개 이상을 선택해주세요.");
                                         defaultTitle.setTextColor(getResources().getColor(R.color.text_gray_color));
                                         defaultNum.setTextColor(getResources().getColor(R.color.text_black_color));
                                     }
                                     else if(portCount < 2 && portCount > 0) {
+
+                                        nextBtState(false);
+
                                         defaultNum.setText(String.valueOf(portCount)+"개");
                                         defaultTitle.setText("2개 이상을 선택해주세요.");
                                         defaultTitle.setTextColor(getResources().getColor(R.color.text_gray_color));
                                         defaultNum.setTextColor(getResources().getColor(R.color.text_black_color));
 
                                     }else{
+
+                                        nextBtState(true);
 
                                         defaultNum.setText(String.valueOf(portCount)+"개");
                                         defaultTitle.setText("선택하신 포트의 최소 투자 금액은 200만입니다.");
@@ -182,18 +279,28 @@ public class ActivityPotCook extends AppCompatActivity {
                                     stName.remove(stName.indexOf(rxEvent.getBundle().getString("title")));
 
                                     if(portCount == 0){
+
+                                        nextBtState(false);
+
                                         defaultNum.setText("선택 없음");
                                         defaultTitle.setText("2개 이상을 선택해주세요.");
                                         defaultTitle.setTextColor(getResources().getColor(R.color.text_gray_color));
                                         defaultNum.setTextColor(getResources().getColor(R.color.text_black_color));
                                     }
                                     else if(portCount < 2 && portCount > 0) {
+
+                                        nextBtState(false);
+
                                         defaultNum.setText(String.valueOf(portCount)+"개");
                                         defaultTitle.setText("2개 이상을 선택해주세요.");
                                         defaultTitle.setTextColor(getResources().getColor(R.color.text_gray_color));
                                         defaultNum.setTextColor(getResources().getColor(R.color.text_black_color));
 
                                     }else{
+
+                                        nextBtState(true);
+
+                                        nextBt.setBackgroundColor(getResources().getColor(R.color.red_text_color));
 
                                         defaultNum.setText(String.valueOf(portCount)+"개");
                                         defaultTitle.setText("선택하신 포트의 최소 투자 금액은 200만입니다.");
@@ -212,8 +319,166 @@ public class ActivityPotCook extends AppCompatActivity {
                     }
                 });
 
+        downBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(recyclerViewState){
+                    recyclerViewState = false;
+                    recyclerView.setVisibility(View.VISIBLE);
+                    downBt.setImageDrawable(getResources().getDrawable(R.drawable.ic_down_whitegray_32_dp));
+
+                    Animation animation = AnimationUtils.loadAnimation(ActivityPotCook.this, R.anim.fade_cook);
+                    animation.setFillAfter(false);
+                    animation.setFillEnabled(false);
+                    animation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                            downBt.setEnabled(false);
+                        }
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            downBt.setEnabled(true);
+                        }
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+                    });
+                    recyclerView.startAnimation(animation);
+
+
+                }else{
+                    downBt.setImageDrawable(getResources().getDrawable(R.drawable.ic_up_gray_32_dp));
+                    recyclerViewState = true;
+                    recyclerView.setVisibility(View.GONE);
+
+                }
+            }
+        });
+
+
+        adapterPotCook.setPotDeleteClick(new AdapterPotCook.PotDeleteClick() {
+            @Override
+            public void onClick(int position) {
+                if(modelPortLists.size() > 2){
+                    modelPortLists.remove(position);
+                    adapterPotCook.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(ActivityPotCook.this, "2개이하 삭제 불가",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        stableBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoText.setText("안정적인 수익률을 생각하는 방법");
+                stableBt.setBackgroundResource(R.drawable.click_roundbt);
+                stableBt.setTextColor(getResources().getColor(R.color.button_able_text));
+                middleBt.setBackgroundResource(R.drawable.normal_roundbt);
+                middleBt.setTextColor(getResources().getColor(R.color.button_enable_text));
+                adventBt.setBackgroundResource(R.drawable.normal_roundbt);
+                adventBt.setTextColor(getResources().getColor(R.color.button_enable_text));
+            }
+        });
+        middleBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoText.setText("중립적인 수익률을 생각하는 방법");
+                middleBt.setBackgroundResource(R.drawable.click_roundbt);
+                middleBt.setTextColor(getResources().getColor(R.color.button_able_text));
+                stableBt.setBackgroundResource(R.drawable.normal_roundbt);
+                stableBt.setTextColor(getResources().getColor(R.color.button_enable_text));
+                adventBt.setBackgroundResource(R.drawable.normal_roundbt);
+                adventBt.setTextColor(getResources().getColor(R.color.button_enable_text));
+            }
+        });
+        adventBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoText.setText("모험적인 수익률을 생각하는 방법");
+                adventBt.setBackgroundResource(R.drawable.click_roundbt);
+                adventBt.setTextColor(getResources().getColor(R.color.button_able_text));
+                stableBt.setBackgroundResource(R.drawable.normal_roundbt);
+                stableBt.setTextColor(getResources().getColor(R.color.button_enable_text));
+                middleBt.setBackgroundResource(R.drawable.normal_roundbt);
+                middleBt.setTextColor(getResources().getColor(R.color.button_enable_text));
+            }
+        });
+
+
+
+        upBT1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                investPrice+=10;
+                priceText.setText(String.valueOf(investPrice));
+            }
+        });
+
+        upBT2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                investPrice+=50;
+                priceText.setText(String.valueOf(investPrice));
+            }
+        });
+
+        upBT3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                investPrice+=100;
+                priceText.setText(String.valueOf(investPrice));
+            }
+        });
+
+        upBT4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                investPrice+=200;
+                priceText.setText(String.valueOf(investPrice));
+            }
+        });
+
+        upBT5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                investPrice+=500;
+                priceText.setText(String.valueOf(investPrice));
+            }
+        });
+
+        refreshBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                investPrice = 200;
+                priceText.setText(String.valueOf(investPrice));
+            }
+        });
+
+        goToPriceBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityPotCook.this, ActivityAddPrice.class);
+                intent.putExtra("investPrice",investPrice);
+                startActivity(intent);
+            }
+        });
 
     }//onCreate 끝
+
+    private void nextBtState(boolean state){
+        if(state){
+            nextBt.setEnabled(true);
+            nextBt.setTextColor(getResources().getColor(R.color.button_able_text));
+            nextBt.setBackgroundColor(getResources().getColor(R.color.button_able));
+        }else{
+            nextBt.setEnabled(false);
+            nextBt.setBackgroundColor(getResources().getColor(R.color.button_enable));
+            nextBt.setTextColor(getResources().getColor(R.color.button_enable_text));
+        }
+    }
 
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {

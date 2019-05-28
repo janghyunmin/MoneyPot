@@ -4,10 +4,12 @@ public class ModelPortList {
 
     String stCode;
     String stname;
+    String category;
 
-    public ModelPortList(String stCode, String stname) {
+    public ModelPortList(String stCode, String stname, String category) {
         this.stCode = stCode;
         this.stname = stname;
+        this.category = category;
     }
 
     public String getStCode() {
@@ -24,5 +26,13 @@ public class ModelPortList {
 
     public void setStname(String stname) {
         this.stname = stname;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

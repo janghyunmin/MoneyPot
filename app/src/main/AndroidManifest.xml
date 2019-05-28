@@ -224,7 +224,8 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".Activity.ActivityIntroBeginPage" />
-        <activity android:name=".Activity.Main.Fragment.FgTab2.ActivityPotCook"></activity>
+        <activity android:name=".Activity.Main.Fragment.FgTab2.ActivityPotCook" />
+        <activity android:name=".Activity.Main.Fragment.FgTab2.ActivityAddPrice"></activity>
     </application>
 
 </manifest>

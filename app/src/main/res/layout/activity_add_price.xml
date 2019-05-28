@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Main.Fragment.FgTab2.ActivityAddPrice">
+
+
+    <ImageView
+        android:id="@+id/backBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back_gray"
+        />
+    <TextView
+        android:id="@+id/topTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="금액 입력"
+        android:textSize="14dp"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="투자 금액"
+        android:textSize="12dp"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toBottomOf="@+id/backBt"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="26dp"
+        />
+
+    <EditText
+        android:id="@+id/priceEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:textSize="18dp"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="26dp"
+        android:text="200"
+        android:inputType="number"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_black_color"
+        android:text="만원"
+        android:textSize="14dp"
+        app:layout_constraintStart_toEndOf="@+id/priceEditText"
+        app:layout_constraintBottom_toBottomOf="@+id/priceEditText"
+        android:layout_marginStart="2dp"
+        android:paddingBottom="1dp"
+        />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccccc"
+        app:layout_constraintTop_toBottomOf="@+id/priceEditText"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="5dp"
+        />
+
+    <ImageView
+        android:id="@+id/refreshBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_refresh_gray"
+        app:layout_constraintBottom_toTopOf="@+id/line"
+        app:layout_constraintEnd_toEndOf="@+id/line"
+        />
+
+    <TextView
+        android:id="@+id/upBT1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ 10만원"
+        android:textSize="10dp"
+        android:textColor="@color/text_black_color"
+        android:background="@drawable/rectangle_line"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="13dp"
+        />
+    <TextView
+        android:id="@+id/upBT2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ 50만원"
+        android:textSize="10dp"
+        android:textColor="@color/text_black_color"
+        android:background="@drawable/rectangle_line"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintStart_toEndOf="@+id/upBT1"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="13dp"
+        />
+    <TextView
+        android:id="@+id/upBT3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ 100만원"
+        android:textSize="10dp"
+        android:textColor="@color/text_black_color"
+        android:background="@drawable/rectangle_line"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintStart_toEndOf="@+id/upBT2"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="13dp"
+        />
+    <TextView
+        android:id="@+id/upBT4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ 200만원"
+        android:textSize="10dp"
+        android:textColor="@color/text_black_color"
+        android:background="@drawable/rectangle_line"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintStart_toEndOf="@+id/upBT3"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="13dp"
+        />
+    <TextView
+        android:id="@+id/upBT5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ 500만원"
+        android:textSize="10dp"
+        android:textColor="@color/text_black_color"
+        android:background="@drawable/rectangle_line"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintStart_toEndOf="@+id/upBT4"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="13dp"
+        />
+
+    <ImageView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_info_off_gray"
+        app:layout_constraintTop_toBottomOf="@+id/upBT1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="21dp"
+        android:layout_marginStart="25dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="선택하신 포트의 최소 투자금액은 200만원입니다."
+        app:layout_constraintStart_toEndOf="@+id/info"
+        app:layout_constraintTop_toTopOf="@+id/info"
+        app:layout_constraintBottom_toBottomOf="@+id/info"
+        android:textSize="12dp"
+        android:textColor="@color/gray_brown_color"
+        />
+
+    <TextView
+        android:id="@+id/confirmBt"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="확인"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/button_enable"
+        android:textColor="@color/button_enable_text"
+        android:textSize="18dp"
+        android:enabled="false"
+        />
+
+</android.support.constraint.ConstraintLayout>

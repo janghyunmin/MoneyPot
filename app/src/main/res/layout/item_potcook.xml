@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="38dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="배당"
+        android:gravity="center"
+        android:textSize="10dp"
+        android:textColor="@color/gray_brown_color"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="26dp"
+        android:background="@drawable/rectangle_small_line"
+        />
+
+    <TextView
+        android:id="@+id/stTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="은행 이자 처럼 차곡, 고배당"
+        app:layout_constraintStart_toEndOf="@+id/category"
+        android:textSize="12dp"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toTopOf="@+id/category"
+        app:layout_constraintBottom_toBottomOf="@+id/category"
+        android:layout_marginStart="6dp"
+        />
+
+    <TextView
+        android:id="@+id/deleteBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="목록에서 제외"
+        android:textSize="10dp"
+        android:textColor="@color/red_text_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/stTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/stTitle"
+        android:layout_marginEnd="10dp"
+        />
+
+
+</android.support.constraint.ConstraintLayout>
