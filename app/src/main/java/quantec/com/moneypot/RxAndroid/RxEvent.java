@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 public class RxEvent {
 
+    public static final String REFRESH_POT_COOK="refresh_pot_cook";
+
     public static final String ZZIM_PORT_MAKE_MYPORT="zzim_port_make_myport";
     public static final String ZZIM_PORT_MAKE_MYPORT_CLOSE="zzim_port_make_myport_close";
     public static final String ZZIM_PORT_SELECT_ITEM="zzim_port_select_item";

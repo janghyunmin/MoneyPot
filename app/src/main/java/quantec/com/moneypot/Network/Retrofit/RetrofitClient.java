@@ -62,6 +62,7 @@ public class RetrofitClient {
                             token = SharedPreferenceUtil.getInstance(mContext).getStringExtra("aToken");
                         }
                         Log.e("토큰", "값 : "+token);
+                        token = "dummy@quant.co.kr";
 
                         if(request.body() != null) {
                             String time = String.valueOf(new java.sql.Timestamp(System.currentTimeMillis()).getTime());

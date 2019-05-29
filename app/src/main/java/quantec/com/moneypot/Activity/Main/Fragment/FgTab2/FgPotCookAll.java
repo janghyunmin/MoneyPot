@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,13 @@ import com.github.mikephil.charting.data.LineDataSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.ModelPortList;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
 import quantec.com.moneypot.RxAndroid.RxEventBus;
-import quantec.com.moneypot.Util.DecimalScale.DecimalScale;
 
 public class FgPotCookAll extends Fragment{
 
@@ -43,6 +45,8 @@ public class FgPotCookAll extends Fragment{
 
     Bundle stList;
     int itemCount;
+
+    ArrayList<ModelPortList> modelPortLists;
 
     public FgPotCookAll() {
     }
@@ -72,6 +76,8 @@ public class FgPotCookAll extends Fragment{
 
         recyclerView.setAdapter(adapterPotCookAll);
 
+        modelPortLists = new ArrayList<>();
+
         return view;
     }
 
@@ -90,12 +96,12 @@ public class FgPotCookAll extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        modelPotCookAlls.add(new ModelPotCookAll(false,false,"대한민국 국가대표 기업들", "KODEX200", "", ""));
-        modelPotCookAlls.add(new ModelPotCookAll(false,false,"세계 경제를 이끄는 중국 기업", "TIGER 차이나CSI300", "", ""));
-        modelPotCookAlls.add(new ModelPotCookAll(false,false,"한국 경제의 중심! 삼성의 계열사", "KODEX 삼성그룹", "", ""));
-        modelPotCookAlls.add(new ModelPotCookAll(false,false,"헬스케어 업종에 투자", "TIGER 헬스케어", "", ""));
-        modelPotCookAlls.add(new ModelPotCookAll(false,false,"핵심은 4차 산업 기술", "TIGER 글로벌 4차산업 혁신기술(합성 H)", "", ""));
-        modelPotCookAlls.add(new ModelPotCookAll(false,false,"한국을 IT 강국으로 이끈 기업들", "TIGER 200 IT", "", ""));
+        modelPotCookAlls.add(new ModelPotCookAll(false,false,"대한민국 국가대표 기업들", "KODEX200", "", "MP0001"));
+        modelPotCookAlls.add(new ModelPotCookAll(false,false,"세계 경제를 이끄는 중국 기업", "TIGER 차이나CSI300", "", "MP0002"));
+        modelPotCookAlls.add(new ModelPotCookAll(false,false,"한국 경제의 중심! 삼성의 계열사", "KODEX 삼성그룹", "", "MP0003"));
+        modelPotCookAlls.add(new ModelPotCookAll(false,false,"헬스케어 업종에 투자", "TIGER 헬스케어", "", "MP0004"));
+        modelPotCookAlls.add(new ModelPotCookAll(false,false,"핵심은 4차 산업 기술", "TIGER 글로벌 4차산업 혁신기술(합성 H)", "", "MP0005"));
+        modelPotCookAlls.add(new ModelPotCookAll(false,false,"한국을 IT 강국으로 이끈 기업들", "TIGER 200 IT", "", "MP0006"));
 
 
         for(int a = 0; a < 100 ; a++){
@@ -138,7 +144,6 @@ public class FgPotCookAll extends Fragment{
                     modelPotCookAlls.get(position).setAddSt(true);
 
                     itemCount++;
-                    Log.e("전 갯수","값 : "+itemCount);
                     stList.putBoolean("click", true);
                     stList.putInt("count",itemCount);
                     stList.putString("code", modelPotCookAlls.get(position).getStCode());
@@ -150,6 +155,47 @@ public class FgPotCookAll extends Fragment{
             }
         });
 
+
+
+        RxEventBus.getInstance()
+                .filteredObservable(RxEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RxEvent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+                    @Override
+                    public void onNext(RxEvent rxEvent) {
+
+                        switch (rxEvent.getActiion()) {
+
+                            case RxEvent.REFRESH_POT_COOK:
+
+                                for(int t = 0 ; t < modelPotCookAlls.size() ; t++){
+                                    modelPotCookAlls.get(t).setAddSt(false);
+                                }
+
+                                modelPortLists = rxEvent.getBundle().getParcelableArrayList("potList");
+                                itemCount = modelPortLists.size();
+
+                                for(int a = 0 ; a < modelPortLists.size() ; a++){
+                                    for(int b = 0 ; b < modelPotCookAlls.size() ; b++){
+                                        if(modelPotCookAlls.get(b).getStTitle().equals(modelPortLists.get(a).getStname())){
+                                            modelPotCookAlls.get(b).setAddSt(true);
+                                        }
+                                    }
+                                }
+                                adapterPotCookAll.notifyDataSetChanged();
+                                break;
+                        }
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                    @Override
+                    public void onComplete() {
+                    }
+                });
 
 
     }

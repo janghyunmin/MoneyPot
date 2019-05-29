@@ -22,7 +22,7 @@ public class ActivityAddPrice extends AppCompatActivity {
     long investPrice = 200;
     EditText priceEditText;
     TextView upBT1, upBT2, upBT3, upBT4, upBT5, confirmBt;
-    ImageView refreshBt;
+    ImageView refreshBt, backBt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class ActivityAddPrice extends AppCompatActivity {
         upBT5 = findViewById(R.id.upBT5);
 
         confirmBt = findViewById(R.id.confirmBt);
+        backBt = findViewById(R.id.backBt);
 
 
         //스테이터스 바 색상 변경 -> 화이트
@@ -59,6 +60,7 @@ public class ActivityAddPrice extends AppCompatActivity {
         Intent intent = getIntent();
         investPrice = intent.getLongExtra("investPrice",200);
         priceEditText.setText(String.valueOf(investPrice));
+        confirmBtState();
 
         priceEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -71,12 +73,15 @@ public class ActivityAddPrice extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                investPrice = Long.valueOf(s.toString());
-                priceEditText.setText(s.toString());
-                confirmBtState();
+
+                if(!s.toString().isEmpty()){
+
+                   investPrice = Long.valueOf(s.toString());
+                   confirmBtState();
+
+                }
             }
         });
-
 
         confirmBt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +103,73 @@ public class ActivityAddPrice extends AppCompatActivity {
             public void onClick(View v) {
                 investPrice = 200;
                 priceEditText.setText(String.valueOf(investPrice));
+            }
+        });
+
+        backBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        upBT1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(investPrice <= 100000000){
+                    investPrice+=10;
+                    priceEditText.setText(String.valueOf(investPrice));
+                }else{
+                    Toast.makeText(ActivityAddPrice.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        upBT2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(investPrice <= 100000000){
+                    investPrice+=50;
+                    priceEditText.setText(String.valueOf(investPrice));
+                }else{
+                    Toast.makeText(ActivityAddPrice.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        upBT3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(investPrice <= 100000000){
+                    investPrice+=100;
+                    priceEditText.setText(String.valueOf(investPrice));
+                }else{
+                    Toast.makeText(ActivityAddPrice.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        upBT4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(investPrice <= 100000000){
+                    investPrice+=200;
+                    priceEditText.setText(String.valueOf(investPrice));
+                }else{
+                    Toast.makeText(ActivityAddPrice.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        upBT5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(investPrice <= 100000000){
+                    investPrice+=500;
+                    priceEditText.setText(String.valueOf(investPrice));
+                }else{
+                    Toast.makeText(ActivityAddPrice.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

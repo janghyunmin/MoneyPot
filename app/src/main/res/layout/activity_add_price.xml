@@ -51,8 +51,11 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="26dp"
-        android:text="200"
         android:inputType="number"
+        android:maxLength="9"
+        android:maxLines="1"
+        android:minWidth="50dp"
+        android:gravity="right"
         />
 
     <TextView
@@ -99,7 +102,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="17dp"
         />
     <TextView
         android:id="@+id/upBT2"
@@ -113,7 +116,7 @@
         app:layout_constraintTop_toBottomOf="@+id/line"
         app:layout_constraintStart_toEndOf="@+id/upBT1"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="17dp"
         />
     <TextView
         android:id="@+id/upBT3"
@@ -127,7 +130,7 @@
         app:layout_constraintTop_toBottomOf="@+id/line"
         app:layout_constraintStart_toEndOf="@+id/upBT2"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="17dp"
         />
     <TextView
         android:id="@+id/upBT4"
@@ -141,7 +144,7 @@
         app:layout_constraintTop_toBottomOf="@+id/line"
         app:layout_constraintStart_toEndOf="@+id/upBT3"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="17dp"
         />
     <TextView
         android:id="@+id/upBT5"
@@ -155,7 +158,7 @@
         app:layout_constraintTop_toBottomOf="@+id/line"
         app:layout_constraintStart_toEndOf="@+id/upBT4"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="17dp"
         />
 
     <ImageView

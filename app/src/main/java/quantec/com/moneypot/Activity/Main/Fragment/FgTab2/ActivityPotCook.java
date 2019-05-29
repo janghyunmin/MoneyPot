@@ -32,9 +32,20 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.Main.Fragment.FgTab2.Fg_CookPage.ModelPortList;
+import quantec.com.moneypot.Activity.Main.ModelMyChartData;
+import quantec.com.moneypot.Activity.Main.ModelPrevMyPot;
+import quantec.com.moneypot.DataManager.ChartManager;
+import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
+import quantec.com.moneypot.ModelCommon.dModel.TransChartList;
+import quantec.com.moneypot.ModelCommon.nModel.PotDto;
+import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
 import quantec.com.moneypot.RxAndroid.RxEventBus;
+import quantec.com.moneypot.Util.DecimalScale.DecimalScale;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivityPotCook extends AppCompatActivity {
 
@@ -61,8 +72,21 @@ public class ActivityPotCook extends AppCompatActivity {
     ArrayList<ModelPortList> modelPortLists;
     AdapterPotCook adapterPotCook;
 
-    boolean recyclerViewState = false;
+    boolean recyclerViewState = true;
     long investPrice = 200;
+
+    Bundle changedPotList;
+    boolean changedPot = false;
+    int portCaterogy;
+
+    DialogLoadingMakingPort loadingCustomMakingPort;
+
+    ///임시포트페이지로 넘겨주는 데이터
+    Bundle bundle;
+
+    ArrayList<String> portName = new ArrayList<>();
+
+    List<TransChartList> finishChart;
 
 
     @Override
@@ -84,6 +108,11 @@ public class ActivityPotCook extends AppCompatActivity {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        finishChart = new ArrayList<>();
+
+
+        changedPotList = new Bundle();
 
         goToPriceBt = findViewById(R.id.goToPriceBt);
 
@@ -129,11 +158,6 @@ public class ActivityPotCook extends AppCompatActivity {
         adapterPotCook = new AdapterPotCook(modelPortLists, this);
 
         recyclerView.setAdapter(adapterPotCook);
-
-        modelPortLists.add(new ModelPortList("","은행이자 처럼 차곡, 고배당","배당"));
-        modelPortLists.add(new ModelPortList("","시장에서 급감하는 기업들","기본"));
-        modelPortLists.add(new ModelPortList("","은행이자 차곡이~","배당"));
-        modelPortLists.add(new ModelPortList("","은호도 안주는 그냥당당당","채권"));
 
         dimLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -193,6 +217,16 @@ public class ActivityPotCook extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                recyclerViewState = true;
+                if(changedPot){
+                    downBt.setImageDrawable(getResources().getDrawable(R.drawable.ic_up_gray_32_dp));
+                    changedPot = false;
+                    portCount = modelPortLists.size();
+                    defaultNum.setText(String.valueOf(portCount)+"개");
+                    changedPotList.putParcelableArrayList("potList", modelPortLists);
+                    RxEventBus.getInstance().post(new RxEvent(RxEvent.REFRESH_POT_COOK, changedPotList));
+                }
+
                 nextBt.setVisibility(View.VISIBLE);
                 TranslateAnimation animation3 = new TranslateAnimation(
                         Animation.ABSOLUTE, 700,
@@ -205,6 +239,7 @@ public class ActivityPotCook extends AppCompatActivity {
                 animation3.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
+                        recyclerView.setVisibility(View.GONE);
                         dimLayout.setVisibility(View.GONE);
                         portControlView.setVisibility(View.GONE);
                         downBt.setVisibility(View.INVISIBLE);
@@ -222,6 +257,51 @@ public class ActivityPotCook extends AppCompatActivity {
             }
         });
 
+        //포트 조합 완료
+        okBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityPotCook.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
+                    loadingCustomMakingPort.show();
+
+
+                Intent intent = new Intent(ActivityPotCook.this, ActivityPreviewChart.class);
+                startActivity(intent);
+
+//                    bundle = new Bundle();
+//                    PotDto potDto = new PotDto(stCode, portCaterogy, 1000L);
+//
+//                    Call<ModelPrevMyPot> getchartItem = RetrofitClient.getInstance().getService().getPrevMyPot("application/json", potDto);
+//                    getchartItem.enqueue(new Callback<ModelPrevMyPot>() {
+//                        @Override
+//                        public void onResponse(Call<ModelPrevMyPot> call, Response<ModelPrevMyPot> response) {
+//
+//                            if(response.code() == 200) {
+//
+//                                for(int index = 0 ; index < response.body().getContent().getPotEls().size() ; index++){
+//                                    portName.add(response.body().getContent().getPotEls().get(index).getElName());
+//                                }
+//
+//                                bundle.putString("transptcode", response.body().getContent().getCode());
+//                                bundle.putStringArrayList("transtitle",portName);
+//                                bundle.putString("transcash", String.valueOf(response.body().getContent().getMinPrice()));
+//                                bundle.putString("transcategory", "중립형");
+//
+//                                getMyChartData(response.body().getContent().getCode());
+//
+//                            }
+//                        }
+//                        @Override
+//                        public void onFailure(Call<ModelPrevMyPot> call, Throwable t) {
+//                            loadingCustomMakingPort.dismiss();
+//                            Toast.makeText(ActivityPotCook.this, "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+//                            Log.e("레트로핏 실패","값 : "+t.getMessage());
+//                        }
+//                    });
+                }
+
+        });
 
         RxEventBus.getInstance()
                 .filteredObservable(RxEvent.class)
@@ -242,6 +322,8 @@ public class ActivityPotCook extends AppCompatActivity {
 
                                     stCode.add(rxEvent.getBundle().getString("code"));
                                     stName.add(rxEvent.getBundle().getString("title"));
+
+                                    modelPortLists.add(new ModelPortList(rxEvent.getBundle().getString("code"),rxEvent.getBundle().getString("title"),"배당"));
 
                                     if(portCount == 0){
 
@@ -272,6 +354,13 @@ public class ActivityPotCook extends AppCompatActivity {
                                     }
                                 }
                                 else{
+
+                                    for(int h = 0 ; h < modelPortLists.size() ; h++){
+                                        if(modelPortLists.get(h).getStname().equals(rxEvent.getBundle().getString("title"))){
+                                            modelPortLists.remove(h);
+                                        }
+                                    }
+
 
                                     portCount = rxEvent.getBundle().getInt("count");
 
@@ -360,6 +449,7 @@ public class ActivityPotCook extends AppCompatActivity {
             @Override
             public void onClick(int position) {
                 if(modelPortLists.size() > 2){
+                    changedPot = true;
                     modelPortLists.remove(position);
                     adapterPotCook.notifyDataSetChanged();
                 }
@@ -373,6 +463,7 @@ public class ActivityPotCook extends AppCompatActivity {
         stableBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                portCaterogy = 0;
                 infoText.setText("안정적인 수익률을 생각하는 방법");
                 stableBt.setBackgroundResource(R.drawable.click_roundbt);
                 stableBt.setTextColor(getResources().getColor(R.color.button_able_text));
@@ -385,6 +476,7 @@ public class ActivityPotCook extends AppCompatActivity {
         middleBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                portCaterogy = 1;
                 infoText.setText("중립적인 수익률을 생각하는 방법");
                 middleBt.setBackgroundResource(R.drawable.click_roundbt);
                 middleBt.setTextColor(getResources().getColor(R.color.button_able_text));
@@ -397,6 +489,7 @@ public class ActivityPotCook extends AppCompatActivity {
         adventBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                portCaterogy = 2;
                 infoText.setText("모험적인 수익률을 생각하는 방법");
                 adventBt.setBackgroundResource(R.drawable.click_roundbt);
                 adventBt.setTextColor(getResources().getColor(R.color.button_able_text));
@@ -412,40 +505,60 @@ public class ActivityPotCook extends AppCompatActivity {
         upBT1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                investPrice+=10;
-                priceText.setText(String.valueOf(investPrice));
+                if(investPrice <= 100000000){
+                    investPrice+=10;
+                    priceText.setText(String.valueOf(investPrice));
+                }else{
+                    Toast.makeText(ActivityPotCook.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         upBT2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                investPrice+=50;
-                priceText.setText(String.valueOf(investPrice));
+                if(investPrice <= 100000000){
+                    investPrice+=50;
+                    priceText.setText(String.valueOf(investPrice));
+                }else{
+                    Toast.makeText(ActivityPotCook.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         upBT3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                investPrice+=100;
-                priceText.setText(String.valueOf(investPrice));
+                if(investPrice <= 100000000){
+                    investPrice+=100;
+                    priceText.setText(String.valueOf(investPrice));
+                }else{
+                    Toast.makeText(ActivityPotCook.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         upBT4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                investPrice+=200;
-                priceText.setText(String.valueOf(investPrice));
+                if(investPrice <= 100000000){
+                    investPrice+=200;
+                    priceText.setText(String.valueOf(investPrice));
+                }else{
+                    Toast.makeText(ActivityPotCook.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         upBT5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                investPrice+=500;
-                priceText.setText(String.valueOf(investPrice));
+                if(investPrice <= 100000000){
+                    investPrice+=500;
+                    priceText.setText(String.valueOf(investPrice));
+                }else{
+                    Toast.makeText(ActivityPotCook.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -462,11 +575,54 @@ public class ActivityPotCook extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ActivityPotCook.this, ActivityAddPrice.class);
                 intent.putExtra("investPrice",investPrice);
-                startActivity(intent);
+                startActivityForResult(intent, 100);
             }
         });
 
     }//onCreate 끝
+
+
+
+    //임시로 만든 차트의 데이터를 불러옴
+    void getMyChartData(String ptCode) {
+
+        Call<ModelMyChartData> getTest2 = RetrofitClient.getInstance().getService().getMyPotChartData(11, ptCode,700);
+        getTest2.enqueue(new Callback<ModelMyChartData>() {
+            @Override
+            public void onResponse(Call<ModelMyChartData> call, Response<ModelMyChartData> response) {
+                if(response.code() == 200) {
+                    for(int a = 0 ; a < response.body().getContent().size() ; a++) {
+                        finishChart.add(new TransChartList(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                    }
+
+                    ChartManager.get_Instance().setTransChartLists(finishChart);
+                    loadingCustomMakingPort.dismiss();
+
+                    RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_MAKE_OK, bundle));
+                }
+            }
+            @Override
+            public void onFailure(Call<ModelMyChartData> call, Throwable t) {
+                loadingCustomMakingPort.dismiss();
+                Toast.makeText(ActivityPotCook.this, "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+                Log.e("레트로핏 실패","값 : "+t.getMessage());
+            }
+        });
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == 100){
+            switch (requestCode) {
+                case 100:
+                    investPrice = data.getLongExtra("investPrice", 200);
+                    priceText.setText(String.valueOf(investPrice));
+                    break;
+            }
+        }
+    }
 
     private void nextBtState(boolean state){
         if(state){
@@ -516,4 +672,8 @@ public class ActivityPotCook extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

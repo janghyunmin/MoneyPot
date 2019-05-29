@@ -225,7 +225,8 @@
         </activity>
         <activity android:name=".Activity.ActivityIntroBeginPage" />
         <activity android:name=".Activity.Main.Fragment.FgTab2.ActivityPotCook" />
-        <activity android:name=".Activity.Main.Fragment.FgTab2.ActivityAddPrice"></activity>
+        <activity android:name=".Activity.Main.Fragment.FgTab2.ActivityAddPrice" />
+        <activity android:name=".Activity.Main.Fragment.FgTab2.ActivityPreviewChart"></activity>
     </application>
 
 </manifest>
