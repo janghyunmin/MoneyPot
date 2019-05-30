@@ -23,6 +23,15 @@ public class AdapterAdImage extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.context = context;
     }
 
+    private ImageClick imageClick;
+    public interface ImageClick {
+        public void onClick(int position);
+    }
+
+    public void setImageClick(ImageClick imageClick) {
+        this.imageClick = imageClick;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,6 +43,15 @@ public class AdapterAdImage extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         if(holder instanceof AdImageViewHolder){
             ((AdImageViewHolder)holder).bannerImage.setBackgroundResource(R.drawable.img_researcher_1);
+
+            ((AdImageViewHolder)holder).bannerImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(imageClick != null) {
+                        imageClick.onClick(position);
+                    }
+                }
+            });
         }
     }
 

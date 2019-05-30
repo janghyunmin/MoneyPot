@@ -39,13 +39,12 @@
         <activity
             android:name=".Activity.Intro.ActivityIntro"
             android:screenOrientation="portrait">
+             <!--<intent-filter>-->
+             <!--<action android:name="android.intent.action.MAIN" />-->
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <!--<category android:name="android.intent.category.LAUNCHER" />-->
+             <!--</intent-filter>-->
         </activity>
 
         <provider
@@ -226,7 +225,8 @@
         <activity android:name=".Activity.ActivityIntroBeginPage" />
         <activity android:name=".Activity.Main.Fragment.FgTab2.ActivityPotCook" />
         <activity android:name=".Activity.Main.Fragment.FgTab2.ActivityAddPrice" />
-        <activity android:name=".Activity.Main.Fragment.FgTab2.ActivityPreviewChart"></activity>
+        <activity android:name=".Activity.Main.Fragment.FgTab2.ActivityPreviewChart" />
+        <activity android:name=".Activity.Main.Fragment.FgTab2.Fg_CookPage.ActivityPotCookBanner"></activity>
     </application>
 
 </manifest>
