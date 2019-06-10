@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@android:color/white"
@@ -61,7 +62,7 @@
                 android:layout_weight="0.2"
                 android:contentDescription="전체지움"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ds_btn_back_blue"
+                app:srcCompat="@drawable/ds_btn_back_blue"
                 android:visibility="gone" />
 
         </LinearLayout>

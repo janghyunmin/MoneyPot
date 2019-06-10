@@ -2,8 +2,6 @@ package quantec.com.moneypot.ModelCommon.nModel;
 
 import java.util.ArrayList;
 
-import quantec.com.moneypot.Activity.Main.PotEls;
-
 public class PotDto {
 
     ArrayList<String> codes;

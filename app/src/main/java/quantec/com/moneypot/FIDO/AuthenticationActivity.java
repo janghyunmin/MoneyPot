@@ -1,26 +1,21 @@
 
 package quantec.com.moneypot.FIDO;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.dream.magic.fido.rpsdk.callback.FIDOCallbackResult;
 import com.dream.magic.fido.rpsdk.client.FIDORequestCode;
 import com.dream.magic.fido.rpsdk.client.FidoResult;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import quantec.com.moneypot.Activity.Intro.ModelVerifiedFido;
 import quantec.com.moneypot.Activity.Login.Model.dModel.FidoReq;
-import quantec.com.moneypot.Activity.Login.Model.dModel.ModelFidoauthReqDto;
-import quantec.com.moneypot.Activity.Login.Model.nModel.ModelFidoAuthCode;
-import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
-import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
+import quantec.com.moneypot.util.SharedPreference.SharedPreferenceUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,7 +25,7 @@ import retrofit2.Response;
  *  - FIDO 인증하기 위한 화면 (Transaction Confirmation 이 있음)
  **/
 
-public class AuthenticationActivity extends Activity {
+public class AuthenticationActivity extends AppCompatActivity {
 
 	// RP SDK Object
 	private FIDOAuthentication mAuth = null;
@@ -152,9 +147,9 @@ public class AuthenticationActivity extends Activity {
                     SharedPreferenceUtil.getInstance(AuthenticationActivity.this).putTokenA("aToken", response.headers().get("Authorization"));
                     SharedPreferenceUtil.getInstance(AuthenticationActivity.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
 
-                    Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+//                    Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
 
                 }
             }
@@ -194,8 +189,8 @@ public class AuthenticationActivity extends Activity {
 		
 		if(requestCode == ALERT_REQUEST && isSuccess == true){
 
-			Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
-			startActivity(intent);
+//			Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
+//			startActivity(intent);
 
 		}
 	}

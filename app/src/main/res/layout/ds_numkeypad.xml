@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/numKeyboardLayout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -49,7 +50,7 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="전체지움"
                 android:scaleType="centerInside"
-                android:src="@drawable/ds_btn_back_blue"
+                app:srcCompat="@drawable/ds_btn_back_blue"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -72,7 +73,7 @@
                 android:contentDescription="확인"
                 android:padding="0dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ds_btn_textfield_ok" />
+                app:srcCompat="@drawable/ds_btn_textfield_ok" />
 
             <ImageButton
                 android:id="@+id/num_key_cancel"
@@ -87,7 +88,7 @@
                 android:contentDescription="취소"
                 android:padding="0dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ds_btn_textfield_cancel" />
+                app:srcCompat="@drawable/ds_btn_textfield_cancel" />
         </LinearLayout>
     </LinearLayout>
 
@@ -231,7 +232,7 @@
                 android:background="@drawable/ds_btn_shift_bg_selector"
                 android:contentDescription="재배열"
                 android:scaleType="centerInside"
-                android:src="@drawable/ds_btn_no_replace"
+                app:srcCompat="@drawable/ds_btn_no_replace"
                 android:visibility="invisible"
                 />
 
@@ -252,7 +253,7 @@
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:contentDescription="지움"
-                android:src="@drawable/ds_btn_back" />
+                app:srcCompat="@drawable/ds_btn_back" />
         </LinearLayout>
         <!--<LinearLayout-->
             <!--android:layout_width="fill_parent"-->

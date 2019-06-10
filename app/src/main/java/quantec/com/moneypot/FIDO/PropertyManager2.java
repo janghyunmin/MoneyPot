@@ -1,8 +1,9 @@
 package quantec.com.moneypot.FIDO;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.content.res.AssetManager;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,9 +20,9 @@ public class PropertyManager2 {
     private static final String VERIFIER2 = "HostNameVerifier2";
 
     private static Properties prop;
-    private static Activity act;
+    private static AppCompatActivity act;
 
-    public static void load(Activity param){
+    public static void load(AppCompatActivity param){
 
         act = param;
         try {
@@ -39,7 +40,7 @@ public class PropertyManager2 {
                 prop.load(ins);
                 ins.close();
 
-                FileOutputStream fos = act.openFileOutput(PROPNAME2, Activity.MODE_PRIVATE);
+                FileOutputStream fos = act.openFileOutput(PROPNAME2, AppCompatActivity.MODE_PRIVATE);
                 prop.store(fos, "fromAssets");
                 fos.close();
 

@@ -11,7 +11,7 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import quantec.com.moneypot.Util.DeEncryptUtil.DecryptUtil;
+import quantec.com.moneypot.util.DeEncrypt.DecryptUtil;
 
 public class ResponceInterceptor implements Interceptor {
     @Override

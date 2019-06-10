@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="307dp"
     android:layout_height="213dp"
@@ -13,7 +13,7 @@
         android:id="@+id/bannerImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:transitionName="pair_thumb"
         />
 
-    </android.support.v7.widget.CardView>
-
+</androidx.cardview.widget.CardView>

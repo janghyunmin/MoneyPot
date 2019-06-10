@@ -1,23 +1,20 @@
 package quantec.com.moneypot.Activity.Login.MemberShipPage;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import quantec.com.moneypot.Activity.BaseActivity.BaseActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.databinding.ActivityAgreePageBinding;
 
-public class ActivityAgreePage extends BaseActivity implements View.OnClickListener {
+public class ActivityAgreePage extends AppCompatActivity implements View.OnClickListener {
 
 
     boolean selectAllBt = false;
@@ -29,9 +26,10 @@ public class ActivityAgreePage extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_agree_page);
 
         agreePageBinding = DataBindingUtil.setContentView(this, R.layout.activity_agree_page);
-        agreePageBinding.setAgreePage(this);
+
 
         agreePageBinding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_gray_24_dp);
         agreePageBinding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_gray);
@@ -69,7 +67,7 @@ public class ActivityAgreePage extends BaseActivity implements View.OnClickListe
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
-        actList.add(this);
+//        actList.add(this);
 
         agreePageBinding.nextBt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,7 +185,7 @@ public class ActivityAgreePage extends BaseActivity implements View.OnClickListe
                     nonSelectBt[0] = 0;
                     nonSelectBt[1] = 0;
                     nonSelectBt[2] = 0;
-
+//
                     agreePageBinding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_gray_24_dp);
 
                     agreePageBinding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_gray);

@@ -2,10 +2,11 @@
 <layout>
     <data>
         <variable
-            name="PhoneConfirm"
-            type="quantec.com.moneypot.Activity.Login.MemberShipPage.ActivityPhoneConfirm"/>
+            name="phoneConfirm"
+            type="quantec.com.moneypot.databinding.ActivityPhoneConfirmBinding" />
 
     </data>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,12 +14,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-<android.support.v4.widget.NestedScrollView
+
+<androidx.core.widget.NestedScrollView
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -37,7 +39,7 @@
             android:id="@+id/backBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/btn_back"
+            app:srcCompat="@drawable/btn_back"
             android:layout_marginLeft="16dp"
             />
         <TextView
@@ -64,20 +66,33 @@
             app:layout_constraintTop_toBottomOf="@+id/activity_phone_confirm_top"
             />
 
-        <quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText
-            android:id="@+id/myinfoName_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="실명 입력"
-            android:textSize="18dp"
-            android:textColorHint="#CCCCCC"
-            android:inputType="textWebEditText"
-            app:layout_constraintTop_toBottomOf="@+id/myinfoName"
-            android:layout_marginTop="13dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="35dp"
-            android:background="@null"
-            />
+    <quantec.com.moneypot.util.view.BackPressEditText
+        android:id="@+id/myinfoName_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="실명 입력"
+        android:textSize="18dp"
+        android:textColorHint="#CCCCCC"
+        android:inputType="textWebEditText"
+        app:layout_constraintTop_toBottomOf="@+id/myinfoName"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="35dp"
+        android:background="@null"/>
+
+    <!--<EditText-->
+        <!--android:id="@+id/myinfoName_editText"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="실명 입력"-->
+        <!--android:textSize="18dp"-->
+        <!--android:textColorHint="#CCCCCC"-->
+        <!--android:inputType="textWebEditText"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/myinfoName"-->
+        <!--android:layout_marginTop="13dp"-->
+        <!--android:layout_marginLeft="24dp"-->
+        <!--android:layout_marginRight="35dp"-->
+        <!--android:background="@null"/>-->
 
     <View
         android:id="@+id/myinfoName_editTextLine"
@@ -103,21 +118,35 @@
             app:layout_constraintTop_toBottomOf="@+id/myinfoName_editText"
             />
 
-        <quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText
-            android:id="@+id/myinfoCertifyNumber_editText"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:hint="생년월일 6자리"
-            android:textSize="18dp"
-            android:textColorHint="#CCCCCC"
-            android:inputType="number"
-            app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber"
-            app:layout_constraintStart_toStartOf="parent"
-            android:maxLength="6"
-            android:layout_marginTop="13dp"
-            android:layout_marginLeft="24dp"
-            android:background="@null"
-            />
+    <quantec.com.moneypot.util.view.BackPressEditText
+        android:id="@+id/myinfoCertifyNumber_editText"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:hint="생년월일 6자리"
+        android:textSize="18dp"
+        android:textColorHint="#CCCCCC"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        android:maxLength="6"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="24dp"
+        android:background="@null" />
+
+    <!--<quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText-->
+        <!--android:id="@+id/myinfoCertifyNumber_editText"-->
+        <!--android:layout_width="150dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="생년월일 6자리"-->
+        <!--android:textSize="18dp"-->
+        <!--android:textColorHint="#CCCCCC"-->
+        <!--android:inputType="number"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--android:maxLength="6"-->
+        <!--android:layout_marginTop="13dp"-->
+        <!--android:layout_marginLeft="24dp"-->
+        <!--android:background="@null"/>-->
 
     <View
         android:id="@+id/myinfoCertifyNumber_editTextLine"
@@ -144,20 +173,33 @@
             android:layout_marginLeft="10dp"
             />
 
-        <quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText
-            android:id="@+id/myinfoCertifyNumber_editText2"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:textColorHint="#7b7b7b"
-            android:inputType="number"
-            android:maxLength="1"
-            app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber"
-            app:layout_constraintStart_toEndOf="@id/activity_phone_confirm_numberHi"
-            android:layout_marginTop="13dp"
-            android:layout_marginLeft="10dp"
-            android:background="@null"
-            />
+        <!--<quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText-->
+            <!--android:id="@+id/myinfoCertifyNumber_editText2"-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="18dp"-->
+            <!--android:textColorHint="#7b7b7b"-->
+            <!--android:inputType="number"-->
+            <!--android:maxLength="1"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber"-->
+            <!--app:layout_constraintStart_toEndOf="@id/activity_phone_confirm_numberHi"-->
+            <!--android:layout_marginTop="13dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:background="@null" />-->
+
+    <quantec.com.moneypot.util.view.BackPressEditText
+        android:id="@+id/myinfoCertifyNumber_editText2"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:textColorHint="#7b7b7b"
+        android:inputType="number"
+        android:maxLength="1"
+        app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber"
+        app:layout_constraintStart_toEndOf="@id/activity_phone_confirm_numberHi"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="10dp"
+        android:background="@null"  />
 
     <View
         android:id="@+id/myinfoCertifyNumber_editText2Line"
@@ -174,7 +216,7 @@
         android:id="@+id/fotImage"
         android:layout_width="wrap_content"
         android:layout_height="28dp"
-        android:src="@drawable/img_password_black"
+        app:srcCompat="@drawable/img_password_black"
         app:layout_constraintTop_toTopOf="@+id/myinfoCertifyNumber_editText2"
         app:layout_constraintStart_toEndOf="@id/myinfoCertifyNumber_editText2"
         android:layout_marginLeft="11dp"
@@ -210,12 +252,12 @@
         android:id="@+id/myinfoPhoneNumber_selectIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow_down_gray"
+        app:srcCompat="@drawable/ic_arrow_down_gray"
         app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber"
         app:layout_constraintStart_toEndOf="@+id/myinfoPhoneNumber_selectText"
         android:layout_marginTop="20dp"
         />
-    
+
     <View
         android:id="@+id/myinfoPhoneNumber_selectIconLine"
         android:layout_width="0dp"
@@ -228,7 +270,7 @@
         android:background="#CCCCCC"
         />
 
-    <quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText
+    <quantec.com.moneypot.util.view.BackPressEditText
         android:id="@+id/myinfoPhoneNumber_editText"
         android:layout_width="155dp"
         android:layout_height="wrap_content"
@@ -240,8 +282,21 @@
         app:layout_constraintStart_toStartOf="@+id/myinfoPhoneNumber_editTextLine"
         android:layout_marginTop="13dp"
         android:background="@null"
-        android:maxLength="11"
-        />
+        android:maxLength="11"  />
+
+    <!--<quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText-->
+        <!--android:id="@+id/myinfoPhoneNumber_editText"-->
+        <!--android:layout_width="155dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="휴대폰번호"-->
+        <!--android:textSize="18dp"-->
+        <!--android:textColorHint="#CCCCCC"-->
+        <!--android:inputType="number"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/myinfoPhoneNumber_editTextLine"-->
+        <!--android:layout_marginTop="13dp"-->
+        <!--android:background="@null"-->
+        <!--android:maxLength="11" />-->
 
     <View
         android:id="@+id/myinfoPhoneNumber_editTextLine"
@@ -260,14 +315,13 @@
         android:layout_width="67dp"
         android:layout_height="33dp"
         android:text="인증 요청"
-        app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber"
+        app:layout_constraintBottom_toBottomOf="@+id/myinfoPhoneNumber_editTextLine"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
-        android:textColor="@color/text_white_color"
         android:textSize="14dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rectangle_red_5dp"
+        android:background="@drawable/rectangle_gray_5dp"
+        android:textColor="@color/gray_brown_color"
         />
 
     <TextView
@@ -284,7 +338,23 @@
         android:visibility="invisible"
         />
 
-    <quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText
+    <!--<quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText-->
+        <!--android:id="@+id/myinfoConfirmNumber_editText"-->
+        <!--android:layout_width="150dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="인증번호 6자리 입력"-->
+        <!--android:textSize="18dp"-->
+        <!--android:textColorHint="#CCCCCC"-->
+        <!--android:inputType="number"-->
+        <!--android:maxLength="6"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/myinfoConfirmNumber"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--android:layout_marginTop="13dp"-->
+        <!--android:layout_marginLeft="24dp"-->
+        <!--android:background="@null"-->
+        <!--android:visibility="invisible"/>-->
+
+    <quantec.com.moneypot.util.view.BackPressEditText
         android:id="@+id/myinfoConfirmNumber_editText"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -298,8 +368,7 @@
         android:layout_marginTop="13dp"
         android:layout_marginLeft="24dp"
         android:background="@null"
-        android:visibility="invisible"
-        />
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/myinfoConfirmNumber_countText"
@@ -330,9 +399,9 @@
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         app:layout_constraintTop_toBottomOf="@+id/myinfoConfirmNumber_editTextLine"
-        />
-</android.support.constraint.ConstraintLayout>
-</android.support.v4.widget.NestedScrollView>
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
     <TextView
         android:id="@+id/nextBt"
         android:layout_width="match_parent"

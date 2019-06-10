@@ -15,8 +15,8 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okio.Buffer;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelEncryptData;
-import quantec.com.moneypot.Util.DeEncryptUtil.EncryptUtil;
-import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
+import quantec.com.moneypot.util.DeEncrypt.EncryptUtil;
+import quantec.com.moneypot.util.SharedPreference.SharedPreferenceUtil;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -62,7 +62,7 @@ public class RetrofitClient {
                             token = SharedPreferenceUtil.getInstance(mContext).getStringExtra("aToken");
                         }
                         Log.e("토큰", "값 : "+token);
-                        token = "dummy@quant.co.kr";
+//                        token = "dummy@quant.co.kr";
 
                         if(request.body() != null) {
                             String time = String.valueOf(new java.sql.Timestamp(System.currentTimeMillis()).getTime());

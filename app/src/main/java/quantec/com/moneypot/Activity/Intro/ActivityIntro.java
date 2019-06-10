@@ -4,33 +4,27 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
+
 import com.dream.magic.fido.rpsdk.client.LOCAL_AUTH_TYPE;
 import com.dream.magic.fido.rpsdk.client.MagicFIDOUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import quantec.com.moneypot.Activity.ActivityIntroBeginPage;
 import quantec.com.moneypot.Activity.FIDO.ActivityAuthFidoDouble;
 import quantec.com.moneypot.Activity.FIDO.ActivityAuthFidoSingle;
-import quantec.com.moneypot.Activity.FIDO.ActivityReFidoResistor;
-import quantec.com.moneypot.Activity.FIDO.ActivityRegFido;
 import quantec.com.moneypot.Activity.Login.LoginPage.ActivityLoginPage;
 import quantec.com.moneypot.Activity.Login.MemberShipPage.ActivityMemberShipMain;
 import quantec.com.moneypot.Activity.Login.Model.dModel.InitReqDto;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelAuthReqDto;
-import quantec.com.moneypot.Activity.Login.Model.dModel.ModelFidoauthReqDto;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelAppInit;
-import quantec.com.moneypot.Activity.Login.Model.nModel.ModelFidoAuthCode;
-import quantec.com.moneypot.Activity.Login.Model.nModel.ModelFlushAuth;
 import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
 import quantec.com.moneypot.FIDO.PropertyManager;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
-import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
+import quantec.com.moneypot.util.SharedPreference.SharedPreferenceUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,6 +52,14 @@ public class ActivityIntro extends AppCompatActivity {
         mFidoUtil = new MagicFIDOUtil(this);
 
 
+//        GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(imageView);
+
+//        Glide.with(this).load(R.drawable.source).into(imageViewTarget);
+//            Glide.with(this)
+//                    .load(R.raw.loading)
+//                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+////                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+//                    .into(imageView);
 
 //        ModelFidoauthReqDto withdrawFido = new ModelFidoauthReqDto(authCode, "PASSCODE", userId);
 //        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
@@ -127,7 +129,7 @@ public class ActivityIntro extends AppCompatActivity {
 
         if(userId.isEmpty()){
 
-            Intent intent = new Intent(this, ActivityIntroBeginPage.class);
+            Intent intent = new Intent(this, ActivityMemberShipMain.class);
             Handler mHandler = new Handler();
             mHandler.postDelayed(new Runnable() {
                 @Override

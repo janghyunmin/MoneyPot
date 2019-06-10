@@ -5,8 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
@@ -19,12 +17,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import permissions.dispatcher.NeedsPermission;
-import quantec.com.moneypot.Activity.BaseActivity.BaseActivity;
-import quantec.com.moneypot.R;
-import quantec.com.moneypot.Util.Permissions.PermissionsPhone;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class ActivityMemberShipMain extends BaseActivity {
+import permissions.dispatcher.NeedsPermission;
+import quantec.com.moneypot.R;
+import quantec.com.moneypot.util.Permissions.PermissionsPhone;
+
+public class ActivityMemberShipMain extends AppCompatActivity {
 
     /**
      *
@@ -56,7 +56,7 @@ public class ActivityMemberShipMain extends BaseActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        actList.add(this);
+//        actList.add(this);
 
         activity_login_Bt = findViewById(R.id.activity_login_Bt);
         activity_login_phoneEdittext = findViewById(R.id.activity_login_phoneEdittext);
@@ -79,7 +79,8 @@ public class ActivityMemberShipMain extends BaseActivity {
                  }
             }
         });
-    }
+
+    }//onCreate 끝
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

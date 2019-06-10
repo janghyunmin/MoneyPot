@@ -2,9 +2,8 @@ package quantec.com.moneypot.Activity.FIDO;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,25 +20,21 @@ import java.util.Hashtable;
 
 import quantec.com.moneypot.Activity.Intro.ModelRegChk;
 import quantec.com.moneypot.Activity.Intro.ModelVerifiedFido;
-import quantec.com.moneypot.Activity.Login.MemberShipPage.ActivityRePhoneConfirm;
+//import quantec.com.moneypot.Activity.Login.MemberShipPage.ActivityRePhoneConfirm;
 import quantec.com.moneypot.Activity.Login.Model.dModel.FidoReq;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelFidoauthReqDto;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelWithdrawFido;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelFidoAuthCode;
-import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Dialog.DialogExitApp;
 import quantec.com.moneypot.Dialog.DialogFidoCancle;
-import quantec.com.moneypot.Dialog.DialogFidoFinger;
 import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
-import quantec.com.moneypot.FIDO.AuthenticationActivity;
 import quantec.com.moneypot.FIDO.FIDOAuthentication;
-import quantec.com.moneypot.FIDO.FIDODeRegistration;
 import quantec.com.moneypot.FIDO.FIDORegistration;
 import quantec.com.moneypot.FIDO.PropertyManager;
 import quantec.com.moneypot.FIDO.PropertyManager2;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
-import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
+import quantec.com.moneypot.util.SharedPreference.SharedPreferenceUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -195,13 +190,13 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                             dialogExitApp.show();
                             // 에러코드 1008: -이미 등록 된 사용자
                             break;
-                        case FidoResult.ERROR_MAX_LOCK_COUNT_OVER:
-                            Intent intent2 = new Intent(ActivityAuthFidoDouble.this, ActivityRePhoneConfirm.class);
-                            intent2.putExtra("passwordPage", "DoFido");
-                            startActivityForResult(intent2, 200);
+//                        case FidoResult.ERROR_MAX_LOCK_COUNT_OVER:
+//                            Intent intent2 = new Intent(ActivityAuthFidoDouble.this, ActivityRePhoneConfirm.class);
+//                            intent2.putExtra("passwordPage", "DoFido");
+//                            startActivityForResult(intent2, 200);
 
-                            Toast.makeText(ActivityAuthFidoDouble.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
-                            break;
+//                            Toast.makeText(ActivityAuthFidoDouble.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
+//                            break;
                         default:
                             dialogExitApp = new DialogExitApp(ActivityAuthFidoDouble.this, exitApp);
                             dialogExitApp.show();
@@ -228,9 +223,9 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                     SharedPreferenceUtil.getInstance(ActivityAuthFidoDouble.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
                     SharedPreferenceUtil.getInstance(ActivityAuthFidoDouble.this).putFingerState("fingerState", false);
 
-                    Intent intent = new Intent(ActivityAuthFidoDouble.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+//                    Intent intent = new Intent(ActivityAuthFidoDouble.this, MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
 
                 }else{
                     mFidoUtil.resetUserVerification(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE, fidoCallback2);
@@ -349,13 +344,13 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                             dialogExitApp = new DialogExitApp(ActivityAuthFidoDouble.this, exitApp);
                             dialogExitApp.show();
                             break;
-                        case FidoResult.ERROR_MAX_LOCK_COUNT_OVER:
-                            Intent intent2 = new Intent(ActivityAuthFidoDouble.this, ActivityRePhoneConfirm.class);
-                            intent2.putExtra("passwordPage", "DoFido");
-                            startActivityForResult(intent2, 200);
+//                        case FidoResult.ERROR_MAX_LOCK_COUNT_OVER:
+//                            Intent intent2 = new Intent(ActivityAuthFidoDouble.this, ActivityRePhoneConfirm.class);
+//                            intent2.putExtra("passwordPage", "DoFido");
+//                            startActivityForResult(intent2, 200);
 
-                            Toast.makeText(ActivityAuthFidoDouble.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
-                            break;
+//                            Toast.makeText(ActivityAuthFidoDouble.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
+//                            break;
                         default:
                             dialogExitApp = new DialogExitApp(ActivityAuthFidoDouble.this, exitApp);
                             dialogExitApp.show();
@@ -444,19 +439,19 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                             // 에러코드 1009: -인증하려는 아이디의 데이터가 존재하지 않는 경우
                             // -동일 아이디로 해지 후 재등록 요청 해야 함
                             break;
-                        case FidoResult.RESULT_USER_SELECT_REREG:
-                            Toast.makeText(ActivityAuthFidoDouble.this, "재등록합니다", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(ActivityAuthFidoDouble.this, ActivityRePhoneConfirm.class);
-                            intent.putExtra("passwordPage", "DoFido");
-                            startActivityForResult(intent, 200);
-                            break;
-                        case FidoResult.ERROR_MAX_LOCK_COUNT_OVER:
-                            Intent intent2 = new Intent(ActivityAuthFidoDouble.this, ActivityRePhoneConfirm.class);
-                            intent2.putExtra("passwordPage", "DoFido");
-                            startActivityForResult(intent2, 200);
-
-                            Toast.makeText(ActivityAuthFidoDouble.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
-                            break;
+//                        case FidoResult.RESULT_USER_SELECT_REREG:
+//                            Toast.makeText(ActivityAuthFidoDouble.this, "재등록합니다", Toast.LENGTH_SHORT).show();
+//                            Intent intent = new Intent(ActivityAuthFidoDouble.this, ActivityRePhoneConfirm.class);
+//                            intent.putExtra("passwordPage", "DoFido");
+//                            startActivityForResult(intent, 200);
+//                            break;
+//                        case FidoResult.ERROR_MAX_LOCK_COUNT_OVER:
+//                            Intent intent2 = new Intent(ActivityAuthFidoDouble.this, ActivityRePhoneConfirm.class);
+//                            intent2.putExtra("passwordPage", "DoFido");
+//                            startActivityForResult(intent2, 200);
+//
+//                            Toast.makeText(ActivityAuthFidoDouble.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
+//                            break;
                         default:
                             dialogExitApp = new DialogExitApp(ActivityAuthFidoDouble.this, exitApp);
                             dialogExitApp.show();
@@ -480,9 +475,9 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                     SharedPreferenceUtil.getInstance(ActivityAuthFidoDouble.this).putTokenA("aToken", response.headers().get("Authorization"));
                     SharedPreferenceUtil.getInstance(ActivityAuthFidoDouble.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
 
-                    Intent intent = new Intent(ActivityAuthFidoDouble.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+//                    Intent intent = new Intent(ActivityAuthFidoDouble.this, MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
                 }
             }
             @Override

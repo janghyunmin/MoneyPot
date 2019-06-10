@@ -2,157 +2,155 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:overScrollMode="never"
     >
-<android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#fafafa">
-
-    <TextView
-        android:id="@+id/category"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:text="문의하실 내용을 선택해 주세요."
-        android:textSize="14dp"
-        android:textColor="#cccccc"
-        android:gravity="center"
-        android:background="@drawable/rectangle_gray_line"
-        android:layout_marginTop="20dp"
-        />
-
-    <ImageView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow_down_gray"
-        app:layout_constraintEnd_toEndOf="@+id/category"
-        app:layout_constraintTop_toTopOf="@+id/category"
-        app:layout_constraintBottom_toBottomOf="@+id/category"
-        android:layout_marginEnd="15dp"
-        />
+        android:background="#fafafa">
 
-    <ScrollView
-        android:id="@+id/contentsLayout"
-        android:layout_width="match_parent"
-        android:layout_height="178dp"
-        app:layout_constraintTop_toBottomOf="@+id/category"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/rectangle_gray_line"
-        >
-        <EditText
-            android:id="@+id/contents"
+        <TextView
+            android:id="@+id/category"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="178dp"
-            android:hint="문의하실 내용을 입력해주세요."
+            android:layout_height="45dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:text="문의하실 내용을 선택해 주세요."
             android:textSize="14dp"
-            android:background="@null"
-            android:gravity="top"
-            android:paddingTop="10dp"
-            android:paddingStart="10dp"
-            android:textColorHint="#cccccc"
-            android:textColor="@color/text_black_color"
-            android:maxLength="3000"
+            android:textColor="#cccccc"
+            android:gravity="center"
+            android:background="@drawable/rectangle_gray_line"
+            android:layout_marginTop="20dp"
             />
-    </ScrollView>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_down_gray"
+            app:layout_constraintEnd_toEndOf="@+id/category"
+            app:layout_constraintTop_toTopOf="@+id/category"
+            app:layout_constraintBottom_toBottomOf="@+id/category"
+            android:layout_marginEnd="15dp"
+            />
+
+        <ScrollView
+            android:id="@+id/contentsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="178dp"
+            app:layout_constraintTop_toBottomOf="@+id/category"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/rectangle_gray_line"
+            >
+            <EditText
+                android:id="@+id/contents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="178dp"
+                android:hint="문의하실 내용을 입력해주세요."
+                android:textSize="14dp"
+                android:background="@null"
+                android:gravity="top"
+                android:paddingTop="10dp"
+                android:paddingStart="10dp"
+                android:textColorHint="#cccccc"
+                android:textColor="@color/text_black_color"
+                android:maxLength="3000"
+                />
+        </ScrollView>
 
 
-    <TextView
-        android:id="@+id/contentsCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/contentsLayout"
-        app:layout_constraintEnd_toEndOf="@+id/contentsLayout"
-        android:layout_marginTop="5dp"
-        android:textSize="12dp"
-        />
+        <TextView
+            android:id="@+id/contentsCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/contentsLayout"
+            app:layout_constraintEnd_toEndOf="@+id/contentsLayout"
+            android:layout_marginTop="5dp"
+            android:textSize="12dp"
+            />
 
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="답변 받을 이메일 주소 입력"
-        android:textSize="14dp"
-        android:textColorHint="#9a9a9a"
-        android:textColor="@color/text_black_color"
-        app:layout_constraintTop_toBottomOf="@+id/contentsLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="25dp"
-        android:maxLines="1"
-        />
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="답변 받을 이메일 주소 입력"
+            android:textSize="14dp"
+            android:textColorHint="#9a9a9a"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintTop_toBottomOf="@+id/contentsLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="25dp"
+            android:maxLines="1"
+            />
 
-    <TextView
-        android:id="@+id/explain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="16dp"
-        android:text="문의하신 내용에 대한 원인파악 및 원활한 상담을 위하여 이메일, 휴대폰번호를 수집합니다. 수집된 개인정보의 수집 및 이용 목적이 달성되면 관련 법령 또는 회사 내부 방침에 의해 보존할 필요가 있는 경우를 제외하고는 지체 없이 파기됩니다. 자세한 내용은  개인정보처리방침을 참고하시기 바랍니다."
-        android:textSize="10dp"
-        android:textColor="#9a9a9a"
-        android:maxWidth="200dp"
-        android:lineSpacingMultiplier="1.2"
-        />
+        <TextView
+            android:id="@+id/explain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/email"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="16dp"
+            android:text="문의하신 내용에 대한 원인파악 및 원활한 상담을 위하여 이메일, 휴대폰번호를 수집합니다. 수집된 개인정보의 수집 및 이용 목적이 달성되면 관련 법령 또는 회사 내부 방침에 의해 보존할 필요가 있는 경우를 제외하고는 지체 없이 파기됩니다. 자세한 내용은  개인정보처리방침을 참고하시기 바랍니다."
+            android:textSize="10dp"
+            android:textColor="#9a9a9a"
+            android:maxWidth="200dp"
+            android:lineSpacingMultiplier="1.2"
+            />
 
-    <ImageView
-        android:id="@+id/agreeBt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/explain"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="15dp"
-        />
+        <ImageView
+            android:id="@+id/agreeBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/explain"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="15dp"
+            />
 
-    <TextView
-        android:id="@+id/agreeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="위 내용에 동의합니다."
-        app:layout_constraintTop_toTopOf="@+id/agreeBt"
-        app:layout_constraintBottom_toBottomOf="@+id/agreeBt"
-        app:layout_constraintStart_toEndOf="@+id/agreeBt"
-        android:layout_marginStart="6dp"
-        android:textColor="@color/text_black_color"
-        android:textSize="12dp"
-        />
+        <TextView
+            android:id="@+id/agreeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="위 내용에 동의합니다."
+            app:layout_constraintTop_toTopOf="@+id/agreeBt"
+            app:layout_constraintBottom_toBottomOf="@+id/agreeBt"
+            app:layout_constraintStart_toEndOf="@+id/agreeBt"
+            android:layout_marginStart="6dp"
+            android:textColor="@color/text_black_color"
+            android:textSize="12dp"
+            />
 
+        <TextView
+            android:id="@+id/okBt"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            app:layout_constraintTop_toBottomOf="@+id/agreeText"
+            android:layout_marginTop="50dp"
+            android:text="완료"
+            android:gravity="center"
+            android:textColor="#cccccc"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/okBt"
+            android:layout_marginTop="50dp"
+            />
 
-    <TextView
-        android:id="@+id/okBt"
-        android:layout_width="match_parent"
-        android:layout_height="57dp"
-        app:layout_constraintTop_toBottomOf="@+id/agreeText"
-        android:layout_marginTop="50dp"
-        android:text="완료"
-        android:gravity="center"
-        android:textColor="#cccccc"
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/okBt"
-        android:layout_marginTop="100dp"
-        />
-
-</android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

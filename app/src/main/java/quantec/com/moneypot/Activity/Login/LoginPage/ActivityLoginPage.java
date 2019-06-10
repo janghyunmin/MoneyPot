@@ -3,7 +3,7 @@ package quantec.com.moneypot.Activity.Login.LoginPage;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,14 +21,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import quantec.com.moneypot.Activity.FIDO.ActivityReFidoResistor;
-import quantec.com.moneypot.Activity.Login.MemberShipPage.ActivityRePhoneConfirm;
 import quantec.com.moneypot.Activity.Login.Model.dModel.LoginData;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelLoginData;
-import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
-import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
+import quantec.com.moneypot.util.SharedPreference.SharedPreferenceUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -139,11 +137,13 @@ public class ActivityLoginPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(ActivityLoginPage.this, ActivityRePhoneConfirm.class);
-                intent.putExtra("passwordPage", "NotFido");
-                startActivity(intent);
+//                Intent intent = new Intent(ActivityLoginPage.this, ActivityRePhoneConfirm.class);
+//                intent.putExtra("passwordPage", "NotFido");
+//                startActivity(intent);
             }
         });
+
+
     } // onCreate 끝
 
     private class passwordText implements TextWatcher {
@@ -177,18 +177,18 @@ public class ActivityLoginPage extends AppCompatActivity {
         loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityLoginPage.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
         loadingCustomMakingPort.show();
 
-        final Intent intent1 = new Intent(ActivityLoginPage.this, MainActivity.class);
-        Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                loadingCustomMakingPort.dismiss();
-                intent1.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent1);
-                finish();
-            }
-        }, 1300);
+//        final Intent intent1 = new Intent(ActivityLoginPage.this, MainActivity.class);
+//        Handler mHandler = new Handler();
+//        mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                loadingCustomMakingPort.dismiss();
+//                intent1.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                startActivity(intent1);
+//                finish();
+//            }
+//        }, 1300);
     }
 
     public static final String md5(final String s) {

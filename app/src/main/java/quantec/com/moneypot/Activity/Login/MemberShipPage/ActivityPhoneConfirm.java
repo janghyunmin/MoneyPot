@@ -3,10 +3,9 @@ package quantec.com.moneypot.Activity.Login.MemberShipPage;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Build;
-import android.os.CountDownTimer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -15,10 +14,12 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import quantec.com.moneypot.Activity.BaseActivity.BaseActivity;
 import quantec.com.moneypot.Activity.Login.Model.dModel.IdentifyDto;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelConfrimIdentifyData;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelIdentifyData;
@@ -27,14 +28,15 @@ import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
 import quantec.com.moneypot.Dialog.DialogSMS;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
-import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
-import quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText;
+import quantec.com.moneypot.util.SharedPreference.SharedPreferenceUtil;
 import quantec.com.moneypot.databinding.ActivityPhoneConfirmBinding;
+import quantec.com.moneypot.util.view.BackPressEditText;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityPhoneConfirm extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener {
+public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
+
 
     ActivityPhoneConfirmBinding binding;
 
@@ -61,10 +63,7 @@ public class ActivityPhoneConfirm extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_confirm);
 
-        binding = DataBindingUtil.setContentView(ActivityPhoneConfirm.this, R.layout.activity_phone_confirm);
-        binding.setPhoneConfirm(this);
-
-//        binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.rectangle_gray_5dp);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_phone_confirm);
 
         //스테이터스 바 색상 변경 -> 화이트
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -81,7 +80,7 @@ public class ActivityPhoneConfirm extends BaseActivity implements View.OnClickLi
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        actList.add(this);
+//        actList.add(this);
 
         binding.myinfoNameEditText.addTextChangedListener(new MyTextWatcher(binding.myinfoNameEditText));
         binding.myinfoCertifyNumberEditText.addTextChangedListener(new MyTextWatcher(binding.myinfoCertifyNumberEditText));

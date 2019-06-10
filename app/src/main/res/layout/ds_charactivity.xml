@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/char_activity"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -16,8 +17,7 @@
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:orientation="vertical"
-            android:src="#2196f3"
-            android:visibility="visible"/>"
+            android:visibility="visible"/>
 
         <include
             android:id="@+id/title_custom"
@@ -61,7 +61,7 @@
                 android:layout_weight="0.2"
                 android:background="@android:color/transparent"
                 android:contentDescription="전체지움"
-                android:src="@drawable/ds_btn_back_blue"
+                app:srcCompat="@drawable/ds_btn_back_blue"
                 android:visibility="gone" />
         </LinearLayout>
 

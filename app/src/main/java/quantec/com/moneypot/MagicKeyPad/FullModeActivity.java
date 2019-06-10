@@ -1,9 +1,7 @@
 package quantec.com.moneypot.MagicKeyPad;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -11,13 +9,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.dreamsecurity.magicvkeypad.MagicVKeypadType;
 import com.dreamsecurity.magicvkeypad.activitytype.MagicVKeypadActivity;
-import com.dreamsecurity.magicvkeypad.activitytype.DSCharActivity;
 
 import quantec.com.moneypot.R;
 
-public class FullModeActivity extends Activity implements View.OnClickListener {
+public class FullModeActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText insertNum = null;
     private EditText insertChar = null;
     private MagicVKeypadActivity magicVKeypad = null;

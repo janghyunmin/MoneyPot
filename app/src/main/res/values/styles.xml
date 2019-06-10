@@ -6,12 +6,12 @@
         <item name="colorPrimary">@color/TabColor</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@fonts/noto_sans</item>
-        <item name="android:buttonStyle">@style/ButtonStyle</item>
+        <item name="fontFamily">@fonts/noto_sans</item>
+        <item name="buttonStyle">@style/ButtonStyle</item>
     </style>
 
-    <style name="ButtonStyle" parent="android:Widget.Holo.Button">
-        <item name="android:fontFamily">@fons/noto_sans</item>
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="fontFamily">@fons/noto_sans</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

@@ -1,7 +1,6 @@
 package quantec.com.moneypot.Activity.FIDO;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -23,7 +22,6 @@ import quantec.com.moneypot.Activity.Intro.ModelVerifiedFido;
 import quantec.com.moneypot.Activity.Login.Model.dModel.FidoReq;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelFidoauthReqDto;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelFidoAuthCode;
-import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Dialog.DialogExitApp;
 import quantec.com.moneypot.Dialog.DialogFidoCancle;
 import quantec.com.moneypot.Dialog.DialogFidoFinger;
@@ -33,7 +31,7 @@ import quantec.com.moneypot.FIDO.PropertyManager;
 import quantec.com.moneypot.FIDO.PropertyManager2;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
-import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
+import quantec.com.moneypot.util.SharedPreference.SharedPreferenceUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -169,9 +167,9 @@ public class ActivityReFidoResistor extends AppCompatActivity {
                     verrifiedFingereUser(token);
                 } else {
 
-                    Intent intent = new Intent(ActivityReFidoResistor.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+//                    Intent intent = new Intent(ActivityReFidoResistor.this, MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
 
 //                    // 실패 사유
 //                    switch (fidoResult.getErrorCode()) {
@@ -247,9 +245,9 @@ public class ActivityReFidoResistor extends AppCompatActivity {
                                 }else{
                                     Toast.makeText(ActivityReFidoResistor.this, "지문없이 메인으로 이동" , Toast.LENGTH_SHORT).show();
 
-                                    Intent intent = new Intent(ActivityReFidoResistor.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+//                                    Intent intent = new Intent(ActivityReFidoResistor.this, MainActivity.class);
+//                                    startActivity(intent);
+//                                    finish();
                                 }
                             }else{
                                 mFidoUtil.resetUserVerification(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE, fidoCallback);
@@ -306,9 +304,9 @@ public class ActivityReFidoResistor extends AppCompatActivity {
                                 SharedPreferenceUtil.getInstance(ActivityReFidoResistor.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
                                 SharedPreferenceUtil.getInstance(ActivityReFidoResistor.this).putFingerState("fingerState", true);
 
-                                Intent intent = new Intent(ActivityReFidoResistor.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
+//                                Intent intent = new Intent(ActivityReFidoResistor.this, MainActivity.class);
+//                                startActivity(intent);
+//                                finish();
                             }
                         }
                         @Override
@@ -346,9 +344,9 @@ public class ActivityReFidoResistor extends AppCompatActivity {
     private View.OnClickListener fingerCancle = new View.OnClickListener() {
         public void onClick(View v) {
             dialogFidoFinger.dismiss();
-            Intent intent = new Intent(ActivityReFidoResistor.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+//            Intent intent = new Intent(ActivityReFidoResistor.this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
         }
     };
 

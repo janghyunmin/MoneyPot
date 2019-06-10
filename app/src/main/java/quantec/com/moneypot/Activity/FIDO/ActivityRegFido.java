@@ -1,10 +1,11 @@
 package quantec.com.moneypot.Activity.FIDO;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.dream.magic.fido.rpsdk.callback.FIDOCallbackResult;
 import com.dream.magic.fido.rpsdk.client.FIDORequestCode;
@@ -15,23 +16,21 @@ import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
 
-import quantec.com.moneypot.Activity.BaseActivity.BaseActivity;
 import quantec.com.moneypot.Activity.Intro.ModelVerifiedFido;
-import quantec.com.moneypot.Dialog.DialogFidoFinger;
 import quantec.com.moneypot.Activity.Login.Model.dModel.FidoReq;
-import quantec.com.moneypot.Activity.Main.MainActivity;
+import quantec.com.moneypot.Dialog.DialogFidoFinger;
 import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
 import quantec.com.moneypot.FIDO.FIDORegistration;
 import quantec.com.moneypot.FIDO.PropertyManager;
 import quantec.com.moneypot.FIDO.PropertyManager2;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
-import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
+import quantec.com.moneypot.util.SharedPreference.SharedPreferenceUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityRegFido extends BaseActivity {
+public class ActivityRegFido extends AppCompatActivity {
 
 
     private MagicFIDOUtil mFidoUtil = null;
@@ -56,7 +55,7 @@ public class ActivityRegFido extends BaseActivity {
         loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityRegFido.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
         loadingCustomMakingPort.show();
 
-        actList.add(this);
+//        actList.add(this);
 
         userId = SharedPreferenceUtil.getInstance(ActivityRegFido.this).getStringExtra("userId");
         authCode = SharedPreferenceUtil.getInstance(ActivityRegFido.this).getStringExtra("authCode");
@@ -71,9 +70,9 @@ public class ActivityRegFido extends BaseActivity {
         }
         else{
 
-            Intent intent = new Intent(ActivityRegFido.this, MainActivity.class);
-            startActivity(intent);
-            actFinish();
+//            Intent intent = new Intent(ActivityRegFido.this, MainActivity.class);
+//            startActivity(intent);
+//            actFinish();
 
             Toast.makeText(ActivityRegFido.this, "바로 로그인", Toast.LENGTH_SHORT).show();
         }
@@ -102,7 +101,7 @@ public class ActivityRegFido extends BaseActivity {
 
                 } else {
 
-                    actFinish();
+//                    actFinish();
 
                     // 실패 사유
                     switch (fidoResult.getErrorCode()) {
@@ -181,7 +180,7 @@ public class ActivityRegFido extends BaseActivity {
 
                 } else {
 
-                    actFinish();
+//                    actFinish();
 
                     // 실패 사유
                     switch (fidoResult.getErrorCode()) {
@@ -246,9 +245,9 @@ public class ActivityRegFido extends BaseActivity {
                     }else{
                         Toast.makeText(ActivityRegFido.this, "지문없이 메인으로 이동" , Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(ActivityRegFido.this, MainActivity.class);
-                        startActivity(intent);
-                        actFinish();
+//                        Intent intent = new Intent(ActivityRegFido.this, MainActivity.class);
+//                        startActivity(intent);
+//                        actFinish();
                     }
 
                 }
@@ -272,9 +271,9 @@ public class ActivityRegFido extends BaseActivity {
                     SharedPreferenceUtil.getInstance(ActivityRegFido.this).putTokenA("aToken", response.headers().get("Authorization"));
                     SharedPreferenceUtil.getInstance(ActivityRegFido.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
 
-                    Intent intent = new Intent(ActivityRegFido.this, MainActivity.class);
-                    startActivity(intent);
-                    actFinish();
+//                    Intent intent = new Intent(ActivityRegFido.this, MainActivity.class);
+//                    startActivity(intent);
+//                    actFinish();
 
                 }
             }
@@ -322,9 +321,9 @@ public class ActivityRegFido extends BaseActivity {
     private View.OnClickListener fingerCancle = new View.OnClickListener() {
         public void onClick(View v) {
             dialogFidoFinger.dismiss();
-            Intent intent = new Intent(ActivityRegFido.this, MainActivity.class);
-            startActivity(intent);
-            actFinish();
+//            Intent intent = new Intent(ActivityRegFido.this, MainActivity.class);
+//            startActivity(intent);
+//            actFinish();
         }
     };
 

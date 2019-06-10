@@ -1,15 +1,13 @@
 package quantec.com.moneypot.Activity.Login.MemberShipPage;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -18,6 +16,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.dream.magic.fido.rpsdk.callback.FIDOCallbackResult;
 import com.dream.magic.fido.rpsdk.client.FIDORequestCode;
@@ -38,7 +41,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import permissions.dispatcher.NeedsPermission;
-import quantec.com.moneypot.Activity.BaseActivity.BaseActivity;
 import quantec.com.moneypot.Activity.Intro.ModelVerifiedFido;
 import quantec.com.moneypot.Activity.Login.Model.dModel.FidoReq;
 import quantec.com.moneypot.Activity.Login.Model.dModel.FidoTokenData;
@@ -47,21 +49,20 @@ import quantec.com.moneypot.Activity.Login.Model.nModel.ModelUserInfo;
 import quantec.com.moneypot.Dialog.DialogClosedSMS;
 import quantec.com.moneypot.Dialog.DialogFidoCancle;
 import quantec.com.moneypot.Dialog.DialogFidoFinger;
-import quantec.com.moneypot.Util.Permissions.PermissionFido;
-import quantec.com.moneypot.Activity.Main.MainActivity;
 import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
 import quantec.com.moneypot.FIDO.FIDORegistration;
 import quantec.com.moneypot.FIDO.PropertyManager;
 import quantec.com.moneypot.FIDO.PropertyManager2;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
-import quantec.com.moneypot.Util.SharedPreferenceUtil.SharedPreferenceUtil;
 import quantec.com.moneypot.databinding.ActivityRegInfoBinding;
+import quantec.com.moneypot.util.Permissions.PermissionFido;
+import quantec.com.moneypot.util.SharedPreference.SharedPreferenceUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityRegInfo extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener {
+public class ActivityRegInfo extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
 
     ActivityRegInfoBinding regInfoBinding;
     Matcher matcher, matcher2;
@@ -89,9 +90,8 @@ public class ActivityRegInfo extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
 
         regInfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_reg_info);
-        regInfoBinding.setRegInfo(this);
 
-        actList.add(this);
+//        actList.addFlags(this);
 
         //스테이터스 바 색상 변경 -> 화이트
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -166,9 +166,9 @@ public class ActivityRegInfo extends BaseActivity implements View.OnClickListene
         }
         else{
 
-            Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
-            startActivity(intent);
-            actFinish();
+//            Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
+//            startActivity(intent);
+//            actFinish();
 
             Toast.makeText(ActivityRegInfo.this, "바로 로그인", Toast.LENGTH_SHORT).show();
         }
@@ -265,9 +265,9 @@ public class ActivityRegInfo extends BaseActivity implements View.OnClickListene
                     verrifiedFingereUser(token);
                 } else {
 
-                    Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
-                    startActivity(intent);
-                    actFinish();
+//                    Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
+//                    startActivity(intent);
+//                    actFinish();
 
 //                    // 실패 사유
 //                    switch (fidoResult.getErrorCode()) {
@@ -334,9 +334,9 @@ public class ActivityRegInfo extends BaseActivity implements View.OnClickListene
                     }else{
                         Toast.makeText(ActivityRegInfo.this, "지문없이 메인으로 이동" , Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
-                        startActivity(intent);
-                        actFinish();
+//                        Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
+//                        startActivity(intent);
+//                        actFinish();
 
                     }
 
@@ -364,9 +364,9 @@ public class ActivityRegInfo extends BaseActivity implements View.OnClickListene
                     SharedPreferenceUtil.getInstance(ActivityRegInfo.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
                     SharedPreferenceUtil.getInstance(ActivityRegInfo.this).putFingerState("fingerState", true);
 
-                    Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
-                    startActivity(intent);
-                    actFinish();
+//                    Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
+//                    startActivity(intent);
+//                    actFinish();
                 }else{
                     mFidoUtil.resetUserVerification(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE, fidoCallback);
                 }
@@ -390,7 +390,7 @@ public class ActivityRegInfo extends BaseActivity implements View.OnClickListene
     private View.OnClickListener fidoCancle = new View.OnClickListener() {
         public void onClick(View v) {
             dialogFidoCancle.dismiss();
-            actFinish();
+//            actFinish();
         }
     };
 
@@ -414,9 +414,9 @@ public class ActivityRegInfo extends BaseActivity implements View.OnClickListene
     private View.OnClickListener fingerCancle = new View.OnClickListener() {
         public void onClick(View v) {
             dialogFidoFinger.dismiss();
-            Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
-            startActivity(intent);
-            actFinish();
+//            Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
+//            startActivity(intent);
+//            actFinish();
 
             loadingCustomMakingPort.dismiss();
         }
@@ -435,7 +435,7 @@ public class ActivityRegInfo extends BaseActivity implements View.OnClickListene
             dialogClosedSMS.dismiss();
             Intent intent = new Intent(ActivityRegInfo.this, ActivityMemberShipMain.class);
             startActivity(intent);
-            actFinish();
+//            actFinish();
             overridePendingTransition(R.anim.leftin_activity,R.anim.rightout_activity);
         }
     };
@@ -711,7 +711,7 @@ public class ActivityRegInfo extends BaseActivity implements View.OnClickListene
     public void onBackPressed() {
         Intent intent = new Intent(ActivityRegInfo.this, ActivityMemberShipMain.class);
         startActivity(intent);
-        actFinish();
+//        actFinish();
     }
 
     @Override
