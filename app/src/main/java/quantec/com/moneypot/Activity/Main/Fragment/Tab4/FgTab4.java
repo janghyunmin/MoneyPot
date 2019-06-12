@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import quantec.com.moneypot.Activity.Main.ActivityMain;
-import quantec.com.moneypot.ModelCommon.dModel.ModelFgTab4;
+import quantec.com.moneypot.DataModel.dModel.ModelFgTab4;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.databinding.FgTab4Binding;
 import quantec.com.moneypot.util.view.refresh.Footer.LoadingView;
@@ -71,6 +71,7 @@ public class FgTab4 extends Fragment {
 
         packName = getActivity().getPackageName();
 
+
         return tab4Binding.getRoot();
     }
 
@@ -89,12 +90,12 @@ public class FgTab4 extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        myData.add(new ModelFgTab4("111","222",11.11,true,true,"",true,0L));
-        myData.add(new ModelFgTab4("111","222",11.11,true,true,"",true,0L));
-        myData.add(new ModelFgTab4("111","222",11.11,true,true,"",true,0L));
-        myData.add(new ModelFgTab4("111","222",11.11,true,true,"",true,0L));
-        myData.add(new ModelFgTab4("111","222",11.11,true,true,"",true,0L));
-        myData.add(new ModelFgTab4("111","222",11.11,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("스스로 준비하는 연금","222",26.58,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("안정적인 자산관리를 위해","222",16.24,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("투자 고수의 투자법","222",16.24,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("스스로 준비하는 연금","222",-26.58,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("안정적인 자산관리를 위해","222",16.24,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("투자 고수의 투자법","222",-16.24,true,true,"",true,0L));
 
 
         SinaRefreshView headerView = new SinaRefreshView(activityMain);
@@ -112,6 +113,10 @@ public class FgTab4 extends Fragment {
                     @Override
                     public void run() {
                         refreshLayout.finishRefreshing();
+
+                        BottomSheetDialog bottomSheetDialog = BottomSheetDialog.newInstance();
+                        bottomSheetDialog.show(activityMain.getSupportFragmentManager(),"Bottom Sheet Dialog Fragment");
+
                     }
                 },2000);
             }
@@ -126,5 +131,9 @@ public class FgTab4 extends Fragment {
                 },2000);
             }
         });
+
+
+
     }
+
 }

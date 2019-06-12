@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import quantec.com.moneypot.ModelCommon.dModel.ModelMyInquiryList;
+import quantec.com.moneypot.DataModel.dModel.ModelMyInquiryList;
 import quantec.com.moneypot.R;
 
 public class AdapterMyInquiry extends RecyclerView.Adapter<AdapterMyInquiry.MyInquiryViewHolder> {

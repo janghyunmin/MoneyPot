@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -17,10 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
-
 import java.util.ArrayList;
-
 import quantec.com.moneypot.Activity.Main.ActivityMain;
+import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Activity.ActivityLeagueForm;
+import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Activity.ActivityPotCook;
+import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Adapter.AdapterAdImage;
+import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Adapter.AdapterLeagueList;
+import quantec.com.moneypot.DataModel.dModel.ModelAdImage;
+import quantec.com.moneypot.DataModel.dModel.ModelLeagueList;
 import quantec.com.moneypot.R;
 
 public class FgAllPage extends Fragment {
@@ -128,7 +131,10 @@ public class FgAllPage extends Fragment {
         adapterLeagueList.setLeagueEnterBtClick(new AdapterLeagueList.LeagueEnterBtClick() {
             @Override
             public void onClick(int position) {
-                Toast.makeText(activityMain, "리그참가합니다.", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(activityMain, ActivityLeagueForm.class);
+                startActivity(intent);
+
             }
         });
 

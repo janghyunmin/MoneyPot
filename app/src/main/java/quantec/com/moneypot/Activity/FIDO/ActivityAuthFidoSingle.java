@@ -24,6 +24,7 @@ import quantec.com.moneypot.Activity.Intro.ModelVerifiedFido;
 //import quantec.com.moneypot.Activity.Login.MemberShipPage.ActivityRePhoneConfirm;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelFidoauthReqDto;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelFidoAuthCode;
+import quantec.com.moneypot.Activity.Main.ActivityMain;
 import quantec.com.moneypot.Dialog.DialogExitApp;
 import quantec.com.moneypot.Dialog.DialogFidoCancle;
 import quantec.com.moneypot.Activity.Login.Model.dModel.FidoReq;
@@ -331,7 +332,7 @@ public class ActivityAuthFidoSingle extends AppCompatActivity {
 //                            Intent intent2 = new Intent(ActivityAuthFidoSingle.this, ActivityRePhoneConfirm.class);
 //                            intent2.putExtra("passwordPage", "DoFido");
 //                            startActivityForResult(intent2, 200);
-
+//
 //                            Toast.makeText(ActivityAuthFidoSingle.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
 //                            break;
                         default:
@@ -355,9 +356,9 @@ public class ActivityAuthFidoSingle extends AppCompatActivity {
                     SharedPreferenceUtil.getInstance(ActivityAuthFidoSingle.this).putTokenA("aToken", response.headers().get("Authorization"));
                     SharedPreferenceUtil.getInstance(ActivityAuthFidoSingle.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
 
-//                    Intent intent = new Intent(ActivityAuthFidoSingle.this, MainActivity.class);
-//                    startActivity(intent);
-//                    finish();
+                    Intent intent = new Intent(ActivityAuthFidoSingle.this, ActivityMain.class);
+                    startActivity(intent);
+                    finish();
 
                 }else{
                     mFidoUtil.resetUserVerification(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE, fidoCallback2);
@@ -388,9 +389,9 @@ public class ActivityAuthFidoSingle extends AppCompatActivity {
                     SharedPreferenceUtil.getInstance(ActivityAuthFidoSingle.this).putTokenA("aToken", response.headers().get("Authorization"));
                     SharedPreferenceUtil.getInstance(ActivityAuthFidoSingle.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
 
-//                    Intent intent = new Intent(ActivityAuthFidoSingle.this, MainActivity.class);
-//                    startActivity(intent);
-//                    finish();
+                    Intent intent = new Intent(ActivityAuthFidoSingle.this, ActivityMain.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
             @Override

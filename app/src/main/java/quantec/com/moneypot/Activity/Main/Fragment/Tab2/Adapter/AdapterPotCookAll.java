@@ -31,7 +31,7 @@ import com.github.mikephil.charting.utils.MPPointF;
 import java.util.ArrayList;
 import java.util.List;
 
-import quantec.com.moneypot.ModelCommon.dModel.ModelPotCookAll;
+import quantec.com.moneypot.DataModel.dModel.ModelPotCookAll;
 import quantec.com.moneypot.R;
 
 public class AdapterPotCookAll extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -70,6 +70,16 @@ public class AdapterPotCookAll extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.stAddBtClick = stAddBtClick;
     }
 
+
+    private PotCookAllItemClick potCookAllItemClick;
+    public interface PotCookAllItemClick {
+        public void onClick(int position);
+    }
+
+    public void setPotCookAllItemClick(PotCookAllItemClick potCookAllItemClick) {
+        this.potCookAllItemClick = potCookAllItemClick;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -81,6 +91,16 @@ public class AdapterPotCookAll extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
         if(holder instanceof PotCookAllViewHolder){
+
+            ((PotCookAllViewHolder)holder).potCookAllItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(potCookAllItemClick != null){
+                        potCookAllItemClick.onClick(position);
+                    }
+                }
+            });
+
 
             ((PotCookAllViewHolder)holder).stTitle.setText(modelPotCookAll.get(position).getStTitle());
             ((PotCookAllViewHolder)holder).stCode.setText(modelPotCookAll.get(position).getStSubTitle());

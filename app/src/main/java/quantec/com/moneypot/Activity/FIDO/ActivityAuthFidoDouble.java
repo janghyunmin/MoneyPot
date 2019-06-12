@@ -1,5 +1,6 @@
 package quantec.com.moneypot.Activity.FIDO;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import quantec.com.moneypot.Activity.Login.Model.dModel.FidoReq;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelFidoauthReqDto;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelWithdrawFido;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelFidoAuthCode;
+import quantec.com.moneypot.Activity.Main.ActivityMain;
 import quantec.com.moneypot.Dialog.DialogExitApp;
 import quantec.com.moneypot.Dialog.DialogFidoCancle;
 import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
@@ -223,9 +225,9 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                     SharedPreferenceUtil.getInstance(ActivityAuthFidoDouble.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
                     SharedPreferenceUtil.getInstance(ActivityAuthFidoDouble.this).putFingerState("fingerState", false);
 
-//                    Intent intent = new Intent(ActivityAuthFidoDouble.this, MainActivity.class);
-//                    startActivity(intent);
-//                    finish();
+                    Intent intent = new Intent(ActivityAuthFidoDouble.this, ActivityMain.class);
+                    startActivity(intent);
+                    finish();
 
                 }else{
                     mFidoUtil.resetUserVerification(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE, fidoCallback2);
@@ -475,9 +477,9 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                     SharedPreferenceUtil.getInstance(ActivityAuthFidoDouble.this).putTokenA("aToken", response.headers().get("Authorization"));
                     SharedPreferenceUtil.getInstance(ActivityAuthFidoDouble.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
 
-//                    Intent intent = new Intent(ActivityAuthFidoDouble.this, MainActivity.class);
-//                    startActivity(intent);
-//                    finish();
+                    Intent intent = new Intent(ActivityAuthFidoDouble.this, ActivityMain.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
             @Override

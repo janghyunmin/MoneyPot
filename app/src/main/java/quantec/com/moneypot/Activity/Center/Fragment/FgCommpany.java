@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import quantec.com.moneypot.Activity.Center.ActivityWebViewQuestion;
 import quantec.com.moneypot.Activity.Center.Adapter.AdapterCommpany;
-import quantec.com.moneypot.ModelCommon.dModel.ModelCommpanyList;
+import quantec.com.moneypot.DataModel.dModel.ModelCommpanyList;
 import quantec.com.moneypot.R;
 
 public class FgCommpany extends Fragment {

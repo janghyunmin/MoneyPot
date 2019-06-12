@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import quantec.com.moneypot.Activity.Center.ActivityWebViewQuestion;
 import quantec.com.moneypot.Activity.Center.Adapter.AdapterService;
-import quantec.com.moneypot.ModelCommon.dModel.ModelServiceList;
+import quantec.com.moneypot.DataModel.dModel.ModelServiceList;
 import quantec.com.moneypot.R;
 
 public class FgService extends Fragment {

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	16.07.08 AlertDialog 화면 정의
+	 1. 모든 값에서 ID 를 변경해서는 안됨. (주의사항)
+	 2. TextView와 Button 의 속성 값을 변경해서는 안 됨. (주의사항)
+	 3. 전체 레이아웃의 속성을 RelativeLayout 으로 정한 후, with와 height를 정해주면 Alert창의 크기를 알맞게 정해질 수 있음.
+	  -> Linearlayout으로 할 경우에는 크기가 줄어듬.
+	 4. 모든 모양의 위치 와 크기 등을 변경하여도 됨.
+ -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/alert_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Alert Title"
+            android:textColor="#0000FF"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#000000" />
+
+        <TextView
+            android:id="@+id/alert_detail"
+            android:layout_width="fill_parent"
+            android:layout_height="160dp"
+            android:gravity="center"
+            android:text="Alert message"
+            android:textColor="#000000"
+            android:textSize="17dp" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#000000" />
+
+        <Button
+            android:id="@+id/alert_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="#E4E4E4"
+            android:text="확인"
+            android:textSize="17dp" />
+    </LinearLayout>
+
+</RelativeLayout>

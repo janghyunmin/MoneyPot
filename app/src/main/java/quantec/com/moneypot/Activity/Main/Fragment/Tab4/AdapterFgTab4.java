@@ -5,11 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +27,7 @@ import com.github.mikephil.charting.utils.MPPointF;
 import java.util.ArrayList;
 import java.util.List;
 
-import quantec.com.moneypot.ModelCommon.dModel.ModelFgTab4;
+import quantec.com.moneypot.DataModel.dModel.ModelFgTab4;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.databinding.ItemFgtab4Binding;
 
@@ -181,49 +178,49 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (holder instanceof MyViewHolder) {
 
-            ((MyViewHolder) holder).tab4dataBinding.tab4RecyclerViewPortCheckButtonLayout.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return true;
-                }
-            });
+//            ((MyViewHolder) holder).binding.tab4RecyclerViewPortCheckButtonLayout.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    return true;
+//                }
+//            });
 
 //            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortImage.setImageResource(myData.get(position).getImage());
-            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortName.setText(myData.get(position).getTitle());
+            ((MyViewHolder)holder).binding.potName.setText(myData.get(position).getTitle());
 
             if(myData.get(position).getRate() < 0) {
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortRate.setText(String.valueOf(myData.get(position).getRate()));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortRate.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortPersent.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
+                ((MyViewHolder)holder).binding.potRate.setText(String.valueOf(myData.get(position).getRate()));
+                ((MyViewHolder)holder).binding.potRate.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
+                ((MyViewHolder)holder).binding.potPer.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
             }else{
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortRate.setText(String.valueOf(myData.get(position).getRate()));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortRate.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortPersent.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
+                ((MyViewHolder)holder).binding.potRate.setText(String.valueOf(myData.get(position).getRate()));
+                ((MyViewHolder)holder).binding.potRate.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
+                ((MyViewHolder)holder).binding.potPer.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
             }
 
-            if(FgTab4.portOpenState) {
-                ((MyViewHolder) holder).tab4dataBinding.tab4RecyclerViewPortZzimBt.setVisibility(View.GONE);
-            }else{
-
-                ((MyViewHolder) holder).tab4dataBinding.tab4RecyclerViewPortZzimBt.setVisibility(View.VISIBLE);
-
-                if(myData.get(position).isZim()){
-                    ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortZzimBt.setImageResource(R.drawable.start_on);
-                }else{
-                    ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortZzimBt.setImageResource(R.drawable.start_off);
-                }
-
-                if(AnimState) {
-                    TranslateAnimation animation7 = new TranslateAnimation(100, 0, 0, 0);
-                    animation7.setDuration(500);
-                    animation7.setFillAfter(true);
-                    animation7.setFillEnabled(true);
-                    ((MyViewHolder) holder).tab4dataBinding.tab4RecyclerViewPortZzimBt.startAnimation(animation7);
-                }
-            }
+//            if(FgTab4.portOpenState) {
+//                ((MyViewHolder) holder).binding.potZimBt.setVisibility(View.GONE);
+//            }else{
+//
+//                ((MyViewHolder) holder).binding.potZimBt.setVisibility(View.VISIBLE);
+//
+//                if(myData.get(position).isZim()){
+//                    ((MyViewHolder)holder).binding.potZimBt.setImageResource(R.drawable.start_on);
+//                }else{
+//                    ((MyViewHolder)holder).binding.potZimBt.setImageResource(R.drawable.start_off);
+//                }
+//
+//                if(AnimState) {
+//                    TranslateAnimation animation7 = new TranslateAnimation(100, 0, 0, 0);
+//                    animation7.setDuration(500);
+//                    animation7.setFillAfter(true);
+//                    animation7.setFillEnabled(true);
+//                    ((MyViewHolder) holder).binding.potZimBt.startAnimation(animation7);
+//                }
+//            }
 
             //포트 클릭 이벤트
-            ((MyViewHolder)holder).tab4dataBinding.linearLayout.setOnClickListener(new View.OnClickListener() {
+            ((MyViewHolder)holder).binding.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (itemClick != null) {
@@ -233,18 +230,18 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-            //포트삭제 버튼
-            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortDeleteBT.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (deleteClick != null) {
-                        deleteClick.onClick(position);
-                    }
-                }
-            });
+//            //포트삭제 버튼
+//            ((MyViewHolder)holder).binding.tab4RecyclerViewPortDeleteBT.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (deleteClick != null) {
+//                        deleteClick.onClick(position);
+//                    }
+//                }
+//            });
 
             //포트 차트 1개월 버튼
-            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur1Bt.setOnClickListener(new View.OnClickListener() {
+            ((MyViewHolder)holder).binding.m1Bt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (selectDurItemClick1 != null) {
@@ -255,7 +252,7 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
 
             //포트 차트 3개월 버튼
-            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur3Bt.setOnClickListener(new View.OnClickListener() {
+            ((MyViewHolder)holder).binding.m3Bt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (selectDurItemClick3 != null) {
@@ -266,7 +263,7 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
 
             //포트 차트 6개월 버튼
-            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur6Bt.setOnClickListener(new View.OnClickListener() {
+            ((MyViewHolder)holder).binding.m6Bt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (selectDurItemClick6 != null) {
@@ -277,7 +274,7 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
 
             //포트 차트 누적 버튼
-            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDuraBt.setOnClickListener(new View.OnClickListener() {
+            ((MyViewHolder)holder).binding.mAllBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (selectDurItemClicka != null) {
@@ -288,66 +285,66 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
 
             if(checkedPosition == 1) {
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur1Bt.setBackgroundResource(R.drawable.round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur1Bt.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur3Bt.setBackgroundResource(R.drawable.unselected_round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur3Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur6Bt.setBackgroundResource(R.drawable.unselected_round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur6Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDuraBt.setBackgroundResource(R.drawable.unselected_round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDuraBt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
+                ((MyViewHolder)holder).binding.m1Bt.setBackgroundResource(R.drawable.round_button);
+                ((MyViewHolder)holder).binding.m1Bt.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
+                ((MyViewHolder)holder).binding.m3Bt.setBackgroundResource(R.drawable.unselected_round_button);
+                ((MyViewHolder)holder).binding.m3Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
+                ((MyViewHolder)holder).binding.m6Bt.setBackgroundResource(R.drawable.unselected_round_button);
+                ((MyViewHolder)holder).binding.m6Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
+                ((MyViewHolder)holder).binding.mAllBt.setBackgroundResource(R.drawable.unselected_round_button);
+                ((MyViewHolder)holder).binding.mAllBt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
             }else if(checkedPosition == 2) {
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur1Bt.setBackgroundResource(R.drawable.unselected_round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur1Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur3Bt.setBackgroundResource(R.drawable.round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur3Bt.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur6Bt.setBackgroundResource(R.drawable.unselected_round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur6Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDuraBt.setBackgroundResource(R.drawable.unselected_round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDuraBt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
+                ((MyViewHolder)holder).binding.m1Bt.setBackgroundResource(R.drawable.unselected_round_button);
+                ((MyViewHolder)holder).binding.m1Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
+                ((MyViewHolder)holder).binding.m3Bt.setBackgroundResource(R.drawable.round_button);
+                ((MyViewHolder)holder).binding.m3Bt.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
+                ((MyViewHolder)holder).binding.m6Bt.setBackgroundResource(R.drawable.unselected_round_button);
+                ((MyViewHolder)holder).binding.m6Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
+                ((MyViewHolder)holder).binding.mAllBt.setBackgroundResource(R.drawable.unselected_round_button);
+                ((MyViewHolder)holder).binding.mAllBt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
             }else if(checkedPosition == 3) {
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur1Bt.setBackgroundResource(R.drawable.unselected_round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur1Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur3Bt.setBackgroundResource(R.drawable.unselected_round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur3Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur6Bt.setBackgroundResource(R.drawable.round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur6Bt.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDuraBt.setBackgroundResource(R.drawable.unselected_round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDuraBt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
+                ((MyViewHolder)holder).binding.m1Bt.setBackgroundResource(R.drawable.unselected_round_button);
+                ((MyViewHolder)holder).binding.m1Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
+                ((MyViewHolder)holder).binding.m3Bt.setBackgroundResource(R.drawable.unselected_round_button);
+                ((MyViewHolder)holder).binding.m3Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
+                ((MyViewHolder)holder).binding.m6Bt.setBackgroundResource(R.drawable.round_button);
+                ((MyViewHolder)holder).binding.m6Bt.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
+                ((MyViewHolder)holder).binding.mAllBt.setBackgroundResource(R.drawable.unselected_round_button);
+                ((MyViewHolder)holder).binding.mAllBt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
             }else if(checkedPosition == 4) {
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur1Bt.setBackgroundResource(R.drawable.unselected_round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur1Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur3Bt.setBackgroundResource(R.drawable.unselected_round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur3Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur6Bt.setBackgroundResource(R.drawable.unselected_round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDur6Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDuraBt.setBackgroundResource(R.drawable.round_button);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewDuraBt.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
+                ((MyViewHolder)holder).binding.m1Bt.setBackgroundResource(R.drawable.unselected_round_button);
+                ((MyViewHolder)holder).binding.m1Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
+                ((MyViewHolder)holder).binding.m3Bt.setBackgroundResource(R.drawable.unselected_round_button);
+                ((MyViewHolder)holder).binding.m3Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
+                ((MyViewHolder)holder).binding.m6Bt.setBackgroundResource(R.drawable.unselected_round_button);
+                ((MyViewHolder)holder).binding.m6Bt.setTextColor(context.getResources().getColor(R.color.chart_dur_bt_color));
+                ((MyViewHolder)holder).binding.mAllBt.setBackgroundResource(R.drawable.round_button);
+                ((MyViewHolder)holder).binding.mAllBt.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
             }
 
-            //더보기 버튼
-            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartAddBt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (selectAddPortDetailClick != null) {
-                        selectAddPortDetailClick.onclick(position);
-                    }
-                }
-            });
-
-            //투자하기 버튼
-            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartInvestBt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (selectInvestClick != null) {
-                        selectInvestClick.onClick(position);
-                    }
-                }
-            });
+//            //더보기 버튼
+//            ((MyViewHolder)holder).binding.tab4RecyclerViewChartAddBt.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (selectAddPortDetailClick != null) {
+//                        selectAddPortDetailClick.onclick(position);
+//                    }
+//                }
+//            });
+//
+//            //투자하기 버튼
+//            ((MyViewHolder)holder).binding.tab4RecyclerViewChartInvestBt.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    if (selectInvestClick != null) {
+//                        selectInvestClick.onClick(position);
+//                    }
+//                }
+//            });
 
             //포트 찜하기 버튼
-            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortZzimBt.setOnClickListener(new View.OnClickListener() {
+            ((MyViewHolder)holder).binding.potZimBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(selectZzimClick != null) {
@@ -374,80 +371,80 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     lineData = new LineData(lineDataSet);
                     lineData.setHighlightEnabled(true);
 
-                    xAxis = ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.getXAxis();
+                    xAxis = ((MyViewHolder)holder).binding.chartView.getXAxis();
                     xAxis.setDrawLabels(false);
                     xAxis.setDrawGridLines(false);
                     xAxis.setDrawAxisLine(false);
 
-                    YAxis yAxis = ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.getAxisLeft();
+                    YAxis yAxis = ((MyViewHolder)holder).binding.chartView.getAxisLeft();
                     yAxis.setDrawLabels(false);
                     yAxis.setDrawGridLines(false);
                     yAxis.setDrawAxisLine(false);
                     yAxis.setEnabled(false);
 
-                    YAxis yAxis1 = ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.getAxisRight();
+                    YAxis yAxis1 = ((MyViewHolder)holder).binding.chartView.getAxisRight();
                     yAxis1.setDrawLabels(false);
                     yAxis1.setDrawGridLines(false);
                     yAxis1.setDrawAxisLine(false);
                     yAxis1.setEnabled(false);
 
-                    Legend legend = ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.getLegend();
+                    Legend legend = ((MyViewHolder)holder).binding.chartView.getLegend();
                     legend.setEnabled(false);
                     legend.setDrawInside(false);
 
-                    ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.setDescription(null);
-                    ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.setDrawGridBackground(false);
-                    ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.setData(lineData);
-                    ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.setDoubleTapToZoomEnabled(false);
-                    ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.setDrawGridBackground(false);
-                    ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.animateY(600, Easing.EasingOption.EaseInCubic);
-                    ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.setPinchZoom(false);
-                    ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.setScaleEnabled(false);
-                    ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.invalidate();
+                    ((MyViewHolder)holder).binding.chartView.setDescription(null);
+                    ((MyViewHolder)holder).binding.chartView.setDrawGridBackground(false);
+                    ((MyViewHolder)holder).binding.chartView.setData(lineData);
+                    ((MyViewHolder)holder).binding.chartView.setDoubleTapToZoomEnabled(false);
+                    ((MyViewHolder)holder).binding.chartView.setDrawGridBackground(false);
+                    ((MyViewHolder)holder).binding.chartView.animateY(600, Easing.EasingOption.EaseInCubic);
+                    ((MyViewHolder)holder).binding.chartView.setPinchZoom(false);
+                    ((MyViewHolder)holder).binding.chartView.setScaleEnabled(false);
+                    ((MyViewHolder)holder).binding.chartView.invalidate();
 
-                    maxX = ((MyViewHolder) holder).tab4dataBinding.tab4RecyclerViewChartView.getXRange();
+                    maxX = ((MyViewHolder) holder).binding.chartView.getXRange();
 
                     CustomMarkerView marker = new CustomMarkerView(context, R.layout.item_chart_marker);
-                    marker.setChartView(((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView);
-                    ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChartView.setMarker(marker);
+                    marker.setChartView(((MyViewHolder)holder).binding.chartView);
+                    ((MyViewHolder)holder).binding.chartView.setMarker(marker);
 
                 }
 
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChart.setVisibility(View.VISIBLE);
+                ((MyViewHolder)holder).binding.chartView.setVisibility(View.VISIBLE);
             } else {
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewChart.setVisibility(View.GONE);
+                ((MyViewHolder)holder).binding.chartView.setVisibility(View.GONE);
             }
 
-            if (!FgTab4.Delete_State) {
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortDeleteBT.setVisibility(View.GONE);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortRate.setVisibility(View.VISIBLE);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortPersent.setVisibility(View.VISIBLE);
-            } else {
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortDeleteBT.setVisibility(View.VISIBLE);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortRate.setVisibility(View.GONE);
-                ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortPersent.setVisibility(View.GONE);
-
-                if(!DeleteAnimState) {
-                    TranslateAnimation animatio = new TranslateAnimation(100, 0, 0, 0);
-                    animatio.setDuration(500);
-                    animatio.setFillAfter(false);
-                    animatio.setFillEnabled(false);
-                    animatio.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                        }
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            DeleteAnimState = true;
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-                        }
-                    });
-                    ((MyViewHolder) holder).tab4dataBinding.tab4RecyclerViewPortDeleteBT.startAnimation(animatio);
-                }
-            }
+//            if (!FgTab4.Delete_State) {
+//                ((MyViewHolder)holder).binding.tab4RecyclerViewPortDeleteBT.setVisibility(View.GONE);
+//                ((MyViewHolder)holder).binding.tab4RecyclerViewPortRate.setVisibility(View.VISIBLE);
+//                ((MyViewHolder)holder).binding.tab4RecyclerViewPortPersent.setVisibility(View.VISIBLE);
+//            } else {
+//                ((MyViewHolder)holder).binding.tab4RecyclerViewPortDeleteBT.setVisibility(View.VISIBLE);
+//                ((MyViewHolder)holder).binding.tab4RecyclerViewPortRate.setVisibility(View.GONE);
+//                ((MyViewHolder)holder).binding.tab4RecyclerViewPortPersent.setVisibility(View.GONE);
+//
+//                if(!DeleteAnimState) {
+//                    TranslateAnimation animatio = new TranslateAnimation(100, 0, 0, 0);
+//                    animatio.setDuration(500);
+//                    animatio.setFillAfter(false);
+//                    animatio.setFillEnabled(false);
+//                    animatio.setAnimationListener(new Animation.AnimationListener() {
+//                        @Override
+//                        public void onAnimationStart(Animation animation) {
+//                        }
+//                        @Override
+//                        public void onAnimationEnd(Animation animation) {
+//                            DeleteAnimState = true;
+//                        }
+//
+//                        @Override
+//                        public void onAnimationRepeat(Animation animation) {
+//                        }
+//                    });
+//                    ((MyViewHolder) holder).binding.tab4RecyclerViewPortDeleteBT.startAnimation(animatio);
+//                }
+//            }
         }
     }
 
@@ -458,11 +455,11 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ItemFgtab4Binding tab4dataBinding;
+        ItemFgtab4Binding binding;
 
-        MyViewHolder(ItemFgtab4Binding tab4dataBinding){
-            super(tab4dataBinding.getRoot());
-            this.tab4dataBinding = tab4dataBinding;
+        MyViewHolder(ItemFgtab4Binding binding){
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 

@@ -43,11 +43,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/topLine"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/topLine">
 
-
-
+        <include
+            android:id="@+id/includePotDetail"
+            layout="@layout/include_potdetail"
+            />
 
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

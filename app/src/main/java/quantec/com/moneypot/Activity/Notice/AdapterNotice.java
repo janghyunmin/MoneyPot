@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import quantec.com.moneypot.ModelCommon.dModel.ModelNoticeList;
+import quantec.com.moneypot.DataModel.dModel.ModelNoticeList;
 import quantec.com.moneypot.R;
 
 public class AdapterNotice extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

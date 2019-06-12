@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/LocalVerif_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical" >
+
+        <include
+            android:id="@+id/title_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/auth_title_layout" />
+
+        <include
+            android:id="@+id/cert_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/auth_cert_info" />
+
+        <TextView
+            android:id="@+id/normal_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="   지문 인증을 통해 사이트에 등록된\n\n공인인증서로 전자서명을 진행 합니다."
+            android:textColor="#5c6781"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/editLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/edit_Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="공인인증서 비밀번호 입력"
+                    android:textColor="#5c6781"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/sub_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:text="* 지문인증을 하시려면 지문 아이콘을 클릭하세요."
+                    android:textColor="#5c6781"
+                    android:textSize="12dp" />
+
+                <RelativeLayout
+                    android:id="@+id/edit_take_box"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp" >
+
+                    <EditText
+                        android:id="@+id/etxt_auv_passcode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/imAuthIcon"
+                        android:background="@drawable/auth_textfield"
+                        android:inputType="textPassword"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black"
+                        android:textSize="20dp" />
+
+                    <ImageView
+                        android:id="@+id/imAuthIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="10dp"
+                        app:srcCompat="@drawable/auth_btn_search_nor"
+                        android:visibility="gone" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="#cccccc" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:weightSum="2" >
+
+                <Button
+                    android:id="@+id/btn_auv_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/auth_btn_cancel"
+                    android:onClick="onClickCancel"
+                    android:text="취소"
+                    android:textColor="#00569b" />
+
+                <Button
+                    android:id="@+id/btn_auv_confirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/auth_btn_ok"
+                    android:onClick="onClickConfirm"
+                    android:text="확인"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/vk_keypad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/vk_wrapper"
+        android:visibility="visible" />
+
+</RelativeLayout>

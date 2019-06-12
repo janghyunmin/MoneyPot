@@ -1,6 +1,7 @@
 package quantec.com.moneypot.Activity.Main.Fragment.Tab2.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +23,11 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import quantec.com.moneypot.Activity.Main.Fragment.Tab2.ActivityPotCook;
+import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Activity.ActivityPotCook;
 import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Adapter.AdapterPotCookAll;
-import quantec.com.moneypot.ModelCommon.dModel.ModelPortList;
-import quantec.com.moneypot.ModelCommon.dModel.ModelPotCookAll;
+import quantec.com.moneypot.Activity.PotDetail.ActivityPotDetail;
+import quantec.com.moneypot.DataModel.dModel.ModelPortList;
+import quantec.com.moneypot.DataModel.dModel.ModelPotCookAll;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
 import quantec.com.moneypot.RxAndroid.RxEventBus;
@@ -158,7 +160,6 @@ public class FgPotCookAll extends Fragment {
         });
 
 
-
         RxEventBus.getInstance()
                 .filteredObservable(RxEvent.class)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -199,6 +200,16 @@ public class FgPotCookAll extends Fragment {
                     }
                 });
 
+
+        adapterPotCookAll.setPotCookAllItemClick(new AdapterPotCookAll.PotCookAllItemClick() {
+            @Override
+            public void onClick(int position) {
+
+                Intent intent = new Intent(activityPotCook, ActivityPotDetail.class);
+                startActivity(intent);
+
+            }
+        });
 
     }
 }

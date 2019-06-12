@@ -2,14 +2,9 @@ package quantec.com.moneypot.Activity.Center.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +16,7 @@ import java.util.ArrayList;
 
 import quantec.com.moneypot.Activity.Center.ActivityInquiry;
 import quantec.com.moneypot.Activity.Center.Adapter.AdapterMyInquiry;
-import quantec.com.moneypot.Dialog.DialogInquiryCategory;
-import quantec.com.moneypot.ModelCommon.dModel.ModelMyInquiryList;
+import quantec.com.moneypot.DataModel.dModel.ModelMyInquiryList;
 import quantec.com.moneypot.R;
 
 public class FgMyInquiry extends Fragment{

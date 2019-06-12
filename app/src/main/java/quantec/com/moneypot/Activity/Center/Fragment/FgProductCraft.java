@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import quantec.com.moneypot.Activity.Center.ActivityWebViewQuestion;
 import quantec.com.moneypot.Activity.Center.Adapter.AdapterProductCraft;
-import quantec.com.moneypot.ModelCommon.dModel.ModelProductCraftList;
+import quantec.com.moneypot.DataModel.dModel.ModelProductCraftList;
 import quantec.com.moneypot.R;
 
 public class FgProductCraft extends Fragment {

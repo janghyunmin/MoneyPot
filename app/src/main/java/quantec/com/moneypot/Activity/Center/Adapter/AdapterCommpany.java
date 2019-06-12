@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import quantec.com.moneypot.ModelCommon.dModel.ModelCommpanyList;
+import quantec.com.moneypot.DataModel.dModel.ModelCommpanyList;
 import quantec.com.moneypot.R;
 
 public class AdapterCommpany extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import quantec.com.moneypot.ModelCommon.dModel.ModelUseGuideList;
+import quantec.com.moneypot.DataModel.dModel.ModelUseGuideList;
 import quantec.com.moneypot.R;
 
 public class AdapterUseGuide extends RecyclerView.Adapter<AdapterUseGuide.UseGuideViewHolder> {

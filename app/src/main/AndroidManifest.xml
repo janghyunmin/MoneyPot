@@ -23,9 +23,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.Main.Fragment.Tab2.ActivityAddPrice"></activity>
-        <activity android:name=".Activity.Main.Fragment.Tab2.ActivityPreviewChart" />
-        <activity android:name=".Activity.Main.Fragment.Tab2.ActivityPotCook" />
+        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityMyPotList"></activity>
+        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityWebViewLeagueForm" />
+        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityLeagueForm" />
+        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityAddPrice" />
+        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityPreviewChart" />
+        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityPotCook" />
         <activity android:name=".Activity.Center.ActivityWebViewQuestion" />
         <activity android:name=".Activity.Center.ActivityAppVersion" />
         <activity android:name=".Activity.Center.ActivityInquiry" />

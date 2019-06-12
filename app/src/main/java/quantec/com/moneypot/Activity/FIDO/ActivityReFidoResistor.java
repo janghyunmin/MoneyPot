@@ -1,6 +1,8 @@
 package quantec.com.moneypot.Activity.FIDO;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -22,6 +24,7 @@ import quantec.com.moneypot.Activity.Intro.ModelVerifiedFido;
 import quantec.com.moneypot.Activity.Login.Model.dModel.FidoReq;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelFidoauthReqDto;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelFidoAuthCode;
+import quantec.com.moneypot.Activity.Main.ActivityMain;
 import quantec.com.moneypot.Dialog.DialogExitApp;
 import quantec.com.moneypot.Dialog.DialogFidoCancle;
 import quantec.com.moneypot.Dialog.DialogFidoFinger;
@@ -245,9 +248,9 @@ public class ActivityReFidoResistor extends AppCompatActivity {
                                 }else{
                                     Toast.makeText(ActivityReFidoResistor.this, "지문없이 메인으로 이동" , Toast.LENGTH_SHORT).show();
 
-//                                    Intent intent = new Intent(ActivityReFidoResistor.this, MainActivity.class);
-//                                    startActivity(intent);
-//                                    finish();
+                                    Intent intent = new Intent(ActivityReFidoResistor.this, ActivityMain.class);
+                                    startActivity(intent);
+                                    finish();
                                 }
                             }else{
                                 mFidoUtil.resetUserVerification(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE, fidoCallback);
@@ -304,9 +307,9 @@ public class ActivityReFidoResistor extends AppCompatActivity {
                                 SharedPreferenceUtil.getInstance(ActivityReFidoResistor.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
                                 SharedPreferenceUtil.getInstance(ActivityReFidoResistor.this).putFingerState("fingerState", true);
 
-//                                Intent intent = new Intent(ActivityReFidoResistor.this, MainActivity.class);
-//                                startActivity(intent);
-//                                finish();
+                                Intent intent = new Intent(ActivityReFidoResistor.this, ActivityMain.class);
+                                startActivity(intent);
+                                finish();
                             }
                         }
                         @Override
@@ -344,9 +347,9 @@ public class ActivityReFidoResistor extends AppCompatActivity {
     private View.OnClickListener fingerCancle = new View.OnClickListener() {
         public void onClick(View v) {
             dialogFidoFinger.dismiss();
-//            Intent intent = new Intent(ActivityReFidoResistor.this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
+            Intent intent = new Intent(ActivityReFidoResistor.this, ActivityMain.class);
+            startActivity(intent);
+            finish();
         }
     };
 

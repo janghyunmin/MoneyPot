@@ -9,7 +9,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 
 import quantec.com.moneypot.Activity.Center.Adapter.AdapterUseGuide;
-import quantec.com.moneypot.ModelCommon.dModel.ModelUseGuideList;
+import quantec.com.moneypot.DataModel.dModel.ModelUseGuideList;
 import quantec.com.moneypot.R;
 
 public class ActivityUseGuide extends AppCompatActivity {
