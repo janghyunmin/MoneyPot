@@ -3,12 +3,14 @@ package quantec.com.moneypot.Activity.Main.Fragment.Tab2.Adapter;
 public class ModelLeagueFormMadePot {
 
     boolean empty;
+    boolean checkBt;
     String date;
     String title;
-    boolean rate;
+    double rate;
 
-    public ModelLeagueFormMadePot(boolean empty, String date, String title, boolean rate) {
+    public ModelLeagueFormMadePot(boolean empty, boolean checkBt, String date, String title, double rate) {
         this.empty = empty;
+        this.checkBt = checkBt;
         this.date = date;
         this.title = title;
         this.rate = rate;
@@ -20,6 +22,14 @@ public class ModelLeagueFormMadePot {
 
     public void setEmpty(boolean empty) {
         this.empty = empty;
+    }
+
+    public boolean isCheckBt() {
+        return checkBt;
+    }
+
+    public void setCheckBt(boolean checkBt) {
+        this.checkBt = checkBt;
     }
 
     public String getDate() {
@@ -38,11 +48,11 @@ public class ModelLeagueFormMadePot {
         this.title = title;
     }
 
-    public boolean isRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(boolean rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 }

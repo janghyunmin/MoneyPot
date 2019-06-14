@@ -2,6 +2,7 @@ package quantec.com.moneypot.Activity.Main.Fragment.Tab2.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,21 +18,27 @@ import java.util.ArrayList;
 import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Adapter.AdapterLeagueForm;
 import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Adapter.ModelLeagueFormMadePot;
 import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Adapter.ModelLeagueFormSelectPot;
+import quantec.com.moneypot.Activity.PotDetail.ActivityPotDetail;
 import quantec.com.moneypot.R;
 
 public class ActivityLeagueForm extends AppCompatActivity {
 
     ImageView backBt, checkBt1, checkBt2;
-    TextView checkBt1Title, checkBt2Title, viewBt, makeBt, name, adress;
+    TextView checkBt1Title, checkBt2Title, viewBt, makeBt, name, adress, emptySelectPot, selectedTitle, selectedRate;
 
     boolean checkBt1State, checkBt2State;
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    ArrayList<ModelLeagueFormSelectPot> modelLeagueFormSelectPots;
+//    ArrayList<ModelLeagueFormSelectPot> modelLeagueFormSelectPots;
     ArrayList<ModelLeagueFormMadePot> modelLeagueFormMadePots;
     AdapterLeagueForm adapterLeagueForm;
 
+    ConstraintLayout selectPotLayout;
+
+    //클릭시 동일 포지션일경우 같은 코드를 거지치 않게 하기 위해서 잡아줌
+    int prePosition = -1;
+    int preCheckPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +51,22 @@ public class ActivityLeagueForm extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        modelLeagueFormSelectPots = new ArrayList<>();
+//        modelLeagueFormSelectPots = new ArrayList<>();
         modelLeagueFormMadePots = new ArrayList<>();
 
         adapterLeagueForm = new AdapterLeagueForm(modelLeagueFormMadePots, this);
         recyclerView.setAdapter(adapterLeagueForm);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        });
 
         backBt = findViewById(R.id.backBt);
         checkBt1 = findViewById(R.id.checkBt1);
@@ -62,6 +80,11 @@ public class ActivityLeagueForm extends AppCompatActivity {
 
         name = findViewById(R.id.name);
         adress = findViewById(R.id.adress);
+
+        emptySelectPot = findViewById(R.id.emptySelectPot);
+        selectedTitle = findViewById(R.id.selectedTitle);
+        selectedRate = findViewById(R.id.selectedRate);
+        selectPotLayout = findViewById(R.id.selectPotLayout);
 
         name.setText("이상근");
         adress.setText("01055554444");
@@ -125,6 +148,48 @@ public class ActivityLeagueForm extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        adapterLeagueForm.setLeagueFormItemClick(new AdapterLeagueForm.LeagueFormItemClick() {
+            @Override
+            public void onClick(int position) {
+                Intent intent = new Intent(ActivityLeagueForm.this, ActivityPotDetail.class);
+                startActivity(intent);
+            }
+        });
+
+        adapterLeagueForm.setLeagueFormCheckBtClick(new AdapterLeagueForm.LeagueFormCheckBtClick() {
+            @Override
+            public void onClick(int position) {
+
+                if(prePosition != position){
+
+                    emptySelectPot.setVisibility(View.GONE);
+                    selectPotLayout.setVisibility(View.VISIBLE);
+                    selectedTitle.setText(modelLeagueFormMadePots.get(position).getTitle());
+                    selectedRate.setText(String.valueOf(modelLeagueFormMadePots.get(position).getRate())+"%");
+                    if(modelLeagueFormMadePots.get(position).getRate() >= 0){
+                        selectedRate.setTextColor(getResources().getColor(R.color.red_text_color));
+                    }else{
+                        selectedRate.setTextColor(getResources().getColor(R.color.blue_color));
+                    }
+
+                    modelLeagueFormMadePots.get(preCheckPosition).setCheckBt(false);
+                    modelLeagueFormMadePots.get(position).setCheckBt(true);
+
+                    adapterLeagueForm.notifyDataSetChanged();
+
+                }
+                prePosition = position;
+                preCheckPosition = position;
+            }
+        });
+
+        modelLeagueFormMadePots.add(new ModelLeagueFormMadePot(false, false, "2019.03.14", "배당형 투자 전략", 22.12));
+        modelLeagueFormMadePots.add(new ModelLeagueFormMadePot(false, false, "2019.03.14", "ETF 어벤저스", -15.12));
+        modelLeagueFormMadePots.add(new ModelLeagueFormMadePot(false, false, "2019.03.14", "대박나면해외쪽박나면국내", 17.78));
+
+        adapterLeagueForm.notifyDataSetChanged();
 
     }//onCreate 끝
 

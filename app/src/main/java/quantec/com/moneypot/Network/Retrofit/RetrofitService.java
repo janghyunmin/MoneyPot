@@ -14,6 +14,9 @@ import quantec.com.moneypot.Activity.Login.Model.nModel.ModelIdentifyData;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelAppInit;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelUserIdChk;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelUserInfo;
+import quantec.com.moneypot.DataModel.nModel.ModelRecommendList;
+import quantec.com.moneypot.DataModel.nModel.ModelSearchedPageList;
+import quantec.com.moneypot.DataModel.nModel.ModelZimData;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -68,9 +71,9 @@ public interface RetrofitService {
 //    @GET("pot/getDetail/{stCode}")
 //    Call<ModelInvestItem> getDetailTest(@Path("stCode") String stCode);
 //
-//    //전략 포트 찜
-//    @POST("pot/setSelect/{zimDam}/{mode}")
-//    Call<ModelZimData> getSelectedPortDate(@Header("Content-Type") String content_type, @Body Object select, @Path("zimDam") int zimDam, @Path("mode") String mode);
+    //전략 포트 찜
+    @POST("pot/setSelect/{zimDam}/{mode}")
+    Call<ModelZimData> getSelectedPortDate(@Header("Content-Type") String content_type, @Body Object select, @Path("zimDam") int zimDam, @Path("mode") String mode);
 //
 //    //포트 찜, 담은 리스트 ( 찜 및 담기를 전부 호출하여 isZim / isDam 으로 추려서 리스트 만들어야됨 )
 //    @GET("pot/getSelect")
@@ -102,8 +105,8 @@ public interface RetrofitService {
      *     // Z 4. [찜한포트 > 내가찜한 포트(getSelect) : rate desc, all]
      *     // L 5. 포트리그 > 포트만들기 대회 : status = 20, rate desc, page
      */
-//    @POST("pot/getPage/{gubun}/{rate}/{page}/{size}")
-//    Call<ModelTab13mRank> getPageList(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
+    @POST("pot/getPage/{gubun}/{rate}/{page}/{size}")
+    Call<ModelSearchedPageList> getPageList(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 
     /**
      *
@@ -143,8 +146,8 @@ public interface RetrofitService {
      *검색 초기 페이지 지금 뜨는 상품 리스트
      *
      */
-//    @POST("pot/getPage/{gubun}/{rate}/{page}/{size}")
-//    Call<ModelTab13mRank> getSearchRecomList(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
+    @POST("pot/getPage/{gubun}/{rate}/{page}/{size}")
+    Call<ModelRecommendList> getSearchRecomList(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("page") int page, @Path("rate") int rate, @Path("size") int size);
 
     /**
      *

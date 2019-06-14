@@ -2,6 +2,7 @@ package quantec.com.moneypot.Activity.Main.Fragment.Tab1;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import quantec.com.moneypot.Activity.Main.ActivityMain;
+import quantec.com.moneypot.Activity.Search.ActivitySearch;
 import quantec.com.moneypot.R;
 import quantec.com.moneypot.databinding.FgTab1Binding;
 
@@ -100,6 +102,14 @@ public class FgTab1 extends Fragment {
             public void onClick(int position) {
                 modelFitPotLists.remove(position);
                 visibleAddLife();
+            }
+        });
+
+        binding.searchBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activityMain, ActivitySearch.class);
+                startActivity(intent);
             }
         });
 

@@ -41,6 +41,7 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/Line"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:overScrollMode="never"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -225,6 +226,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     />
                 <TextView
+                    android:id="@+id/selectedTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ETF 어벤저스"
@@ -236,6 +238,7 @@
                     app:layout_constraintStart_toEndOf="@+id/chBt"
                     />
                 <TextView
+                    android:id="@+id/selectedRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15.02%"
@@ -275,7 +278,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="26dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/round_potform_red"
                 android:gravity="center"
                 android:text="전체보기"
@@ -288,7 +291,7 @@
                 android:id="@+id/makeBt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="26dp"
                 android:background="@drawable/round_potform_red_line"
                 android:gravity="center"
