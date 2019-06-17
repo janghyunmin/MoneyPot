@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.Search.ActivitySearch"></activity>
+        <activity android:name=".Activity.PotDetail.ActivityArticle"></activity>
+        <activity android:name=".Activity.Search.ActivitySearch" />
         <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityMyPotList" />
         <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityWebViewLeagueForm" />
         <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityLeagueForm" />
@@ -47,22 +48,22 @@
         <activity
             android:name=".Activity.Main.ActivityMain"
             android:screenOrientation="portrait">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".Activity.Intro.ActivityIntro"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <provider
