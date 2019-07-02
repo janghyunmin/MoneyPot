@@ -74,6 +74,7 @@ public class ActivityRegFido extends AppCompatActivity {
 
             Intent intent = new Intent(ActivityRegFido.this, ActivityMain.class);
             startActivity(intent);
+            finish();
 //            actFinish();
 
             Toast.makeText(ActivityRegFido.this, "바로 로그인", Toast.LENGTH_SHORT).show();

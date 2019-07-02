@@ -1,4 +1,4 @@
-package quantec.com.moneypot.Activity.Intro;
+package quantec.com.moneypot.util.CryptLib;
 
 import android.util.Base64;
 

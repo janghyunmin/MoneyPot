@@ -3,6 +3,7 @@ package quantec.com.moneypot.FIDO;
 import android.content.Context;
 import android.os.Build;
 import android.os.Build.VERSION;
+import android.util.Log;
 
 import com.dream.magic.fido.rpsdk.callback.FIDOCallbackResult;
 import com.dream.magic.fido.rpsdk.client.Authentication;
@@ -62,7 +63,6 @@ public class FIDOAuthentication {
 		
 		MagicFIDOUtil.setSSLEnable(true);
 
-
 		// RPContext를 위한 세팅
 		Hashtable<String, String> settingValue = new Hashtable<String, String>();
 		settingValue.put("userName", userID);
@@ -100,7 +100,7 @@ public class FIDOAuthentication {
 		Hashtable<String, Object> authOption = new Hashtable<String, Object>();
 		authOption.put(MagicFIDOUtil.KEY_RETRY_COUNT_TO_LOCK, 5);
 		authOption.put(MagicFIDOUtil.KEY_MAX_LOCK_COUNT, 1);
-//		authOption.put(MagicFIDOUtil.KEY_LOCK_TIME, 1);//성공 , 초기화
+		authOption.put(MagicFIDOUtil.KEY_LOCK_TIME, Integer.MAX_VALUE);//성공 , 초기화
 //		authOption.put(MagicFIDOUtil.KEY_MIN_LENGTH, 3);
 //		authOption.put(MagicFIDOUtil.KEY_MAX_LENGTH, 5);
 		authOption.put(MagicFIDOUtil.KEY_USE_NUMBER_KEYPAD, true);

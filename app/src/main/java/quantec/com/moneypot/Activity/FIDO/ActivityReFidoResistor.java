@@ -170,9 +170,9 @@ public class ActivityReFidoResistor extends AppCompatActivity {
                     verrifiedFingereUser(token);
                 } else {
 
-//                    Intent intent = new Intent(ActivityReFidoResistor.this, MainActivity.class);
-//                    startActivity(intent);
-//                    finish();
+                    Intent intent = new Intent(ActivityReFidoResistor.this, ActivityMain.class);
+                    startActivity(intent);
+                    finish();
 
 //                    // 실패 사유
 //                    switch (fidoResult.getErrorCode()) {

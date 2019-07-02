@@ -31,7 +31,6 @@ public class ActivityMemberShipMain extends AppCompatActivity {
      * 번호 권한은 온크리에이트에 두고 진행된 페이지에서 뒤로가기시 로그인페이지를 새로 불러주는 방식으로 퍼미션 체크를 다시 한다
      *
      */
-
     EditText activity_login_phoneEdittext;
     TextView activity_login_Bt;
 
@@ -71,6 +70,7 @@ public class ActivityMemberShipMain extends AppCompatActivity {
 
                  if(activity_login_phoneEdittext.getText().length() >= 10) {
                          Intent intent = new Intent(ActivityMemberShipMain.this, ActivityAgreePage.class);
+                         intent.putExtra("passPhoneNum", activity_login_phoneEdittext.getText().toString());
                          startActivity(intent);
                          finish();
                  }

@@ -14,6 +14,7 @@ import quantec.com.moneypot.Activity.Login.Model.nModel.ModelIdentifyData;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelAppInit;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelUserIdChk;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelUserInfo;
+import quantec.com.moneypot.DataModel.nModel.ModelChartData;
 import quantec.com.moneypot.DataModel.nModel.ModelRecommendList;
 import quantec.com.moneypot.DataModel.nModel.ModelSearchedPageList;
 import quantec.com.moneypot.DataModel.nModel.ModelZimData;
@@ -90,6 +91,12 @@ public interface RetrofitService {
 //    //내가만든포트 최종 저장
 //    @POST("pot/upPot")
 //    Call<ModelPortSavedInfo> getSavedMyPot(@Header("Content-Type") String content_type, @Body Object potDto);
+
+
+
+    //미리보기에서 내가만든포트의 차트데이터를 불러옴
+    @GET("pot/getRateByPeriod/{code}/{pdate}")
+    Call<ModelChartData> getPotChartData(@Path("code") String code, @Path("pdate") int pdate);
 
     /**
      * 전략 및 포트 리스트 불러옴
@@ -219,7 +226,7 @@ public interface RetrofitService {
      *
      */
     @POST("fido/withdraw")
-    Call<ModelRegChk> getwithdrawFidoData(@Header("Content-Type") String content_type, @Body Object identifyDto);
+    Call<ModelRegChk> getWithdrawFidoData(@Header("Content-Type") String content_type, @Body Object identifyDto);
 
     /**
      *

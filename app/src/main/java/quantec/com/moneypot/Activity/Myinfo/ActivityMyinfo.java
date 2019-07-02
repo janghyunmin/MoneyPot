@@ -45,6 +45,7 @@ import quantec.com.moneypot.Activity.Intro.ModelVerifiedFido;
 import quantec.com.moneypot.Activity.Login.Model.dModel.FidoReq;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelFidoauthReqDto;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelFidoAuthCode;
+import quantec.com.moneypot.Activity.Login.Model.nModel.ModelFlushAuth;
 import quantec.com.moneypot.BuildConfig;
 import quantec.com.moneypot.Dialog.DialogExitApp;
 import quantec.com.moneypot.Dialog.DialogFidoCancle;
@@ -131,30 +132,51 @@ public class ActivityMyInfo extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if(isChecked){
+                authCode = SharedPreferenceUtil.getInstance(ActivityMyInfo.this).getStringExtra("authCode");
 
-                    loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityMyInfo.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
-                    loadingCustomMakingPort.show();
+                ModelFidoauthReqDto fidoAuthReqDto = new ModelFidoauthReqDto(authCode, "FINGER", userId);
+                Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+                String data = gson.toJson(fidoAuthReqDto).replace("\\n", "").replace(" ", "")
+                        .replace("\\", "").replace("\"{", "{").replace("}\"", "}");
+                Call<ModelFlushAuth> tt = RetrofitClient.getInstance(ActivityMyInfo.this).getService().getFlushAuthData("application/json", data);
+                tt.enqueue(new Callback<ModelFlushAuth>() {
+                    @Override
+                    public void onResponse(Call<ModelFlushAuth> call, Response<ModelFlushAuth> response) {
+                        if(response.code() == 200) {
+                            SharedPreferenceUtil.getInstance(ActivityMyInfo.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
+                            SharedPreferenceUtil.getInstance(ActivityMyInfo.this).putTokenA("aToken", response.headers().get("Authorization"));
 
-                    Hashtable<String, Object> authUICustom = new Hashtable<String, Object>();
-                    authUICustom.put("text1", "지문 로그인 활성화");
-                    authUICustom.put("text2", "보안키패드 작동중...");
+                            if(isChecked){
 
-                    Hashtable<String, Object> settingValue = new Hashtable<String, Object>();
-                    settingValue.put("passcode", authUICustom);
-                    mFidoUtil.setCustomUIValues(settingValue);
-                    // RP SDK 생성
-                    mAuth = new FIDONotAuthenticatioin(ActivityMyInfo.this, fidoCallbackResult);
-                    mAuth.startAuthentication(userId);
+                                loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityMyInfo.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
+                                loadingCustomMakingPort.show();
 
-                }
-                else{
-                    SharedPreferenceUtil.getInstance(ActivityMyInfo.this).putFingerState("fingerState", false);
-                    Toast.makeText(ActivityMyInfo.this, "지문 미사용", Toast.LENGTH_SHORT).show();
-                }
+                                Hashtable<String, Object> authUICustom = new Hashtable<String, Object>();
+                                authUICustom.put("text1", "지문 로그인 활성화");
+                                authUICustom.put("text2", "보안키패드 작동중...");
+
+                                Hashtable<String, Object> settingValue = new Hashtable<String, Object>();
+                                settingValue.put("passcode", authUICustom);
+                                mFidoUtil.setCustomUIValues(settingValue);
+                                // RP SDK 생성
+                                mAuth = new FIDONotAuthenticatioin(ActivityMyInfo.this, fidoCallbackResult);
+                                mAuth.startAuthentication(userId);
+
+                            }
+                            else{
+                                SharedPreferenceUtil.getInstance(ActivityMyInfo.this).putFingerState("fingerState", false);
+                                Toast.makeText(ActivityMyInfo.this, "지문 미사용", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ModelFlushAuth> call, Throwable t) {
+                        loadingCustomMakingPort.dismiss();
+                    }
+                });
             }
         });
-
 
         //포트 이미지 초기화
         Glide.with(this)
@@ -288,23 +310,47 @@ public class ActivityMyInfo extends AppCompatActivity implements View.OnClickLis
                 loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityMyInfo.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
                 loadingCustomMakingPort.show();
 
-                Hashtable<String, Object> authUICustom = new Hashtable<String, Object>();
-                authUICustom.put("text1", "암호 재설정");
-                authUICustom.put("text2", "보안키패드 작동중...");
+                authCode = SharedPreferenceUtil.getInstance(ActivityMyInfo.this).getStringExtra("authCode");
 
-                Hashtable<String, Object> settingValue = new Hashtable<String, Object>();
-                settingValue.put("passcode", authUICustom);
-                mFidoUtil.setCustomUIValues(settingValue);
+                ModelFidoauthReqDto fidoAuthReqDto = new ModelFidoauthReqDto(authCode, "PASSCODE", userId);
+                Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+                String data = gson.toJson(fidoAuthReqDto).replace("\\n", "").replace(" ", "")
+                        .replace("\\", "").replace("\"{", "{").replace("}\"", "}");
+                Call<ModelFlushAuth> tt = RetrofitClient.getInstance(ActivityMyInfo.this).getService().getFlushAuthData("application/json", data);
+                tt.enqueue(new Callback<ModelFlushAuth>() {
+                    @Override
+                    public void onResponse(Call<ModelFlushAuth> call, Response<ModelFlushAuth> response) {
+                        if(response.code() == 200) {
+                            SharedPreferenceUtil.getInstance(ActivityMyInfo.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
+                            SharedPreferenceUtil.getInstance(ActivityMyInfo.this).putTokenA("aToken", response.headers().get("Authorization"));
 
-                Hashtable<String, Object> authOption = new Hashtable<String, Object>();
-                authOption.put(MagicFIDOUtil.KEY_RETRY_COUNT_TO_LOCK, 5);
-                authOption.put(MagicFIDOUtil.KEY_MAX_LOCK_COUNT, 1);
-                authOption.put(MagicFIDOUtil.KEY_USE_NUMBER_KEYPAD, true);
-                mFidoUtil.setAuthenticatorOptions(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE, authOption);
-                mFidoUtil.setPasscodeUIType(FIDO_UI_TYPE.FIDO_PASSCODE_PIN6);
-                mFidoUtil.setPasscodeResetCallbackEnable(false);
-                // RP SDK 생성
-                mFidoUtil.changeUserVerification(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE , fidoCallbackResult2 , true);
+                            Hashtable<String, Object> authUICustom = new Hashtable<String, Object>();
+                            authUICustom.put("text1", "암호 재설정");
+                            authUICustom.put("text2", "보안키패드 작동중...");
+
+                            Hashtable<String, Object> settingValue = new Hashtable<String, Object>();
+                            settingValue.put("passcode", authUICustom);
+                            mFidoUtil.setCustomUIValues(settingValue);
+
+                            Hashtable<String, Object> authOption = new Hashtable<String, Object>();
+                            authOption.put(MagicFIDOUtil.KEY_RETRY_COUNT_TO_LOCK, 5);
+                            authOption.put(MagicFIDOUtil.KEY_MAX_LOCK_COUNT, 1);
+                            authOption.put(MagicFIDOUtil.KEY_LOCK_TIME, Integer.MAX_VALUE);//성공 , 초기화
+                            authOption.put(MagicFIDOUtil.KEY_USE_NUMBER_KEYPAD, true);
+                            mFidoUtil.setAuthenticatorOptions(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE, authOption);
+                            mFidoUtil.setPasscodeUIType(FIDO_UI_TYPE.FIDO_PASSCODE_PIN6);
+                            mFidoUtil.setPasscodeResetCallbackEnable(false);
+                            // RP SDK 생성
+                            mFidoUtil.changeUserVerification(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE , fidoCallbackResult2 , true);
+
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ModelFlushAuth> call, Throwable t) {
+                        loadingCustomMakingPort.dismiss();
+                    }
+                });
+
 
                 break;
         }
@@ -413,7 +459,8 @@ public class ActivityMyInfo extends AppCompatActivity implements View.OnClickLis
                                         public void onFailure(Call<ModelFidoAuthCode> call, Throwable t) {
                                         }
                                     });
-                                }else{
+                                }
+                                else{
                                     binding.switchView.setChecked(false);
                                     loadingCustomMakingPort.dismiss();
                                 }

@@ -4,15 +4,19 @@
     package="quantec.com.moneypot">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" /> <!-- network 상태를 미리 체크하여 연결 안된 경우 다이얼로그를 보여주려면 아래 permission 추가 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- android test 돌릴 때 화면 lock 풀어야 로그인 touch 가능 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" /> <!-- FIDO SDK Permission -->
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.REORDER_TASKS"/>
 
     <application
         android:name=".mApplication"
@@ -22,39 +26,104 @@
         android:roundIcon="@drawable/ic_push_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.PotDetail.ActivityArticle"></activity>
-        <activity android:name=".Activity.Search.ActivitySearch" />
-        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityMyPotList" />
-        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityWebViewLeagueForm" />
-        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityLeagueForm" />
-        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityAddPrice" />
-        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityPreviewChart" />
-        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityPotCook" />
-        <activity android:name=".Activity.Center.ActivityWebViewQuestion" />
-        <activity android:name=".Activity.Center.ActivityAppVersion" />
-        <activity android:name=".Activity.Center.ActivityInquiry" />
-        <activity android:name=".Activity.Center.ActivityUseGuide" />
-        <activity android:name=".Activity.Center.ActivityQuestion" />
-        <activity android:name=".Activity.MyInfo.ActivityChangedEmail" />
-        <activity android:name=".Activity.MyInfo.ActivityChangedPw" />
-        <activity android:name=".Activity.MyInfo.ActivityAuthPassword" />
-        <activity android:name=".Activity.MyInfo.ActivityPhoneEmail" />
-        <activity android:name=".Activity.Setting.ActivitySetting" />
-        <activity android:name=".Activity.Notice.ActivityNotice" />
-        <activity android:name=".Activity.Center.ActivityClientCenter" />
-        <activity android:name=".Activity.MyInfo.ActivityMyInfo" />
-        <activity android:name=".Activity.PotDetail.ActivityPotDetail" />
+        tools:ignore="GoogleAppIndexingWarning"
+        >
+        <receiver android:name=".Activity.TopTest"
+            android:process=":remote"/>
+
+        <activity
+            android:name=".Activity.League.ActivityPotLeague"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.PotDetail.ActivityArticle"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Search.ActivitySearch"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityMyPotList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityWebViewLeagueForm"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityLeagueForm"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityAddPrice"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityPreviewChart"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityPotCook"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Center.ActivityWebViewQuestion"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Center.ActivityAppVersion"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Center.ActivityInquiry"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Center.ActivityUseGuide"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Center.ActivityQuestion"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.MyInfo.ActivityChangedEmail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.MyInfo.ActivityChangedPw"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.MyInfo.ActivityAuthPassword"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.MyInfo.ActivityPhoneEmail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Setting.ActivitySetting"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Notice.ActivityNotice"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Center.ActivityClientCenter"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.MyInfo.ActivityMyInfo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.PotDetail.ActivityPotDetail"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Main.ActivityMain"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:alwaysRetainTaskState="true"
+            >
+
+            <!-- <meta-data -->
+            <!-- android:name="android.support.PARENT_ACTIVITY" -->
+            <!-- android:value=".Activity.Main.ActivityMain" /> -->
+
 
             <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <action android:name="android.intent.action.VIEW" /> -->
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
+
+
+            <!-- <data -->
+            <!-- android:host="activitymain" -->
+            <!-- android:scheme="activity" /> -->
             <!-- </intent-filter> -->
+
         </activity>
         <activity
             android:name=".Activity.Intro.ActivityIntro"
@@ -78,118 +147,140 @@
 
         <service
             android:name=".util.FireBase.MyFireBaseMessagingService"
-            android:stopWithTask="false">
+            android:stopWithTask="false"
+            >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-        </service> <!-- <activity -->
-        <!-- android:name=".Activity.Myinfo.ActivityMyinfo" -->
-        <!-- android:screenOrientation="portrait" /> -->
-        <!-- <activity -->
-        <!-- android:name=".Activity.SearchPort.ActivitySearchPort" -->
-        <!-- android:screenOrientation="portrait" /> -->
-        <!-- <activity -->
-        <!-- android:name=".Activity.DetailPort.ActivityDetailPort" -->
-        <!-- android:screenOrientation="portrait" /> -->
-        <!-- <activity -->
-        <!-- android:name=".Activity.Payment.ActivityPayment" -->
-        <!-- android:screenOrientation="portrait" /> -->
-        <!-- <activity -->
-        <!-- android:name=".Activity.AllCookList.ActivityAllCookList" -->
-        <!-- android:screenOrientation="portrait" /> -->
-        <!-- <activity -->
-        <!-- android:name=".Activity.FinishMakePort.ActivityFinishMakePort" -->
-        <!-- android:screenOrientation="portrait" /> -->
-        <!-- <activity -->
-        <!-- android:name=".Activity.PortProfileModify.ActivityPortProfileModify" -->
-        <!-- android:screenOrientation="portrait" /> -->
-        <!-- <activity -->
-        <!-- android:name=".Activity.PortProfileModify.Activity.ActivityPortProfileNameModify" -->
-        <!-- android:screenOrientation="portrait" /> -->
-        <!-- <activity -->
-        <!-- android:name=".Activity.PortProfileModify.Activity.ActivityPortProfileDescModify" -->
-        <!-- android:screenOrientation="portrait" /> -->
-        <activity android:name=".Activity.Login.MemberShipPage.ActivityMemberShipMain">
+        </service>
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".Activity.Login.MemberShipPage.ActivityAgreePage" />
-        <activity android:name=".Activity.Login.MemberShipPage.ActivityPhoneConfirm">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/start_off" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/red_text_color" /> <!-- <service -->
+        <!-- android:name=".util.FireBase.MyFireBaseMessagingService" -->
+        <!-- android:stopWithTask="false"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.firebase.MESSAGING_EVENT" -->
+        <!-- android:screenOrientation="portrait"/> -->
+        <!-- </intent-filter> -->
+        <!-- </service> -->
+        <activity
+            android:name=".Activity.Login.MemberShipPage.ActivityMemberShipMain"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Login.MemberShipPage.ActivityAgreePage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Login.MemberShipPage.ActivityPhoneConfirm"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FIDO.AuthenticationActivity"
-            android:label="Authentication" />
+            android:label="Authentication"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FIDO.DeregisterActivity"
-            android:label="Deregister" />
+            android:label="Deregister"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.dream.magic.fido.rpsdk.client.FidoSDKActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.dream.magic.fido.client.process.UAFClient"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.dream.magic.fido.client.asm.ui.AsmListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.dream.magic.fido.authenticator.asm.api.ASMProcessorActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.dream.magic.fido.authenticator.finger.local.UserLocal_Normal_Activity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.dreamsecurity.lib_passcode.ui.Passcode_UI"
-            android:screenOrientation="portrait" /> <!-- <activity android:name=".MagicKeyPad.FullModeActivity" /> -->
-        <activity android:name="com.dreamsecurity.magicvkeypad.activitytype.DSNumActivity" />
-        <activity android:name="com.dreamsecurity.magicvkeypad.activitytype.DSCharActivity" />
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.dreamsecurity.magicvkeypad.activitytype.DSNumActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.dreamsecurity.magicvkeypad.activitytype.DSCharActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MagicKeyPad.HalfModeActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+             <!--<intent-filter>-->
+             <!--<action android:name="android.intent.action.MAIN" />-->
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <!--<category android:name="android.intent.category.LAUNCHER" />-->
+             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".Activity.Login.MemberShipPage.ActivityRegInfo">
+        <activity
+            android:name=".Activity.Login.MemberShipPage.ActivityRegInfo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Login.LoginPage.ActivityLoginPage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.FIDO.ActivityRegFido"
+            android:screenOrientation="portrait" />
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+        <activity
+            android:name=".Activity.FIDO.ActivityAuthFidoDouble"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.FIDO.ActivityAuthFidoSingle"
+            android:screenOrientation="portrait"
+            >
+
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+
+
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value=".Activity.FIDO.ActivityAuthFidoSingle" />-->
+
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.VIEW" />-->
+
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+
+                <!--<data-->
+                    <!--android:host="activityauthfidosingle"-->
+                    <!--android:scheme="activity" />-->
+            <!--</intent-filter>-->
         </activity>
-        <activity android:name=".Activity.Login.LoginPage.ActivityLoginPage">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".Activity.FIDO.ActivityRegFido" />
-        <activity android:name=".Activity.FIDO.ActivityAuthFidoDouble" />
-        <activity android:name=".Activity.FIDO.ActivityAuthFidoSingle" />
-        <activity android:name=".Activity.Login.MemberShipPage.ActivityRePhoneConfirm" />
-        <activity android:name=".Activity.Login.MemberShipPage.ActivityRePassword" /> <!-- <activity android:name=".Activity.MyInfomation.ActivityMyInfomation" /> -->
-        <activity android:name=".Activity.FIDO.ActivityReFidoResistor" />
+        <activity
+            android:name=".Activity.Login.MemberShipPage.ActivityRePhoneConfirm"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.Login.MemberShipPage.ActivityRePassword"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.FIDO.ActivityReFidoResistor"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -115,8 +115,11 @@ public class AdapterPotCookAll extends RecyclerView.Adapter<RecyclerView.ViewHol
             });
 
             if(modelPotCookAll.get(position).isOpenView()){
+                ((PotCookAllViewHolder)holder).stAddBt.setVisibility(View.GONE);
                 ((PotCookAllViewHolder)holder).showChartView.setVisibility(View.VISIBLE);
+
             }else{
+                ((PotCookAllViewHolder)holder).stAddBt.setVisibility(View.VISIBLE);
                 ((PotCookAllViewHolder)holder).showChartView.setVisibility(View.GONE);
             }
 
@@ -226,8 +229,8 @@ public class AdapterPotCookAll extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         TextView stTitle, stCode;
         ImageView chartBt, stAddBt;
-        ConstraintLayout showChartView, potCookAllItemView;
-        LinearLayout allView;
+        ConstraintLayout showChartView, potCookAllItemView, allView;
+
         LineChart chartView;
 
 

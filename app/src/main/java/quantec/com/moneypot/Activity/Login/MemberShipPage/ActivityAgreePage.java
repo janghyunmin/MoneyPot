@@ -23,13 +23,18 @@ public class ActivityAgreePage extends AppCompatActivity implements View.OnClick
 
     ActivityAgreePageBinding agreePageBinding;
 
+
+    String phoneNum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agree_page);
 
-        agreePageBinding = DataBindingUtil.setContentView(this, R.layout.activity_agree_page);
+        Intent intent = getIntent();
+        phoneNum = intent.getStringExtra("passPhoneNum");
 
+        agreePageBinding = DataBindingUtil.setContentView(this, R.layout.activity_agree_page);
 
         agreePageBinding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_gray_24_dp);
         agreePageBinding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_gray);
@@ -74,6 +79,7 @@ public class ActivityAgreePage extends AppCompatActivity implements View.OnClick
             public void onClick(View v) {
                 if (selectBT[0] == 1 && selectBT[1] == 1 && selectBT[2] == 1 && selectBT[3] == 1 && selectBT[4] == 1 && selectBT[5] == 1) {
                     Intent intent = new Intent(ActivityAgreePage.this, ActivityPhoneConfirm.class);
+                    intent.putExtra("passPhoneNum", phoneNum);
                     startActivity(intent);
                 }else{
                     Toast.makeText(ActivityAgreePage.this, "필수 약관을 동의해 주세요.", Toast.LENGTH_SHORT).show();

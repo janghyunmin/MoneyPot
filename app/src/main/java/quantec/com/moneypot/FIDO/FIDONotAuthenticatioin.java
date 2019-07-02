@@ -87,6 +87,7 @@ public class FIDONotAuthenticatioin {
         Hashtable<String, Object> authOption = new Hashtable<String, Object>();
         authOption.put(MagicFIDOUtil.KEY_RETRY_COUNT_TO_LOCK, 5);
         authOption.put(MagicFIDOUtil.KEY_MAX_LOCK_COUNT, 1);
+        authOption.put(MagicFIDOUtil.KEY_LOCK_TIME, Integer.MAX_VALUE);//성공 , 초기화
         authOption.put(MagicFIDOUtil.KEY_USE_NUMBER_KEYPAD, true);
         magicFIDOUtil.setAuthenticatorOptions(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE, authOption);
         magicFIDOUtil.setPasscodeUIType(FIDO_UI_TYPE.FIDO_PASSCODE_PIN6);

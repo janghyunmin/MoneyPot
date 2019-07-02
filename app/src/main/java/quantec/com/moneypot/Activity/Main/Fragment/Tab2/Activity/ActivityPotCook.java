@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +22,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,15 +53,14 @@ public class ActivityPotCook extends AppCompatActivity {
     TabLayout tabLayout;
 
     int currentPage = 0;
-    TextView defaultNum, defaultTitle, nextBt, prevBt, okBt, stableBt, middleBt, adventBt, priceText, upBT1, upBT2, upBT3,upBT4,upBT5, infoText;
+    TextView defaultNum, defaultTitle, nextBt, prevBt, okBt, stableBt, middleBt, adventBt, priceText, infoText;
     LinearLayout next2Bt;
-    View goToPriceBt;
 
     ArrayList<String> stCode = new ArrayList<>();
     ArrayList<String> stName = new ArrayList<>();
 
     int portCount;
-    ImageView downBt, refreshBt;
+    ImageView downBt;
     ConstraintLayout portControlView;
 
     LinearLayout dimLayout;
@@ -85,6 +86,8 @@ public class ActivityPotCook extends AppCompatActivity {
 
     List<TransChartList> finishChart;
 
+    RelativeLayout makePotBt, makePotBt2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,28 +108,21 @@ public class ActivityPotCook extends AppCompatActivity {
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
+
+        makePotBt = findViewById(R.id.makePotBt);
+        makePotBt2 = findViewById(R.id.makePotBt2);
+
+        makePotBt.setVisibility(View.VISIBLE);
+        makePotBt2.setVisibility(View.GONE);
+
         finishChart = new ArrayList<>();
-
-
         changedPotList = new Bundle();
 
-        goToPriceBt = findViewById(R.id.goToPriceBt);
-
         infoText = findViewById(R.id.infoText);
-        refreshBt = findViewById(R.id.refreshBt);
-
-        upBT1 = findViewById(R.id.upBT1);
-        upBT2 = findViewById(R.id.upBT2);
-        upBT3 = findViewById(R.id.upBT3);
-        upBT4 = findViewById(R.id.upBT4);
-        upBT5 = findViewById(R.id.upBT5);
 
         stableBt = findViewById(R.id.stableBt);
         middleBt = findViewById(R.id.middleBt);
         adventBt = findViewById(R.id.adventBt);
-        priceText = findViewById(R.id.priceText);
-
-        priceText.setText(String.valueOf(investPrice));
 
         dimLayout = findViewById(R.id.dimLayout);
 
@@ -169,11 +165,35 @@ public class ActivityPotCook extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                if(positionOffset > 0 && positionOffset <= 0.9999){
+                    makePotBt.setEnabled(false);
+                    makePotBt2.setEnabled(false);
+                }
+                else{
+
+                    if(position == 0){
+                        makePotBt.setVisibility(View.VISIBLE);
+                        makePotBt2.setVisibility(View.GONE);
+                    }
+                    else{
+                        makePotBt.setVisibility(View.GONE);
+                        makePotBt2.setVisibility(View.VISIBLE);
+                    }
+                }
             }
             @Override
             public void onPageSelected(int position) {
                 currentPage = position;
                 viewPager.setCurrentItem(currentPage);
+
+               if(position == 0){
+                   makePotBt.setVisibility(View.VISIBLE);
+                   makePotBt2.setVisibility(View.GONE);
+               }else{
+                   makePotBt.setVisibility(View.GONE);
+                   makePotBt2.setVisibility(View.VISIBLE);
+               }
             }
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -496,84 +516,6 @@ public class ActivityPotCook extends AppCompatActivity {
             }
         });
 
-
-
-        upBT1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(investPrice <= 100000000){
-                    investPrice+=10;
-                    priceText.setText(String.valueOf(investPrice));
-                }else{
-                    Toast.makeText(ActivityPotCook.this, "투자 허용 금액을 초과하셨습니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        upBT2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(investPrice <= 100000000){
-                    investPrice+=50;
-                    priceText.setText(String.valueOf(investPrice));
-                }else{
-                    Toast.makeText(ActivityPotCook.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        upBT3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(investPrice <= 100000000){
-                    investPrice+=100;
-                    priceText.setText(String.valueOf(investPrice));
-                }else{
-                    Toast.makeText(ActivityPotCook.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        upBT4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(investPrice <= 100000000){
-                    investPrice+=200;
-                    priceText.setText(String.valueOf(investPrice));
-                }else{
-                    Toast.makeText(ActivityPotCook.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        upBT5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(investPrice <= 100000000){
-                    investPrice+=500;
-                    priceText.setText(String.valueOf(investPrice));
-                }else{
-                    Toast.makeText(ActivityPotCook.this, "투자 허용 금액을 초과하셨습니다.",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        refreshBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                investPrice = 200;
-                priceText.setText(String.valueOf(investPrice));
-            }
-        });
-
-        goToPriceBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ActivityPotCook.this, ActivityAddPrice.class);
-                intent.putExtra("investPrice",investPrice);
-                startActivityForResult(intent, 100);
-            }
-        });
     }// onCreate 끝
 
     //임시로 만든 차트의 데이터를 불러옴
@@ -602,7 +544,6 @@ public class ActivityPotCook extends AppCompatActivity {
 //            }
 //        });
 //    }
-
 
 
     @Override
@@ -640,11 +581,8 @@ public class ActivityPotCook extends AppCompatActivity {
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new FgPotCookAll(), "전체");
-        adapter.addFragment(new FgPotCookBasic(), "기본");
-        adapter.addFragment(new FgPotCookBond(), "채권");
-        adapter.addFragment(new FgPotCookAllocation(), "배당");
-        adapter.addFragment(new FgPotCookTheme(), "테마");
+        adapter.addFragment(new FgPotCookAll(), "국내");
+        adapter.addFragment(new FgPotCookBasic(), "해외");
 
         viewPager.setAdapter(adapter);
     }

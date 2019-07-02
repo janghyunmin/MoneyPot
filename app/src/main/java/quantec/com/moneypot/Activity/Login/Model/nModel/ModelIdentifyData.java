@@ -63,6 +63,7 @@ public class ModelIdentifyData {
         String di;
         String code;
         String message;
+        int activeStep;
         String authCode;
 
         public String getUid() {
@@ -175,6 +176,14 @@ public class ModelIdentifyData {
 
         public void setMessage(String message) {
             this.message = message;
+        }
+
+        public int getActiveStep() {
+            return activeStep;
+        }
+
+        public void setActiveStep(int activeStep) {
+            this.activeStep = activeStep;
         }
 
         public String getAuthCode() {

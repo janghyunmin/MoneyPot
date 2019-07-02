@@ -3,7 +3,7 @@
     package="com.dream.magic.fido.one.test" >
 
     <uses-sdk
-        android:minSdkVersion="18"
+        android:minSdkVersion="19"
         android:targetSdkVersion="26" />
 
     <instrumentation

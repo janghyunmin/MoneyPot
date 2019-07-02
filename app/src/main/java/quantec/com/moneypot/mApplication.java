@@ -14,7 +14,6 @@ public class mApplication extends Application {
 
     public static String UID = "";
 
-
     @Override
     public void onCreate() {
         super.onCreate();

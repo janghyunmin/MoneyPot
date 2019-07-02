@@ -1,11 +1,14 @@
 package quantec.com.moneypot.Activity.Main.Fragment.Tab4;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +49,6 @@ public class FgTab4 extends Fragment {
     private ActivityMain activityMain;
 
     String packName;
-    public static boolean portOpenState = true;
-    public static boolean Delete_State = false;
 
     public FgTab4() {
     }
@@ -54,6 +56,7 @@ public class FgTab4 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         tab4Binding = DataBindingUtil.inflate(inflater, R.layout.fg_tab4, container, false);
 
         initializeViews();
@@ -96,6 +99,16 @@ public class FgTab4 extends Fragment {
         myData.add(new ModelFgTab4("스스로 준비하는 연금","222",-26.58,true,true,"",true,0L));
         myData.add(new ModelFgTab4("안정적인 자산관리를 위해","222",16.24,true,true,"",true,0L));
         myData.add(new ModelFgTab4("투자 고수의 투자법","222",-16.24,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("스스로 준비하는 연금","222",26.58,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("안정적인 자산관리를 위해","222",16.24,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("투자 고수의 투자법","222",16.24,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("스스로 준비하는 연금","222",-26.58,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("안정적인 자산관리를 위해","222",16.24,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("투자 고수의 투자법","222",-16.24,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("스스로 준비하는 연금","222",26.58,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("안정적인 자산관리를 위해","222",16.24,true,true,"",true,0L));
+        myData.add(new ModelFgTab4("투자 고수의 투자법","222",16.24,true,true,"",true,0L));
+
 
 
         SinaRefreshView headerView = new SinaRefreshView(activityMain);

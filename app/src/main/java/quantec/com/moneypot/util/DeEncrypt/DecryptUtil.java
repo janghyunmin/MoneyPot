@@ -3,7 +3,7 @@ package quantec.com.moneypot.util.DeEncrypt;
 
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.NoSuchPaddingException;
-import quantec.com.moneypot.Activity.Intro.CryptLib;
+import quantec.com.moneypot.util.CryptLib.CryptLib;
 
 public class DecryptUtil {
 

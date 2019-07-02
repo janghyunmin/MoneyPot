@@ -1,39 +1,37 @@
 {
   "project_info": {
-    "project_number": "524776088028",
-    "firebase_url": "https://mpot-crashlytic.firebaseio.com",
-    "project_id": "mpot-crashlytic",
-    "storage_bucket": "mpot-crashlytic.appspot.com"
+    "project_number": "143166614744",
+    "firebase_url": "https://mpot-fcm.firebaseio.com",
+    "project_id": "mpot-fcm",
+    "storage_bucket": "mpot-fcm.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:524776088028:android:438ec6c8febbae39",
+        "mobilesdk_app_id": "1:143166614744:android:438ec6c8febbae39",
         "android_client_info": {
           "package_name": "quantec.com.moneypot"
         }
       },
       "oauth_client": [
         {
-          "client_id": "524776088028-6bktmn0mpl2ldaq931pa1j0fn9lmu22s.apps.googleusercontent.com",
+          "client_id": "143166614744-p4qa9m2m4rsmrp9m1hkpq9rjdg2cb53m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyALTbitUfNhzuLmmZ8rEMDXv8tYOQm7hdM"
+          "current_key": "AIzaSyB_g78KrOshSOqLJeJdOd1OwP3R-hMFgYQ"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "143166614744-p4qa9m2m4rsmrp9m1hkpq9rjdg2cb53m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

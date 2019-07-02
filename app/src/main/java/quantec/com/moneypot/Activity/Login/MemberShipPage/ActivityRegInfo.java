@@ -46,6 +46,7 @@ import quantec.com.moneypot.Activity.Login.Model.dModel.FidoReq;
 import quantec.com.moneypot.Activity.Login.Model.dModel.FidoTokenData;
 import quantec.com.moneypot.Activity.Login.Model.dModel.UserInfo;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelUserInfo;
+import quantec.com.moneypot.Activity.Main.ActivityMain;
 import quantec.com.moneypot.Dialog.DialogClosedSMS;
 import quantec.com.moneypot.Dialog.DialogFidoCancle;
 import quantec.com.moneypot.Dialog.DialogFidoFinger;
@@ -90,8 +91,6 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
 
         regInfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_reg_info);
-
-//        actList.addFlags(this);
 
         //스테이터스 바 색상 변경 -> 화이트
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -166,8 +165,8 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
         }
         else{
 
-//            Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(ActivityRegInfo.this, ActivityMain.class);
+            startActivity(intent);
 //            actFinish();
 
             Toast.makeText(ActivityRegInfo.this, "바로 로그인", Toast.LENGTH_SHORT).show();
@@ -334,8 +333,10 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
                     }else{
                         Toast.makeText(ActivityRegInfo.this, "지문없이 메인으로 이동" , Toast.LENGTH_SHORT).show();
 
-//                        Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
-//                        startActivity(intent);
+                        Intent intent = new Intent(ActivityRegInfo.this, ActivityMain.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
 //                        actFinish();
 
                     }
@@ -364,8 +365,10 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
                     SharedPreferenceUtil.getInstance(ActivityRegInfo.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
                     SharedPreferenceUtil.getInstance(ActivityRegInfo.this).putFingerState("fingerState", true);
 
-//                    Intent intent = new Intent(ActivityRegInfo.this, MainActivity.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(ActivityRegInfo.this, ActivityMain.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
 //                    actFinish();
                 }else{
                     mFidoUtil.resetUserVerification(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE, fidoCallback);
@@ -618,34 +621,10 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
     private void getAppInit(){
 
         confirmedUserInfo(regCid, regUid, regInfoBinding.regInfoPwEdit.getText().toString().trim(), hpNumber, userName);
-
-//        InitReqDto initReqDto = new InitReqDto("", regCid,"", regUid);
-//
-//        Gson gson = new GsonBuilder().create();
-//        String jsonItentifyData = gson.toJson(initReqDto).replace("\\n", "").replace(" ", "")
-//                .replace("\\", "").replace("\"{", "{").replace("}\"", "}");
-//
-//        Call<ModelAppInit> getReList = RetrofitClient.getInstance().getService().getAppInitData("application/json",jsonItentifyData);
-//        getReList.enqueue(new Callback<ModelAppInit>() {
-//            @Override
-//            public void onResponse(Call<ModelAppInit> call, Response<ModelAppInit> response) {
-//                if (response.code() == 200) {
-//
-//                    if(response.body().getStatus() == 200){
-//
-//                        confirmedUserInfo(response.body().getContent().getCid(), response.body().getContent().getUid(), regInfoBinding.regInfoPwEdit.getText().toString().trim(), hpNumber, userName);
-//
-//                        SharedPreferenceUtil.getInstance(ActivityRegInfo.this).putUserId("userId", response.body().getContent().getUid());
-//                        SharedPreferenceUtil.getInstance(ActivityRegInfo.this).putUserCid("userCid", response.body().getContent().getCid());
-//
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ModelAppInit> call, Throwable t) {
-//            }
-//        });
     }
+
+
+
 
     private void confirmedUserInfo(String cid, String userId, String Password, String hpNumber, String userName){
 
@@ -668,6 +647,7 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
                         authCode = response.body().getContent().getAuthCode();
                         regToken = response.headers().get("Authorization");
 
+                        SharedPreferenceUtil.getInstance(ActivityRegInfo.this).putUserId("userId", response.body().getContent().getUid());
                         SharedPreferenceUtil.getInstance(ActivityRegInfo.this).putTokenA("aToken", regToken);
                         SharedPreferenceUtil.getInstance(ActivityRegInfo.this).putAuthCode("authCode", authCode);
 
@@ -710,13 +690,16 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(ActivityRegInfo.this, ActivityMemberShipMain.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-//        actFinish();
+        finish();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        loadingCustomMakingPort.dismiss();
+        if(loadingCustomMakingPort != null){
+            loadingCustomMakingPort.dismiss();
+        }
     }
 }

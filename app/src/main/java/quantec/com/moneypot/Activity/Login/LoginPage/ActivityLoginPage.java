@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,8 +22,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import quantec.com.moneypot.Activity.FIDO.ActivityReFidoResistor;
+import quantec.com.moneypot.Activity.Login.MemberShipPage.ActivityRePhoneConfirm;
 import quantec.com.moneypot.Activity.Login.Model.dModel.LoginData;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelLoginData;
+import quantec.com.moneypot.Activity.Main.ActivityMain;
 import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
@@ -63,6 +66,12 @@ public class ActivityLoginPage extends AppCompatActivity {
 
         uid = SharedPreferenceUtil.getInstance(ActivityLoginPage.this).getStringExtra("userId");
 
+        if(uid == null || uid.equals("")){
+
+            Intent intent = getIntent();
+            uid = intent.getStringExtra("uid");
+        }
+
         textId = findViewById(R.id.textId);
         joinBt = findViewById(R.id.joinBt);
         findPw = findViewById(R.id.findPw);
@@ -90,9 +99,9 @@ public class ActivityLoginPage extends AppCompatActivity {
 
                                 if(response.body().getStatus() == 200){
 
+                                    SharedPreferenceUtil.getInstance(ActivityLoginPage.this).putUserId("userId", response.body().getContent().getUid());
                                     SharedPreferenceUtil.getInstance(ActivityLoginPage.this).putTokenA("aToken", response.headers().get("Authorization"));
                                     SharedPreferenceUtil.getInstance(ActivityLoginPage.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
-
                                     /**
                                      *
                                      * 여기에서 FIDO 등록을 안햇을경우 다시 등록하는 화면으로 넘기는 분기처리 필요
@@ -114,7 +123,6 @@ public class ActivityLoginPage extends AppCompatActivity {
                                         }, 100);
 
                                         Toast.makeText(ActivityLoginPage.this, "파이도 재등록", Toast.LENGTH_SHORT).show();
-
                                     }
                                     else{
                                         nextMainPage();
@@ -137,12 +145,11 @@ public class ActivityLoginPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                Intent intent = new Intent(ActivityLoginPage.this, ActivityRePhoneConfirm.class);
-//                intent.putExtra("passwordPage", "NotFido");
-//                startActivity(intent);
+                Intent intent = new Intent(ActivityLoginPage.this, ActivityRePhoneConfirm.class);
+                intent.putExtra("passwordPage", "NotFido");
+                startActivity(intent);
             }
         });
-
 
     } // onCreate 끝
 
@@ -150,11 +157,9 @@ public class ActivityLoginPage extends AppCompatActivity {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
         }
         @Override
         public void afterTextChanged(Editable s) {
@@ -168,7 +173,6 @@ public class ActivityLoginPage extends AppCompatActivity {
                 joinBt.setBackgroundColor(getResources().getColor(R.color.button_enable));
                 joinBt.setTextColor(getResources().getColor(R.color.button_enable_text));
             }
-
         }
     }
 
@@ -177,18 +181,18 @@ public class ActivityLoginPage extends AppCompatActivity {
         loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityLoginPage.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
         loadingCustomMakingPort.show();
 
-//        final Intent intent1 = new Intent(ActivityLoginPage.this, MainActivity.class);
-//        Handler mHandler = new Handler();
-//        mHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                loadingCustomMakingPort.dismiss();
-//                intent1.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//                startActivity(intent1);
-//                finish();
-//            }
-//        }, 1300);
+        final Intent intent1 = new Intent(ActivityLoginPage.this, ActivityMain.class);
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                loadingCustomMakingPort.dismiss();
+                intent1.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent1);
+                finish();
+            }
+        }, 1300);
     }
 
     public static final String md5(final String s) {

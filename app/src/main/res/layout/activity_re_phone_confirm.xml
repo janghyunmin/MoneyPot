@@ -1,358 +1,326 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout>
+    <data>
+        <variable
+            name="rePhoneConfirm"
+            type="quantec.com.moneypot.databinding.ActivityRePhoneConfirmBinding" />
+
+    </data>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    />
-<!--<layout>-->
-    <!--<data>-->
-       <!--<variable-->
-           <!--name="RePhoneConfirm"-->
-           <!--type="quantec.com.moneypot.Activity.Login.MemberShipPage.ActivityRePhoneConfirm"/>-->
+    android:orientation="vertical">
 
-    <!--</data>-->
-    <!--<RelativeLayout-->
-        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-        <!--xmlns:tools="http://schemas.android.com/tools"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical"-->
-        <!--&gt;-->
-        <!--<androidx.core.widget.NestedScrollView-->
-            <!--android:id="@+id/scrollView"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--&gt;-->
-            <!--<androidx.constraintlayout.widget.ConstraintLayout-->
-                <!--android:id="@+id/container"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--tools:context=".Activity.Login.MemberShipPage.ActivityPhoneConfirm"-->
-                <!--&gt;-->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/activity_phone_confirm_top"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="56dp"-->
-                    <!--android:orientation="horizontal"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--app:layout_constraintTop_toTopOf="parent"-->
-                    <!--&gt;-->
-                    <!--<ImageView-->
-                        <!--android:id="@+id/backBt"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:src="@drawable/btn_back"-->
-                        <!--android:layout_marginLeft="16dp"-->
-                        <!--/>-->
-                    <!--<TextView-->
-                        <!--android:layout_width="217dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="본인 확인"-->
-                        <!--android:textColor="#000000"-->
-                        <!--android:textSize="16dp"-->
-                        <!--android:gravity="center"-->
-                        <!--android:layout_marginLeft="32dp"-->
-                        <!--/>-->
-                <!--</LinearLayout>-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".Activity.Login.MemberShipPage.ActivityPhoneConfirm">
 
-                <!--<TextView-->
-                    <!--android:id="@+id/myinfoName"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="이름"-->
-                    <!--android:textSize="12dp"-->
-                    <!--android:textColor="#000000"-->
-                    <!--android:layout_marginTop="4dp"-->
-                    <!--android:layout_marginLeft="24dp"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/activity_phone_confirm_top"-->
-                    <!--/>-->
+            <LinearLayout
+                android:id="@+id/activity_phone_confirm_top"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <!--<quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText-->
-                    <!--android:id="@+id/myinfoName_editText"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="실명 입력"-->
-                    <!--android:textSize="18dp"-->
-                    <!--android:textColorHint="#CCCCCC"-->
-                    <!--android:inputType="textWebEditText"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoName"-->
-                    <!--android:layout_marginTop="13dp"-->
-                    <!--android:layout_marginLeft="24dp"-->
-                    <!--android:layout_marginRight="35dp"-->
-                    <!--android:background="@null"-->
-                    <!--/>-->
+                <ImageView
+                    android:id="@+id/backBt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/btn_back" />
 
-                <!--<View-->
-                    <!--android:id="@+id/myinfoName_editTextLine"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="2dp"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoName_editText"-->
-                    <!--android:layout_marginLeft="24dp"-->
-                    <!--android:layout_marginRight="24dp"-->
-                    <!--android:layout_marginTop="6dp"-->
-                    <!--android:background="#CCCCCC"-->
-                    <!--/>-->
+                <TextView
+                    android:layout_width="217dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:gravity="center"
+                    android:text="본인 확인"
+                    android:textColor="#000000"
+                    android:textSize="16dp" />
+            </LinearLayout>
 
-                <!--<TextView-->
-                    <!--android:id="@+id/myinfoCertifyNumber"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="주민등록번호"-->
-                    <!--android:textSize="12dp"-->
-                    <!--android:textColor="#000000"-->
-                    <!--android:layout_marginTop="40dp"-->
-                    <!--android:layout_marginLeft="24dp"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoName_editText"-->
-                    <!--/>-->
+            <TextView
+                android:id="@+id/myinfoName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="4dp"
+                android:text="이름"
+                android:textColor="#000000"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_phone_confirm_top" />
 
-                <!--<quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText-->
-                    <!--android:id="@+id/myinfoCertifyNumber_editText"-->
-                    <!--android:layout_width="150dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="생년월일 6자리"-->
-                    <!--android:textSize="18dp"-->
-                    <!--android:textColorHint="#CCCCCC"-->
-                    <!--android:inputType="number"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--android:maxLength="6"-->
-                    <!--android:layout_marginTop="13dp"-->
-                    <!--android:layout_marginLeft="24dp"-->
-                    <!--android:background="@null"-->
-                    <!--/>-->
+            <quantec.com.moneypot.util.view.BackPressEditText
+                android:id="@+id/myinfoName_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginRight="35dp"
+                android:background="@null"
+                android:hint="실명 입력"
+                android:inputType="textWebEditText"
+                android:textColorHint="#CCCCCC"
+                android:textSize="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoName" />
 
-                <!--<View-->
-                    <!--android:id="@+id/myinfoCertifyNumber_editTextLine"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="2dp"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--app:layout_constraintEnd_toEndOf="@+id/myinfoCertifyNumber_editText"-->
-                    <!--android:layout_marginLeft="24dp"-->
-                    <!--android:layout_marginTop="45dp"-->
-                    <!--android:background="#CCCCCC"-->
-                    <!--/>-->
+            <View
+                android:id="@+id/myinfoName_editTextLine"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="24dp"
+                android:background="#CCCCCC"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoName_editText" />
 
-                <!--<TextView-->
-                    <!--android:id="@+id/activity_phone_confirm_numberHi"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="28dp"-->
-                    <!--android:text="ㅡ"-->
-                    <!--android:textSize="6dp"-->
-                    <!--app:layout_constraintBottom_toBottomOf="@+id/myinfoCertifyNumber_editText"-->
-                    <!--app:layout_constraintStart_toEndOf="@id/myinfoCertifyNumber_editText"-->
-                    <!--app:layout_constraintEnd_toStartOf="@+id/myinfoCertifyNumber_editText2"-->
-                    <!--android:gravity="center"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--/>-->
+            <TextView
+                android:id="@+id/myinfoCertifyNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="40dp"
+                android:text="주민등록번호"
+                android:textColor="#000000"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoName_editText" />
 
-                <!--<quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText-->
-                    <!--android:id="@+id/myinfoCertifyNumber_editText2"-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:textSize="18dp"-->
-                    <!--android:textColorHint="#7b7b7b"-->
-                    <!--android:inputType="number"-->
-                    <!--android:maxLength="1"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber"-->
-                    <!--app:layout_constraintStart_toEndOf="@id/activity_phone_confirm_numberHi"-->
-                    <!--android:layout_marginTop="13dp"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:background="@null"-->
-                    <!--/>-->
+            <quantec.com.moneypot.util.view.BackPressEditText
+                android:id="@+id/myinfoCertifyNumber_editText"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="13dp"
+                android:background="@null"
+                android:hint="생년월일 6자리"
+                android:inputType="number"
+                android:maxLength="6"
+                android:textColorHint="#CCCCCC"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber" />
 
-                <!--<View-->
-                    <!--android:id="@+id/myinfoCertifyNumber_editText2Line"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="2dp"-->
-                    <!--app:layout_constraintStart_toStartOf="@+id/myinfoCertifyNumber_editText2"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber"-->
-                    <!--app:layout_constraintEnd_toEndOf="@+id/myinfoCertifyNumber_editText2"-->
-                    <!--android:layout_marginTop="45dp"-->
-                    <!--android:background="#CCCCCC"-->
-                    <!--/>-->
+            <View
+                android:id="@+id/myinfoCertifyNumber_editTextLine"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="45dp"
+                android:background="#CCCCCC"
+                app:layout_constraintEnd_toEndOf="@+id/myinfoCertifyNumber_editText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber" />
 
-                <!--<ImageView-->
-                    <!--android:id="@+id/fotImage"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="28dp"-->
-                    <!--android:src="@drawable/img_password_black"-->
-                    <!--app:layout_constraintTop_toTopOf="@+id/myinfoCertifyNumber_editText2"-->
-                    <!--app:layout_constraintStart_toEndOf="@id/myinfoCertifyNumber_editText2"-->
-                    <!--android:layout_marginLeft="11dp"-->
-                    <!--/>-->
+            <TextView
+                android:id="@+id/activity_phone_confirm_numberHi"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="ㅡ"
+                android:textSize="6dp"
+                app:layout_constraintBottom_toBottomOf="@+id/myinfoCertifyNumber_editText"
+                app:layout_constraintEnd_toStartOf="@+id/myinfoCertifyNumber_editText2"
+                app:layout_constraintStart_toEndOf="@id/myinfoCertifyNumber_editText" />
 
-                <!--<TextView-->
-                    <!--android:id="@+id/myinfoPhoneNumber"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="휴대폰번호"-->
-                    <!--android:textSize="12dp"-->
-                    <!--android:textColor="#000000"-->
-                    <!--android:layout_marginTop="40dp"-->
-                    <!--android:layout_marginLeft="24dp"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber_editText"-->
-                    <!--/>-->
+            <quantec.com.moneypot.util.view.BackPressEditText
+                android:id="@+id/myinfoCertifyNumber_editText2"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="13dp"
+                android:background="@null"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColorHint="#7b7b7b"
+                android:textSize="18dp"
+                app:layout_constraintStart_toEndOf="@id/activity_phone_confirm_numberHi"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber" />
 
-                <!--<TextView-->
-                    <!--android:id="@+id/myinfoPhoneNumber_selectText"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="통신사"-->
-                    <!--android:textSize="14dp"-->
-                    <!--android:textColor="#9a9a9a"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--android:layout_marginTop="18dp"-->
-                    <!--android:layout_marginLeft="24dp"-->
-                    <!--/>-->
+            <View
+                android:id="@+id/myinfoCertifyNumber_editText2Line"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="45dp"
+                android:background="#CCCCCC"
+                app:layout_constraintEnd_toEndOf="@+id/myinfoCertifyNumber_editText2"
+                app:layout_constraintStart_toStartOf="@+id/myinfoCertifyNumber_editText2"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber" />
 
-                <!--<ImageView-->
-                    <!--android:id="@+id/myinfoPhoneNumber_selectIcon"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:src="@drawable/ic_arrow_down_gray"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber"-->
-                    <!--app:layout_constraintStart_toEndOf="@+id/myinfoPhoneNumber_selectText"-->
-                    <!--android:layout_marginTop="20dp"-->
-                    <!--/>-->
+            <ImageView
+                android:id="@+id/fotImage"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginLeft="11dp"
+                android:src="@drawable/img_password_black"
+                app:layout_constraintStart_toEndOf="@id/myinfoCertifyNumber_editText2"
+                app:layout_constraintTop_toTopOf="@+id/myinfoCertifyNumber_editText2" />
 
-                <!--<View-->
-                    <!--android:id="@+id/myinfoPhoneNumber_selectIconLine"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="2dp"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--app:layout_constraintEnd_toEndOf="@+id/myinfoPhoneNumber_selectIcon"-->
-                    <!--android:layout_marginLeft="24dp"-->
-                    <!--android:layout_marginTop="45dp"-->
-                    <!--android:background="#CCCCCC"-->
-                    <!--/>-->
+            <TextView
+                android:id="@+id/myinfoPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="40dp"
+                android:text="휴대폰번호"
+                android:textColor="#000000"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoCertifyNumber_editText" />
 
-                <!--<quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText-->
-                    <!--android:id="@+id/myinfoPhoneNumber_editText"-->
-                    <!--android:layout_width="155dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="휴대폰번호"-->
-                    <!--android:textSize="18dp"-->
-                    <!--android:textColorHint="#CCCCCC"-->
-                    <!--android:inputType="number"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber"-->
-                    <!--app:layout_constraintStart_toStartOf="@+id/myinfoPhoneNumber_editTextLine"-->
-                    <!--android:layout_marginTop="13dp"-->
-                    <!--android:background="@null"-->
-                    <!--android:maxLength="11"-->
-                    <!--/>-->
+            <TextView
+                android:id="@+id/myinfoPhoneNumber_selectText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="18dp"
+                android:text="통신사"
+                android:textColor="#9a9a9a"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber" />
 
-                <!--<View-->
-                    <!--android:id="@+id/myinfoPhoneNumber_editTextLine"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="2dp"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber"-->
-                    <!--app:layout_constraintStart_toEndOf="@+id/myinfoPhoneNumber_selectIconLine"-->
-                    <!--app:layout_constraintEnd_toEndOf="@+id/myinfoPhoneNumber_editText"-->
-                    <!--android:layout_marginLeft="15dp"-->
-                    <!--android:layout_marginTop="45dp"-->
-                    <!--android:background="#CCCCCC"-->
-                    <!--/>-->
+            <ImageView
+                android:id="@+id/myinfoPhoneNumber_selectIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_arrow_down_gray"
+                app:layout_constraintStart_toEndOf="@+id/myinfoPhoneNumber_selectText"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber" />
 
-                <!--<TextView-->
-                    <!--android:id="@+id/myinfoPhoneNumber_NumberBt"-->
-                    <!--android:layout_width="67dp"-->
-                    <!--android:layout_height="33dp"-->
-                    <!--android:text="인증 요청"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber"-->
-                    <!--app:layout_constraintEnd_toEndOf="parent"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textColor="@color/text_white_color"-->
-                    <!--android:textSize="14dp"-->
-                    <!--android:layout_marginRight="30dp"-->
-                    <!--android:layout_marginTop="16dp"-->
-                    <!--android:background="@drawable/rectangle_red_5dp"-->
-                    <!--/>-->
+            <View
+                android:id="@+id/myinfoPhoneNumber_selectIconLine"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="45dp"
+                android:background="#CCCCCC"
+                app:layout_constraintEnd_toEndOf="@+id/myinfoPhoneNumber_selectIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber" />
 
-                <!--<TextView-->
-                    <!--android:id="@+id/myinfoConfirmNumber"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="인증번호"-->
-                    <!--android:textSize="12dp"-->
-                    <!--android:textColor="#000000"-->
-                    <!--android:layout_marginTop="40dp"-->
-                    <!--android:layout_marginLeft="24dp"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber_selectIconLine"-->
-                    <!--android:visibility="invisible"-->
-                    <!--/>-->
+            <quantec.com.moneypot.util.view.BackPressEditText
+                android:id="@+id/myinfoPhoneNumber_editText"
+                android:layout_width="155dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:background="@null"
+                android:hint="휴대폰번호"
+                android:inputType="number"
+                android:maxLength="11"
+                android:textColorHint="#CCCCCC"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="@+id/myinfoPhoneNumber_editTextLine"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber" />
 
-                <!--<quantec.com.moneypot.Util.SoftKeyboardUtil.BackPressEditText-->
-                    <!--android:id="@+id/myinfoConfirmNumber_editText"-->
-                    <!--android:layout_width="150dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="인증번호 6자리 입력"-->
-                    <!--android:textSize="18dp"-->
-                    <!--android:textColorHint="#CCCCCC"-->
-                    <!--android:inputType="number"-->
-                    <!--android:maxLength="6"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoConfirmNumber"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--android:layout_marginTop="13dp"-->
-                    <!--android:layout_marginLeft="24dp"-->
-                    <!--android:background="@null"-->
-                    <!--android:visibility="invisible"-->
-                    <!--/>-->
+            <View
+                android:id="@+id/myinfoPhoneNumber_editTextLine"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="45dp"
+                android:background="#CCCCCC"
+                app:layout_constraintEnd_toEndOf="@+id/myinfoPhoneNumber_editText"
+                app:layout_constraintStart_toEndOf="@+id/myinfoPhoneNumber_selectIconLine"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber" />
 
-                <!--<TextView-->
-                    <!--android:id="@+id/myinfoConfirmNumber_countText"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:textSize="14dp"-->
-                    <!--android:textColor="#000000"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoConfirmNumber"-->
-                    <!--app:layout_constraintEnd_toEndOf="parent"-->
-                    <!--android:layout_marginRight="38dp"-->
-                    <!--android:layout_marginTop="17dp"-->
-                    <!--/>-->
+            <TextView
+                android:id="@+id/myinfoPhoneNumber_NumberBt"
+                android:layout_width="67dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/rectangle_red_5dp"
+                android:gravity="center"
+                android:text="인증 요청"
+                android:textColor="@color/text_white_color"
+                android:textSize="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber" />
 
-                <!--<View-->
-                    <!--android:id="@+id/myinfoConfirmNumber_editTextLine"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="2dp"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoConfirmNumber_editText"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--android:layout_marginLeft="24dp"-->
-                    <!--android:layout_marginRight="24dp"-->
-                    <!--android:layout_marginTop="9dp"-->
-                    <!--android:background="#CCCCCC"-->
-                    <!--android:visibility="invisible"-->
-                    <!--/>-->
+            <TextView
+                android:id="@+id/myinfoConfirmNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="40dp"
+                android:text="인증번호"
+                android:textColor="#000000"
+                android:textSize="12dp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoPhoneNumber_selectIconLine" />
 
-                <!--<View-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="100dp"-->
-                    <!--app:layout_constraintTop_toBottomOf="@+id/myinfoConfirmNumber_editTextLine"-->
-                    <!--/>-->
-            <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
-        <!--</androidx.core.widget.NestedScrollView>-->
-        <!--<TextView-->
-            <!--android:id="@+id/nextBt"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="57dp"-->
-            <!--android:background="#FAFAFA"-->
-            <!--android:text="다음"-->
-            <!--android:textSize="18dp"-->
-            <!--android:gravity="center"-->
-            <!--android:textColor="#CCCCCC"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:enabled="false"-->
-            <!--/>-->
-    <!--</RelativeLayout>-->
-<!--</layout>-->
+            <quantec.com.moneypot.util.view.BackPressEditText
+                android:id="@+id/myinfoConfirmNumber_editText"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="13dp"
+                android:background="@null"
+                android:hint="인증번호 6자리 입력"
+                android:inputType="number"
+                android:maxLength="6"
+                android:textColorHint="#CCCCCC"
+                android:textSize="18dp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoConfirmNumber" />
+
+            <TextView
+                android:id="@+id/myinfoConfirmNumber_countText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:layout_marginRight="38dp"
+                android:textColor="#000000"
+                android:textSize="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoConfirmNumber" />
+
+            <View
+                android:id="@+id/myinfoConfirmNumber_editTextLine"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginRight="24dp"
+                android:background="#CCCCCC"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoConfirmNumber_editText" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:layout_constraintTop_toBottomOf="@+id/myinfoConfirmNumber_editTextLine" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/nextBt"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FAFAFA"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="다음"
+        android:textColor="#CCCCCC"
+        android:textSize="18dp" />
+</RelativeLayout>
+</layout>

@@ -4,8 +4,6 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -54,31 +52,26 @@
         android:id="@+id/passcode_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp">
 
         <!-- 핀 처음 입력 화면의 취소 버튼 -->
         <Button
             android:id="@+id/btn_cancel"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
             android:visibility="visible"
-            android:background="@drawable/btn_back_selector"></Button>
+            android:background="@drawable/btn_back_selector"
+            ></Button>
 
         <!-- 핀 재입력 화면의 취소 버튼 -->
         <Button
             android:id="@+id/btn_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:background="@drawable/btn_back_selector"></Button>
-
 
         <TextView
             android:id="@+id/text1"
@@ -87,8 +80,8 @@
             android:visibility="visible"
             android:gravity="center"
             android:textSize="16dp"
+            android:layout_marginTop="15dp"
             />
-
 
     </RelativeLayout>
 
@@ -129,7 +122,6 @@
             android:layout_below="@id/tv_explain">
             <!-- 입력 창 4개 일 경우 -->
             <include
-
                 android:id="@+id/square_input_4box"
                 layout="@layout/passcode_ui_inputbox4"
                 android:layout_width="wrap_content"
@@ -145,7 +137,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:visibility="gone" />
-
         </RelativeLayout>
 
         <Button

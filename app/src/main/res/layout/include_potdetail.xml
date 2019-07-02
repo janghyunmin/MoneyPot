@@ -6,47 +6,56 @@
     android:layout_height="wrap_content"
     android:background="#ffffff">
 
-    <TextView
-        android:id="@+id/categoryBt1"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+    <LinearLayout
+        android:id="@+id/categotyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="66dp"
+        android:layout_marginEnd="66dp"
+        android:orientation="horizontal"
+        android:background="@drawable/potdetail_round_enable"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/oval_red_line"
+        >
+        <TextView
+        android:id="@+id/categoryBt1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/potdetail_round_able"
         android:gravity="center"
         android:text="안정형"
         android:textColor="@color/text_black_color"
-        android:textSize="14dp"
+        android:textSize="12dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/categoryBt2"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
+        android:layout_weight="1"
+        />
+        <TextView
         android:id="@+id/categoryBt2"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/oval_red_line"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:text="중립형"
-        android:textColor="@color/text_black_color"
-        android:textSize="14dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/dark_gray_color"
+        android:textSize="12dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_weight="1"
+        />
+        <TextView
         android:id="@+id/categoryBt3"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/oval_red_line"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:text="모험가형"
-        android:textColor="@color/text_black_color"
-        android:textSize="14dp"
+        android:textColor="@color/dark_gray_color"
+        android:textSize="12dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/categoryBt2"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_weight="1"
+        />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/rate"
@@ -58,7 +67,7 @@
         android:textSize="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/categoryBt2" />
+        app:layout_constraintTop_toBottomOf="@+id/categotyLayout" />
 
     <TextView
         android:id="@+id/per"
@@ -73,68 +82,77 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chartView"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="59dp"
         android:layout_marginRight="24dp"
-        android:background="#fafafa"
         app:layout_constraintTop_toBottomOf="@+id/rate" />
-
-    <LinearLayout
-        android:id="@+id/chartBtLayout"
-        android:layout_width="match_parent"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/chartLoading"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        app:layout_constraintTop_toTopOf="@+id/chartView"
+        app:layout_constraintBottom_toBottomOf="@+id/chartView"
+        app:layout_constraintStart_toStartOf="@+id/chartView"
+        app:layout_constraintEnd_toEndOf="@+id/chartView"
+        />
+
+    <TextView
+        android:id="@+id/chartBt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1개월"
+        android:textColor="@color/dark_gray_color"
+        android:textSize="11dp"
+        android:background="@drawable/chartbt_enable"
+        app:layout_constraintStart_toStartOf="@+id/chartView"
+        app:layout_constraintTop_toBottomOf="@+id/chartView"
+        android:gravity="center"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/chartView">
-
-        <Button
-            android:id="@+id/port_detail_page_chart_dur1_bt"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/unselected_round_button"
-            android:text="1개월"
-            android:textColor="#959595"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/port_detail_page_chart_dur3_bt"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/unselected_round_button"
-            android:text="3개월"
-            android:textColor="#959595"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/port_detail_page_chart_dur6_bt"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/unselected_round_button"
-            android:text="6개월"
-            android:textColor="#959595"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/port_detail_page_chart_dura_bt"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/round_button"
-            android:text="누적"
-            android:textColor="@color/delete_pressed_text"
-            android:textSize="12sp" />
-    </LinearLayout>
-
+        android:layout_marginStart="30dp"
+        />
+    <TextView
+        android:id="@+id/chartBt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3개월"
+        android:textSize="11dp"
+        android:textColor="@color/red_text_color"
+        android:background="@drawable/chartbt_able"
+        app:layout_constraintTop_toTopOf="@+id/chartBt1"
+        app:layout_constraintBottom_toBottomOf="@+id/chartBt1"
+        app:layout_constraintStart_toEndOf="@+id/chartBt1"
+        android:gravity="center"
+        android:layout_marginStart="25dp"
+        />
+    <TextView
+        android:id="@+id/chartBt3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6개월"
+        android:textSize="11dp"
+        android:textColor="@color/dark_gray_color"
+        android:background="@drawable/chartbt_enable"
+        app:layout_constraintTop_toTopOf="@+id/chartBt2"
+        app:layout_constraintBottom_toBottomOf="@+id/chartBt2"
+        app:layout_constraintStart_toEndOf="@+id/chartBt2"
+        android:layout_marginStart="25dp"
+        android:gravity="center"
+        />
+    <TextView
+        android:id="@+id/chartBt4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="누적"
+        android:textSize="11dp"
+        android:textColor="@color/dark_gray_color"
+        android:background="@drawable/chartbt_enable"
+        app:layout_constraintTop_toTopOf="@+id/chartBt3"
+        app:layout_constraintBottom_toBottomOf="@+id/chartBt3"
+        app:layout_constraintStart_toEndOf="@+id/chartBt3"
+        android:layout_marginStart="25dp"
+        android:gravity="center"
+        />
 
     <View
         android:id="@+id/topLine"
@@ -142,7 +160,7 @@
         android:layout_height="6dp"
         android:layout_marginTop="30dp"
         android:background="#fafafa"
-        app:layout_constraintTop_toBottomOf="@+id/chartBtLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/chartBt1" />
 
     <TextView
         android:id="@+id/investTitle"

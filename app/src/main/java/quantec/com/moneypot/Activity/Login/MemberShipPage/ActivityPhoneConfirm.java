@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,6 +21,7 @@ import androidx.databinding.DataBindingUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import quantec.com.moneypot.Activity.Login.LoginPage.ActivityLoginPage;
 import quantec.com.moneypot.Activity.Login.Model.dModel.IdentifyDto;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelConfrimIdentifyData;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelIdentifyData;
@@ -58,12 +60,17 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
 
     private DialogLoadingMakingPort loadingCustomMakingPort;
 
+    String phoneNum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_confirm);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_phone_confirm);
+
+        Intent intent = getIntent();
+        phoneNum = intent.getStringExtra("passPhoneNum");
 
         //스테이터스 바 색상 변경 -> 화이트
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -106,6 +113,8 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
         binding.myinfoCertifyNumberEditText.setOnBackPressListener(onBackPressListener);
         binding.myinfoCertifyNumberEditText2.setOnBackPressListener(onBackPressListener);
         binding.myinfoConfirmNumberEditText.setOnBackPressListener(onBackPressListener);
+
+        binding.myinfoPhoneNumberEditText.setText(phoneNum);
 
     } // onCreate 끝
 
@@ -350,11 +359,11 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
                                                                     requestFocus2(binding.myinfoCertifyNumberEditText);
                                                                     Toast.makeText(ActivityPhoneConfirm.this, "본인인증을 위한 성명/생년월일/휴대폰 번호를 다시 입력해주세요", Toast.LENGTH_SHORT).show();
                                                                     closedCertNum();
-                                                                }else{
+                                                                }
+                                                                else{
                                                                     Toast.makeText(ActivityPhoneConfirm.this, "네트워크가 불안정 합니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             }
-
                                                         }
                                                     }
                                                     @Override
@@ -362,11 +371,10 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
                                                         loadingCustomMakingPort.dismiss();
                                                     }
                                                 });
-
                                         }
                                     }
-
-                                } else {
+                                }
+                                else {
                                     requestFocus2(binding.myinfoCertifyNumberEditText);
                                     Toast.makeText(ActivityPhoneConfirm.this, "생년월일 정보가 올바르지 않습니다.", Toast.LENGTH_SHORT).show();
                                 }
@@ -376,6 +384,7 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
                 }
                 break;
 
+            ///0:설치, 1:가입시작, 10:가입완료, 20:간편인증 등록완료, 99 해지
             case R.id.nextBt:
                 if(binding.myinfoConfirmNumberEditText.getText().toString().isEmpty() || binding.myinfoConfirmNumberEditText.getText().length() < 6){
                     Toast.makeText(ActivityPhoneConfirm.this, "인증번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
@@ -395,17 +404,35 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
 
                                     if(response.body().getContent().getCode().equals("0000")){
 
-                                        SharedPreferenceUtil.getInstance(ActivityPhoneConfirm.this).putUserId("userId", response.body().getContent().getUid());
                                         SharedPreferenceUtil.getInstance(ActivityPhoneConfirm.this).putUserCid("userCid", response.body().getContent().getCi());
                                         SharedPreferenceUtil.getInstance(ActivityPhoneConfirm.this).putUserHpNumber("hpNumber", response.body().getContent().getMobileNum());
 
-                                        Intent intent = new Intent(ActivityPhoneConfirm.this, ActivityRegInfo.class);
-                                        intent.putExtra("hpNumber",response.body().getContent().getMobileNum());
-                                        intent.putExtra("uid",response.body().getContent().getUid());
-                                        intent.putExtra("cid",response.body().getContent().getCi());
-                                        intent.putExtra("userName",response.body().getContent().getName());
-                                        startActivity(intent);
-                                        finish();
+                                            // 10 미만이면 가입안된 유저 / 10 이상이면 가입된 유저 ( 10이면 비밀번호까지만 등록 / 20이면 파이도까지 등록된 유저 )
+                                            if(response.body().getContent().getActiveStep() < 10){
+
+                                                Intent intent = new Intent(ActivityPhoneConfirm.this, ActivityRegInfo.class);
+                                                intent.putExtra("hpNumber",response.body().getContent().getMobileNum());
+                                                intent.putExtra("uid",response.body().getContent().getUid());
+                                                intent.putExtra("cid",response.body().getContent().getCi());
+                                                intent.putExtra("userName",response.body().getContent().getName());
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent);
+                                                finish();
+
+                                            }
+                                            else{
+
+                                                Intent intent = new Intent(ActivityPhoneConfirm.this, ActivityLoginPage.class);
+                                                intent.putExtra("hpNumber",response.body().getContent().getMobileNum());
+                                                intent.putExtra("uid",response.body().getContent().getUid());
+                                                intent.putExtra("cid",response.body().getContent().getCi());
+                                                intent.putExtra("userName",response.body().getContent().getName());
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(intent);
+                                                finish();
+
+                                            }
+
                                     }
                                     else if(response.body().getContent().getCode().equals("0043")){
                                         dialogSMS = new DialogSMS(ActivityPhoneConfirm.this, okListener);
@@ -603,6 +630,7 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
 
         }
     }
+
 
     private BackPressEditText.OnBackPressListener onBackPressListener = new BackPressEditText.OnBackPressListener() {
         @Override

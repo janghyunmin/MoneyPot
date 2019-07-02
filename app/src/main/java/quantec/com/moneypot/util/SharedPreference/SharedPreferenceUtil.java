@@ -61,6 +61,12 @@ public class SharedPreferenceUtil {
         editor.apply();
     }
 
+    public void putFcmToken(String key, String fcmToken){
+        editor.putString(key, fcmToken);
+        editor.apply();
+    }
+
+
     public int getIntExtra(String key){
         return sharedPreferences.getInt(key, 0);
     }
