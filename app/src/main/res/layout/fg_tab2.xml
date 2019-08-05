@@ -67,5 +67,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/makePotBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#FF0000"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_more_plus_gray"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

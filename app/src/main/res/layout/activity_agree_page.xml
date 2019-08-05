@@ -14,7 +14,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Login.MemberShipPage.ActivityAgreePage">
+    tools:context=".Activity.Login.MemberShipPage.ActivityAgreePage"
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:id="@+id/activity_agree_page_top"

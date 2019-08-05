@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/nowPriceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="현재 있는 금액(투자금)"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:textSize="17dp"
+        android:textColor="@color/text_black_color"
+        />
+
+    <EditText
+        android:id="@+id/nowPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        app:layout_constraintTop_toBottomOf="@+id/nowPriceTitle"
+        app:layout_constraintEnd_toStartOf="@+id/nowPriceWon"
+        android:text="11111111"
+        android:layout_marginTop="10dp"
+        android:textSize="17dp"
+        />
+
+    <TextView
+        android:id="@+id/nowPriceWon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="만원"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toTopOf="@+id/nowPrice"
+        app:layout_constraintBottom_toBottomOf="@+id/nowPrice"
+        app:layout_constraintEnd_toEndOf="@+id/nowPriceTitle"
+        android:textSize="12dp"
+        />
+
+
+    <TextView
+        android:id="@+id/addPriceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="월 추가 가능 금액(선택)"
+        app:layout_constraintTop_toBottomOf="@+id/nowPrice"
+        app:layout_constraintEnd_toEndOf="@+id/nowPriceTitle"
+        android:layout_marginTop="20dp"
+        android:textSize="17dp"
+        android:textColor="@color/text_black_color"
+        android:layout_marginStart="20dp"
+        />
+
+    <EditText
+        android:id="@+id/addPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        app:layout_constraintTop_toBottomOf="@+id/addPriceTitle"
+        android:text="111111111"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/addPriceWon"
+        android:textSize="17dp"
+        />
+
+    <TextView
+        android:id="@+id/addPriceWon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="만원"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toTopOf="@+id/addPrice"
+        app:layout_constraintBottom_toBottomOf="@+id/addPrice"
+        app:layout_constraintEnd_toEndOf="@+id/addPriceTitle"
+        android:textSize="12dp"
+        />
+
+
+
+    <TextView
+        android:id="@+id/finalPriceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="나의 최종 목표 금액"
+        app:layout_constraintTop_toBottomOf="@+id/addPrice"
+        app:layout_constraintEnd_toEndOf="@+id/nowPriceTitle"
+        android:layout_marginTop="20dp"
+        android:textSize="22dp"
+        android:textColor="@color/text_black_color"
+        android:layout_marginStart="20dp"
+        />
+
+    <EditText
+        android:id="@+id/finalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        app:layout_constraintTop_toBottomOf="@+id/finalPriceTitle"
+        android:text="111111111"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/finalPriceWon"
+        android:textSize="20dp"
+        />
+
+    <TextView
+        android:id="@+id/finalPriceWon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="만원"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toTopOf="@+id/finalPrice"
+        app:layout_constraintBottom_toBottomOf="@+id/finalPrice"
+        app:layout_constraintEnd_toEndOf="@+id/finalPriceTitle"
+        android:textSize="18dp"
+        />
+
+
+    <TextView
+        android:id="@+id/nextBt"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="얼마나 걸릴까?"
+        android:textSize="13dp"
+        android:background="#f1f1f1"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

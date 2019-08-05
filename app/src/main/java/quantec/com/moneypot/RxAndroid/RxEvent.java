@@ -9,6 +9,10 @@ public class RxEvent {
     public static final String SEARCH_TRANS_PAGE = "search_teans_page";
     public static final String SEARCH_CLICK_ZZIM = "search_click_zzim";
 
+    public static final String MOVED_POTCOOK_PAGE = "moved_potcook_page";
+
+    public static final String REFRESH_MY_POT = "refresh_my_pot";
+
     private String action;
     private Bundle bundle;
 

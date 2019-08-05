@@ -2,7 +2,16 @@ package quantec.com.moneypot.Activity.Main.Fragment.Tab1;
 
 public class ModelFitPotList {
 
-    boolean isEmpty;
+    boolean webView;
+    boolean itemView;
+
+    boolean insertView;
+    boolean chartView;
+    boolean addView;
+    boolean recomView;
+    boolean investView;
+
+
     String webViewUrl;
     String liftTitle;
     String lifeContent;
@@ -14,8 +23,19 @@ public class ModelFitPotList {
     String lifeStTitle;
     String lifeStYeild;
 
-    public ModelFitPotList(boolean isEmpty, String webViewUrl, String liftTitle, String lifeContent, String lifeYear, String lifePrice, String lifePlan, String lifeExp, String lifeType, String lifeStTitle, String lifeStYeild) {
-        this.isEmpty = isEmpty;
+    public ModelFitPotList(boolean webView, boolean itemView) {
+        this.webView = webView;
+        this.itemView = itemView;
+    }
+
+    public ModelFitPotList(boolean webView, boolean itemView, boolean insertView, boolean chartView, boolean addView, boolean recomView, boolean investView, String webViewUrl, String liftTitle, String lifeContent, String lifeYear, String lifePrice, String lifePlan, String lifeExp, String lifeType, String lifeStTitle, String lifeStYeild) {
+        this.webView = webView;
+        this.itemView = itemView;
+        this.insertView = insertView;
+        this.chartView = chartView;
+        this.addView = addView;
+        this.recomView = recomView;
+        this.investView = investView;
         this.webViewUrl = webViewUrl;
         this.liftTitle = liftTitle;
         this.lifeContent = lifeContent;
@@ -28,12 +48,60 @@ public class ModelFitPotList {
         this.lifeStYeild = lifeStYeild;
     }
 
-    public boolean isEmpty() {
-        return isEmpty;
+    public boolean isWebView() {
+        return webView;
     }
 
-    public void setEmpty(boolean empty) {
-        isEmpty = empty;
+    public void setWebView(boolean webView) {
+        this.webView = webView;
+    }
+
+    public boolean isItemView() {
+        return itemView;
+    }
+
+    public void setItemView(boolean itemView) {
+        this.itemView = itemView;
+    }
+
+    public boolean isInsertView() {
+        return insertView;
+    }
+
+    public void setInsertView(boolean insertView) {
+        this.insertView = insertView;
+    }
+
+    public boolean isChartView() {
+        return chartView;
+    }
+
+    public void setChartView(boolean chartView) {
+        this.chartView = chartView;
+    }
+
+    public boolean isAddView() {
+        return addView;
+    }
+
+    public void setAddView(boolean addView) {
+        this.addView = addView;
+    }
+
+    public boolean isRecomView() {
+        return recomView;
+    }
+
+    public void setRecomView(boolean recomView) {
+        this.recomView = recomView;
+    }
+
+    public boolean isInvestView() {
+        return investView;
+    }
+
+    public void setInvestView(boolean investView) {
+        this.investView = investView;
     }
 
     public String getWebViewUrl() {

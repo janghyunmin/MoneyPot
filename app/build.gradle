@@ -136,4 +136,9 @@ dependencies {
 //  implementation 'com.ramotion.expandingcollection:expanding-collection:0.9.2'
     implementation 'android.arch.work:work-runtime:1.0.1'
 
+    //intinife viewPager
+    implementation 'com.asksira.android:loopingviewpager:1.1.4'
+
+    implementation "com.andkulikov:transitionseverywhere:2.0.0"
+
 }

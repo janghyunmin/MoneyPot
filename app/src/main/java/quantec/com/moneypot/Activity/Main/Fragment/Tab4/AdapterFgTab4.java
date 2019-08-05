@@ -127,6 +127,16 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.selectZzimClick = selectZzimClick;
     }
 
+
+    private PotFollowBtClick potFollowBtClick;
+    public interface PotFollowBtClick {
+        public void onClick(int position);
+    }
+
+    public void setPotFollowBtClick(PotFollowBtClick potFollowBtClick) {
+        this.potFollowBtClick = potFollowBtClick;
+    }
+
     List<Entry> entries;
     LineDataSet lineDataSet;
     LineData lineData;
@@ -139,9 +149,6 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private ArrayList<ModelFgTab4> myData;
 
-    public static boolean AnimState = false;
-    public static boolean DeleteAnimState = false;
-
     public AdapterFgTab4(Context context, ArrayList<ModelFgTab4> myData, List<Entry> entries, LineDataSet lineDataSet, LineData lineData){
         this.context = context;
         this.myData = myData;
@@ -152,7 +159,13 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-        return myData.get(position) != null ? VIEW_ITEM : VIEW_PROG;}
+
+        if(myData.get(position).isEmpty()){
+            return VIEW_PROG;
+        }else{
+            return VIEW_ITEM;
+        }
+    }
 
     @Override
     public void onViewAttachedToWindow(@NonNull RecyclerView.ViewHolder holder) {
@@ -178,14 +191,6 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (holder instanceof MyViewHolder) {
 
-//            ((MyViewHolder) holder).binding.tab4RecyclerViewPortCheckButtonLayout.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    return true;
-//                }
-//            });
-
-//            ((MyViewHolder)holder).tab4dataBinding.tab4RecyclerViewPortImage.setImageResource(myData.get(position).getImage());
             ((MyViewHolder)holder).binding.potName.setText(myData.get(position).getTitle());
 
             if(myData.get(position).getRate() < 0) {
@@ -198,26 +203,14 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((MyViewHolder)holder).binding.potPer.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
             }
 
-//            if(FgTab4.portOpenState) {
-//                ((MyViewHolder) holder).binding.potZimBt.setVisibility(View.GONE);
-//            }else{
-//
-//                ((MyViewHolder) holder).binding.potZimBt.setVisibility(View.VISIBLE);
-//
-//                if(myData.get(position).isZim()){
-//                    ((MyViewHolder)holder).binding.potZimBt.setImageResource(R.drawable.start_on);
-//                }else{
-//                    ((MyViewHolder)holder).binding.potZimBt.setImageResource(R.drawable.start_off);
-//                }
-//
-//                if(AnimState) {
-//                    TranslateAnimation animation7 = new TranslateAnimation(100, 0, 0, 0);
-//                    animation7.setDuration(500);
-//                    animation7.setFillAfter(true);
-//                    animation7.setFillEnabled(true);
-//                    ((MyViewHolder) holder).binding.potZimBt.startAnimation(animation7);
-//                }
-//            }
+            ((MyViewHolder)holder).binding.potFollow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(potFollowBtClick != null){
+                        potFollowBtClick.onClick(position);
+                    }
+                }
+            });
 
             //포트 클릭 이벤트
             ((MyViewHolder)holder).binding.linearLayout.setOnClickListener(new View.OnClickListener() {
@@ -229,16 +222,6 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             });
-
-//            //포트삭제 버튼
-//            ((MyViewHolder)holder).binding.tab4RecyclerViewPortDeleteBT.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (deleteClick != null) {
-//                        deleteClick.onClick(position);
-//                    }
-//                }
-//            });
 
             //포트 차트 1개월 버튼
             ((MyViewHolder)holder).binding.m1Bt.setOnClickListener(new View.OnClickListener() {
@@ -322,26 +305,11 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((MyViewHolder)holder).binding.mAllBt.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
             }
 
-//            //더보기 버튼
-//            ((MyViewHolder)holder).binding.tab4RecyclerViewChartAddBt.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (selectAddPortDetailClick != null) {
-//                        selectAddPortDetailClick.onclick(position);
-//                    }
-//                }
-//            });
-//
-//            //투자하기 버튼
-//            ((MyViewHolder)holder).binding.tab4RecyclerViewChartInvestBt.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    if (selectInvestClick != null) {
-//                        selectInvestClick.onClick(position);
-//                    }
-//                }
-//            });
+            if(myData.get(position).isZim()){
+                ((MyViewHolder)holder).binding.potZimBt.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_on_red_48_px));
+            }else{
+                ((MyViewHolder)holder).binding.potZimBt.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_off_whitegray_48_px));
+            }
 
             //포트 찜하기 버튼
             ((MyViewHolder)holder).binding.potZimBt.setOnClickListener(new View.OnClickListener() {
@@ -414,37 +382,6 @@ public class AdapterFgTab4 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 ((MyViewHolder)holder).binding.chartView.setVisibility(View.GONE);
             }
-
-//            if (!FgTab4.Delete_State) {
-//                ((MyViewHolder)holder).binding.tab4RecyclerViewPortDeleteBT.setVisibility(View.GONE);
-//                ((MyViewHolder)holder).binding.tab4RecyclerViewPortRate.setVisibility(View.VISIBLE);
-//                ((MyViewHolder)holder).binding.tab4RecyclerViewPortPersent.setVisibility(View.VISIBLE);
-//            } else {
-//                ((MyViewHolder)holder).binding.tab4RecyclerViewPortDeleteBT.setVisibility(View.VISIBLE);
-//                ((MyViewHolder)holder).binding.tab4RecyclerViewPortRate.setVisibility(View.GONE);
-//                ((MyViewHolder)holder).binding.tab4RecyclerViewPortPersent.setVisibility(View.GONE);
-//
-//                if(!DeleteAnimState) {
-//                    TranslateAnimation animatio = new TranslateAnimation(100, 0, 0, 0);
-//                    animatio.setDuration(500);
-//                    animatio.setFillAfter(false);
-//                    animatio.setFillEnabled(false);
-//                    animatio.setAnimationListener(new Animation.AnimationListener() {
-//                        @Override
-//                        public void onAnimationStart(Animation animation) {
-//                        }
-//                        @Override
-//                        public void onAnimationEnd(Animation animation) {
-//                            DeleteAnimState = true;
-//                        }
-//
-//                        @Override
-//                        public void onAnimationRepeat(Animation animation) {
-//                        }
-//                    });
-//                    ((MyViewHolder) holder).binding.tab4RecyclerViewPortDeleteBT.startAnimation(animatio);
-//                }
-//            }
         }
     }
 

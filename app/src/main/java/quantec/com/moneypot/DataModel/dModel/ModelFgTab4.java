@@ -2,6 +2,7 @@ package quantec.com.moneypot.DataModel.dModel;
 
 public class ModelFgTab4 {
 
+    boolean empty;
     String title;
     String code;
     double rate;
@@ -11,7 +12,8 @@ public class ModelFgTab4 {
     boolean onenChart;
     Long mincost;
 
-    public ModelFgTab4(String title, String code, double rate, boolean isZim, boolean isDam, String image, boolean onenChart, Long mincost) {
+    public ModelFgTab4(boolean empty, String title, String code, double rate, boolean isZim, boolean isDam, String image, boolean onenChart, Long mincost) {
+        this.empty = empty;
         this.title = title;
         this.code = code;
         this.rate = rate;
@@ -20,6 +22,14 @@ public class ModelFgTab4 {
         this.image = image;
         this.onenChart = onenChart;
         this.mincost = mincost;
+    }
+
+    public boolean isEmpty() {
+        return empty;
+    }
+
+    public void setEmpty(boolean empty) {
+        this.empty = empty;
     }
 
     public String getTitle() {

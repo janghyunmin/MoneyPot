@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Life Challenge +"
+        android:textColor="@color/red_text_color"
+        android:textSize="19dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"
+        />
+
+    <TextView
+        android:id="@+id/dateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#10년 동안"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="10dp"
+        android:textColor="@color/dark_gray_color"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:id="@+id/priceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#5000만원 모으기"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toEndOf="@+id/dateTitle"
+        android:textColor="@color/dark_gray_color"
+        android:textSize="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:id="@+id/typeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#장기플랜"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toEndOf="@+id/priceTitle"
+        android:textSize="10dp"
+        android:textColor="@color/dark_gray_color"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        />
+
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="당신의 목표를\n보다 빠르게 이룰수 있어요\n이곳,\n머니포트에서."
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="10dp"
+        android:textSize="18dp"
+        android:textColor="@color/text_black_color"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_mini_3"
+        app:layout_constraintTop_toTopOf="@+id/desc"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="30dp"
+        />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#f1f1f1"
+        app:layout_constraintTop_toBottomOf="@+id/desc"
+        android:layout_marginTop="10dp"
+        />
+
+    <ImageView
+        android:id="@+id/potImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/group_1523"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="안정형 연금 투자 전략"
+        android:textSize="15dp"
+        android:textColor="@color/text_black_color"
+        app:layout_constraintTop_toTopOf="@+id/potImage"
+        app:layout_constraintBottom_toBottomOf="@+id/potImage"
+        app:layout_constraintStart_toEndOf="@+id/potImage"
+        android:layout_marginStart="20dp"
+        />
+
+    <TextView
+        android:id="@+id/rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="17.91"
+        android:textSize="18dp"
+        android:textColor="@color/red_text_color"
+        app:layout_constraintEnd_toStartOf="@+id/per"
+        app:layout_constraintTop_toTopOf="@+id/potImage"
+        app:layout_constraintBottom_toBottomOf="@+id/potImage"
+        />
+
+    <TextView
+        android:id="@+id/per"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        android:textSize="12dp"
+        android:textColor="@color/red_text_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/rate"
+        android:layout_marginEnd="20dp"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="#f1f1f1"
+        app:layout_constraintTop_toBottomOf="@+id/potImage"
+        android:layout_marginTop="10dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

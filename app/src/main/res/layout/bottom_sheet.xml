@@ -25,7 +25,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="25dp"
-            android:text="스스로 준비하는 상품"
             android:textColor="@color/text_black_color"
             android:textSize="14dp"
             />
@@ -41,10 +40,11 @@
             android:textColor="#f02626"
             />
         <TextView
+            android:id="@+id/per"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="%"
-            android:textSize="24dp"
+            android:textSize="17dp"
             android:textColor="#f02626"
             app:layout_constraintBottom_toBottomOf="@+id/rate"
             app:layout_constraintStart_toEndOf="@+id/rate"

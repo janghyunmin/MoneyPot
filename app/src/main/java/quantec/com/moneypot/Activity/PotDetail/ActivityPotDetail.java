@@ -2,11 +2,10 @@ package quantec.com.moneypot.Activity.PotDetail;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
@@ -15,18 +14,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.github.mikephil.charting.animation.Easing;
@@ -46,62 +42,73 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import quantec.com.moneypot.Activity.PotDetail.AdpaterPotDetail.AdapterPotDetail;
 import quantec.com.moneypot.DataModel.nModel.ModelChartData;
+import quantec.com.moneypot.Database.Realm.CommonCode;
 import quantec.com.moneypot.Dialog.DialogHelpInfo;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
 import quantec.com.moneypot.R;
+import quantec.com.moneypot.databinding.ActivityPotDetailBinding;
 import quantec.com.moneypot.util.DecimalScale.DecimalScale;
+import quantec.com.moneypot.util.view.ScrollDisabledRecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ActivityPotDetail extends AppCompatActivity {
 
-    PieChart pieChart;
     ArrayList<PieEntry> yValues;
-
-    LinearLayout layout2;
-    TextView warningTitle, investBt, categoryBt1,
-            categoryBt2, categoryBt3, bondRate,
-            stockRate, preTextView, rate,
-            chartBt1, chartBt2, chartBt3, chartBt4, preChartBt;
-
-
+    TextView preTextView, preChartBt;
     boolean openState;
-
-    ScrollView scrollView;
-    ImageView warningImage, potZimBt, investHelpBt, minInvestHelpBt;
-
     public static final int[] JOYFUL_COLORS = {
             Color.rgb(126, 111, 123),Color.rgb(255, 114, 114)
     };
 
-    ScrollDisabledRecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<ModelPotDetail> modelPotDetails;
     AdapterPotDetail adapterPotDetail;
 
-    ConstraintLayout getView;
-
-    LineChart chartView;
-    List<Entry> entries2;
+    List<Entry> stableEntries;
     LineDataSet lineDataSet2;
     LineData lineData2;
     float currentX, maxX;
 
+    List<Entry> centerEntries;
+    List<Entry> advenceEntries;
+
     private DialogHelpInfo dialogHelpInfo;
-    LottieAnimationView chartLoading;
+    ArrayList<DateMathDto> date;
+    List<DateMathDtoResult> resultDate;
+    double exp = 0.0;
+    String nowDate, stCode;
+    List<Entry> monThEntries;
+    boolean monTh = false;
+
+    Realm realm;
+    float stableBond, stableStock,
+            centerBond, centerStock,
+            advenceBond, advenceStock;
+
+    //MP외에는 propensity가 0 이므로 stCode값에서 분기를 통해 MP면 potType 1 / 그 외는 potType 0 을 주어서 해당 기간 호출시 기존 propensity * potType을 해준다.
+    int potType;
+
+    ActivityPotDetailBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pot_detail);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_pot_detail);
 
-        //                    스테이터스 바 색상 변경 -> 화이트
+        //스테이터스 바 색상 변경 -> 화이트
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Window w = getWindow(); // in Activity's onCreate() for instance
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -115,90 +122,83 @@ public class ActivityPotDetail extends AppCompatActivity {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
-        chartBt1 = findViewById(R.id.chartBt1);
-        chartBt2 = findViewById(R.id.chartBt2);
-        chartBt3 = findViewById(R.id.chartBt3);
-        chartBt4 = findViewById(R.id.chartBt4);
+        Intent intent1 = getIntent();
+        stCode = intent1.getStringExtra("potCode");
 
-        getView = findViewById(R.id.includePotDetail);
+        if(stCode.contains("MP")){
+            potType = 1;
+        }else{
+            potType = 0;
+        }
 
-        chartLoading = getView.findViewById(R.id.chartLoading);
+        realm = Realm.getDefaultInstance();
+        RealmResults<CommonCode> results = realm.where(CommonCode.class)
+                .findAllAsync();
 
-        chartLoading.setAnimation("loading_animation.json");
-        chartLoading.setRepeatCount(ValueAnimator.INFINITE);
-        chartLoading.playAnimation();
-        chartLoading.addAnimatorListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-            }
+        stableBond = results.get(0).getTypeLists().get(0).getGrade();
+        stableStock = 100 - stableBond;
 
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-                super.onAnimationRepeat(animation);
-            }
+        centerBond = results.get(0).getTypeLists().get(1).getGrade();
+        centerStock = 100 - centerBond;
 
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-            }
+        advenceBond = results.get(0).getTypeLists().get(2).getGrade();
+        advenceStock = 100 - advenceBond;
 
-        });
+        monThEntries = new ArrayList<>();
+        date = new ArrayList<>();
+        resultDate = new ArrayList<>();
 
-        scrollView = findViewById(R.id.scrollView);
-        rate = getView.findViewById(R.id.rate);
-        potZimBt = findViewById(R.id.potZimBt);
-        recyclerView = getView.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
+        binding.includePotDetail.chartBt1.setTextColor(getResources().getColor(R.color.dark_gray_color));
+        binding.includePotDetail.chartBt1.setBackground(getResources().getDrawable(R.drawable.chartbt_enable));
+        binding.includePotDetail.chartBt2.setTextColor(getResources().getColor(R.color.dark_gray_color));
+        binding.includePotDetail.chartBt2.setBackground(getResources().getDrawable(R.drawable.chartbt_enable));
+        binding.includePotDetail.chartBt3.setTextColor(getResources().getColor(R.color.dark_gray_color));
+        binding.includePotDetail.chartBt3.setBackground(getResources().getDrawable(R.drawable.chartbt_enable));
+        binding.includePotDetail.chartBt4.setTextColor(getResources().getColor(R.color.red_text_color));
+        binding.includePotDetail.chartBt4.setBackground(getResources().getDrawable(R.drawable.chartbt_able));
+
+        binding.includePotDetail.chartLoading.setAnimation("loading_animation.json");
+        binding.includePotDetail.chartLoading.setRepeatCount(ValueAnimator.INFINITE);
+        binding.includePotDetail.chartLoading.playAnimation();
+
+        binding.includePotDetail.recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        binding.includePotDetail.recyclerView.setLayoutManager(layoutManager);
         modelPotDetails = new ArrayList<>();
         adapterPotDetail = new AdapterPotDetail(modelPotDetails, this);
-        recyclerView.setAdapter(adapterPotDetail);
+        binding.includePotDetail.recyclerView.setAdapter(adapterPotDetail);
 
-        categoryBt1 = getView.findViewById(R.id.categoryBt1);
-        categoryBt2 = getView.findViewById(R.id.categoryBt2);
-        categoryBt3 = getView.findViewById(R.id.categoryBt3);
-        bondRate = getView.findViewById(R.id.bondRate);
-        stockRate = getView.findViewById(R.id.stockRate);
-        pieChart = getView.findViewById(R.id.pieChart);
-        pieChart.setNoDataText("");
-        pieChart.setNoDataTextColor(R.color.text_white_color);
-        pieChart.invalidate();
+        binding.includePotDetail.pieChart.setNoDataText("");
+        binding.includePotDetail.pieChart.setNoDataTextColor(R.color.text_white_color);
+        binding.includePotDetail.pieChart.invalidate();
 
-        chartView = getView.findViewById(R.id.chartView);
-        chartView.setNoDataText("");
-        chartView.setNoDataTextColor(R.color.text_white_color);
-        chartView.invalidate();
+        binding.includePotDetail.chartView.setNoDataText("");
+        binding.includePotDetail.chartView.setNoDataTextColor(R.color.text_white_color);
+        binding.includePotDetail.chartView.invalidate();
 
-        entries2 = new ArrayList<>();
+        stableEntries = new ArrayList<>();
+        centerEntries = new ArrayList<>();
+        advenceEntries = new ArrayList<>();
+
         yValues = new ArrayList<>();
-        layout2 = getView.findViewById(R.id.layout2);
-        warningTitle = getView.findViewById(R.id.warningTitle);
-        investBt = getView.findViewById(R.id.investBt);
-        warningImage = getView.findViewById(R.id.warningImage);
-        investHelpBt = getView.findViewById(R.id.investHelpBt);
-        minInvestHelpBt = getView.findViewById(R.id.minInvestHelpBt);
 
-//        InitViewData(0, 50f, 50f);
-        preTextView = categoryBt1;
-        preChartBt = chartBt2;
+        preTextView = binding.includePotDetail.categoryBt1;
+        preChartBt = binding.includePotDetail.chartBt4;
 
-        warningTitle.setOnClickListener(new View.OnClickListener() {
+        binding.includePotDetail.warningTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openState = !openState;
 
                 changeVisibility(openState);
 
-                scrollView.postDelayed(new Runnable() {
+                binding.scrollView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        scrollView.setSmoothScrollingEnabled(true);
-                        scrollView.fullScroll(View.FOCUS_DOWN);
+                        binding.scrollView.setSmoothScrollingEnabled(true);
+                        binding.scrollView.fullScroll(View.FOCUS_DOWN);
                     }
                 }, 500);
-
             }
         });
 
@@ -227,7 +227,6 @@ public class ActivityPotDetail extends AppCompatActivity {
                 }else{
                     modelPotDetails.get(0).setAddViewState(true);
                 }
-
                 adapterPotDetail.notifyDataSetChanged();
 
             }
@@ -244,71 +243,85 @@ public class ActivityPotDetail extends AppCompatActivity {
             }
         });
 
-        categoryBt1.setOnClickListener(new View.OnClickListener() {
+        binding.includePotDetail.categoryBt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                binding.includePotDetail.chartView.setVisibility(View.INVISIBLE);
+                binding.includePotDetail.chartLoading.setVisibility(View.VISIBLE);
+                binding.includePotDetail.chartLoading.playAnimation();
+                ChartDur(stCode,0, 701*potType, stableBond, stableStock);
 
                 if(preTextView != null){
                     preTextView.setBackgroundResource(0);
                     preTextView.setTextColor(getResources().getColor(R.color.dark_gray_color));
                 }
-                preTextView = categoryBt1;
+                preTextView = binding.includePotDetail.categoryBt1;
 
-                categoryBt1.setBackgroundResource(R.drawable.potdetail_round_able);
-                categoryBt1.setTextColor(getResources().getColor(R.color.text_black_color));
-
-                InitViewData(0, 50f, 50f);
+                binding.includePotDetail.categoryBt1.setBackgroundResource(R.drawable.potdetail_round_able);
+                binding.includePotDetail.categoryBt1.setTextColor(getResources().getColor(R.color.text_black_color));
 
             }
         });
 
-        categoryBt2.setOnClickListener(new View.OnClickListener() {
+        binding.includePotDetail.categoryBt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(preTextView != null){
-                    preTextView.setBackgroundResource(0);
-                    preTextView.setTextColor(getResources().getColor(R.color.dark_gray_color));
-                }
-
-                preTextView = categoryBt2;
-
-                categoryBt2.setBackgroundResource(R.drawable.potdetail_round_able);
-                categoryBt2.setTextColor(getResources().getColor(R.color.text_black_color));
-
-                InitViewData(1, 25f, 75f);
-
-            }
-        });
-
-        categoryBt3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                binding.includePotDetail.chartView.setVisibility(View.INVISIBLE);
+                binding.includePotDetail.chartLoading.setVisibility(View.VISIBLE);
+                binding.includePotDetail.chartLoading.playAnimation();
+                ChartDur(stCode,0, 703*potType, centerBond, centerStock);
 
                 if(preTextView != null){
                     preTextView.setBackgroundResource(0);
                     preTextView.setTextColor(getResources().getColor(R.color.dark_gray_color));
                 }
 
-                preTextView = categoryBt3;
+                preTextView = binding.includePotDetail.categoryBt2;
 
-                categoryBt3.setBackgroundResource(R.drawable.potdetail_round_able);
-                categoryBt3.setTextColor(getResources().getColor(R.color.text_black_color));
-
-
-                InitViewData(2, 10f, 90f);
+                binding.includePotDetail.categoryBt2.setBackgroundResource(R.drawable.potdetail_round_able);
+                binding.includePotDetail.categoryBt2.setTextColor(getResources().getColor(R.color.text_black_color));
 
             }
         });
 
-        potZimBt.setOnClickListener(new View.OnClickListener() {
+        binding.includePotDetail.categoryBt3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
+                binding.includePotDetail.chartView.setVisibility(View.INVISIBLE);
+                binding.includePotDetail.chartLoading.setVisibility(View.VISIBLE);
+                binding.includePotDetail.chartLoading.playAnimation();
+                ChartDur(stCode,0, 704*potType, advenceBond, advenceStock);
+
+                if(preTextView != null){
+                    preTextView.setBackgroundResource(0);
+                    preTextView.setTextColor(getResources().getColor(R.color.dark_gray_color));
+                }
+
+                preTextView = binding.includePotDetail.categoryBt3;
+
+                binding.includePotDetail.categoryBt3.setBackgroundResource(R.drawable.potdetail_round_able);
+                binding.includePotDetail.categoryBt3.setTextColor(getResources().getColor(R.color.text_black_color));
             }
         });
 
-        investHelpBt.setOnClickListener(new View.OnClickListener() {
+        binding.potZimBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                if(){
+//                    potZimBt.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_off_gray));
+//                }else{
+//                    potZimBt.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_on));
+//                }
+            }
+        });
+
+
+        binding.includePotDetail.investHelpBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialogHelpInfo = new DialogHelpInfo(ActivityPotDetail.this, "투자 자산 비율", "채권과 주식의 비중을 고객의 성향에 따라서 맞춰드립니다.", exithelpInfo);
@@ -316,7 +329,7 @@ public class ActivityPotDetail extends AppCompatActivity {
             }
         });
 
-        minInvestHelpBt.setOnClickListener(new View.OnClickListener() {
+        binding.includePotDetail.minInvestHelpBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialogHelpInfo = new DialogHelpInfo(ActivityPotDetail.this, "최소 투자 가능 금액", "투자를 위해서 최소로 필요한 투자 금액입니다.", exithelpInfo);
@@ -324,40 +337,191 @@ public class ActivityPotDetail extends AppCompatActivity {
             }
         });
 
-        chartBt1.setOnClickListener(new View.OnClickListener() {
+        binding.includePotDetail.chartBt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changedChartBt(chartBt1);
+                changedChartBt(binding.includePotDetail.chartBt1);
+                //month -> 1개월 3개월 6개월 : -1, -3, -6
+                String startDate = startDate(nowDate, -1);
+                monTh = false;
+                calDate(startDate, monTh);
+
+                drawLineChart(monThEntries);
+
+                execute(0.0f ,(float)resultDate.get(resultDate.size()-1).getExp());
             }
         });
 
-        chartBt2.setOnClickListener(new View.OnClickListener() {
+        binding.includePotDetail.chartBt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changedChartBt(chartBt2);
+                changedChartBt(binding.includePotDetail.chartBt2);
+
+                //month -> 1개월 3개월 6개월 : -1, -3, -6
+                String startDate = startDate(nowDate, -3);
+                monTh = false;
+                calDate(startDate, monTh);
+
+                drawLineChart(monThEntries);
+
+                execute(0.0f ,(float)resultDate.get(resultDate.size()-1).getExp());
+
             }
         });
 
-        chartBt3.setOnClickListener(new View.OnClickListener() {
+        binding.includePotDetail.chartBt3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changedChartBt(chartBt3);
+                changedChartBt(binding.includePotDetail.chartBt3);
+
+                //month -> 1개월 3개월 6개월 : -1, -3, -6
+                String startDate = startDate(nowDate, -6);
+                monTh = false;
+                calDate(startDate, monTh);
+
+                drawLineChart(monThEntries);
+
+                execute(0.0f ,(float)resultDate.get(resultDate.size()-1).getExp());
             }
         });
 
-        chartBt4.setOnClickListener(new View.OnClickListener() {
+        binding.includePotDetail.chartBt4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changedChartBt(chartBt4);
+                changedChartBt(binding.includePotDetail.chartBt4);
+
+                drawLineChart(stableEntries);
+                execute(0.0f ,(float)date.get(date.size()-1).getRate());
             }
         });
 
-        ChartDur("MP0001",0);
+        ChartDur(stCode,0, 701*potType, stableBond, stableStock);
 
     }// onCreate 끝
 
-    void changedChartBt(TextView chartBt) {
 
+    private String startDate(String endDate, int month){
+        exp = 0.0;
+        resultDate.clear();
+        monThEntries.clear();
+
+        String laterDay = null;
+        try {
+            Calendar cal = Calendar.getInstance();
+            Date originDate = new Date();
+            Date laterDate = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); //날짜 형식에 따라서 달리 할 수 있다.
+            originDate = format.parse(endDate);
+            cal.setTime(laterDate);
+            cal.add(Calendar.MONTH, month);        //laterCnt 만큼 후의 날짜를 구한다. laterCnt 자리에 -7 을 입력하면 일주일전에 날짜를 구할 수 있다.
+            laterDate = cal.getTime();
+            laterDay = format.format(laterDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return laterDay;
+    }
+
+    private void calDate(String startDate, boolean monTh){
+        for(int index = 0 ; index < date.size(); index++){
+            if(monTh){
+                exp += (date.get(index).getPrice() / date.get(index-1).getPrice()) -1;
+                resultDate.add(new DateMathDtoResult(date.get(index).getDate(), exp));
+            }
+            if(date.get(index).getDate().equals(startDate) && !monTh){
+                monTh =true;
+                resultDate.add(new DateMathDtoResult(date.get(index).getDate(), exp));
+            }
+        }
+        for(int index = 0 ; index < resultDate.size() ; index++){
+            monThEntries.add(new Entry(index, DecimalScale.decimalScale2(String.valueOf(resultDate.get(index).getExp()*100), 2, 2),
+                    resultDate.get(index).getDate()));
+        }
+    }
+
+    private void drawLineChart(List<Entry> chartData){
+
+        lineDataSet2 = new LineDataSet(chartData, null);
+        lineDataSet2.setLineWidth(1.5f);
+        lineDataSet2.setColor(Color.parseColor("#FFFF0000"));
+        lineDataSet2.setDrawCircles(false);
+        lineDataSet2.setDrawHorizontalHighlightIndicator(false);
+        lineDataSet2.setDrawValues(false);
+        lineDataSet2.setHighlightEnabled(true);
+        lineDataSet2.setDrawHighlightIndicators(true);
+        lineDataSet2.setDrawHorizontalHighlightIndicator(false);
+        lineDataSet2.setHighLightColor(R.color.chart_limit_line_color);
+        lineDataSet2.setHighlightLineWidth(1f);
+
+        lineData2 = new LineData(lineDataSet2);
+
+        XAxis xAxis = binding.includePotDetail.chartView.getXAxis();
+        xAxis.setDrawLabels(false);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setEnabled(false);
+
+        YAxis yAxis = binding.includePotDetail.chartView.getAxisLeft();
+        yAxis.setDrawLabels(false);
+        yAxis.setDrawGridLines(false);
+        yAxis.setDrawAxisLine(false);
+        yAxis.setEnabled(false);
+
+        YAxis yAxis1 = binding.includePotDetail.chartView.getAxisRight();
+        yAxis1.setDrawLabels(false);
+        yAxis1.setDrawGridLines(false);
+        yAxis1.setDrawAxisLine(false);
+        yAxis1.setEnabled(false);
+
+        Legend legend = binding.includePotDetail.chartView.getLegend();
+        legend.setEnabled(false);
+        legend.setDrawInside(false);
+
+        binding.includePotDetail.chartView.setDescription(null);
+        binding.includePotDetail.chartView.setDrawGridBackground(false);
+        binding.includePotDetail.chartView.setData(lineData2);
+        binding.includePotDetail.chartView.setDoubleTapToZoomEnabled(false);
+        binding.includePotDetail.chartView.setDrawGridBackground(false);
+        binding.includePotDetail.chartView.animateY(600, Easing.EasingOption.EaseInCubic);
+        binding.includePotDetail.chartView.setPinchZoom(false);
+        binding.includePotDetail.chartView.setScaleEnabled(false);
+
+        maxX = binding.includePotDetail.chartView.getXRange();
+
+        CustomMarkerView marker = new CustomMarkerView(ActivityPotDetail.this,R.layout.item_chart_marker);
+        marker.setChartView(binding.includePotDetail.chartView);
+        binding.includePotDetail.chartView.setMarker(marker);
+    }
+
+    private void drawPieChart(List<PieEntry> chartData, float bond, float stock){
+
+        binding.includePotDetail.pieChart.setTransparentCircleRadius(0f);
+        binding.includePotDetail.pieChart.setDrawEntryLabels(false);
+        binding.includePotDetail.pieChart.setUsePercentValues(false);
+        binding.includePotDetail.pieChart.getDescription().setEnabled(false);
+        binding.includePotDetail.pieChart.setDrawHoleEnabled(true);
+        binding.includePotDetail.pieChart.setRotationEnabled(false);
+
+        binding.includePotDetail.bondRate.setText(String.valueOf(bond)+"%");
+        binding.includePotDetail.stockRate.setText(String.valueOf(stock)+"%");
+
+        binding.includePotDetail.pieChart.animateY(600, Easing.EasingOption.EaseInOutCubic); //애니메이션
+        binding.includePotDetail.pieChart.setDrawCenterText(false);
+
+        Legend l = binding.includePotDetail.pieChart.getLegend();
+        l.setDrawInside(false);
+        l.setEnabled(false);
+
+        PieDataSet dataSet = new PieDataSet(chartData,"");
+        dataSet.setColors(JOYFUL_COLORS);
+        dataSet.setDrawValues(false);
+
+        PieData data = new PieData(dataSet);
+        binding.includePotDetail.pieChart.setData(data);
+        binding.includePotDetail.pieChart.invalidate();
+    }
+
+    void changedChartBt(TextView chartBt) {
         if(preChartBt != null){
             preChartBt.setBackground(getResources().getDrawable(R.drawable.chartbt_enable));
             preChartBt.setTextColor(getResources().getColor(R.color.dark_gray_color));
@@ -366,407 +530,97 @@ public class ActivityPotDetail extends AppCompatActivity {
 
         chartBt.setBackground(getResources().getDrawable(R.drawable.chartbt_able));
         chartBt.setTextColor(getResources().getColor(R.color.red_text_color));
-
     }
 
-
-    //FIDO 인증 취소 앱 종료
     private View.OnClickListener exithelpInfo = new View.OnClickListener() {
         public void onClick(View v) {
             dialogHelpInfo.dismiss();
         }
     };
 
+    public void execute(float mStartValue, float mEndValue){
 
-    void ChartDur(String code, int pDate) {
+        if(mEndValue < 0){
+            binding.includePotDetail.rate.setTextColor(getResources().getColor(R.color.blue_color));
+            binding.includePotDetail.per.setTextColor(getResources().getColor(R.color.blue_color));
+        }else{
+            binding.includePotDetail.rate.setTextColor(getResources().getColor(R.color.red_text_color));
+            binding.includePotDetail.per.setTextColor(getResources().getColor(R.color.red_text_color));
+        }
 
-        Call<ModelChartData> getTest2 = RetrofitClient.getInstance().getService().getPotChartData(code, pDate);
+        ValueAnimator mValueAnimator = ValueAnimator.ofFloat(mStartValue, mEndValue);
+        mValueAnimator.setDuration(1000);
+        mValueAnimator.setInterpolator(new LinearInterpolator());
+        mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float current = DecimalScale.decimalScale2(String.valueOf(Float.valueOf(valueAnimator.getAnimatedValue().toString())*100), 2, 2);
+                binding.includePotDetail.rate.setText(String.valueOf(current));
+            }
+        });
+        mValueAnimator.start();
+    }
+
+    void ChartDur(String code, int pDate, int propensity, float bondNum, float stockNum) {
+
+        binding.includePotDetail.chartBt1.setVisibility(View.INVISIBLE);
+        binding.includePotDetail.chartBt2.setVisibility(View.INVISIBLE);
+        binding.includePotDetail.chartBt3.setVisibility(View.INVISIBLE);
+        binding.includePotDetail.chartBt4.setVisibility(View.INVISIBLE);
+
+        Call<ModelChartData> getTest2 = RetrofitClient.getInstance().getService().getPotChartData(code, pDate, propensity);
         getTest2.enqueue(new Callback<ModelChartData>() {
             @Override
             public void onResponse(Call<ModelChartData> call, Response<ModelChartData> response) {
                 if(response.code() == 200) {
 
-                    entries2.clear();
+                    date.clear();
+                    stableEntries.clear();
+                    yValues.clear();
 
                     for(int a = 0 ; a < response.body().getContent().size() ; a++) {
-                        entries2.add(new Entry(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
+                        date.add(new DateMathDto(response.body().getContent().get(a).getDate(), response.body().getContent().get(a).getPrice(), response.body().getContent().get(a).getExp()));
+
+                        stableEntries.add(new Entry(a, DecimalScale.decimalScale2(String.valueOf(response.body().getContent().get(a).getExp()*100), 2, 2), response.body().getContent().get(a).getDate()));
                     }
+                    //최근 날짜 받음 -> 몇개월뒤 날짜 계산을 위해서
+                    nowDate = date.get(date.size()-1).getDate();
+                    drawLineChart(stableEntries);
 
-                    lineDataSet2 = new LineDataSet(entries2, null);
-                    lineDataSet2.setLineWidth(1.5f);
-                    lineDataSet2.setColor(Color.parseColor("#FFFF0000"));
-                    lineDataSet2.setDrawCircles(false);
-                    lineDataSet2.setDrawHorizontalHighlightIndicator(false);
-                    lineDataSet2.setDrawValues(false);
-                    lineDataSet2.setHighlightEnabled(true);
-                    lineDataSet2.setDrawHighlightIndicators(true);
-                    lineDataSet2.setDrawHorizontalHighlightIndicator(false);
-                    lineDataSet2.setHighLightColor(R.color.chart_limit_line_color);
-                    lineDataSet2.setHighlightLineWidth(1f);
+                    execute(0.0f ,(float)date.get(date.size()-1).getRate());
+                    //////
+                    binding.includePotDetail.chartLoading.cancelAnimation();
+                    binding.includePotDetail.chartLoading.setVisibility(View.GONE);
+                    /////
+                    yValues.add(new PieEntry(stockNum,"주식"));
+                    yValues.add(new PieEntry(bondNum,"채권"));
+                    drawPieChart(yValues, bondNum, stockNum);
 
-                    lineData2 = new LineData(lineDataSet2);
+                    preChartBt = binding.includePotDetail.chartBt4;
 
-                    XAxis xAxis = chartView.getXAxis();
-                    xAxis.setDrawLabels(false);
-                    xAxis.setDrawGridLines(false);
-                    xAxis.setDrawAxisLine(false);
-                    xAxis.setEnabled(false);
+                    binding.includePotDetail.chartView.setVisibility(View.VISIBLE);
+                    binding.includePotDetail.chartBt1.setVisibility(View.VISIBLE);
+                    binding.includePotDetail.chartBt2.setVisibility(View.VISIBLE);
+                    binding.includePotDetail.chartBt3.setVisibility(View.VISIBLE);
+                    binding.includePotDetail.chartBt4.setVisibility(View.VISIBLE);
 
-                    YAxis yAxis = chartView.getAxisLeft();
-                    yAxis.setDrawLabels(false);
-                    yAxis.setDrawGridLines(false);
-                    yAxis.setDrawAxisLine(false);
-                    yAxis.setEnabled(false);
-
-                    YAxis yAxis1 = chartView.getAxisRight();
-                    yAxis1.setDrawLabels(false);
-                    yAxis1.setDrawGridLines(false);
-                    yAxis1.setDrawAxisLine(false);
-                    yAxis1.setEnabled(false);
-
-                    Legend legend = chartView.getLegend();
-                    legend.setEnabled(false);
-                    legend.setDrawInside(false);
-
-
-                    chartView.setDescription(null);
-                    chartView.setDrawGridBackground(false);
-                    chartView.setData(lineData2);
-                    chartView.setDoubleTapToZoomEnabled(false);
-                    chartView.setDrawGridBackground(false);
-                    chartView.animateY(600, Easing.EasingOption.EaseInCubic);
-                    chartView.setPinchZoom(false);
-                    chartView.setScaleEnabled(false);
-
-                    chartView.setNoDataText("");
-                    chartView.setNoDataTextColor(R.color.text_white_color);
-                    chartView.invalidate();
-
-                    maxX = chartView.getXRange();
-
-                    CustomMarkerView marker = new CustomMarkerView(ActivityPotDetail.this,R.layout.item_chart_marker);
-                    marker.setChartView(chartView);
-                    chartView.setMarker(marker);
-
-
-                    chartLoading.cancelAnimation();
-                    chartLoading.setVisibility(View.GONE);
-
-                    ///////////
-                    pieChart.setTransparentCircleRadius(0f);
-                    pieChart.setDrawEntryLabels(false);
-                    pieChart.setUsePercentValues(false);
-                    pieChart.getDescription().setEnabled(false);
-                    pieChart.setDrawHoleEnabled(true);
-                    pieChart.setRotationEnabled(false);
-
-                    bondRate.setText("50%");
-                    stockRate.setText("50%");
-
-                    yValues.add(new PieEntry(50f,"채권"));
-                    yValues.add(new PieEntry(50f,"주식"));
-
-                    pieChart.animateY(600, Easing.EasingOption.EaseInOutCubic); //애니메이션
-                    pieChart.setDrawCenterText(false);
-
-                    Legend l = pieChart.getLegend();
-                    l.setDrawInside(false);
-                    l.setEnabled(false);
-
-                    PieDataSet dataSet = new PieDataSet(yValues,"");
-                    dataSet.setColors(JOYFUL_COLORS);
-                    dataSet.setDrawValues(false);
-
-                    PieData data = new PieData(dataSet);
-                    pieChart.setData(data);
-                    pieChart.invalidate();
-
-
+                    binding.includePotDetail.chartBt1.setTextColor(getResources().getColor(R.color.dark_gray_color));
+                    binding.includePotDetail.chartBt1.setBackground(getResources().getDrawable(R.drawable.chartbt_enable));
+                    binding.includePotDetail.chartBt2.setTextColor(getResources().getColor(R.color.dark_gray_color));
+                    binding.includePotDetail.chartBt2.setBackground(getResources().getDrawable(R.drawable.chartbt_enable));
+                    binding.includePotDetail.chartBt3.setTextColor(getResources().getColor(R.color.dark_gray_color));
+                    binding.includePotDetail.chartBt3.setBackground(getResources().getDrawable(R.drawable.chartbt_enable));
+                    binding.includePotDetail.chartBt4.setTextColor(getResources().getColor(R.color.red_text_color));
+                    binding.includePotDetail.chartBt4.setBackground(getResources().getDrawable(R.drawable.chartbt_able));
                 }
             }
             @Override
             public void onFailure(Call<ModelChartData> call, Throwable t) {
-                chartLoading.cancelAnimation();
-                chartLoading.setVisibility(View.GONE);
+                binding.includePotDetail.chartLoading.cancelAnimation();
+                binding.includePotDetail.chartLoading.setVisibility(View.GONE);
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
-    }
-
-
-    void InitViewData(int category, float bond, float stock){
-
-        ///////////
-        entries2.clear();
-        yValues.clear();
-
-        if(category == 0){
-
-            for(int a = 0 ; a < 100 ; a++){
-                entries2.add(new Entry(a, a, a));
-            }
-
-            lineDataSet2 = new LineDataSet(entries2, null);
-            lineDataSet2.setLineWidth(1.5f);
-            lineDataSet2.setColor(Color.parseColor("#FFFF0000"));
-            lineDataSet2.setDrawCircles(false);
-            lineDataSet2.setDrawHorizontalHighlightIndicator(false);
-            lineDataSet2.setDrawValues(false);
-            lineDataSet2.setHighlightEnabled(true);
-            lineDataSet2.setDrawHighlightIndicators(true);
-            lineDataSet2.setDrawHorizontalHighlightIndicator(false);
-            lineDataSet2.setHighLightColor(R.color.chart_limit_line_color);
-            lineDataSet2.setHighlightLineWidth(1f);
-
-            lineData2 = new LineData(lineDataSet2);
-
-            XAxis xAxis = chartView.getXAxis();
-            xAxis.setDrawLabels(false);
-            xAxis.setDrawGridLines(false);
-            xAxis.setDrawAxisLine(false);
-            xAxis.setEnabled(false);
-
-            YAxis yAxis = chartView.getAxisLeft();
-            yAxis.setDrawLabels(false);
-            yAxis.setDrawGridLines(false);
-            yAxis.setDrawAxisLine(false);
-            yAxis.setEnabled(false);
-
-            YAxis yAxis1 = chartView.getAxisRight();
-            yAxis1.setDrawLabels(false);
-            yAxis1.setDrawGridLines(false);
-            yAxis1.setDrawAxisLine(false);
-            yAxis1.setEnabled(false);
-
-            Legend legend = chartView.getLegend();
-            legend.setEnabled(false);
-            legend.setDrawInside(false);
-
-            chartView.setNoDataText("");
-            chartView.setDescription(null);
-            chartView.setDrawGridBackground(false);
-            chartView.setData(lineData2);
-            chartView.setDoubleTapToZoomEnabled(false);
-            chartView.setDrawGridBackground(false);
-            chartView.animateY(600, Easing.EasingOption.EaseInCubic);
-            chartView.setPinchZoom(false);
-            chartView.setScaleEnabled(false);
-            chartView.invalidate();
-
-            maxX = chartView.getXRange();
-
-            CustomMarkerView marker = new CustomMarkerView(ActivityPotDetail.this,R.layout.item_chart_marker);
-            marker.setChartView(chartView);
-            chartView.setMarker(marker);
-
-            ///////////
-            pieChart.setTransparentCircleRadius(0f);
-            pieChart.setDrawEntryLabels(false);
-            pieChart.setUsePercentValues(false);
-            pieChart.getDescription().setEnabled(false);
-            pieChart.setDrawHoleEnabled(true);
-            pieChart.setRotationEnabled(false);
-
-            bondRate.setText(bond+"%");
-            stockRate.setText(stock+"%");
-
-            yValues.add(new PieEntry(bond,"채권"));
-            yValues.add(new PieEntry(stock,"주식"));
-
-            pieChart.animateY(600, Easing.EasingOption.EaseInOutCubic); //애니메이션
-            pieChart.setDrawCenterText(false);
-
-            Legend l = pieChart.getLegend();
-            l.setDrawInside(false);
-            l.setEnabled(false);
-
-            PieDataSet dataSet = new PieDataSet(yValues,"");
-            dataSet.setColors(JOYFUL_COLORS);
-            dataSet.setDrawValues(false);
-
-            PieData data = new PieData(dataSet);
-            pieChart.setData(data);
-            pieChart.invalidate();
-
-
-        }else if(category == 1){
-
-            for(int a = 100 ; a > 0 ; a--){
-                entries2.add(new Entry(99-a, a, a));
-            }
-
-            lineDataSet2 = new LineDataSet(entries2, null);
-            lineDataSet2.setLineWidth(1.5f);
-            lineDataSet2.setColor(Color.parseColor("#FFFF0000"));
-            lineDataSet2.setDrawCircles(false);
-            lineDataSet2.setDrawHorizontalHighlightIndicator(false);
-            lineDataSet2.setDrawValues(false);
-            lineDataSet2.setHighlightEnabled(true);
-            lineDataSet2.setDrawHighlightIndicators(true);
-            lineDataSet2.setDrawHorizontalHighlightIndicator(false);
-            lineDataSet2.setHighLightColor(R.color.chart_limit_line_color);
-            lineDataSet2.setHighlightLineWidth(1f);
-
-            lineData2 = new LineData(lineDataSet2);
-
-            XAxis xAxis = chartView.getXAxis();
-            xAxis.setDrawLabels(false);
-            xAxis.setDrawGridLines(false);
-            xAxis.setDrawAxisLine(false);
-            xAxis.setEnabled(false);
-
-            YAxis yAxis = chartView.getAxisLeft();
-            yAxis.setDrawLabels(false);
-            yAxis.setDrawGridLines(false);
-            yAxis.setDrawAxisLine(false);
-            yAxis.setEnabled(false);
-
-            YAxis yAxis1 = chartView.getAxisRight();
-            yAxis1.setDrawLabels(false);
-            yAxis1.setDrawGridLines(false);
-            yAxis1.setDrawAxisLine(false);
-            yAxis1.setEnabled(false);
-
-            Legend legend = chartView.getLegend();
-            legend.setEnabled(false);
-            legend.setDrawInside(false);
-
-            chartView.setDescription(null);
-            chartView.setDrawGridBackground(false);
-            chartView.setData(lineData2);
-            chartView.setDoubleTapToZoomEnabled(false);
-            chartView.setDrawGridBackground(false);
-            chartView.animateY(600, Easing.EasingOption.EaseInCubic);
-            chartView.setPinchZoom(false);
-            chartView.setScaleEnabled(false);
-            chartView.invalidate();
-
-            maxX = chartView.getXRange();
-
-            CustomMarkerView marker = new CustomMarkerView(ActivityPotDetail.this,R.layout.item_chart_marker);
-            marker.setChartView(chartView);
-            chartView.setMarker(marker);
-
-            ///////////
-
-            pieChart.setTransparentCircleRadius(0f);
-            pieChart.setDrawEntryLabels(false);
-            pieChart.setUsePercentValues(false);
-            pieChart.getDescription().setEnabled(false);
-            pieChart.setDrawHoleEnabled(true);
-            pieChart.setRotationEnabled(false);
-
-            bondRate.setText(bond+"%");
-            stockRate.setText(stock+"%");
-
-            yValues.add(new PieEntry(bond,"채권"));
-            yValues.add(new PieEntry(stock,"주식"));
-
-            pieChart.animateY(600, Easing.EasingOption.EaseInOutCubic); //애니메이션
-            pieChart.setDrawCenterText(false);
-
-            Legend l = pieChart.getLegend();
-            l.setDrawInside(false);
-            l.setEnabled(false);
-
-            PieDataSet dataSet = new PieDataSet(yValues,"");
-            dataSet.setColors(JOYFUL_COLORS);
-            dataSet.setDrawValues(false);
-
-            PieData data = new PieData(dataSet);
-            pieChart.setData(data);
-            pieChart.invalidate();
-
-
-        }else{
-
-            for(int a = 0 ; a < 100 ; a++){
-                entries2.add(new Entry(a, 6, a));
-            }
-
-            lineDataSet2 = new LineDataSet(entries2, null);
-            lineDataSet2.setLineWidth(1.5f);
-            lineDataSet2.setColor(Color.parseColor("#FFFF0000"));
-            lineDataSet2.setDrawCircles(false);
-            lineDataSet2.setDrawHorizontalHighlightIndicator(false);
-            lineDataSet2.setDrawValues(false);
-            lineDataSet2.setHighlightEnabled(true);
-            lineDataSet2.setDrawHighlightIndicators(true);
-            lineDataSet2.setDrawHorizontalHighlightIndicator(false);
-            lineDataSet2.setHighLightColor(R.color.chart_limit_line_color);
-            lineDataSet2.setHighlightLineWidth(1f);
-
-            lineData2 = new LineData(lineDataSet2);
-
-            XAxis xAxis = chartView.getXAxis();
-            xAxis.setDrawLabels(false);
-            xAxis.setDrawGridLines(false);
-            xAxis.setDrawAxisLine(false);
-            xAxis.setEnabled(false);
-
-            YAxis yAxis = chartView.getAxisLeft();
-            yAxis.setDrawLabels(false);
-            yAxis.setDrawGridLines(false);
-            yAxis.setDrawAxisLine(false);
-            yAxis.setEnabled(false);
-
-            YAxis yAxis1 = chartView.getAxisRight();
-            yAxis1.setDrawLabels(false);
-            yAxis1.setDrawGridLines(false);
-            yAxis1.setDrawAxisLine(false);
-            yAxis1.setEnabled(false);
-
-            Legend legend = chartView.getLegend();
-            legend.setEnabled(false);
-            legend.setDrawInside(false);
-
-            chartView.setDescription(null);
-            chartView.setDrawGridBackground(false);
-            chartView.setData(lineData2);
-            chartView.setDoubleTapToZoomEnabled(false);
-            chartView.setDrawGridBackground(false);
-            chartView.animateY(600, Easing.EasingOption.EaseInCubic);
-            chartView.setPinchZoom(false);
-            chartView.setScaleEnabled(false);
-            chartView.invalidate();
-
-            maxX = chartView.getXRange();
-
-            CustomMarkerView marker = new CustomMarkerView(ActivityPotDetail.this,R.layout.item_chart_marker);
-            marker.setChartView(chartView);
-            chartView.setMarker(marker);
-
-            ///////////
-
-            pieChart.setTransparentCircleRadius(0f);
-            pieChart.setDrawEntryLabels(false);
-            pieChart.setUsePercentValues(false);
-            pieChart.getDescription().setEnabled(false);
-            pieChart.setDrawHoleEnabled(true);
-            pieChart.setRotationEnabled(false);
-
-            bondRate.setText(bond+"%");
-            stockRate.setText(stock+"%");
-
-            yValues.add(new PieEntry(bond,"채권"));
-            yValues.add(new PieEntry(stock,"주식"));
-
-            pieChart.animateY(600, Easing.EasingOption.EaseInOutCubic); //애니메이션
-            pieChart.setDrawCenterText(false);
-
-            Legend l = pieChart.getLegend();
-            l.setDrawInside(false);
-            l.setEnabled(false);
-
-            PieDataSet dataSet = new PieDataSet(yValues,"");
-            dataSet.setColors(JOYFUL_COLORS);
-            dataSet.setDrawValues(false);
-
-            PieData data = new PieData(dataSet);
-            pieChart.setData(data);
-            pieChart.invalidate();
-
-        }
     }
 
 
@@ -813,7 +667,6 @@ public class ActivityPotDetail extends AppCompatActivity {
         }
     }
 
-
     /**
      * 클릭된 Item의 상태 변경
      * @param isExpanded Item을 펼칠 것인지 여부
@@ -821,16 +674,14 @@ public class ActivityPotDetail extends AppCompatActivity {
     private void changeVisibility(final boolean isExpanded) {
 
         // height 값을 dp로 지정해서 넣고싶으면 아래 소스를 이용
-
         if(isExpanded){
-            warningImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_up_gray));
+            binding.includePotDetail.warningImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_up_gray));
         }else{
-            warningImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_down_gray));
+            binding.includePotDetail.warningImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_down_gray));
         }
 
-        layout2.measure(View.MeasureSpec.UNSPECIFIED , View.MeasureSpec.UNSPECIFIED );
-        int height = layout2.getMeasuredHeight();
-
+        binding.includePotDetail.layout2.measure(View.MeasureSpec.UNSPECIFIED , View.MeasureSpec.UNSPECIFIED );
+        int height = binding.includePotDetail.layout2.getMeasuredHeight();
         // ValueAnimator.ofInt(int... values)는 View가 변할 값을 지정, 인자는 int 배열
         ValueAnimator va = isExpanded ? ValueAnimator.ofInt(1, height) : ValueAnimator.ofInt(height, 1);
         // Animation이 실행되는 시간, n/1000초
@@ -842,16 +693,13 @@ public class ActivityPotDetail extends AppCompatActivity {
                 int value = (int) animation.getAnimatedValue();
 
                 // imageView의 높이 변경
-                layout2.getLayoutParams().height = value;
-                layout2.requestLayout();
+                binding.includePotDetail.layout2.getLayoutParams().height = value;
+                binding.includePotDetail.layout2.requestLayout();
                 // imageView가 실제로 사라지게하는 부분
-                layout2.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-
+                binding.includePotDetail.layout2.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
             }
         });
         // Animation start
         va.start();
     }
-
-
 }

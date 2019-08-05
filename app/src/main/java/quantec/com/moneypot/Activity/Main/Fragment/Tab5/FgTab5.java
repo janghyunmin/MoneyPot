@@ -59,20 +59,20 @@ public class FgTab5 extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.topMyInfo:
-                Intent intent = new Intent(getActivity(), ActivityMyInfo.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), ActivityMyInfo.class);
+//                startActivity(intent);
                 break;
             case R.id.center:
-                Intent intent1 = new Intent(getActivity(), ActivityClientCenter.class);
-                startActivity(intent1);
+//                Intent intent1 = new Intent(getActivity(), ActivityClientCenter.class);
+//                startActivity(intent1);
                 break;
             case R.id.notice:
-                Intent intent2 = new Intent(getActivity(), ActivityNotice.class);
-                startActivity(intent2);
+//                Intent intent2 = new Intent(getActivity(), ActivityNotice.class);
+//                startActivity(intent2);
                 break;
             case R.id.setting:
-                Intent intent3 = new Intent(getActivity(), ActivitySetting.class);
-                startActivity(intent3);
+//                Intent intent3 = new Intent(getActivity(), ActivitySetting.class);
+//                startActivity(intent3);
                 break;
 
         }

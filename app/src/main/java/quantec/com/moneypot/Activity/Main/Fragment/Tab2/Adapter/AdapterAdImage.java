@@ -30,7 +30,7 @@ public class AdapterAdImage extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private ImageClick imageClick;
     public interface ImageClick {
-        public void onClick(int position);
+        public void onClick(int position, ImageView imageView);
     }
 
     public void setImageClick(ImageClick imageClick) {
@@ -54,7 +54,7 @@ public class AdapterAdImage extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     if(imageClick != null) {
-                        imageClick.onClick(position);
+                        imageClick.onClick(position, ((AdImageViewHolder)holder).bannerImage);
 
 //                        Intent intent = new Intent(context, ActivityDetailAdImage.class);
 //

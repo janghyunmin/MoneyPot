@@ -14,9 +14,8 @@
     <uses-permission android:name="android.permission.CAMERA" /> <!-- FIDO SDK Permission -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.REORDER_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
 
     <application
         android:name=".mApplication"
@@ -26,10 +25,16 @@
         android:roundIcon="@drawable/ic_push_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
-        tools:ignore="GoogleAppIndexingWarning"
-        >
-        <receiver android:name=".Activity.TopTest"
-            android:process=":remote"/>
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityCookPotImage"></activity>
+        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityModifyPot" />
+        <activity
+            android:name=".Activity.Main.Fragment.Tab3.Activity.ActivityPotMarket"
+            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name=".Activity.TopTest"
+            android:process=":remote" />
 
         <activity
             android:name=".Activity.League.ActivityPotLeague"
@@ -96,35 +101,36 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.MyInfo.ActivityMyInfo"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="activitymyinfo"
+                    android:scheme="activity" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activity.PotDetail.ActivityPotDetail"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="activitypotdetail"
+                    android:scheme="activity" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activity.Main.ActivityMain"
-            android:screenOrientation="portrait"
             android:alwaysRetainTaskState="true"
-            >
-
-            <!-- <meta-data -->
-            <!-- android:name="android.support.PARENT_ACTIVITY" -->
-            <!-- android:value=".Activity.Main.ActivityMain" /> -->
-
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.VIEW" /> -->
-
-
-            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
-            <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
-
-
-            <!-- <data -->
-            <!-- android:host="activitymain" -->
-            <!-- android:scheme="activity" /> -->
-            <!-- </intent-filter> -->
-
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Intro.ActivityIntro"
             android:screenOrientation="portrait">
@@ -147,8 +153,7 @@
 
         <service
             android:name=".util.FireBase.MyFireBaseMessagingService"
-            android:stopWithTask="false"
-            >
+            android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -160,14 +165,8 @@
             android:resource="@drawable/start_off" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/red_text_color" /> <!-- <service -->
-        <!-- android:name=".util.FireBase.MyFireBaseMessagingService" -->
-        <!-- android:stopWithTask="false"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.firebase.MESSAGING_EVENT" -->
-        <!-- android:screenOrientation="portrait"/> -->
-        <!-- </intent-filter> -->
-        <!-- </service> -->
+            android:resource="@color/red_text_color" />
+
         <activity
             android:name=".Activity.Login.MemberShipPage.ActivityMemberShipMain"
             android:screenOrientation="portrait" />
@@ -222,15 +221,7 @@
         <activity
             android:name=".MagicKeyPad.HalfModeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait">
-
-             <!--<intent-filter>-->
-             <!--<action android:name="android.intent.action.MAIN" />-->
-
-
-             <!--<category android:name="android.intent.category.LAUNCHER" />-->
-             <!--</intent-filter>-->
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Login.MemberShipPage.ActivityRegInfo"
             android:screenOrientation="portrait" />
@@ -240,38 +231,12 @@
         <activity
             android:name=".Activity.FIDO.ActivityRegFido"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Activity.FIDO.ActivityAuthFidoDouble"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.FIDO.ActivityAuthFidoSingle"
-            android:screenOrientation="portrait"
-            >
-
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-
-
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value=".Activity.FIDO.ActivityAuthFidoSingle" />-->
-
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
-
-                <!--<data-->
-                    <!--android:host="activityauthfidosingle"-->
-                    <!--android:scheme="activity" />-->
-            <!--</intent-filter>-->
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Login.MemberShipPage.ActivityRePhoneConfirm"
             android:screenOrientation="portrait" />

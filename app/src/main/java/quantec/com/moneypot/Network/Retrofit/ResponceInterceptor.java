@@ -38,7 +38,7 @@ public class ResponceInterceptor implements Interceptor {
 
             decryptedBody = gson.toJson(modelResponce).replace("\\n", "").replace(" ", "")
                     .replace("\\", "").replace("\"{", "{").replace("}\"", "}")
-                    .replace("\"[{", "[{").replace("}]\"", "}]");
+                    .replace("\"[{", "[{").replace("}]\"", "}]").replace("\"[]\"", "[]");
 
         }else{
             decryptedBody = response.body().string();

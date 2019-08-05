@@ -63,8 +63,8 @@ public class ActivityMyPotList extends AppCompatActivity {
             @Override
             public void onClick(int position) {
 
-                Intent intent = new Intent(ActivityMyPotList.this, ActivityPotDetail.class);
-                startActivity(intent);
+//                Intent intent = new Intent(ActivityMyPotList.this, ActivityPotDetail.class);
+//                startActivity(intent);
             }
         });
 

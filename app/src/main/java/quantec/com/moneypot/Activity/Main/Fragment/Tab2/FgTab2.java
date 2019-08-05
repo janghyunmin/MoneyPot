@@ -1,7 +1,9 @@
 package quantec.com.moneypot.Activity.Main.Fragment.Tab2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +15,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import quantec.com.moneypot.Activity.Main.ActivityMain;
+import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Activity.ActivityPotCook;
+import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Fragment.FragmentLifcycle;
 import quantec.com.moneypot.R;
+import quantec.com.moneypot.RxAndroid.RxEvent;
+import quantec.com.moneypot.RxAndroid.RxEventBus;
 import quantec.com.moneypot.databinding.FgTab2Binding;
 
 public class FgTab2 extends Fragment {
@@ -27,6 +40,15 @@ public class FgTab2 extends Fragment {
     int currentPage = 0;
 
     Bundle cookPage3State, cookPageMarginState;
+
+    FloatingActionButton makePotBt;
+
+    public static boolean refreshPage = false;
+
+    Adapter adapter;
+
+    FragmentLifcycle fragmentToShow;
+
 
     public FgTab2() {
     }
@@ -60,44 +82,84 @@ public class FgTab2 extends Fragment {
         setupViewPager(binding.fragmentTab2Viewpager);
         binding.SearchTabLayout.setupWithViewPager(binding.fragmentTab2Viewpager);
         binding.fragmentTab2Viewpager.setOffscreenPageLimit(3);
+
+        fragmentToShow = (FragmentLifcycle)adapter.getItem(1);
+
         binding.fragmentTab2Viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
             @Override
             public void onPageSelected(int position) {
-
                 currentPage = position;
-
                 if(currentState) {
                     binding.fragmentTab2Viewpager.setCurrentItem(1);
+                }
+                if(position == 1){
+                    fragmentToShow.onResumeFragment();
                 }
             }
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
         cookPage3State = new Bundle();
         cookPageMarginState = new Bundle();
+
+        binding.makePotBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(activityMain, ActivityPotCook.class);
+                startActivityForResult(intent1, 100);
+                binding.fragmentTab2Viewpager.setCurrentItem(0);
+            }
+        });
+
+
+        RxEventBus.getInstance()
+                .filteredObservable(RxEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RxEvent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+                    @Override
+                    public void onNext(RxEvent rxEvent) {
+
+                        switch (rxEvent.getActiion()) {
+
+                            case RxEvent.MOVED_POTCOOK_PAGE:
+                                binding.fragmentTab2Viewpager.setCurrentItem(1);
+                                break;
+                        }
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-//        if(DataManager.get_INstance().isCheckTab1() || DataManager.get_INstance().isCheckCookPage()) {
-//            DataManager.get_INstance().setCheckTab1(false);
-//            DataManager.get_INstance().setCheckCookPage(false);
-//            RxEventBus.getInstance().post(new RxEvent(RxEvent.ZZIM_PORT_LOAD, null));
-//        }
+        if(requestCode == 100){
+            if(resultCode == 100){
+                RxEventBus.getInstance().post(new RxEvent(RxEvent.REFRESH_MY_POT, null));
+                refreshPage = true;
+                binding.fragmentTab2Viewpager.setCurrentItem(1);
+            }
+        }
     }
 
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter = new Adapter(getChildFragmentManager());
+        adapter = new Adapter(getChildFragmentManager());
         adapter.addFragment(new FgAllPage(), "전체");
         adapter.addFragment(new FgMyPotPage(), "내가 만든 포트");
 

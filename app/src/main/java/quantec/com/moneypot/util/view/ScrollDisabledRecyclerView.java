@@ -1,4 +1,4 @@
-package quantec.com.moneypot.Activity.PotDetail;
+package quantec.com.moneypot.util.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

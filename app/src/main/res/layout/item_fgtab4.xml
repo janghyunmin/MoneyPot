@@ -1,257 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="fgTab4"
             type="quantec.com.moneypot.databinding.ItemFgtab4Binding" />
 
     </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#ffffff"
-    >
-
-    <ImageView
-        android:id="@+id/potZimBt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="23dp"
-        android:layout_marginTop="22dp"
-        android:src="@drawable/ic_star_off_whitegray_24_dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/potName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="marquee"
-        android:maxWidth="150dp"
-        android:singleLine="true"
-        android:textColor="@color/text_black_color"
-        android:textSize="14sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="26dp"
-        android:layout_marginStart="26dp"
-        android:text="안정적인 자산관리를 위해"
-        />
-
-    <TextView
-        android:id="@+id/potFollow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="팔로우"
-        app:layout_constraintTop_toTopOf="@+id/potName"
-        app:layout_constraintBottom_toBottomOf="@+id/potName"
-        app:layout_constraintStart_toEndOf="@+id/potName"
-        android:layout_marginStart="8dp"
-        android:gravity="center"
-        android:textSize="8dp"
-        android:textColor="#f02626"
-        android:background="@drawable/round_grayline_follow"
-        />
-
-    <TextView
-        android:id="@+id/potRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#f02626"
-        android:textSize="18dp"
-        android:text="26.58"
-        app:layout_constraintEnd_toStartOf="@+id/potPer"
-        app:layout_constraintTop_toTopOf="@+id/potPer"
-        app:layout_constraintBottom_toBottomOf="@+id/potPer"
-        />
-
-    <TextView
-        android:id="@+id/potPer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="%"
-        android:textColor="#f02626"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toStartOf="@+id/potZimBt"
-        app:layout_constraintTop_toTopOf="@+id/potZimBt"
-        app:layout_constraintBottom_toBottomOf="@+id/potZimBt"
-        android:layout_marginEnd="8dp"
-        />
-
-    <View
-        android:id="@+id/mainLine"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        app:layout_constraintTop_toBottomOf="@+id/potName"
-        android:layout_marginTop="28dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginEnd="22dp"
-        android:background="#f2f2f2"
-        />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/showChartView"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/mainLine"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        >
-        <View
-            android:id="@+id/topLine"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#f4f4f4"
-            android:layout_marginStart="13dp"
-            android:layout_marginEnd="13dp"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <TextView
-            android:id="@+id/yieldTitle"
+        android:background="#ffffff">
+
+        <ImageView
+            android:id="@+id/potZimBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/topLine"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_star_off_whitegray_48_px"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="30.96"
-            android:textSize="24dp"
-            android:textColor="@color/red_text_color"
-            android:layout_marginTop="11dp"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:id="@+id/yieldPerTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="%"
-            android:textSize="20dp"
-            android:textColor="@color/red_text_color"
-            app:layout_constraintStart_toEndOf="@+id/yieldTitle"
-            app:layout_constraintBottom_toBottomOf="@+id/yieldTitle"
-            />
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chartView"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            app:layout_constraintTop_toBottomOf="@+id/yieldTitle"
-            android:layout_marginTop="14.8dp"
-            android:layout_marginStart="22dp"
-            android:layout_marginEnd="22dp"
-            />
-        <TextView
-            android:id="@+id/m1Bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1개월"
-            android:textSize="11dp"
-            android:textColor="@color/gray_brown_color"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/chartView"
-            app:layout_constraintStart_toStartOf="@+id/chartView"
-            android:background="@drawable/chart_bt_normalline"
-            android:layout_marginTop="21dp"
-            />
-        <TextView
-            android:id="@+id/m3Bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3개월"
-            android:textSize="11dp"
-            android:textColor="@color/gray_brown_color"
-            android:gravity="center"
-            android:background="@drawable/chart_bt_redline"
-            app:layout_constraintTop_toBottomOf="@+id/chartView"
-            app:layout_constraintStart_toEndOf="@+id/m1Bt"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="21dp"
-            />
-        <TextView
-            android:id="@+id/m6Bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="6개월"
-            android:textSize="11dp"
-            android:textColor="@color/gray_brown_color"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/chartView"
-            android:background="@drawable/chart_bt_normalline"
-            app:layout_constraintEnd_toStartOf="@+id/mAllBt"
-            android:layout_marginEnd="30dp"
-            android:layout_marginTop="21dp"
-            />
-        <TextView
-            android:id="@+id/mAllBt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="누적"
-            android:textSize="11dp"
-            android:textColor="@color/gray_brown_color"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/chartView"
-            android:background="@drawable/chart_bt_normalline"
-            app:layout_constraintEnd_toEndOf="@+id/chartView"
-            android:layout_marginTop="21dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
+        <TextView
+            android:id="@+id/potName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="26dp"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/text_black_color"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/potFollow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="185dp"
+            android:background="@drawable/round_grayline_follow"
+            android:gravity="center"
+            android:text="팔로우"
+            android:textColor="#f02626"
+            android:textSize="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/potName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/potName" />
+
+        <TextView
+            android:id="@+id/potRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="26.58"
+            android:textColor="#f02626"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/potPer"
+            app:layout_constraintEnd_toStartOf="@+id/potPer"
+            app:layout_constraintTop_toTopOf="@+id/potPer" />
+
+        <TextView
+            android:id="@+id/potPer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="%"
+            android:textColor="#f02626"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/potZimBt"
+            app:layout_constraintEnd_toStartOf="@+id/potZimBt"
+            app:layout_constraintTop_toTopOf="@+id/potZimBt" />
+
         <View
-            android:id="@+id/bottomLine"
+            android:id="@+id/mainLine"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#f4f4f4"
-            android:layout_marginStart="13dp"
-            android:layout_marginEnd="13dp"
-            app:layout_constraintTop_toBottomOf="@+id/mAllBt"
-            android:layout_marginTop="14dp"
-            />
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="22dp"
+            android:background="#f2f2f2"
+            app:layout_constraintTop_toBottomOf="@+id/potName" />
 
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="#시장대표"
-            app:layout_constraintTop_toBottomOf="@+id/bottomLine"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textSize="12dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text_gray_color"
-            android:layout_marginStart="22dp"
-            />
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="#벤처기업"
-            android:textSize="12dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text_gray_color"
-            app:layout_constraintTop_toBottomOf="@+id/bottomLine"
-            app:layout_constraintStart_toEndOf="@+id/text1"
-            android:layout_marginStart="8dp"
-            />
-        <TextView
-            android:id="@+id/text3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="유동성"
-            android:textSize="12dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/text_gray_color"
-            app:layout_constraintTop_toBottomOf="@+id/bottomLine"
-            app:layout_constraintStart_toEndOf="@+id/text2"
-            android:layout_marginStart="8dp"
-            />
-        <View
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/showChartView"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/text1"
-            />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/mainLine">
 
+            <View
+                android:id="@+id/topLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginEnd="13dp"
+                android:background="#f4f4f4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/yieldTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:gravity="center_horizontal"
+                android:text="30.96"
+                android:textColor="@color/red_text_color"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topLine" />
+
+            <TextView
+                android:id="@+id/yieldPerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"
+                android:textColor="@color/red_text_color"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/yieldTitle"
+                app:layout_constraintStart_toEndOf="@+id/yieldTitle" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chartView"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="14.8dp"
+                android:layout_marginEnd="22dp"
+                app:layout_constraintTop_toBottomOf="@+id/yieldTitle" />
+
+            <TextView
+                android:id="@+id/m1Bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/chart_bt_normalline"
+                android:gravity="center"
+                android:text="1개월"
+                android:textColor="@color/gray_brown_color"
+                android:textSize="11dp"
+                app:layout_constraintStart_toStartOf="@+id/chartView"
+                app:layout_constraintTop_toBottomOf="@+id/chartView" />
+
+            <TextView
+                android:id="@+id/m3Bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/chart_bt_redline"
+                android:gravity="center"
+                android:text="3개월"
+                android:textColor="@color/gray_brown_color"
+                android:textSize="11dp"
+                app:layout_constraintStart_toEndOf="@+id/m1Bt"
+                app:layout_constraintTop_toBottomOf="@+id/chartView" />
+
+            <TextView
+                android:id="@+id/m6Bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/chart_bt_normalline"
+                android:gravity="center"
+                android:text="6개월"
+                android:textColor="@color/gray_brown_color"
+                android:textSize="11dp"
+                app:layout_constraintEnd_toStartOf="@+id/mAllBt"
+                app:layout_constraintTop_toBottomOf="@+id/chartView" />
+
+            <TextView
+                android:id="@+id/mAllBt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/chart_bt_normalline"
+                android:gravity="center"
+                android:text="누적"
+                android:textColor="@color/gray_brown_color"
+                android:textSize="11dp"
+                app:layout_constraintEnd_toEndOf="@+id/chartView"
+                app:layout_constraintTop_toBottomOf="@+id/chartView" />
+
+            <View
+                android:id="@+id/bottomLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="13dp"
+                android:background="#f4f4f4"
+                app:layout_constraintTop_toBottomOf="@+id/mAllBt" />
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="5dp"
+                android:text="#시장대표"
+                android:textColor="@color/text_gray_color"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bottomLine" />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:text="#벤처기업"
+                android:textColor="@color/text_gray_color"
+                android:textSize="12dp"
+                app:layout_constraintStart_toEndOf="@+id/text1"
+                app:layout_constraintTop_toBottomOf="@+id/bottomLine" />
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:text="유동성"
+                android:textColor="@color/text_gray_color"
+                android:textSize="12dp"
+                app:layout_constraintStart_toEndOf="@+id/text2"
+                app:layout_constraintTop_toBottomOf="@+id/bottomLine" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/text1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 
 

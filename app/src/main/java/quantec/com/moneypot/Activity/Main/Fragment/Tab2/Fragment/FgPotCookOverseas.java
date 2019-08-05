@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +32,7 @@ import quantec.com.moneypot.R;
 import quantec.com.moneypot.RxAndroid.RxEvent;
 import quantec.com.moneypot.RxAndroid.RxEventBus;
 
-public class FgPotCookAll extends Fragment {
+public class FgPotCookOverseas extends Fragment {
 
     ActivityPotCook activityPotCook;
 
@@ -54,17 +53,14 @@ public class FgPotCookAll extends Fragment {
 
     ArrayList<ModelPortList> modelPortLists;
 
-    TextView filter;
 
-    public FgPotCookAll() {
+    public FgPotCookOverseas() {
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fg_potcookall, container, false);
-
-        filter = view.findViewById(R.id.filter);
+        View view = inflater.inflate(R.layout.fg_makepot_fgpotcookoverseas, container, false);
 
         initializeViews();
 
@@ -113,24 +109,24 @@ public class FgPotCookAll extends Fragment {
         modelPotCookAlls.add(new ModelPotCookAll(false,false,"한국을 IT 강국으로 이끈 기업들", "TIGER 200 IT", "", "MP0006"));
 
 
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                filter.setText("배당");
-
-                modelPotCookAlls.clear();
-
-                modelPotCookAlls.add(new ModelPotCookAll(false,false,"11대한민국 국가대표 기업들", "KODEX200", "", "MP0001"));
-                modelPotCookAlls.add(new ModelPotCookAll(false,false,"22세계 경제를 이끄는 중국 기업", "TIGER 차이나CSI300", "", "MP0002"));
-                modelPotCookAlls.add(new ModelPotCookAll(false,false,"33한국 경제의 중심! 삼성의 계열사", "KODEX 삼성그룹", "", "MP0003"));
-                modelPotCookAlls.add(new ModelPotCookAll(false,false,"44헬스케어 업종에 투자", "TIGER 헬스케어", "", "MP0004"));
-                modelPotCookAlls.add(new ModelPotCookAll(false,false,"55핵심은 4차 산업 기술", "TIGER 글로벌 4차산업 혁신기술(합성 H)", "", "MP0005"));
-                modelPotCookAlls.add(new ModelPotCookAll(false,false,"66한국을 IT 강국으로 이끈 기업들", "TIGER 200 IT", "", "MP0006"));
-
-                adapterPotCookAll.notifyDataSetChanged();
-            }
-        });
+//        filter.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                filter.setText("배당");
+//
+//                modelPotCookAlls.clear();
+//
+//                modelPotCookAlls.add(new ModelPotCookAll(false,false,"11대한민국 국가대표 기업들", "KODEX200", "", "MP0001"));
+//                modelPotCookAlls.add(new ModelPotCookAll(false,false,"22세계 경제를 이끄는 중국 기업", "TIGER 차이나CSI300", "", "MP0002"));
+//                modelPotCookAlls.add(new ModelPotCookAll(false,false,"33한국 경제의 중심! 삼성의 계열사", "KODEX 삼성그룹", "", "MP0003"));
+//                modelPotCookAlls.add(new ModelPotCookAll(false,false,"44헬스케어 업종에 투자", "TIGER 헬스케어", "", "MP0004"));
+//                modelPotCookAlls.add(new ModelPotCookAll(false,false,"55핵심은 4차 산업 기술", "TIGER 글로벌 4차산업 혁신기술(합성 H)", "", "MP0005"));
+//                modelPotCookAlls.add(new ModelPotCookAll(false,false,"66한국을 IT 강국으로 이끈 기업들", "TIGER 200 IT", "", "MP0006"));
+//
+//                adapterPotCookAll.notifyDataSetChanged();
+//            }
+//        });
 
         for(int a = 0; a < 100 ; a++){
             entries.add(new Entry(a, a*1.67f, a*1.25f));

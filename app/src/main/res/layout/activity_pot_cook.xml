@@ -7,59 +7,76 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     >
-    <ImageView
-        android:id="@+id/searchBt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_search_gray"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="포트 요리"
-        android:textSize="16dp"
-        android:textColor="@color/text_black_color"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="18dp"
-        />
-    <ImageView
-        android:id="@+id/userBt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_user_gray"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:theme="@style/TabTheme"
-        app:elevation="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        android:layout_marginTop="10dp">
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:elevation="0dp"/>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <quantec.com.moneypot.util.view.SwipeViewPager
-        android:id="@+id/viewPager"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/appbar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/makePotBt"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:background="#f4f4f4"
-        />
+        >
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:elevation="0dp">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/main_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                app:layout_scrollFlags="enterAlways|scroll">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/searchBt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_search_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="포트 요리"
+                        android:textSize="16dp"
+                        android:textColor="@color/text_black_color"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="18dp"
+                        />
+                    <ImageView
+                        android:id="@+id/userBt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_user_gray"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.Toolbar>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="0dp"
+                android:layout_alignParentBottom="true"
+                android:background="#FFFFFF"
+                app:tabTextColor="@color/dark_gray_color"
+                app:tabSelectedTextColor="@color/text_black_color"
+                />
+        </com.google.android.material.appbar.AppBarLayout>
+        <quantec.com.moneypot.util.view.SwipeViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <RelativeLayout
         android:id="@+id/makePotBt"
@@ -215,246 +232,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <!--<androidx.constraintlayout.widget.ConstraintLayout-->
-            <!--android:id="@+id/portControlView"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/topLayout"-->
-            <!--android:visibility="gone"-->
-            <!--&gt;-->
-
-            <!--<androidx.recyclerview.widget.RecyclerView-->
-                <!--android:id="@+id/recyclerView"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--app:layout_constraintTop_toTopOf="parent"-->
-                <!--app:layout_constraintBottom_toTopOf="@+id/topLine"-->
-                <!--android:background="#fafafa"-->
-                <!--android:visibility="gone"-->
-                <!--/>-->
-
-            <!--<View-->
-                <!--android:id="@+id/topLine"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="#f4f4f4"-->
-                <!--android:layout_marginStart="24dp"-->
-                <!--android:layout_marginEnd="24dp"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/recyclerView"-->
-                <!--/>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/investTitle"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="투자 금액"-->
-                <!--android:textColor="@color/gray_brown_color"-->
-                <!--android:textSize="12dp"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/topLine"-->
-                <!--android:layout_marginStart="26dp"-->
-                <!--android:layout_marginTop="13dp"-->
-                <!--/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/priceText"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="18dp"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/investTitle"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--android:layout_marginTop="17dp"-->
-                <!--android:layout_marginStart="26dp"-->
-                <!--android:gravity="bottom"-->
-                <!--android:textColor="@color/text_black_color"-->
-                <!--/>-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="만원"-->
-                <!--android:textSize="14dp"-->
-                <!--android:textColor="@color/text_black_color"-->
-                <!--app:layout_constraintStart_toEndOf="@+id/priceText"-->
-                <!--app:layout_constraintBottom_toBottomOf="@+id/priceText"-->
-                <!--android:paddingBottom="1dp"-->
-                <!--/>-->
-
-            <!--<View-->
-                <!--android:id="@+id/goToPriceBt"-->
-                <!--android:layout_width="100dp"-->
-                <!--android:layout_height="30dp"-->
-                <!--app:layout_constraintStart_toStartOf="@+id/priceText"-->
-                <!--app:layout_constraintBottom_toTopOf="@+id/middleLine"-->
-                <!--/>-->
-
-            <!--<ImageView-->
-                <!--android:id="@+id/refreshBt"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/ic_refresh_gray"-->
-                <!--app:layout_constraintBottom_toTopOf="@+id/middleLine"-->
-                <!--app:layout_constraintEnd_toEndOf="@+id/middleLine"-->
-                <!--android:layout_marginBottom="5dp"-->
-                <!--/>-->
-            <!--<View-->
-                <!--android:id="@+id/middleLine"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/priceText"-->
-                <!--android:background="#cccccc"-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:layout_marginStart="25dp"-->
-                <!--android:layout_marginEnd="25dp"-->
-                <!--/>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/upBT1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="+ 10만원"-->
-                <!--android:textSize="10dp"-->
-                <!--android:textColor="@color/text_black_color"-->
-                <!--android:background="@drawable/rectangle_line"-->
-                <!--android:gravity="center"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/middleLine"-->
-                <!--android:layout_marginStart="25dp"-->
-                <!--android:layout_marginTop="13dp"-->
-                <!--/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/upBT2"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="+ 50만원"-->
-                <!--android:textSize="10dp"-->
-                <!--android:textColor="@color/text_black_color"-->
-                <!--android:background="@drawable/rectangle_line"-->
-                <!--android:gravity="center"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/middleLine"-->
-                <!--app:layout_constraintStart_toEndOf="@+id/upBT1"-->
-                <!--android:layout_marginStart="6dp"-->
-                <!--android:layout_marginTop="13dp"-->
-                <!--/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/upBT3"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="+ 100만원"-->
-                <!--android:textSize="10dp"-->
-                <!--android:textColor="@color/text_black_color"-->
-                <!--android:background="@drawable/rectangle_line"-->
-                <!--android:gravity="center"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/middleLine"-->
-                <!--app:layout_constraintStart_toEndOf="@+id/upBT2"-->
-                <!--android:layout_marginStart="6dp"-->
-                <!--android:layout_marginTop="13dp"-->
-                <!--/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/upBT4"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="+ 200만원"-->
-                <!--android:textSize="10dp"-->
-                <!--android:textColor="@color/text_black_color"-->
-                <!--android:background="@drawable/rectangle_line"-->
-                <!--android:gravity="center"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/middleLine"-->
-                <!--app:layout_constraintStart_toEndOf="@+id/upBT3"-->
-                <!--android:layout_marginStart="6dp"-->
-                <!--android:layout_marginTop="13dp"-->
-                <!--/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/upBT5"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="+ 500만원"-->
-                <!--android:textSize="10dp"-->
-                <!--android:textColor="@color/text_black_color"-->
-                <!--android:background="@drawable/rectangle_line"-->
-                <!--android:gravity="center"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/middleLine"-->
-                <!--app:layout_constraintStart_toEndOf="@+id/upBT4"-->
-                <!--android:layout_marginStart="6dp"-->
-                <!--android:layout_marginTop="13dp"-->
-                <!--/>-->
-
-
-            <!--<TextView-->
-                <!--android:id="@+id/stableBt"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="안정형"-->
-                <!--android:background="@drawable/click_roundbt"-->
-                <!--android:gravity="center"-->
-                <!--android:textSize="12dp"-->
-                <!--android:textColor="@color/text_white_color"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/upBT5"-->
-                <!--android:layout_marginStart="25dp"-->
-                <!--android:layout_marginTop="14dp"-->
-                <!--/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/middleBt"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="중립형"-->
-                <!--android:background="@drawable/normal_roundbt"-->
-                <!--android:gravity="center"-->
-                <!--android:textSize="12dp"-->
-                <!--android:textColor="@color/gray_brown_color"-->
-                <!--app:layout_constraintStart_toEndOf="@+id/stableBt"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/upBT5"-->
-                <!--android:layout_marginStart="9dp"-->
-                <!--android:layout_marginTop="14dp"-->
-                <!--/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/adventBt"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="모험형"-->
-                <!--android:background="@drawable/normal_roundbt"-->
-                <!--android:gravity="center"-->
-                <!--android:textSize="12dp"-->
-                <!--android:textColor="@color/gray_brown_color"-->
-                <!--app:layout_constraintStart_toEndOf="@+id/middleBt"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/upBT5"-->
-                <!--android:layout_marginStart="9dp"-->
-                <!--android:layout_marginTop="14dp"-->
-                <!--/>-->
-
-            <!--<ImageView-->
-                <!--android:id="@+id/infoImage"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/ic_info_off_gray"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/stableBt"-->
-                <!--app:layout_constraintStart_toStartOf="@+id/stableBt"-->
-                <!--app:layout_constraintEnd_toEndOf="@+id/stableBt"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--/>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/infoText"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="위험성과 수익률을 적절히 생각하는 방법"-->
-                <!--android:textSize="12dp"-->
-                <!--android:textColor="@color/gray_brown_color"-->
-                <!--app:layout_constraintStart_toEndOf="@+id/infoImage"-->
-                <!--app:layout_constraintTop_toTopOf="@+id/infoImage"-->
-                <!--app:layout_constraintBottom_toBottomOf="@+id/infoImage"-->
-                <!--android:layout_marginStart="3dp"-->
-                <!--/>-->
-
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="17dp"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/infoText"-->
-                <!--/>-->
-
-        <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
-
-
         <LinearLayout
             android:id="@+id/next2Bt"
             android:layout_width="match_parent"
@@ -501,8 +278,6 @@
             />
 
     </RelativeLayout>
-
-
 
 
     <RelativeLayout

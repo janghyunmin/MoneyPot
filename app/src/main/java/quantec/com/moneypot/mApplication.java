@@ -9,6 +9,7 @@ import java.util.Random;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
+import quantec.com.moneypot.Activity.Main.Foreground;
 
 public class mApplication extends Application {
 

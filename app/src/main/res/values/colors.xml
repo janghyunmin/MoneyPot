@@ -45,4 +45,5 @@
     <color name="text_white_color">#FFFFFF</color>
     <color name="text_gray_color">#9a9a9a</color>
     <color name="text_black_color">#000000</color>
+    <color name="dot_unselect">#7FFCFCFC</color>
 </resources>

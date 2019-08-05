@@ -13,6 +13,7 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:overScrollMode="never"
+    android:background="#FFFFFF"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

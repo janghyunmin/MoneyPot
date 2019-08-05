@@ -19,6 +19,8 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import quantec.com.moneypot.Activity.FIDO.ActivityAuthFidoDouble;
 import quantec.com.moneypot.Activity.FIDO.ActivityAuthFidoSingle;
 import quantec.com.moneypot.Activity.Login.LoginPage.ActivityLoginPage;
@@ -28,6 +30,17 @@ import quantec.com.moneypot.Activity.Login.Model.dModel.ModelAuthReqDto;
 import quantec.com.moneypot.Activity.Login.Model.dModel.ModelFidoauthReqDto;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelAppInit;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelFlushAuth;
+import quantec.com.moneypot.Activity.Main.Foreground;
+import quantec.com.moneypot.DataModel.nModel.ModelCommonData;
+import quantec.com.moneypot.Database.Realm.CommonCode;
+import quantec.com.moneypot.Database.Realm.CommonList.AgeList;
+import quantec.com.moneypot.Database.Realm.CommonList.ExpList;
+import quantec.com.moneypot.Database.Realm.CommonList.GainList;
+import quantec.com.moneypot.Database.Realm.CommonList.IncomeList;
+import quantec.com.moneypot.Database.Realm.CommonList.PartnerList;
+import quantec.com.moneypot.Database.Realm.CommonList.TimeList;
+import quantec.com.moneypot.Database.Realm.CommonList.TypeList;
+import quantec.com.moneypot.Database.Realm.CommonList.WeightList;
 import quantec.com.moneypot.Dialog.DialogLoadingMakingPort;
 import quantec.com.moneypot.FIDO.PropertyManager;
 import quantec.com.moneypot.Network.Retrofit.RetrofitClient;
@@ -48,11 +61,22 @@ public class ActivityIntro extends AppCompatActivity {
 
     private String fcmToken;
 
+    Realm realm;
+    CommonCode commonCode;
+    AgeList ageList;
+    ExpList expList;
+    GainList gainList;
+    IncomeList incomeList;
+    PartnerList partnerList;
+    TimeList timeList;
+    TypeList typeList;
+    WeightList weightList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intro);
 
+        setContentView(R.layout.activity_intro);
         userId = SharedPreferenceUtil.getInstance(ActivityIntro.this).getStringExtra("userId");
         userCid = SharedPreferenceUtil.getInstance(ActivityIntro.this).getStringExtra("userCid");
         authCode = SharedPreferenceUtil.getInstance(ActivityIntro.this).getStringExtra("authCode");
@@ -61,14 +85,30 @@ public class ActivityIntro extends AppCompatActivity {
         PropertyManager.load(this);
         mFidoUtil = new MagicFIDOUtil(this);
 
+        realm = Realm.getDefaultInstance();
+        RealmResults<CommonCode> results = realm.where(CommonCode.class)
+                .findAllAsync();
+
+        //>>>>>전체 삭제<<<<<//
+//        realm.beginTransaction();
+//        RealmResults<CommonCode> results = realm.where(CommonCode.class)
+//                .findAll();
+//        results.deleteAllFromRealm();
+//        realm.commitTransaction();
+//        realm.close();
+        //>>>>>>><<<<<<<<<//
+
         if(NetworkStateCheck.getNetworkState(this)){
             Toast.makeText(ActivityIntro.this, "네트워크가 연결되어 있습니다.", Toast.LENGTH_SHORT).show();
+
+            if(results.where().count() == 0){
+                InsertCommonDate();
+            }
 
             FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(ActivityIntro.this, new OnSuccessListener<InstanceIdResult>() {
                 @Override
                 public void onSuccess(InstanceIdResult instanceIdResult) {
                     String newToken = instanceIdResult.getToken();
-                    Log.e("newToken", newToken);
 
                     fcmToken = newToken;
                     SharedPreferenceUtil.getInstance(ActivityIntro.this).putFcmToken("fcmToken", newToken);
@@ -82,11 +122,94 @@ public class ActivityIntro extends AppCompatActivity {
 
             NextPage();
 
-        }else{
+        }
+        else{
             Toast.makeText(ActivityIntro.this, "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
         }
 
     }//onCreate 끝
+
+
+    void InsertCommonDate(){
+
+        Call<ModelCommonData> getTest2 = RetrofitClient.getInstance().getService().getCommonData();
+        getTest2.enqueue(new Callback<ModelCommonData>() {
+            @Override
+            public void onResponse(Call<ModelCommonData> call, Response<ModelCommonData> response) {
+                if(response.code() == 200) {
+
+                    realm.beginTransaction();
+                    commonCode = realm.createObject(CommonCode.class);
+
+                        for(int index = 0 ; index < response.body().getContent().getTYPE().size() ; index++){
+
+                            ageList = realm.createObject(AgeList.class);
+                            expList = realm.createObject(ExpList.class);
+                            gainList = realm.createObject(GainList.class);
+                            incomeList = realm.createObject(IncomeList.class);
+                            partnerList = realm.createObject(PartnerList.class);
+                            timeList = realm.createObject(TimeList.class);
+                            typeList = realm.createObject(TypeList.class);
+                            weightList = realm.createObject(WeightList.class);
+
+                            ageList.setCode(response.body().getContent().getAGE().get(index).getCode());
+                            ageList.setGrade(response.body().getContent().getAGE().get(index).getGrade());
+                            ageList.setQuestion(response.body().getContent().getAGE().get(index).getQuestion());
+                            ageList.setType(response.body().getContent().getAGE().get(index).getType());
+                            commonCode.getAgeLists().add(ageList);
+
+                            expList.setCode(response.body().getContent().getEXP().get(index).getCode());
+                            expList.setGrade(response.body().getContent().getEXP().get(index).getGrade());
+                            expList.setQuestion(response.body().getContent().getEXP().get(index).getQuestion());
+                            expList.setType(response.body().getContent().getEXP().get(index).getType());
+                            commonCode.getExpLists().add(expList);
+
+                            gainList.setCode(response.body().getContent().getGAIN().get(index).getCode());
+                            gainList.setGrade(response.body().getContent().getGAIN().get(index).getGrade());
+                            gainList.setQuestion(response.body().getContent().getGAIN().get(index).getQuestion());
+                            gainList.setType(response.body().getContent().getGAIN().get(index).getType());
+                            commonCode.getGainLists().add(gainList);
+
+                            incomeList.setCode(response.body().getContent().getINCOME().get(index).getCode());
+                            incomeList.setGrade(response.body().getContent().getINCOME().get(index).getGrade());
+                            incomeList.setQuestion(response.body().getContent().getINCOME().get(index).getQuestion());
+                            incomeList.setType(response.body().getContent().getINCOME().get(index).getType());
+                            commonCode.getIncomeLists().add(incomeList);
+
+                            partnerList.setCode(response.body().getContent().getPARTNER().get(index).getCode());
+                            partnerList.setGrade(response.body().getContent().getPARTNER().get(index).getGrade());
+                            partnerList.setQuestion(response.body().getContent().getPARTNER().get(index).getQuestion());
+                            partnerList.setType(response.body().getContent().getPARTNER().get(index).getType());
+                            commonCode.getPartnerLists().add(partnerList);
+
+                            timeList.setCode(response.body().getContent().getTIME().get(index).getCode());
+                            timeList.setGrade(response.body().getContent().getTIME().get(index).getGrade());
+                            timeList.setQuestion(response.body().getContent().getTIME().get(index).getQuestion());
+                            timeList.setType(response.body().getContent().getTIME().get(index).getType());
+                            commonCode.getTimeLists().add(timeList);
+
+                            typeList.setCode(response.body().getContent().getTYPE().get(index).getCode());
+                            typeList.setGrade(response.body().getContent().getTYPE().get(index).getGrade());
+                            typeList.setQuestion(response.body().getContent().getTYPE().get(index).getQuestion());
+                            typeList.setType(response.body().getContent().getTYPE().get(index).getType());
+                            commonCode.getTypeLists().add(typeList);
+
+                            weightList.setCode(response.body().getContent().getWEIGHT().get(index).getCode());
+                            weightList.setGrade(response.body().getContent().getWEIGHT().get(index).getGrade());
+                            weightList.setQuestion(response.body().getContent().getWEIGHT().get(index).getQuestion());
+                            weightList.setType(response.body().getContent().getWEIGHT().get(index).getType());
+                            commonCode.getWeightLists().add(weightList);
+                        }
+
+                    realm.commitTransaction();
+                }
+            }
+            @Override
+            public void onFailure(Call<ModelCommonData> call, Throwable t) {
+                Log.e("레트로핏 실패","값 : "+t.getMessage());
+            }
+        });
+    }
 
     void NextPage(){
 
@@ -97,14 +220,14 @@ public class ActivityIntro extends AppCompatActivity {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     finish();
                 }
             }, 1300);
 
-        }else{
+        }
+        else{
 
             ModelFidoauthReqDto fidoauthReqDto = new ModelFidoauthReqDto(authCode, "PASSCODE", userId);
             Gson gson = new GsonBuilder().disableHtmlEscaping().create();
@@ -210,14 +333,12 @@ public class ActivityIntro extends AppCompatActivity {
                             public void onFailure(Call<ModelAppInit> call, Throwable t) {
                             }
                         });
-
                     }
                 }
                 @Override
                 public void onFailure(Call<ModelFlushAuth> call, Throwable t) {
                 }
             });
-
         }
     }
 
@@ -225,12 +346,10 @@ public class ActivityIntro extends AppCompatActivity {
     public void MovedFidoPage(boolean passCode, boolean finger) {
 
         if(passCode && finger){
-
             // FIDO FINGER 사용 가능 여부 체크
             if(mFidoUtil.isAvailableFIDO(LOCAL_AUTH_TYPE.LOCAL_FINGERPRINT_TYPE)){
                 //지문 사용 ON
                 if(fingerState){
-
                     Toast.makeText(this, "지문사용 ON으로 핑거 인증으로 이동", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(ActivityIntro.this, ActivityAuthFidoDouble.class);
@@ -249,7 +368,6 @@ public class ActivityIntro extends AppCompatActivity {
                 }
                 //지문 사용 OFF
                 else{
-
                     Toast.makeText(this, "지문사용 OFF로 패스코드 인증으로 이동", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(ActivityIntro.this, ActivityAuthFidoSingle.class);
@@ -265,10 +383,9 @@ public class ActivityIntro extends AppCompatActivity {
                             finish();
                         }
                     }, 100);
-
                 }
-
-            }else{
+            }
+            else{
                 Toast.makeText(this, "패스코드 인증으로 이동", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(ActivityIntro.this, ActivityAuthFidoSingle.class);
@@ -286,7 +403,6 @@ public class ActivityIntro extends AppCompatActivity {
             }
         }
         else if(passCode){
-
             Toast.makeText(this, "패스코드 인증으로 이동", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(ActivityIntro.this, ActivityAuthFidoSingle.class);

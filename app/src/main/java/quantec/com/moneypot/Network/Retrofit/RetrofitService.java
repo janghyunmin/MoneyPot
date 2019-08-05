@@ -14,10 +14,18 @@ import quantec.com.moneypot.Activity.Login.Model.nModel.ModelIdentifyData;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelAppInit;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelUserIdChk;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelUserInfo;
+import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Adapter.ModelDelPot;
 import quantec.com.moneypot.DataModel.nModel.ModelChartData;
+import quantec.com.moneypot.DataModel.nModel.ModelCommonData;
+import quantec.com.moneypot.DataModel.nModel.ModelLifeList;
+import quantec.com.moneypot.DataModel.nModel.ModelMarketPot;
+import quantec.com.moneypot.DataModel.nModel.ModelPotList;
+import quantec.com.moneypot.DataModel.nModel.ModelPrevPotContent;
+import quantec.com.moneypot.DataModel.nModel.ModelPrevPotSave;
 import quantec.com.moneypot.DataModel.nModel.ModelRecommendList;
 import quantec.com.moneypot.DataModel.nModel.ModelSearchedPageList;
 import quantec.com.moneypot.DataModel.nModel.ModelZimData;
+import quantec.com.moneypot.DataModel.nModel.ModelZimPotList;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -95,8 +103,8 @@ public interface RetrofitService {
 
 
     //미리보기에서 내가만든포트의 차트데이터를 불러옴
-    @GET("pot/getRateByPeriod/{code}/{pdate}")
-    Call<ModelChartData> getPotChartData(@Path("code") String code, @Path("pdate") int pdate);
+    @GET("pot/getRateByPeriod/{code}/{pdate}/{propensity}")
+    Call<ModelChartData> getPotChartData(@Path("code") String code, @Path("pdate") int pdate, @Path("propensity") int propensity);
 
     /**
      * 전략 및 포트 리스트 불러옴
@@ -252,5 +260,91 @@ public interface RetrofitService {
      */
     @POST("Auth/sendAuthEmail")
     Call<ModelAuthEmail> getSendAuthEmailData(@Header("Content-Type") String content_type, @Body Object authReqDto);
+
+    //공통코드 목록
+    @GET("common/getCode")
+    Call<ModelCommonData> getCommonData();
+
+    /**
+     *
+     * 포트 리스트 받기
+     *
+     */
+    @POST("pot/getPage/{gubun}/{rate}/{page}/{size}")
+    Call<ModelPotList> getPotList(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("rate") int rate, @Path("page") int page, @Path("size") int size);
+    /**
+     *
+     * 포트 리스트 받기
+     *
+     */
+    @POST("pot/getPage/{gubun}/{rate}/{page}/{size}")
+    Call<ModelMarketPot> getPotList2(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("rate") int rate, @Path("page") int page, @Path("size") int size);
+
+
+    /**
+     *
+     * 찜한 포트 리스트 받기
+     *
+     */
+    @POST("pot/getPage/{gubun}/{rate}/{page}/{size}")
+    Call<ModelZimPotList> getZimPotList(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("rate") int rate, @Path("page") int page, @Path("size") int size);
+
+
+
+    /**
+     *
+     * 포트 만들기시 코드값 받기
+     *
+     */
+    @POST("pot/setPot")
+    Call<ModelPrevPotContent> getCookPotCode(@Header("Content-Type") String content_type, @Body Object potMap);
+
+    /**
+     *
+     * 만들어진 포트 업로드
+     *
+     */
+    @POST("pot/upPot")
+    Call<ModelPrevPotSave> getUpPot(@Header("Content-Type") String content_type, @Body Object upPotMap);
+
+
+
+    /**
+     *
+     * 만들어진 포트 단일 삭제
+     *
+     */
+    @POST("pot/delPot/{code}")
+    Call<ModelDelPot> getDelPot(@Header("Content-Type") String content_type, @Path("code") String code);
+
+
+    /**
+     *
+     * 만들어진 포트 전부 삭제
+     *
+     */
+    @POST("pot/delPotAll")
+    Call<ModelDelPot> getDelPotAll(@Header("Content-Type") String content_type);
+
+
+    /**
+     *
+     * 포트 리스트 받기
+     *
+     */
+    @POST("pot/getPage/{gubun}/{rate}/{page}/{size}")
+    Call<ModelLifeList> getLifeList(@Header("Content-Type") String content_type, @Body Object filter, @Path("gubun") String gubun, @Path("rate") int rate, @Path("page") int page, @Path("size") int size);
+
+
+
+    /**
+     *
+     * 라이프챌린지 저장
+     * investType은 704로 고정 값임 -> 넣어주는 값으로 변뎡되지 않는다.
+     *
+     */
+    @POST("pot/setLife")
+    Call<Object> getSaveLife(@Header("Content-Type") String content_type, @Body Object lifeMap);
+
 
 }

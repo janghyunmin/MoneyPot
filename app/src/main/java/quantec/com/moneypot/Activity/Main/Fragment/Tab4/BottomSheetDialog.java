@@ -22,10 +22,14 @@ import quantec.com.moneypot.R;
 
 public class BottomSheetDialog extends BottomSheetDialogFragment implements View.OnClickListener{
 
-    TextView saveBt;
+    TextView saveBt, title, rate, per;
+    String potName;
+    double potRate;
 
-    public static BottomSheetDialog newInstance() {
+    public BottomSheetDialog newInstance(String potName, double potRate) {
         BottomSheetDialog fragment = new BottomSheetDialog();
+        this.potName = potName;
+        this.potRate = potRate;
         return fragment;
     }
 
@@ -44,6 +48,22 @@ public class BottomSheetDialog extends BottomSheetDialogFragment implements View
         saveBt = contentView.findViewById(R.id.saveBt);
         saveBt.setFocusableInTouchMode(true);
         saveBt.requestFocus();
+
+        title = contentView.findViewById(R.id.title);
+        title.setText(potName);
+
+        rate = contentView.findViewById(R.id.rate);
+        per = contentView.findViewById(R.id.per);
+
+        rate.setText(String.valueOf(potRate));
+        if(potRate < 0 ){
+            rate.setTextColor(getResources().getColor(R.color.blue_color));
+            per.setTextColor(getResources().getColor(R.color.blue_color));
+        }
+        else{
+            rate.setTextColor(getResources().getColor(R.color.red_text_color));
+            per.setTextColor(getResources().getColor(R.color.red_text_color));
+        }
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
         CoordinatorLayout.Behavior behavior = params.getBehavior();

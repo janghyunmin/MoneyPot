@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:overScrollMode="never">
+    android:overScrollMode="never"
+    android:background="#FFFFFF">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,7 +14,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/myPotCardView"
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="150dp"
             android:layout_marginStart="26dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="26dp"
@@ -22,76 +23,77 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/myPotNon"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="최근 만든 포트가 없습니다."
-                android:textColor="@color/text_gray_color"
-                android:textSize="12dp"
-                android:visibility="visible" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/myPot"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:visibility="gone">
+                android:layout_margin="5dp"
+                >
 
                 <TextView
-                    android:id="@+id/myPotName"
+                    android:id="@+id/potTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="22dp"
-                    android:text="안정형 연금 투자 전략"
+                    android:gravity="center"
+                    android:text="최근 만든 포트"
                     android:textColor="@color/text_black_color"
-                    android:textSize="14dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/myPotTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="26dp"
-                    android:layout_marginTop="4dp"
-                    android:text="19.02.04"
-                    android:textColor="@color/text_gray_color"
                     android:textSize="12dp"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/myPotName" />
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="10dp"
+                    />
 
-                <TextView
-                    android:id="@+id/myPotYield"
+                <ImageView
+                    android:id="@+id/movedPage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="28dp"
-                    android:text="26.3%"
-                    android:textColor="@color/red_text_color"
-                    android:textSize="18dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/myPotTime"
+                    android:src="@drawable/ic_more_plus_gray"
+                    app:layout_constraintTop_toTopOf="@+id/potTitle"
+                    app:layout_constraintBottom_toBottomOf="@+id/potTitle"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/myPotName" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                    android:layout_marginEnd="20dp"
+                    />
 
-        <TextView
-            android:id="@+id/myPotBt"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="26dp"
-            android:background="@drawable/makepot_bt"
-            android:gravity="center"
-            android:text="포트 요리하기"
-            android:textColor="@color/text_white_color"
-            android:textSize="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/myPotCardView" />
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#f1f1f1"
+                    app:layout_constraintTop_toBottomOf="@+id/potTitle"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    />
+
+                <com.asksira.loopingviewpager.LoopingViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/line"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:isInfinite="true"
+                    app:autoScroll="true"
+                    app:scrollInterval="3000"
+                    app:wrap_content="true"
+                    android:layout_marginTop="15dp"
+                    />
+                <com.rd.PageIndicatorView
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@id/viewPager"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginBottom="8dp"
+                    app:piv_animationType="slide"
+                    app:piv_animationDuration="200"
+                    app:piv_interactiveAnimation="true"
+                    app:piv_radius="3dp"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/myPotCardView2"
@@ -103,7 +105,7 @@
             app:cardCornerRadius="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/myPotBt">
+            app:layout_constraintTop_toBottomOf="@+id/myPotCardView">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

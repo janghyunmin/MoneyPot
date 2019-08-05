@@ -153,8 +153,9 @@ public class ActivityLeagueForm extends AppCompatActivity {
         adapterLeagueForm.setLeagueFormItemClick(new AdapterLeagueForm.LeagueFormItemClick() {
             @Override
             public void onClick(int position) {
-                Intent intent = new Intent(ActivityLeagueForm.this, ActivityPotDetail.class);
-                startActivity(intent);
+//                Intent intent = new Intent(ActivityLeagueForm.this, ActivityPotDetail.class);
+//
+//                startActivity(intent);
             }
         });
 

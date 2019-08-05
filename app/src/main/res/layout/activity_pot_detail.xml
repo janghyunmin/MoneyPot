@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout>
+    <data>
+        <variable
+            name="user"
+            type="quantec.com.moneypot.databinding.ActivityPotDetailBinding" />
+
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.PotDetail.ActivityPotDetail"
-    android:background="#ffffff"
-    >
+    android:background="#FFFFFF"
+    tools:context=".Activity.PotDetail.ActivityPotDetail">
 
     <ImageView
         android:id="@+id/backBt"
@@ -43,35 +51,21 @@
         android:background="#f4f4f4"
         app:layout_constraintTop_toBottomOf="@+id/backBt" />
 
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/topLine"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:overScrollMode="never"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topLine">
 
         <include
             android:id="@+id/includePotDetail"
             layout="@layout/include_potdetail"
+            app:user="@{user}"
             />
 
     </ScrollView>
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/topLine"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--android:orientation="vertical"-->
-        <!--&gt;-->
-        <!--<include-->
-            <!--android:id="@+id/includePotDetail"-->
-            <!--layout="@layout/include_potdetail"-->
-            <!--/>-->
-    <!--</LinearLayout>-->
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

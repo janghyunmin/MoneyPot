@@ -34,17 +34,6 @@ import quantec.com.moneypot.RxAndroid.RxEventBus;
 
 public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
-    Intent showIntent;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        showIntent = new Intent(this, TopTest.class);
-        Log.e("중복","중복");
-    }
-
-
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
@@ -55,71 +44,37 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        Log.e("메시지", "From: " + remoteMessage.getFrom());
-
         if (remoteMessage.getData().size() > 0) {
             Log.e("Message data payload", "Message data payload: " + remoteMessage.getData());
-
-            if (true) {
-            } else {
-                handleNow();
-            }
         }
 
         if (remoteMessage.getNotification() != null) {
             Log.e("Notification", "Message Notification Body: " + remoteMessage.getNotification().getBody());
-//            sendNotification(remoteMessage.getNotification().getBody());
             sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), "");
 
-            Log.e("노티로받은 데이터","데이터 : "+remoteMessage.getData().get("urlLink"));
+//            Log.e("노티로받은 데이터","데이터 : "+remoteMessage.getData().get("urlLink"));
         }else{
 
-//            RxEventBus.getInstance().post(new RxEvent(RxEvent.CLOSED_ACTIVITY, null));
+            Log.e("노티로받은 데이터111111","데이터111111 : "+remoteMessage.getData().get("urlLink"));
             sendNotification("백그라운드", "시작합니다.", remoteMessage.getData().get("urlLink"));
-
         }
     }
 
 
 
-    private void handleNow() {
-        Log.d("Short", "Short lived task is done.");
-    }
-
-//    private void sendNotification(String messageBody) {
     private void sendNotification(String title, String message, String activityName) {
 
-//        ActivityManager am = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
-//        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(100);
-//        if (!tasks.isEmpty()) {
-//            int taskSize = tasks.size();
-//            for (int i = 0; i < taskSize; i++) {
-//                ActivityManager.RunningTaskInfo taskInfo = tasks.get(i);
-//                if (taskInfo.baseActivity.getPackageName().equals(getPackageName())) {
-//                    am.moveTaskToFront(taskInfo.id, 0);
-//                    break;
-//                }
-//            }
-//        }
 
+        Log.e("노티로받은 데이터22222","데이터2222 : "+activityName);
+        Intent showIntent  = new Intent(this, TopTest.class);
         showIntent.putExtra("pushType", activityName);
-
-
-//        Intent showIntent = new Intent(this, TopTest.class);
-////        Intent showIntent = new Intent(this, ActivityIntro.class);
-////        Intent showIntent = new Intent(this,  ActivityAuthFidoSingle.class);
-//        showIntent.putExtra("pushType", activityName);
-
-//        showIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//        showIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 //        String url ="activity://activityauthfidosingle";
 //        Intent showIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 //        showIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
+        PendingIntent contentIntent = PendingIntent.getBroadcast(this, 0, showIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-//      PendingIntent contentIntent = PendingIntent.getActivity(this, 1, showIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent contentIntent = PendingIntent.getBroadcast(this, 0, showIntent, 0);
         /**
          * 오레오 버전부터는 Notification Channel이 없으면 푸시가 생성되지 않는 현상이 있습니다.
          * **/
