@@ -58,7 +58,9 @@
                 android:layout_height="0dp"
                 android:overScrollMode="never"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/topLine" />
+                app:layout_constraintTop_toBottomOf="@+id/topLine"
+                android:background="#f1f1f1"
+                />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

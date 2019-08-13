@@ -9,6 +9,7 @@ import java.util.Random;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import quantec.com.moneypot.Activity.Main.Foreground;
 
 public class mApplication extends Application {
@@ -27,6 +28,15 @@ public class mApplication extends Application {
 
         Realm.init(this);
 
+//        RealmConfiguration configuration = new RealmConfiguration.Builder()
+//                .schemaVersion(2)
+//                .build();
+//        Realm.setDefaultConfiguration(configuration);
+
+        RealmConfiguration configuration = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(configuration);
 
         SharedPreferences mid = getSharedPreferences("user", MODE_PRIVATE);
         if (mid.getString("mid", "empty").equals("empty")) {

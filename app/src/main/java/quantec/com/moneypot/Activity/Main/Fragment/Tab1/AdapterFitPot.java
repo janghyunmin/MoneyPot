@@ -1,7 +1,17 @@
 package quantec.com.moneypot.Activity.Main.Fragment.Tab1;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -10,17 +20,40 @@ import android.view.animation.RotateAnimation;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.MarkerView;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.MPPointF;
+import com.tobiasschuerg.prefixsuffix.PrefixSuffixEditText;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 import quantec.com.moneypot.R;
+import quantec.com.moneypot.util.ChangeUnitToPrice.ChangeUnitToPrice;
+import quantec.com.moneypot.util.removezero.RemoveZero;
 
 public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -39,6 +72,21 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     ArrayList<ModelAccountWebView> modelAccountWebViews;
 
+
+    List<Entry> entries;
+    ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
+    LineDataSet lineDataSet, lineDataSet2;
+    LineData lineData;
+    XAxis xAxis;
+
+    List<Entry> entries2;
+    float currentX, maxX;
+
+
+    private DecimalFormat decimalFormat = new DecimalFormat("#,###");
+    private String nowResult="";
+    private String addResult="";
+    private String finalResult="";
 
     public AdapterFitPot(ArrayList<ModelFitPotList> modelFitPotLists, Context context, ArrayList<ModelAccountWebView> modelAccountWebViews) {
         this.modelFitPotLists = modelFitPotLists;
@@ -99,14 +147,14 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    private ChartNextBtClick chartNextBtClick;
-    public interface ChartNextBtClick {
-        public void onClick(int position);
-    }
-
-    public void setChartNextBtClick(ChartNextBtClick chartNextBtClick) {
-        this.chartNextBtClick = chartNextBtClick;
-    }
+//    private ChartNextBtClick chartNextBtClick;
+//    public interface ChartNextBtClick {
+//        public void onClick(int position);
+//    }
+//
+//    public void setChartNextBtClick(ChartNextBtClick chartNextBtClick) {
+//        this.chartNextBtClick = chartNextBtClick;
+//    }
 
 
 
@@ -128,6 +176,88 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void setAddItemViewClick(AddItemViewClick addItemViewClick) {
         this.addItemViewClick = addItemViewClick;
+    }
+
+    private InsertNextBtClick insertNextBtClick;
+    public interface InsertNextBtClick {
+        public void onClick(int position);
+    }
+
+    public void setInsertNextBtClick(InsertNextBtClick insertNextBtClick) {
+        this.insertNextBtClick = insertNextBtClick;
+    }
+
+    private ChartNextBtClick chartNextBtClick;
+    public interface ChartNextBtClick {
+        public void onClick(int position);
+    }
+
+    public void setChartNextBtClick(ChartNextBtClick chartNextBtClick) {
+        this.chartNextBtClick = chartNextBtClick;
+    }
+
+    private NowPriceText nowPriceText;
+    public interface NowPriceText {
+        public void onText(String text);
+    }
+
+    public void setNowPriceText(NowPriceText nowPriceText) {
+        this.nowPriceText = nowPriceText;
+    }
+
+    private AddPriceText addPriceText;
+    public interface AddPriceText {
+        public void onText(String text);
+    }
+
+    public void setAddPriceText(AddPriceText addPriceText) {
+        this.addPriceText = addPriceText;
+    }
+
+    private FinalPriceText finalPriceText;
+    public interface FinalPriceText {
+        public void onText(String text);
+    }
+
+    public void setFinalPriceText(FinalPriceText finalPriceText) {
+        this.finalPriceText = finalPriceText;
+    }
+
+    private ChartBackBt chartBackBt;
+    public interface ChartBackBt {
+        public void onClick(int position);
+    }
+
+    public void setChartBackBt(ChartBackBt chartBackBt) {
+        this.chartBackBt = chartBackBt;
+    }
+
+    private ChartDate chartDate;
+    public interface ChartDate {
+        public void onText(int year);
+    }
+
+    public void setChartDate(ChartDate chartDate) {
+        this.chartDate = chartDate;
+    }
+
+
+    private ShowChartView showChartView;
+    public interface ShowChartView {
+        public void onClick(int position);
+    }
+
+    public void setShowChartView(ShowChartView showChartView) {
+        this.showChartView = showChartView;
+    }
+
+    private DeleteLifeBt deleteLifeBt;
+    public interface DeleteLifeBt {
+        public void onClick(int position);
+    }
+
+    public void setDeleteLifeBt(DeleteLifeBt deleteLifeBt) {
+        this.deleteLifeBt = deleteLifeBt;
     }
 
     @NonNull
@@ -195,12 +325,9 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         if(holder instanceof WebViewItemViewHolder){
-
-
         }
 
         if(holder instanceof LifeAddViewHolder){
-
             ((LifeAddViewHolder)holder).addItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -209,27 +336,622 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             });
-
         }
 
         if(holder instanceof LifeInsertViewHolder){
+            ((LifeInsertViewHolder)holder).nowPrice.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    ((LifeInsertViewHolder)holder).nowPrice.setSuffix("만원");
+
+                    if(!TextUtils.isEmpty(s.toString()) && !s.toString().equals(nowResult)){
+                        ((LifeInsertViewHolder)holder).preNowPrice.setVisibility(View.VISIBLE);
+                        if(s.toString().startsWith("0")){
+                            nowResult = RemoveZero.removeZero(s.toString());
+                            ((LifeInsertViewHolder)holder).nowPrice.setText(nowResult);
+                            ((LifeInsertViewHolder)holder).nowPrice.setSelection(nowResult.length());
+                        }else{
+
+                            nowResult = s.toString();
+                            ((LifeInsertViewHolder)holder).nowPrice.setText(nowResult);
+                            ((LifeInsertViewHolder)holder).nowPrice.setSelection(nowResult.length());
+                        }
+                        if(nowPriceText != null){
+                            nowPriceText.onText(nowResult);
+                        }
+                    }
+                    else if(TextUtils.isEmpty(s.toString())){
+                        if(nowPriceText != null){
+                            nowPriceText.onText(s.toString());
+                        }
+                        ((LifeInsertViewHolder)holder).preNowPrice.setVisibility(View.INVISIBLE);
+                        ((LifeInsertViewHolder)holder).nowPrice.setSuffix("");
+                    }
+                    ((LifeInsertViewHolder)holder).preNowPrice.setText(ChangeUnitToPrice.changeUnitToPrice(nowResult));
+//                    if(nowResult.length() <= 4){
+//                        ((LifeInsertViewHolder)holder).preNowPrice.setText(nowResult+"만원");
+//                    }else{
+//                        ((LifeInsertViewHolder)holder).preNowPrice.setText(ChangeUnitToPrice.changeUnitToPrice(nowResult));
+////                        String uc, man;
+////                        if(nowResult.length() == 5){
+////                            uc = nowResult.substring(0, 1);
+////                            man = nowResult.substring(1);
+////                        }else {
+////                            uc = nowResult.substring(0, 2);
+////                            man =nowResult.substring(2);
+////                        }
+////
+////                        if(man.startsWith("0")){
+////                            man = RemoveZero.removeZero(man);
+////                        }
+////
+////                        if(man.length() != 0){
+////                            ((LifeInsertViewHolder)holder).preNowPrice.setText(uc+"억 "+man+"만원");
+////                        }else{
+////                            ((LifeInsertViewHolder)holder).preNowPrice.setText(uc+"억");
+////                        }
+//                    }
+                }
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
 
 
+            ((LifeInsertViewHolder)holder).addPrice.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    ((LifeInsertViewHolder)holder).addPrice.setSuffix("만원");
+
+                    if(!TextUtils.isEmpty(s.toString()) && !s.toString().equals(addResult)){
+                        ((LifeInsertViewHolder)holder).preAddPrice.setVisibility(View.VISIBLE);
+                        if(s.toString().startsWith("0")){
+                            addResult = RemoveZero.removeZero(s.toString());
+                            ((LifeInsertViewHolder)holder).addPrice.setText(addResult);
+                            ((LifeInsertViewHolder)holder).addPrice.setSelection(addResult.length());
+                        }else{
+
+                            addResult = s.toString();
+                            ((LifeInsertViewHolder)holder).addPrice.setText(addResult);
+                            ((LifeInsertViewHolder)holder).addPrice.setSelection(addResult.length());
+                        }
+                        if(addPriceText != null){
+                            addPriceText.onText(addResult);
+                        }
+                    }
+                    else if(TextUtils.isEmpty(s.toString())){
+                        if(addPriceText != null){
+                            addPriceText.onText(s.toString());
+                        }
+                        ((LifeInsertViewHolder)holder).preAddPrice.setVisibility(View.INVISIBLE);
+                        ((LifeInsertViewHolder)holder).addPrice.setSuffix("");
+                    }
+
+                    ((LifeInsertViewHolder)holder).preAddPrice.setText(ChangeUnitToPrice.changeUnitToPrice(addResult));
+
+//                    if(addResult.length() <= 4){
+//                        ((LifeInsertViewHolder)holder).preAddPrice.setText(addResult+"만원");
+//                    }else{
+//                        ((LifeInsertViewHolder)holder).preAddPrice.setText(ChangeUnitToPrice.changeUnitToPrice(addResult));
+////                        String uc, man;
+////                        if(addResult.length() == 5){
+////                            uc = addResult.substring(0, 1);
+////                            man = addResult.substring(1);
+////                        }else {
+////                            uc = addResult.substring(0, 2);
+////                            man =addResult.substring(2);
+////                        }
+////
+////                        if(man.startsWith("0")){
+////                            man = RemoveZero.removeZero(man);
+////                        }
+////
+////                        if(man.length() != 0){
+////                            ((LifeInsertViewHolder)holder).preAddPrice.setText(uc+"억 "+man+"만원");
+////                        }else{
+////                            ((LifeInsertViewHolder)holder).preAddPrice.setText(uc+"억");
+////                        }
+//                    }
+                }
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+
+
+            ((LifeInsertViewHolder)holder).finalPrice.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    ((LifeInsertViewHolder)holder).finalPrice.setSuffix("만원");
+
+                    if(!TextUtils.isEmpty(s.toString()) && !s.toString().equals(finalResult)){
+                        ((LifeInsertViewHolder)holder).preFinalPrice.setVisibility(View.VISIBLE);
+                        if(s.toString().startsWith("0")){
+                            finalResult = RemoveZero.removeZero(s.toString());
+                            ((LifeInsertViewHolder)holder).finalPrice.setText(finalResult);
+                            ((LifeInsertViewHolder)holder).finalPrice.setSelection(finalResult.length());
+                        }else{
+
+                            finalResult = s.toString();
+                            ((LifeInsertViewHolder)holder).finalPrice.setText(finalResult);
+                            ((LifeInsertViewHolder)holder).finalPrice.setSelection(finalResult.length());
+                        }
+                        if(finalPriceText != null){
+                            finalPriceText.onText(finalResult);
+                        }
+                    }
+                    else if(TextUtils.isEmpty(s.toString())){
+                        if(finalPriceText != null){
+                            finalPriceText.onText(s.toString());
+                        }
+                        ((LifeInsertViewHolder)holder).preFinalPrice.setVisibility(View.INVISIBLE);
+                        ((LifeInsertViewHolder)holder).finalPrice.setSuffix("");
+                    }
+
+                    ((LifeInsertViewHolder)holder).preFinalPrice.setText(ChangeUnitToPrice.changeUnitToPrice(finalResult));
+//                    if(finalResult.length() <= 4){
+//                        ((LifeInsertViewHolder)holder).preFinalPrice.setText(finalResult+"만원");
+//                    }else{
+//
+//                        ((LifeInsertViewHolder)holder).preFinalPrice.setText(ChangeUnitToPrice.changeUnitToPrice(finalResult));
+//
+////                        String uc, man;
+////                        if(finalResult.length() == 5){
+////                            uc = finalResult.substring(0, 1);
+////                            man = finalResult.substring(1);
+////                        }else {
+////                            uc = finalResult.substring(0, 2);
+////                            man = finalResult.substring(2);
+////                        }
+////
+////                        if(man.startsWith("0")){
+////                            man = RemoveZero.removeZero(man);
+////                        }
+////
+////                        if(man.length() != 0){
+////                            ((LifeInsertViewHolder)holder).preFinalPrice.setText(uc+"억 "+man+"만원");
+////                        }else{
+////                            ((LifeInsertViewHolder)holder).preFinalPrice.setText(uc+"억");
+////                        }
+//                    }
+
+                }
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+
+
+            ((LifeInsertViewHolder)holder).nextBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(insertNextBtClick != null){
+                        insertNextBtClick.onClick(position);
+
+                        ((LifeInsertViewHolder)holder).nowPrice.setText("");
+                        ((LifeInsertViewHolder)holder).addPrice.setText("");
+                        ((LifeInsertViewHolder)holder).finalPrice.setText("");
+                    }
+                }
+            });
         }
 
         if(holder instanceof LifeChartViewHolder){
 
+            ((LifeChartViewHolder)holder).backBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(chartBackBt != null){
+                        chartBackBt.onClick(position);
+                    }
+                }
+            });
+
+            ((LifeChartViewHolder)holder).nextBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(chartNextBtClick != null){
+                        chartNextBtClick.onClick(position);
+                    }
+                }
+            });
+
+            entries = new ArrayList<>();
+            entries2 = new ArrayList<>();
+
+            entries.clear();
+            entries2.clear();
+
+            float calTotalPrice, calTotalNormalPrice,
+                  calPotYear, calYield,
+                  calNormalYear, calNormalYield;
+
+                entries.add(new Entry(0, (modelFitPotLists.get(position).getNowPrice()*10000), (modelFitPotLists.get(position).getNowPrice()*10000)));
+                float price = (modelFitPotLists.get(position).getNowPrice() + (modelFitPotLists.get(position).getMonPrice() * 12)) * 1.09f;
+                entries.add(new Entry(1, price*10000, price*10000));
+                calPotYear = 1;
+
+                calTotalPrice = (long)(modelFitPotLists.get(position).getNowPrice() + modelFitPotLists.get(position).getMonPrice()*12);
+                calYield = (long) (price - calTotalPrice);
+                if (price < modelFitPotLists.get(position).getFinalPrice()) {
+                    for (int year = 2; year < 10000; year++) {
+                        price = (price + (modelFitPotLists.get(position).getMonPrice() * 12)) * 1.09f;
+                        entries.add(new Entry(year, price*10000, price*10000));
+                        if (price >= modelFitPotLists.get(position).getFinalPrice()) {
+                            calPotYear = year;
+                            calTotalPrice = (long) (modelFitPotLists.get(position).getNowPrice() + (modelFitPotLists.get(position).getMonPrice() * 12 * calPotYear));
+                            calYield = (long) (price - calTotalPrice);
+                            break;
+                        }
+                    }
+                }
+
+                entries2.add(new Entry(0, modelFitPotLists.get(position).getNowPrice()*10000, modelFitPotLists.get(position).getNowPrice()*10000));
+                float price2 = (modelFitPotLists.get(position).getNowPrice() + (modelFitPotLists.get(position).getMonPrice() * 12)) * 1.03f;
+                entries2.add(new Entry(1, price2*10000, price2*10000));
+                calNormalYear = 1;
+
+                calTotalNormalPrice = (long)(modelFitPotLists.get(position).getNowPrice() + modelFitPotLists.get(position).getMonPrice()*12);
+                calNormalYield = (long)(price2 - calTotalNormalPrice);
+                if(price2 < modelFitPotLists.get(position).getFinalPrice()){
+                    for (int year2 = 2; year2 < 1000; year2++) {
+                        price2 = (price2 + (modelFitPotLists.get(position).getMonPrice() * 12)) * 1.03f;
+                        entries2.add(new Entry(year2, price2*10000, price2*10000));
+                        if (price2 >= modelFitPotLists.get(position).getFinalPrice()) {
+                            calNormalYear = year2;
+                            calTotalNormalPrice = (long) (modelFitPotLists.get(position).getNowPrice() + (modelFitPotLists.get(position).getMonPrice() * 12 * calNormalYear));
+                            calNormalYield = (long) (price2 - calTotalNormalPrice);
+                            break;
+                        }
+                    }
+                }
+
+                if(chartDate != null){
+                    chartDate.onText((int)calPotYear);
+                }
+
+
+            ((LifeChartViewHolder)holder).datePotText.setText((int)calPotYear+"년");
+            ((LifeChartViewHolder)holder).dateYText.setText((int)calNormalYear+"년");
+
+            ((LifeChartViewHolder)holder).totalPotText.setText(addCom((long)calTotalPrice*10000)+"원");
+            ((LifeChartViewHolder)holder).totalYText.setText(addCom((long)calTotalNormalPrice*10000)+"원");
+
+            ((LifeChartViewHolder)holder).yieldPotText.setText(addCom((long)calYield*10000)+"원");
+            ((LifeChartViewHolder)holder).yieldYText.setText(addCom((long)calNormalYield*10000)+"원");
+
+                lineDataSet = new LineDataSet(entries, "머니포트");
+                lineDataSet.setLineWidth(1.5f);
+                lineDataSet.setColor(Color.parseColor("#FFFF0000"));
+                lineDataSet.setDrawHorizontalHighlightIndicator(false);
+                lineDataSet.setDrawValues(false);
+                lineDataSet.setHighlightEnabled(true);
+                lineDataSet.setDrawHighlightIndicators(true);
+                lineDataSet.setDrawHorizontalHighlightIndicator(false);
+                lineDataSet.setDrawVerticalHighlightIndicator(false);
+                lineDataSet.setHighlightLineWidth(0f);
+                lineDataSet.setHighLightColor(Color.parseColor("#FFFFFFFF"));
+                lineDataSet.setDrawCircles(false);
+
+                lineDataSet2 = new LineDataSet(entries2, "예적금");
+                lineDataSet2.setLineWidth(1.5f);
+                lineDataSet2.setColor(Color.parseColor("#E1E1E1"));
+                lineDataSet2.setDrawHorizontalHighlightIndicator(false);
+                lineDataSet2.setDrawValues(false);
+                lineDataSet2.setHighLightColor(Color.parseColor("#FFFFFFFF"));
+                lineDataSet2.setHighlightEnabled(true);
+                lineDataSet2.setDrawHighlightIndicators(true);
+                lineDataSet2.setDrawHorizontalHighlightIndicator(false);
+                lineDataSet2.setDrawVerticalHighlightIndicator(false);
+                lineDataSet2.setHighlightLineWidth(0f);
+                lineDataSet2.setDrawCircles(false);
+
+                lineDataSets.clear();
+
+                lineDataSets.add(lineDataSet);
+                lineDataSets.add(lineDataSet2);
+
+                lineData = new LineData(lineDataSets);
+                lineData.setHighlightEnabled(false);
+
+                xAxis = ((LifeChartViewHolder) holder).chartView.getXAxis();
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+                if(entries2.size() <= 12){
+                    xAxis.setLabelCount(entries2.size(), true);
+                }
+
+                xAxis.setGranularity(1f);
+                xAxis.setDrawLabels(true);
+                xAxis.setDrawGridLines(false);
+                xAxis.setDrawAxisLine(true);
+                xAxis.setEnabled(true);
+
+                YAxis yAxis = ((LifeChartViewHolder) holder).chartView.getAxisLeft();
+                yAxis.setDrawLabels(false);
+                yAxis.setDrawGridLines(false);
+                yAxis.setDrawAxisLine(false);
+                yAxis.setEnabled(false);
+
+                YAxis yAxi1 = ((LifeChartViewHolder) holder).chartView.getAxisRight();
+                yAxi1.setDrawLabels(false);
+                yAxi1.setDrawGridLines(false);
+                yAxi1.setDrawAxisLine(false);
+                yAxi1.setEnabled(false);
+
+                Legend legend = ((LifeChartViewHolder) holder).chartView.getLegend();
+                legend.setForm(Legend.LegendForm.CIRCLE);
+                legend.setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);
+                legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+                legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+                legend.setEnabled(true);
+                legend.setDrawInside(true);
+
+                ((LifeChartViewHolder) holder).chartView.setDescription(null);
+                ((LifeChartViewHolder) holder).chartView.setDrawGridBackground(false);
+                ((LifeChartViewHolder) holder).chartView.setData(lineData);
+                ((LifeChartViewHolder) holder).chartView.setDoubleTapToZoomEnabled(false);
+                ((LifeChartViewHolder) holder).chartView.setDrawGridBackground(false);
+                ((LifeChartViewHolder) holder).chartView.animateY(600, Easing.EasingOption.EaseInCubic);
+                ((LifeChartViewHolder) holder).chartView.setPinchZoom(false);
+//                ((LifeChartViewHolder) holder).chartView.setScaleEnabled(false);
+                ((LifeChartViewHolder) holder).chartView.invalidate();
+
+                maxX = ((LifeChartViewHolder) holder).chartView.getXRange();
+
+                CustomMarkerView marker = new CustomMarkerView(context, R.layout.item_chatbotchart_marker);
+                marker.setChartView(((LifeChartViewHolder) holder).chartView);
+
+                ((LifeChartViewHolder) holder).chartView.highlightValue(new Highlight(entries.get(entries.size()-1).getX(), entries.get(entries.size()-1).getY(), 0), false);
+                marker.setEnabled(false);
+
+                ((LifeChartViewHolder) holder).chartView.getMarkerView();
+                ((LifeChartViewHolder) holder).chartView.setDrawMarkers(true);
+                ((LifeChartViewHolder) holder).chartView.getData().setHighlightEnabled(true);
+                ((LifeChartViewHolder) holder).chartView.setMarker(marker);
+                ((LifeChartViewHolder) holder).chartView.invalidate();
+
+                ((LifeChartViewHolder) holder).chartView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
 
         }
 
         if(holder instanceof LifeRecomViewHolder){
+
+            ((LifeRecomViewHolder)holder).title.setText(modelFitPotLists.get(position).getLifeName());
+            ((LifeRecomViewHolder)holder).desc.setText(modelFitPotLists.get(position).getLifeDesc());
+            ((LifeRecomViewHolder)holder).dateTitle.setText(modelFitPotLists.get(position).getLifeDate());
+            ((LifeRecomViewHolder)holder).priceTitle.setText(modelFitPotLists.get(position).getLifePrice());
+            ((LifeRecomViewHolder)holder).typeTitle.setText(modelFitPotLists.get(position).getLifeTag());
+            ((LifeRecomViewHolder)holder).potTitle.setText(modelFitPotLists.get(position).getLifePotName());
+            ((LifeRecomViewHolder)holder).potImage.setImageDrawable(context.getResources().getDrawable(R.drawable.group_1523));
+            ((LifeRecomViewHolder)holder).rate.setText(String.valueOf(modelFitPotLists.get(position).getLifePotRate()));
+
+            Glide.with(context)
+                    .load(modelFitPotLists.get(position).getLifeImageUrl())
+                    .error(context.getResources().getDrawable(R.drawable.img_mini_2))
+                    .into(((LifeRecomViewHolder)holder).image);
+
+
+            if(modelFitPotLists.get(position).getLifePotRate() < 0){
+                ((LifeRecomViewHolder)holder).rate.setTextColor(context.getResources().getColor(R.color.blue_color));
+                ((LifeRecomViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.blue_color));
+            }else{
+                ((LifeRecomViewHolder)holder).rate.setTextColor(context.getResources().getColor(R.color.red_text_color));
+                ((LifeRecomViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.red_text_color));
+            }
+
+            ((LifeRecomViewHolder)holder).deleteBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(deleteLifeBt != null){
+                        deleteLifeBt.onClick(position);
+                    }
+                }
+            });
+
+            ((LifeRecomViewHolder)holder).showChartBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(showChartView != null){
+                        showChartView.onClick(position);
+                    }
+                }
+            });
+
+            if(modelFitPotLists.get(position).isShowChart()){
+                ((LifeRecomViewHolder)holder).chartLayout.setVisibility(View.VISIBLE);
+
+                entries = new ArrayList<>();
+                entries2 = new ArrayList<>();
+
+                entries.clear();
+                entries2.clear();
+
+                float calTotalPrice, calTotalNormalPrice,
+                        calPotYear, calYield,
+                        calNormalYear, calNormalYield;
+
+                entries.add(new Entry(0, (modelFitPotLists.get(position).getNowPrice()*10000), (modelFitPotLists.get(position).getNowPrice()*10000)));
+                float price = (modelFitPotLists.get(position).getNowPrice() + (modelFitPotLists.get(position).getMonPrice() * 12)) * 1.09f;
+                entries.add(new Entry(1, price*10000, price*10000));
+                calPotYear = 1;
+
+                calTotalPrice = (long)(modelFitPotLists.get(position).getNowPrice() + modelFitPotLists.get(position).getMonPrice()*12);
+                calYield = (long) (price - calTotalPrice);
+                if (price < modelFitPotLists.get(position).getFinalPrice()) {
+                    for (int year = 2; year < 10000; year++) {
+                        price = (price + (modelFitPotLists.get(position).getMonPrice() * 12)) * 1.09f;
+                        entries.add(new Entry(year, price*10000, price*10000));
+                        if (price >= modelFitPotLists.get(position).getFinalPrice()) {
+                            calPotYear = year;
+                            calTotalPrice = (long) (modelFitPotLists.get(position).getNowPrice() + (modelFitPotLists.get(position).getMonPrice() * 12 * calPotYear));
+                            calYield = (long) (price - calTotalPrice);
+                            break;
+                        }
+                    }
+                }
+
+                entries2.add(new Entry(0, modelFitPotLists.get(position).getNowPrice()*10000, modelFitPotLists.get(position).getNowPrice()*10000));
+                float price2 = (modelFitPotLists.get(position).getNowPrice() + (modelFitPotLists.get(position).getMonPrice() * 12)) * 1.03f;
+                entries2.add(new Entry(1, price2*10000, price2*10000));
+                calNormalYear = 1;
+
+                calTotalNormalPrice = (long)(modelFitPotLists.get(position).getNowPrice() + modelFitPotLists.get(position).getMonPrice()*12);
+                calNormalYield = (long)(price2 - calTotalNormalPrice);
+                if(price2 < modelFitPotLists.get(position).getFinalPrice()){
+                    for (int year2 = 2; year2 < 1000; year2++) {
+                        price2 = (price2 + (modelFitPotLists.get(position).getMonPrice() * 12)) * 1.03f;
+                        entries2.add(new Entry(year2, price2*10000, price2*10000));
+                        if (price2 >= modelFitPotLists.get(position).getFinalPrice()) {
+                            calNormalYear = year2;
+                            calTotalNormalPrice = (long) (modelFitPotLists.get(position).getNowPrice() + (modelFitPotLists.get(position).getMonPrice() * 12 * calNormalYear));
+                            calNormalYield = (long) (price2 - calTotalNormalPrice);
+                            break;
+                        }
+                    }
+                }
+
+                if(chartDate != null){
+                    chartDate.onText((int)calPotYear);
+                }
+
+
+                ((LifeRecomViewHolder)holder).datePotText.setText((int)calPotYear+"년");
+                ((LifeRecomViewHolder)holder).dateYText.setText((int)calNormalYear+"년");
+
+                ((LifeRecomViewHolder)holder).totalPotText.setText(addCom((long)calTotalPrice*10000)+"원");
+                ((LifeRecomViewHolder)holder).totalYText.setText(addCom((long)calTotalNormalPrice*10000)+"원");
+
+                ((LifeRecomViewHolder)holder).yieldPotText.setText(addCom((long)calYield*10000)+"원");
+                ((LifeRecomViewHolder)holder).yieldYText.setText(addCom((long)calNormalYield*10000)+"원");
+
+                lineDataSet = new LineDataSet(entries, "머니포트");
+                lineDataSet.setLineWidth(1.5f);
+                lineDataSet.setColor(Color.parseColor("#FFFF0000"));
+                lineDataSet.setDrawHorizontalHighlightIndicator(false);
+                lineDataSet.setDrawValues(false);
+                lineDataSet.setHighlightEnabled(true);
+                lineDataSet.setDrawHighlightIndicators(true);
+                lineDataSet.setDrawHorizontalHighlightIndicator(false);
+                lineDataSet.setDrawVerticalHighlightIndicator(false);
+                lineDataSet.setHighlightLineWidth(0f);
+                lineDataSet.setHighLightColor(Color.parseColor("#FFFFFFFF"));
+                lineDataSet.setDrawCircles(false);
+
+                lineDataSet2 = new LineDataSet(entries2, "예적금");
+                lineDataSet2.setLineWidth(1.5f);
+                lineDataSet2.setColor(Color.parseColor("#E1E1E1"));
+                lineDataSet2.setDrawHorizontalHighlightIndicator(false);
+                lineDataSet2.setDrawValues(false);
+                lineDataSet2.setHighLightColor(Color.parseColor("#FFFFFFFF"));
+                lineDataSet2.setHighlightEnabled(true);
+                lineDataSet2.setDrawHighlightIndicators(true);
+                lineDataSet2.setDrawHorizontalHighlightIndicator(false);
+                lineDataSet2.setDrawVerticalHighlightIndicator(false);
+                lineDataSet2.setHighlightLineWidth(0f);
+                lineDataSet2.setDrawCircles(false);
+
+                lineDataSets.clear();
+
+                lineDataSets.add(lineDataSet);
+                lineDataSets.add(lineDataSet2);
+
+                lineData = new LineData(lineDataSets);
+                lineData.setHighlightEnabled(false);
+
+                xAxis = ((LifeRecomViewHolder) holder).chartView.getXAxis();
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+                if(entries2.size() <= 12){
+                    xAxis.setLabelCount(entries2.size(), true);
+                }
+
+                xAxis.setGranularity(1f);
+                xAxis.setDrawLabels(true);
+                xAxis.setDrawGridLines(false);
+                xAxis.setDrawAxisLine(true);
+                xAxis.setEnabled(true);
+
+                YAxis yAxis = ((LifeRecomViewHolder) holder).chartView.getAxisLeft();
+                yAxis.setDrawLabels(false);
+                yAxis.setDrawGridLines(false);
+                yAxis.setDrawAxisLine(false);
+                yAxis.setEnabled(false);
+
+                YAxis yAxi1 = ((LifeRecomViewHolder) holder).chartView.getAxisRight();
+                yAxi1.setDrawLabels(false);
+                yAxi1.setDrawGridLines(false);
+                yAxi1.setDrawAxisLine(false);
+                yAxi1.setEnabled(false);
+
+                Legend legend = ((LifeRecomViewHolder) holder).chartView.getLegend();
+                legend.setForm(Legend.LegendForm.CIRCLE);
+                legend.setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);
+                legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+                legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+                legend.setEnabled(true);
+                legend.setDrawInside(true);
+
+                ((LifeRecomViewHolder) holder).chartView.setDescription(null);
+                ((LifeRecomViewHolder) holder).chartView.setDrawGridBackground(false);
+                ((LifeRecomViewHolder) holder).chartView.setData(lineData);
+                ((LifeRecomViewHolder) holder).chartView.setDoubleTapToZoomEnabled(false);
+                ((LifeRecomViewHolder) holder).chartView.setDrawGridBackground(false);
+                ((LifeRecomViewHolder) holder).chartView.animateY(600, Easing.EasingOption.EaseInCubic);
+                ((LifeRecomViewHolder) holder).chartView.setPinchZoom(false);
+//                ((LifeChartViewHolder) holder).chartView.setScaleEnabled(false);
+                ((LifeRecomViewHolder) holder).chartView.invalidate();
+
+                maxX = ((LifeRecomViewHolder) holder).chartView.getXRange();
+
+                CustomMarkerView marker = new CustomMarkerView(context, R.layout.item_chatbotchart_marker);
+                marker.setChartView(((LifeRecomViewHolder) holder).chartView);
+
+                ((LifeRecomViewHolder) holder).chartView.highlightValue(new Highlight(entries.get(entries.size()-1).getX(), entries.get(entries.size()-1).getY(), 0), false);
+                marker.setEnabled(false);
+
+                ((LifeRecomViewHolder) holder).chartView.getMarkerView();
+                ((LifeRecomViewHolder) holder).chartView.setDrawMarkers(true);
+                ((LifeRecomViewHolder) holder).chartView.getData().setHighlightEnabled(true);
+                ((LifeRecomViewHolder) holder).chartView.setMarker(marker);
+                ((LifeRecomViewHolder) holder).chartView.invalidate();
+
+                ((LifeRecomViewHolder) holder).chartView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
+
+            }else{
+                ((LifeRecomViewHolder)holder).chartLayout.setVisibility(View.GONE);
+            }
 
 
         }
 
         if(holder instanceof LifeInvestViewHolder){
 
-
+            ((LifeInvestViewHolder)holder).persent.setText(modelFitPotLists.get(position).getLifeInvestPersent()+"%");
+            ((LifeInvestViewHolder)holder).date.setText(modelFitPotLists.get(position).getLifeInvestDate());
         }
     }
 
@@ -296,30 +1018,115 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class LifeInsertViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nextBt;
+        TextView nextBt, preNowPrice, preAddPrice, preFinalPrice;
+        PrefixSuffixEditText nowPrice, addPrice, finalPrice;
 
         public LifeInsertViewHolder(@NonNull View itemView) {
             super(itemView);
 
             nextBt = itemView.findViewById(R.id.nextBt);
+
+            nowPrice = itemView.findViewById(R.id.nowPrice);
+            addPrice = itemView.findViewById(R.id.addPrice);
+            finalPrice = itemView.findViewById(R.id.finalPrice);
+
+            preNowPrice = itemView.findViewById(R.id.preNowPrice);
+            preAddPrice = itemView.findViewById(R.id.preAddPrice);
+            preFinalPrice = itemView.findViewById(R.id.preFinalPrice);
+
+//            nowPrice.setFilters(new InputFilter[]{new InputFilter() {
+//                    @Override
+//                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+//
+//                        Pattern ps = Pattern.compile("^[0-9]+$");
+//                        if(source.equals("") || ps.matcher(source).matches()){
+//                            if(source.length() == 2 && source.equals("00")){
+//                                return "0";
+//                            }else{
+//                                return source;
+//                            }
+//                        }else{
+//                            return "0";
+//                        }
+//                    }
+//                },new InputFilter.LengthFilter(6)});
+
         }
     }
 
     public class LifeChartViewHolder extends RecyclerView.ViewHolder {
+
+        TextView nextBt, yieldYText, yieldPotText, totalYText, totalPotText, dateYText, datePotText;
+        ImageView backBt;
+        LineChart chartView;
+
         public LifeChartViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            nextBt = itemView.findViewById(R.id.nextBt);
+            backBt = itemView.findViewById(R.id.backBt);
+            chartView = itemView.findViewById(R.id.chartView);
+            chartView.setNoDataText("");
+
+            yieldYText = itemView.findViewById(R.id.yieldYText);
+            yieldPotText = itemView.findViewById(R.id.yieldPotText);
+            totalYText = itemView.findViewById(R.id.totalYText);
+            totalPotText = itemView.findViewById(R.id.totalPotText);
+            dateYText = itemView.findViewById(R.id.dateYText);
+            datePotText = itemView.findViewById(R.id.datePotText);
+
         }
     }
 
     public class LifeRecomViewHolder extends RecyclerView.ViewHolder {
+
+        TextView title, dateTitle, priceTitle, typeTitle, desc, potTitle, rate, per, deleteBt, yieldYText, yieldPotText, totalYText, totalPotText, dateYText, datePotText;
+        ImageView image, potImage;
+        ConstraintLayout chartLayout;
+        LineChart chartView;
+        View showChartBt;
+
         public LifeRecomViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            title = itemView.findViewById(R.id.title);
+            dateTitle = itemView.findViewById(R.id.dateTitle);
+            priceTitle = itemView.findViewById(R.id.priceTitle);
+            typeTitle = itemView.findViewById(R.id.typeTitle);
+            desc = itemView.findViewById(R.id.desc);
+            potTitle = itemView.findViewById(R.id.potTitle);
+            rate = itemView.findViewById(R.id.rate);
+            per = itemView.findViewById(R.id.per);
+
+            image = itemView.findViewById(R.id.image);
+            potImage = itemView.findViewById(R.id.potImage);
+
+            chartLayout = itemView.findViewById(R.id.chartLayout);
+
+            deleteBt = itemView.findViewById(R.id.deleteBt);
+            chartView = itemView.findViewById(R.id.chartView);
+            chartView.setNoDataText("");
+
+            yieldYText = itemView.findViewById(R.id.yieldYText);
+            yieldPotText = itemView.findViewById(R.id.yieldPotText);
+            totalYText = itemView.findViewById(R.id.totalYText);
+            totalPotText = itemView.findViewById(R.id.totalPotText);
+            dateYText = itemView.findViewById(R.id.dateYText);
+            datePotText = itemView.findViewById(R.id.datePotText);
+
+            showChartBt = itemView.findViewById(R.id.showChartBt);
         }
     }
 
     public class LifeInvestViewHolder extends RecyclerView.ViewHolder {
+
+        TextView persent, date;
+
         public LifeInvestViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            persent = itemView.findViewById(R.id.persent);
+            date = itemView.findViewById(R.id.date);
         }
     }
 
@@ -381,6 +1188,52 @@ public class AdapterFitPot extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public void onAnimationRepeat(Animation animation) {
 
         }
+    }
+
+
+    public class CustomMarkerView extends MarkerView {
+        private TextView tvContent;
+        public CustomMarkerView(Context context, int layoutResource){
+            super(context, layoutResource);
+            tvContent = findViewById(R.id.tvContent);
+        }
+
+        @Override
+        public void refreshContent(Entry e, Highlight highlight) {
+
+            currentX = e.getX();
+            tvContent.setText("목표 금액 달성!");
+            super.refreshContent(e, highlight);
+        }
+
+        @Override
+        public MPPointF getOffset() {
+
+            if(maxX/3 > currentX) {
+                return new MPPointF(-(getWidth())-40, -getHeight()+80);
+            }else{
+                return new MPPointF((getWidth()/5), -getHeight()+80);
+            }
+        }
+
+        @Override
+        public void draw(Canvas canvas, float posX, float posY) {
+
+            Paint paint = new Paint();
+            paint.setColor(context.getResources().getColor(R.color.chart_point_color));
+            paint.setStrokeWidth(5f);
+            paint.setStyle(Paint.Style.FILL);
+            canvas.drawCircle(posX, posY,18, paint);
+            super.draw(canvas, posX, posY);
+        }
+    }
+
+    String addCom(long money){
+        long value = money;
+        DecimalFormat format = new DecimalFormat("###,###");
+        //콤마
+        format.format(value);
+        return format.format(value);
     }
 }
 

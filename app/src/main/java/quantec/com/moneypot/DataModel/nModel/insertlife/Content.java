@@ -1,4 +1,4 @@
-package quantec.com.moneypot.DataModel.nModel.lifelist;
+package quantec.com.moneypot.DataModel.nModel.insertlife;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -225,4 +225,5 @@ public class Content {
     public void setPrate(Double prate) {
         this.prate = prate;
     }
+
 }

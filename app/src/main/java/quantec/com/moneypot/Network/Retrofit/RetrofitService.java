@@ -1,7 +1,5 @@
 package quantec.com.moneypot.Network.Retrofit;
 
-import okhttp3.MultipartBody;
-
 import quantec.com.moneypot.Activity.Intro.ModelRegChk;
 import quantec.com.moneypot.Activity.Intro.ModelVerifiedFido;
 import quantec.com.moneypot.Activity.Intro.OneMap;
@@ -15,8 +13,11 @@ import quantec.com.moneypot.Activity.Login.Model.nModel.ModelAppInit;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelUserIdChk;
 import quantec.com.moneypot.Activity.Login.Model.nModel.ModelUserInfo;
 import quantec.com.moneypot.Activity.Main.Fragment.Tab2.Adapter.ModelDelPot;
+import quantec.com.moneypot.DataModel.nModel.ModelAccounts;
 import quantec.com.moneypot.DataModel.nModel.ModelChartData;
 import quantec.com.moneypot.DataModel.nModel.ModelCommonData;
+import quantec.com.moneypot.DataModel.nModel.ModelDeleteLife;
+import quantec.com.moneypot.DataModel.nModel.ModelInsertLife;
 import quantec.com.moneypot.DataModel.nModel.ModelLifeList;
 import quantec.com.moneypot.DataModel.nModel.ModelMarketPot;
 import quantec.com.moneypot.DataModel.nModel.ModelPotList;
@@ -28,13 +29,9 @@ import quantec.com.moneypot.DataModel.nModel.ModelZimData;
 import quantec.com.moneypot.DataModel.nModel.ModelZimPotList;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface RetrofitService {
@@ -139,8 +136,8 @@ public interface RetrofitService {
      *  POT_NOT_USER_DELETE		(44300, HttpStatus.NOT_ACCEPTABLE, "NOT Delete(User) !!|다른 사용자가 생성한 포트입니다."),
      * 	POT_NOT_ALLOW_DELETE	(44400, HttpStatus.NOT_ACCEPTABLE, "NOT Delete(Status) !!|삭제가 불가능한 상태 포트입니다."),
      */
-    @POST("pot/delPot/{code}")
-    Call<Object> getDelMyPot(@Path("code") String code);
+    @POST("life/delLife/{code}")
+    Call<ModelDeleteLife> getDelMyPot(@Path("code") String code);
 
     /**
      * 내가 만든 포트 삭제 ( 전체 삭제 )
@@ -343,8 +340,24 @@ public interface RetrofitService {
      * investType은 704로 고정 값임 -> 넣어주는 값으로 변뎡되지 않는다.
      *
      */
-    @POST("pot/setLife")
-    Call<Object> getSaveLife(@Header("Content-Type") String content_type, @Body Object lifeMap);
+    @POST("life/setLife")
+    Call<ModelInsertLife> getSaveLife(@Header("Content-Type") String content_type, @Body Object lifeMap);
 
+
+    /**
+     *
+     * 라이프챌린지 데이터 불러오기
+     *
+     */
+    @GET("life/getLifes")
+    Call<ModelLifeList> getLifes();
+
+    /**
+     *
+     * 내 계좌정보 데이터 불러오기
+     *
+     */
+    @GET("invest/getAccount")
+    Call<ModelAccounts> getAccounts();
 
 }

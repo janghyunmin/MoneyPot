@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="400dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF">
 
     <TextView
         android:id="@+id/nowPriceTitle"
@@ -17,107 +18,115 @@
         android:textColor="@color/text_black_color"
         />
 
-    <EditText
+    <com.tobiasschuerg.prefixsuffix.PrefixSuffixEditText
         android:id="@+id/nowPrice"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@null"
         app:layout_constraintTop_toBottomOf="@+id/nowPriceTitle"
-        app:layout_constraintEnd_toStartOf="@+id/nowPriceWon"
-        android:text="11111111"
+        app:layout_constraintStart_toStartOf="@+id/nowPriceTitle"
         android:layout_marginTop="10dp"
         android:textSize="17dp"
+        android:hint="투자금액"
+        android:inputType="number"
+        android:maxLength="6"
+        android:textColor="@color/text_black_color"
+        android:textColorHint="#666666"
+        android:paddingBottom="10dp"
         />
 
     <TextView
-        android:id="@+id/nowPriceWon"
+        android:id="@+id/preNowPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="만원"
-        android:textColor="@color/text_black_color"
         app:layout_constraintTop_toTopOf="@+id/nowPrice"
-        app:layout_constraintBottom_toBottomOf="@+id/nowPrice"
-        app:layout_constraintEnd_toEndOf="@+id/nowPriceTitle"
+        app:layout_constraintStart_toStartOf="@+id/nowPriceTitle"
         android:textSize="12dp"
+        android:textColor="@color/dark_gray_color"
+        android:layout_marginTop="20dp"
         />
-
 
     <TextView
         android:id="@+id/addPriceTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="월 추가 가능 금액(선택)"
-        app:layout_constraintTop_toBottomOf="@+id/nowPrice"
-        app:layout_constraintEnd_toEndOf="@+id/nowPriceTitle"
+        app:layout_constraintTop_toBottomOf="@+id/preNowPrice"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
         android:textSize="17dp"
         android:textColor="@color/text_black_color"
         android:layout_marginStart="20dp"
         />
 
-    <EditText
+    <com.tobiasschuerg.prefixsuffix.PrefixSuffixEditText
         android:id="@+id/addPrice"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@null"
         app:layout_constraintTop_toBottomOf="@+id/addPriceTitle"
-        android:text="111111111"
+        app:layout_constraintStart_toStartOf="@+id/addPriceTitle"
         android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/addPriceWon"
         android:textSize="17dp"
+        android:hint="월 투자금액"
+        android:inputType="number"
+        android:maxLength="6"
+        android:textColor="@color/text_black_color"
+        android:paddingBottom="10dp"
+        android:textColorHint="#666666"
         />
 
     <TextView
-        android:id="@+id/addPriceWon"
+        android:id="@+id/preAddPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="만원"
-        android:textColor="@color/text_black_color"
         app:layout_constraintTop_toTopOf="@+id/addPrice"
-        app:layout_constraintBottom_toBottomOf="@+id/addPrice"
-        app:layout_constraintEnd_toEndOf="@+id/addPriceTitle"
+        app:layout_constraintStart_toStartOf="@+id/addPriceTitle"
         android:textSize="12dp"
+        android:textColor="@color/dark_gray_color"
+        android:layout_marginTop="20dp"
         />
-
-
 
     <TextView
         android:id="@+id/finalPriceTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="나의 최종 목표 금액"
-        app:layout_constraintTop_toBottomOf="@+id/addPrice"
-        app:layout_constraintEnd_toEndOf="@+id/nowPriceTitle"
+        app:layout_constraintTop_toBottomOf="@+id/preAddPrice"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
         android:textSize="22dp"
         android:textColor="@color/text_black_color"
         android:layout_marginStart="20dp"
         />
 
-    <EditText
+    <com.tobiasschuerg.prefixsuffix.PrefixSuffixEditText
         android:id="@+id/finalPrice"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@null"
         app:layout_constraintTop_toBottomOf="@+id/finalPriceTitle"
-        android:text="111111111"
+        app:layout_constraintStart_toStartOf="@+id/finalPriceTitle"
         android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/finalPriceWon"
         android:textSize="20dp"
+        android:hint="목표 금액"
+        android:inputType="number"
+        android:maxLength="6"
+        android:textColor="@color/text_black_color"
+        android:paddingBottom="10dp"
+        android:textColorHint="#666666"
         />
 
     <TextView
-        android:id="@+id/finalPriceWon"
+        android:id="@+id/preFinalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="만원"
-        android:textColor="@color/text_black_color"
         app:layout_constraintTop_toTopOf="@+id/finalPrice"
-        app:layout_constraintBottom_toBottomOf="@+id/finalPrice"
-        app:layout_constraintEnd_toEndOf="@+id/finalPriceTitle"
-        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="@+id/finalPriceTitle"
+        android:textSize="12dp"
+        android:textColor="@color/dark_gray_color"
+        android:layout_marginTop="20dp"
         />
-
 
     <TextView
         android:id="@+id/nextBt"
@@ -127,10 +136,10 @@
         android:textSize="13dp"
         android:background="#f1f1f1"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/finalPriceTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="100dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

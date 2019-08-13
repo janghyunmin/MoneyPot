@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF">
 
 
     <TextView
@@ -62,6 +63,7 @@
         />
 
     <TextView
+        android:id="@+id/datePotText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="5년"
@@ -87,6 +89,7 @@
         />
 
     <TextView
+        android:id="@+id/dateYText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10년"
@@ -97,7 +100,6 @@
         app:layout_constraintStart_toStartOf="@+id/dateY"
         app:layout_constraintEnd_toEndOf="@+id/dateY"
         />
-
 
 
     <TextView
@@ -125,6 +127,7 @@
         />
 
     <TextView
+        android:id="@+id/totalPotText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10,000,000,000,000원"
@@ -150,6 +153,7 @@
         />
 
     <TextView
+        android:id="@+id/totalYText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10,000,000,000,000원"
@@ -189,6 +193,7 @@
         />
 
     <TextView
+        android:id="@+id/yieldPotText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10,000,000,000원"
@@ -214,6 +219,7 @@
         />
 
     <TextView
+        android:id="@+id/yieldYText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10,000,000,000원"

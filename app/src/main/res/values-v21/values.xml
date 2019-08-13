@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PrefixSuffixEditText">
+        <attr format="string" name="prefix"/>
+        <attr format="string" name="suffix"/>
+    </declare-styleable>
+</resources>

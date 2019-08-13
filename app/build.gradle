@@ -141,4 +141,5 @@ dependencies {
 
     implementation "com.andkulikov:transitionseverywhere:2.0.0"
 
+    implementation 'com.github.tobiasschuerg:android-prefix-suffix-edit-text:1.2.0'
 }

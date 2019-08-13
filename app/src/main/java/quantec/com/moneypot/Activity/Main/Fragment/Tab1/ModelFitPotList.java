@@ -11,24 +11,27 @@ public class ModelFitPotList {
     boolean recomView;
     boolean investView;
 
+    boolean showChart;
 
-    String webViewUrl;
-    String liftTitle;
-    String lifeContent;
-    String lifeYear;
+    int nowPrice;
+    int monPrice;
+    int finalPrice;
+
+    String lifeName;
+    String lifeDesc;
+    String lifeCode;
+    String lifeDate;
     String lifePrice;
-    String lifePlan;
-    String lifeExp;
-    String lifeType;
-    String lifeStTitle;
-    String lifeStYeild;
+    String lifeTag;
+    String lifePotName;
+    double lifePotRate;
+    String lifePotCode;
+    String lifeImageUrl;
 
-    public ModelFitPotList(boolean webView, boolean itemView) {
-        this.webView = webView;
-        this.itemView = itemView;
-    }
+    String lifeInvestPersent;
+    String lifeInvestDate;
 
-    public ModelFitPotList(boolean webView, boolean itemView, boolean insertView, boolean chartView, boolean addView, boolean recomView, boolean investView, String webViewUrl, String liftTitle, String lifeContent, String lifeYear, String lifePrice, String lifePlan, String lifeExp, String lifeType, String lifeStTitle, String lifeStYeild) {
+    public ModelFitPotList(boolean webView, boolean itemView, boolean insertView, boolean chartView, boolean addView, boolean recomView, boolean investView, boolean showChart, int nowPrice, int monPrice, int finalPrice, String lifeName, String lifeDesc, String lifeCode, String lifeDate, String lifePrice, String lifeTag, String lifePotName, double lifePotRate, String lifePotCode, String lifeImageUrl, String lifeInvestPersent, String lifeInvestDate) {
         this.webView = webView;
         this.itemView = itemView;
         this.insertView = insertView;
@@ -36,16 +39,22 @@ public class ModelFitPotList {
         this.addView = addView;
         this.recomView = recomView;
         this.investView = investView;
-        this.webViewUrl = webViewUrl;
-        this.liftTitle = liftTitle;
-        this.lifeContent = lifeContent;
-        this.lifeYear = lifeYear;
+        this.showChart = showChart;
+        this.nowPrice = nowPrice;
+        this.monPrice = monPrice;
+        this.finalPrice = finalPrice;
+        this.lifeName = lifeName;
+        this.lifeDesc = lifeDesc;
+        this.lifeCode = lifeCode;
+        this.lifeDate = lifeDate;
         this.lifePrice = lifePrice;
-        this.lifePlan = lifePlan;
-        this.lifeExp = lifeExp;
-        this.lifeType = lifeType;
-        this.lifeStTitle = lifeStTitle;
-        this.lifeStYeild = lifeStYeild;
+        this.lifeTag = lifeTag;
+        this.lifePotName = lifePotName;
+        this.lifePotRate = lifePotRate;
+        this.lifePotCode = lifePotCode;
+        this.lifeImageUrl = lifeImageUrl;
+        this.lifeInvestPersent = lifeInvestPersent;
+        this.lifeInvestDate = lifeInvestDate;
     }
 
     public boolean isWebView() {
@@ -104,36 +113,68 @@ public class ModelFitPotList {
         this.investView = investView;
     }
 
-    public String getWebViewUrl() {
-        return webViewUrl;
+    public boolean isShowChart() {
+        return showChart;
     }
 
-    public void setWebViewUrl(String webViewUrl) {
-        this.webViewUrl = webViewUrl;
+    public void setShowChart(boolean showChart) {
+        this.showChart = showChart;
     }
 
-    public String getLiftTitle() {
-        return liftTitle;
+    public int getNowPrice() {
+        return nowPrice;
     }
 
-    public void setLiftTitle(String liftTitle) {
-        this.liftTitle = liftTitle;
+    public void setNowPrice(int nowPrice) {
+        this.nowPrice = nowPrice;
     }
 
-    public String getLifeContent() {
-        return lifeContent;
+    public int getMonPrice() {
+        return monPrice;
     }
 
-    public void setLifeContent(String lifeContent) {
-        this.lifeContent = lifeContent;
+    public void setMonPrice(int monPrice) {
+        this.monPrice = monPrice;
     }
 
-    public String getLifeYear() {
-        return lifeYear;
+    public int getFinalPrice() {
+        return finalPrice;
     }
 
-    public void setLifeYear(String lifeYear) {
-        this.lifeYear = lifeYear;
+    public void setFinalPrice(int finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+    public String getLifeName() {
+        return lifeName;
+    }
+
+    public void setLifeName(String lifeName) {
+        this.lifeName = lifeName;
+    }
+
+    public String getLifeDesc() {
+        return lifeDesc;
+    }
+
+    public void setLifeDesc(String lifeDesc) {
+        this.lifeDesc = lifeDesc;
+    }
+
+    public String getLifeCode() {
+        return lifeCode;
+    }
+
+    public void setLifeCode(String lifeCode) {
+        this.lifeCode = lifeCode;
+    }
+
+    public String getLifeDate() {
+        return lifeDate;
+    }
+
+    public void setLifeDate(String lifeDate) {
+        this.lifeDate = lifeDate;
     }
 
     public String getLifePrice() {
@@ -144,43 +185,59 @@ public class ModelFitPotList {
         this.lifePrice = lifePrice;
     }
 
-    public String getLifePlan() {
-        return lifePlan;
+    public String getLifeTag() {
+        return lifeTag;
     }
 
-    public void setLifePlan(String lifePlan) {
-        this.lifePlan = lifePlan;
+    public void setLifeTag(String lifeTag) {
+        this.lifeTag = lifeTag;
     }
 
-    public String getLifeExp() {
-        return lifeExp;
+    public String getLifePotName() {
+        return lifePotName;
     }
 
-    public void setLifeExp(String lifeExp) {
-        this.lifeExp = lifeExp;
+    public void setLifePotName(String lifePotName) {
+        this.lifePotName = lifePotName;
     }
 
-    public String getLifeType() {
-        return lifeType;
+    public double getLifePotRate() {
+        return lifePotRate;
     }
 
-    public void setLifeType(String lifeType) {
-        this.lifeType = lifeType;
+    public void setLifePotRate(double lifePotRate) {
+        this.lifePotRate = lifePotRate;
     }
 
-    public String getLifeStTitle() {
-        return lifeStTitle;
+    public String getLifePotCode() {
+        return lifePotCode;
     }
 
-    public void setLifeStTitle(String lifeStTitle) {
-        this.lifeStTitle = lifeStTitle;
+    public void setLifePotCode(String lifePotCode) {
+        this.lifePotCode = lifePotCode;
     }
 
-    public String getLifeStYeild() {
-        return lifeStYeild;
+    public String getLifeImageUrl() {
+        return lifeImageUrl;
     }
 
-    public void setLifeStYeild(String lifeStYeild) {
-        this.lifeStYeild = lifeStYeild;
+    public void setLifeImageUrl(String lifeImageUrl) {
+        this.lifeImageUrl = lifeImageUrl;
+    }
+
+    public String getLifeInvestPersent() {
+        return lifeInvestPersent;
+    }
+
+    public void setLifeInvestPersent(String lifeInvestPersent) {
+        this.lifeInvestPersent = lifeInvestPersent;
+    }
+
+    public String getLifeInvestDate() {
+        return lifeInvestDate;
+    }
+
+    public void setLifeInvestDate(String lifeInvestDate) {
+        this.lifeInvestDate = lifeInvestDate;
     }
 }

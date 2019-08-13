@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
+    >
 
     <TextView
         android:id="@+id/title"
@@ -15,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         />
 
     <TextView
@@ -59,9 +61,9 @@
 
     <TextView
         android:id="@+id/desc"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="당신의 목표를\n보다 빠르게 이룰수 있어요\n이곳,\n머니포트에서."
+        android:text="당신의 목표를\n보다 빠르게 이룰수 있어요 이곳, 머니포트에서."
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="50dp"
@@ -71,8 +73,9 @@
         />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:src="@drawable/img_mini_3"
         app:layout_constraintTop_toTopOf="@+id/desc"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#f1f1f1"
-        app:layout_constraintTop_toBottomOf="@+id/desc"
+        app:layout_constraintTop_toBottomOf="@+id/image"
         android:layout_marginTop="10dp"
         />
 
@@ -100,6 +103,7 @@
         />
 
     <TextView
+        android:id="@+id/potTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="안정형 연금 투자 전략"
@@ -135,13 +139,270 @@
         android:layout_marginEnd="20dp"
         />
 
-
     <View
+        android:id="@+id/showChartBt"
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:background="#f1f1f1"
+        android:background="#FF8F8F"
         app:layout_constraintTop_toBottomOf="@+id/potImage"
         android:layout_marginTop="10dp"
         />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chartLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/showChartBt"
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/topTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Life challenge"
+            android:textSize="18dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/red_text_color"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chartView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:layout_constraintTop_toBottomOf="@+id/topTitle"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            />
+
+        <TextView
+            android:id="@+id/dateTitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="최종 달성 기간"
+            android:textSize="13dp"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintTop_toBottomOf="@+id/chartView"
+            app:layout_constraintStart_toStartOf="@+id/chartView"
+            android:layout_marginTop="20dp"
+            />
+
+        <TextView
+            android:id="@+id/datePot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="머니포트"
+            android:textSize="10dp"
+            android:textColor="@color/dark_gray_color"
+            app:layout_constraintTop_toBottomOf="@+id/dateTitle2"
+            app:layout_constraintStart_toStartOf="@+id/chartView"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="60dp"
+            />
+
+        <TextView
+            android:id="@+id/datePotText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5년"
+            android:textSize="13dp"
+            android:textColor="@color/red_text_color"
+            app:layout_constraintTop_toBottomOf="@+id/datePot"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@+id/datePot"
+            app:layout_constraintEnd_toEndOf="@+id/datePot"
+            />
+
+        <TextView
+            android:id="@+id/dateY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="예적금"
+            android:textSize="10dp"
+            android:textColor="@color/dark_gray_color"
+            app:layout_constraintTop_toBottomOf="@+id/dateTitle2"
+            app:layout_constraintEnd_toEndOf="@+id/chartView"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="60dp"
+            />
+
+        <TextView
+            android:id="@+id/dateYText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10년"
+            android:textSize="13dp"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintTop_toBottomOf="@+id/dateY"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@+id/dateY"
+            app:layout_constraintEnd_toEndOf="@+id/dateY"
+            />
+
+
+        <TextView
+            android:id="@+id/totalPriceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="총 투자 금액"
+            android:textSize="13dp"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintTop_toBottomOf="@+id/dateTitle2"
+            app:layout_constraintStart_toStartOf="@+id/chartView"
+            android:layout_marginTop="60dp"
+            />
+        <TextView
+            android:id="@+id/totalPricePot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="머니포트"
+            android:textSize="10dp"
+            android:textColor="@color/dark_gray_color"
+            app:layout_constraintTop_toBottomOf="@+id/totalPriceTitle"
+            app:layout_constraintStart_toStartOf="@+id/chartView"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="60dp"
+            />
+
+        <TextView
+            android:id="@+id/totalPotText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10,000,000,000,000원"
+            android:textSize="13dp"
+            android:textColor="@color/red_text_color"
+            app:layout_constraintTop_toBottomOf="@+id/totalPricePot"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@+id/totalPricePot"
+            app:layout_constraintEnd_toEndOf="@+id/totalPricePot"
+            />
+
+        <TextView
+            android:id="@+id/totalPriceY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="예적금"
+            android:textSize="10dp"
+            android:textColor="@color/dark_gray_color"
+            app:layout_constraintTop_toBottomOf="@+id/totalPriceTitle"
+            app:layout_constraintEnd_toEndOf="@+id/chartView"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="60dp"
+            />
+
+        <TextView
+            android:id="@+id/totalYText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10,000,000,000,000원"
+            android:textSize="13dp"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintTop_toBottomOf="@+id/totalPriceY"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@+id/totalPriceY"
+            app:layout_constraintEnd_toEndOf="@+id/totalPriceY"
+            />
+
+
+
+        <TextView
+            android:id="@+id/totalYieldTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="총 수익금"
+            android:textSize="13dp"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintTop_toBottomOf="@+id/totalPriceTitle"
+            app:layout_constraintStart_toStartOf="@+id/chartView"
+            android:layout_marginTop="60dp"
+            />
+
+        <TextView
+            android:id="@+id/totalYieldPot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="머니포트"
+            android:textSize="10dp"
+            android:textColor="@color/dark_gray_color"
+            app:layout_constraintTop_toBottomOf="@+id/totalYieldTitle"
+            app:layout_constraintStart_toStartOf="@+id/chartView"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="60dp"
+            />
+
+        <TextView
+            android:id="@+id/yieldPotText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10,000,000,000원"
+            android:textSize="13dp"
+            android:textColor="@color/red_text_color"
+            app:layout_constraintTop_toBottomOf="@+id/totalYieldPot"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@+id/totalYieldPot"
+            app:layout_constraintEnd_toEndOf="@+id/totalYieldPot"
+            />
+
+        <TextView
+            android:id="@+id/totalYieldY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="예적금"
+            android:textSize="10dp"
+            android:textColor="@color/dark_gray_color"
+            app:layout_constraintTop_toBottomOf="@+id/totalYieldTitle"
+            app:layout_constraintEnd_toEndOf="@+id/chartView"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="60dp"
+            />
+
+        <TextView
+            android:id="@+id/yieldYText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10,000,000,000원"
+            android:textSize="13dp"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintTop_toBottomOf="@+id/totalYieldY"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@+id/totalYieldY"
+            app:layout_constraintEnd_toEndOf="@+id/totalYieldY"
+            />
+
+        <TextView
+            android:id="@+id/desc2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="실제 투자는 분기별로 이루어지며, 모든 수치는 예상 수익률을 기반으로 하며,\n실제 변동사항이 있음을 고지드립니다."
+            android:textSize="8dp"
+            android:textColor="@color/dark_gray_color"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/totalYieldTitle"
+            android:layout_marginTop="70dp"
+            />
+
+        <TextView
+            android:id="@+id/deleteBt"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="삭제"
+            android:background="#f1f1f1"
+            app:layout_constraintTop_toBottomOf="@+id/desc2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintTop_toBottomOf="@+id/deleteBt"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
