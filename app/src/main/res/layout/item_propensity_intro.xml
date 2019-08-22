@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_propensity_intro1"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="14dp"
+        >
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="올바른 투자를 위해 아주 간단한 조사를 진행해주세요. 3분 정도 소요됩니다."
+            android:maxWidth="282dp"
+            android:textColor="@color/text_black_color"
+            android:textSize="14dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            />
+        <ImageView
+            android:id="@+id/infoImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_info_off_gray"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="14dp"
+            android:layout_marginStart="17dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="안내사항"
+            app:layout_constraintStart_toEndOf="@+id/infoImage"
+            app:layout_constraintTop_toTopOf="@+id/infoImage"
+            app:layout_constraintBottom_toBottomOf="@+id/infoImage"
+            android:textSize="11dp"
+            android:textColor="@color/dark_gray_color"
+            />
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="본 일반투자자 투자자정보 확인서는 자본시장과 금융투자업에 관한 법률에 따라 고객님의 투자성향을 파악하여, 그에 적합한 투자권유를 해드리기 위한 기초자료로 활용됩니다. 고객님께 가장 적합한 투자대안을 제시해 드리기 위해 정확한 답변을 필요로 하오니 최대한 고객님의 상황에 부합하거나 가장 가까운 항목을 선택해 주시기 바랍니다."
+            android:maxWidth="282dp"
+            app:layout_constraintTop_toBottomOf="@+id/infoImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="11dp"
+            android:lineSpacingMultiplier="1.4"
+            />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/desc"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_propensity_intro2"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="14dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="그럼 다음 질문부터 답변 부탁드릴게요!"
+            android:textSize="14dp"
+            android:textColor="@color/text_black_color"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

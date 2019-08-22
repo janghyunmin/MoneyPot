@@ -26,7 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityCookPotImage"></activity>
+        <activity android:name=".Activity.propensity.ActivityPropensity"></activity>
+        <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityCookPotImage" />
         <activity android:name=".Activity.Main.Fragment.Tab2.Activity.ActivityModifyPot" />
         <activity
             android:name=".Activity.Main.Fragment.Tab3.Activity.ActivityPotMarket"

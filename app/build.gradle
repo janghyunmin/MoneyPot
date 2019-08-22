@@ -142,4 +142,8 @@ dependencies {
     implementation "com.andkulikov:transitionseverywhere:2.0.0"
 
     implementation 'com.github.tobiasschuerg:android-prefix-suffix-edit-text:1.2.0'
+
+    implementation 'com.github.florent37:viewanimator:1.1.0'
+
+    implementation 'com.jakewharton.rxbinding:rxbinding:0.3.0'
 }

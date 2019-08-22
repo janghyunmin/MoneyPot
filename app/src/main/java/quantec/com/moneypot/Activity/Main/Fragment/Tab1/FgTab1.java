@@ -1,6 +1,7 @@
 package quantec.com.moneypot.Activity.Main.Fragment.Tab1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import quantec.com.moneypot.Activity.Main.ActivityMain;
+import quantec.com.moneypot.Activity.propensity.ActivityPropensity;
 import quantec.com.moneypot.DataModel.nModel.ModelAccounts;
 import quantec.com.moneypot.DataModel.nModel.ModelDeleteLife;
 import quantec.com.moneypot.DataModel.nModel.ModelInsertLife;
@@ -41,6 +43,7 @@ import quantec.com.moneypot.databinding.FgTab1Binding;
 import quantec.com.moneypot.util.ChangeUnitToPrice.ChangeUnitToPrice;
 import quantec.com.moneypot.util.DecimalScale.DecimalScale;
 import quantec.com.moneypot.util.diffToDate.DiffToDate;
+import quantec.com.moneypot.util.objectUtils.ObjectUtils;
 import quantec.com.moneypot.util.removezero.RemoveZero;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,6 +77,8 @@ public class FgTab1 extends Fragment {
 
     private DialogDeleteLife dialogDeleteLife;
     private int deletePosition;
+
+    RealmResults<AccountData> preAccountData;
 
     public FgTab1(){}
     @Nullable
@@ -128,58 +133,115 @@ public class FgTab1 extends Fragment {
 
         Log.e("렘 사이즈","값 : "+results.where().count());
 
-        if(results.where().count() == 0){
-            Call<ModelAccounts> getAccountData = RetrofitClient.getInstance().getService().getAccounts();
-            getAccountData.enqueue(new Callback<ModelAccounts>() {
-                @Override
-                public void onResponse(Call<ModelAccounts> call, Response<ModelAccounts> response) {
-                    if(response.code() == 200) {
+        //전체 삭제 구문
+//        realm.beginTransaction();
+//        RealmResults<AccountData> results = realm.where(AccountData.class)
+//                .findAll();
+//        results.deleteAllFromRealm();
+//        RealmResults<AccountDetail> results2 = realm.where(AccountDetail.class)
+//                .findAll();
+//        results2.deleteAllFromRealm();
+//        realm.commitTransaction();
+//        realm.close();
+
+        Call<ModelAccounts> getAccountData = RetrofitClient.getInstance().getService().getAccounts();
+        getAccountData.enqueue(new Callback<ModelAccounts>() {
+            @Override
+            public void onResponse(Call<ModelAccounts> call, Response<ModelAccounts> response) {
+                if (response.code() == 200) {
+
+                    if (response.body().getTotalElements() != 0) {
 
                         realm.beginTransaction();
-                        accountData = realm.createObject(AccountData.class);
 
-                        for(int index = 0 ; index < response.body().getContent().size() ; index++){
+                        if(results.where().count() == 0){
+                            accountData = realm.createObject(AccountData.class);
+                        }else{
+                            preAccountData = realm.where(AccountData.class).findAllAsync();
+                        }
 
-                            accountDetail = realm.createObject(AccountDetail.class);
+                        for (int index = 0; index < response.body().getContent().size(); index++) {
 
-                            accountDetail.setAccount(response.body().getContent().get(index).getAccount());
-                            accountDetail.setValance(response.body().getContent().get(index).getValance());
-                            accountData.getAccountDetails().add(accountDetail);
+                            String account = response.body().getContent().get(index).getAccount();
+                            double valance = response.body().getContent().get(index).getValance();
+
+                            accountDetail = realm.where(AccountDetail.class).equalTo("account", account)
+                                    .findFirst();
+                            if (ObjectUtils.isEmpty(accountDetail)) {
+
+                                accountDetail = realm.createObject(AccountDetail.class);
+
+                                accountDetail.setAccount(account);
+                                accountDetail.setValance(valance);
+                                accountData.getAccountDetails().add(accountDetail);
+
+                            } else {
+                                accountDetail = realm.where(AccountDetail.class).equalTo("account", account)
+                                        .findFirst();
+                                preAccountData.get(0).getAccountDetails().get(index).setValance(valance);
+                            }
                         }
                         realm.commitTransaction();
-
-//                        Log.e("어카운트 값","값 : "+results.get(0).getAccountDetails().get(0).getAccount());
-//                        Log.e("보유금액 값","값 : "+results.get(0).getAccountDetails().get(0).getValance());
-//
-//                        String time = "2019-04-1308:54오전KST";
-//                        Log.e("1번", "값 : "+time.substring(0,10));
-//                        String date2 = time.substring(0,10);
-//                        Log.e("현재시간","값 : "+getTime());
-//                        String date1 = getTime();
-//                        Log.e("날자 차이", DiffToDate.diffToDate(date1, date2) + " ");
-//
-//                        Log.e("도달률 전",  String.valueOf((1000 / results.get(0).getAccountDetails().get(0).getValance()) * 100));
-//                        Log.e("도달률 후",  String.valueOf(DecimalScale.decimalScale(String.valueOf(1000 / results.get(0).getAccountDetails().get(0).getValance() * 100), 1, 1)));
-//
-//                        modelFitPotLists.add(new ModelFitPotList(
-//                                false, true, false, false, false, false, true, false,
-//                                0,0,0,"", "", "", "", "", "", "",
-//                                0, "", "", String.valueOf((1000 / results.get(0).getAccountDetails().get(0).getValance()) * 100), DiffToDate.diffToDate(date1, date2)));
-//                        adapterFitPot.notifyDataSetChanged();
-
                     }
                 }
-                @Override
-                public void onFailure(Call<ModelAccounts> call, Throwable t) {
-                    Toast.makeText(activityMain, "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
-                    Log.e("레트로핏 실패","값 : "+t.getMessage());
-                }
-            });
-        }
+            }
+            @Override
+            public void onFailure(Call<ModelAccounts> call, Throwable t) {
+                Toast.makeText(activityMain, "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                Log.e("레트로핏 실패", "값 : " + t.getMessage());
+            }
+        });
 
-//        Log.e("어카운트 값","값 : "+results.get(0).getAccountDetails().get(0).getAccount());
-//        Log.e("보유금액 값","값 : "+results.get(0).getAccountDetails().get(0).getValance());
+//        if(results.where().count() == 0){
+//            Call<ModelAccounts> getAccountData = RetrofitClient.getInstance().getService().getAccounts();
+//            getAccountData.enqueue(new Callback<ModelAccounts>() {
+//                @Override
+//                public void onResponse(Call<ModelAccounts> call, Response<ModelAccounts> response) {
+//                    if(response.code() == 200) {
 //
+//                        realm.beginTransaction();
+//                        accountData = realm.createObject(AccountData.class);
+//
+//                        for(int index = 0 ; index < response.body().getContent().size() ; index++){
+//
+//                            accountDetail = realm.createObject(AccountDetail.class);
+//
+//                            accountDetail.setAccount(response.body().getContent().get(index).getAccount());
+//                            accountDetail.setValance(response.body().getContent().get(index).getValance());
+//                            accountData.getAccountDetails().add(accountDetail);
+//                        }
+//                        realm.commitTransaction();
+//
+////                        Log.e("어카운트 값","값 : "+results.get(0).getAccountDetails().get(0).getAccount());
+////                        Log.e("보유금액 값","값 : "+results.get(0).getAccountDetails().get(0).getValance());
+////
+////                        String time = "2019-04-1308:54오전KST";
+////                        Log.e("1번", "값 : "+time.substring(0,10));
+////                        String date2 = time.substring(0,10);
+////                        Log.e("현재시간","값 : "+getTime());
+////                        String date1 = getTime();
+////                        Log.e("날자 차이", DiffToDate.diffToDate(date1, date2) + " ");
+////
+////                        Log.e("도달률 전",  String.valueOf((1000 / results.get(0).getAccountDetails().get(0).getValance()) * 100));
+////                        Log.e("도달률 후",  String.valueOf(DecimalScale.decimalScale(String.valueOf(1000 / results.get(0).getAccountDetails().get(0).getValance() * 100), 1, 1)));
+////
+////                        modelFitPotLists.add(new ModelFitPotList(
+////                                false, true, false, false, false, false, true, false,
+////                                0,0,0,"", "", "", "", "", "", "",
+////                                0, "", "", String.valueOf((1000 / results.get(0).getAccountDetails().get(0).getValance()) * 100), DiffToDate.diffToDate(date1, date2)));
+////                        adapterFitPot.notifyDataSetChanged();
+//
+//                    }
+//                }
+//                @Override
+//                public void onFailure(Call<ModelAccounts> call, Throwable t) {
+//                    Toast.makeText(activityMain, "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+//                    Log.e("레트로핏 실패","값 : "+t.getMessage());
+//                }
+//            });
+//        }
+
+
 //        String time = "2019-04-1308:54오전KST";
 //        Log.e("1번", "값 : "+time.substring(0,10));
 //        String date2 = time.substring(0,10);
@@ -226,7 +288,6 @@ public class FgTab1 extends Fragment {
 
                         dialogLoadingLifeC.dismiss();
                         lifeDrawView();
-
                     }
                     else{
 
@@ -279,61 +340,6 @@ public class FgTab1 extends Fragment {
             }
         });
 
-//        Filter filter = new Filter();
-//        Call<ModelLifeList> getReList = RetrofitClient.getInstance().getService().getLifeList("application/json", filter, "C", 0, 0,10);
-//        getReList.enqueue(new Callback<ModelLifeList>() {
-//            @Override
-//            public void onResponse(Call<ModelLifeList> call, Response<ModelLifeList> response) {
-//                if (response.code() == 200) {
-//                    if(response.body().getNoContent()){
-//                        Log.e("노컨텐츠","내용이 없습니다.");
-//                        lifeDrawView();
-//                    }else{
-//                        Log.e("노컨텐츠","내용이 들어 있습니다.");
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ModelLifeList> call, Throwable t) {
-//                Log.e("에러값","값 : "+t.getMessage());
-//            }
-//        });
-
-//        Call<Object> getSaveLifeList = RetrofitClient.getInstance().getService().getDelMyPot( "CP4000000001");
-//        getSaveLifeList.enqueue(new Callback<Object>() {
-//            @Override
-//            public void onResponse(Call<Object> call, Response<Object> response) {
-//                if (response.code() == 200) {
-//
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<Object> call, Throwable t) {
-//                Log.e("에러값","값 : "+t.getMessage());
-//            }
-//        });
-
-//        LifeMap lifeMap = new LifeMap(10000, 701, 10, 100, 100, 10, 12);
-//        Call<Object> getSaveLifeList = RetrofitClient.getInstance().getService().getSaveLife("application/json", lifeMap);
-//        getSaveLifeList.enqueue(new Callback<Object>() {
-//            @Override
-//            public void onResponse(Call<Object> call, Response<Object> response) {
-//                if (response.code() == 200) {
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<Object> call, Throwable t) {
-//                Log.e("에러값","값 : "+t.getMessage());
-//            }
-//        });
-
-//        adapterFitPot.setNextBtClick(new AdapterFitPot.NextBtClick() {
-//            @Override
-//            public void onClick(int position) {
-//                modelFitPotLists.get(position).setCustom(false);
-//                adapterFitPot.notifyItemChanged(position);
-//            }
-//        });
 
         adapterFitPot.setInsertNextBtClick(new AdapterFitPot.InsertNextBtClick() {
             @Override
@@ -453,6 +459,14 @@ public class FgTab1 extends Fragment {
             }
         });
 
+        adapterFitPot.setAccountBtClick(new AdapterFitPot.AccountBtClick() {
+            @Override
+            public void onClick(int position) {
+                Intent intent = new Intent(activityMain, ActivityPropensity.class);
+                startActivity(intent);
+            }
+        });
+
     }//onCreateView 끝
 
 
@@ -496,7 +510,6 @@ public class FgTab1 extends Fragment {
         mDate = new Date(mNow);
         return mFormat.format(mDate);
     }
-
 
     void lifeDrawView(){
         modelFitPotLists.add(new ModelFitPotList(
@@ -584,123 +597,3 @@ public class FgTab1 extends Fragment {
         }
     }
 }
-
-//public class FgTab1 extends Fragment {
-//
-//    FgTab1Binding binding;
-//    private ActivityMain activityMain;
-//
-//    RecyclerView.LayoutManager layoutManager;
-//    ArrayList<ModelFitPotList> modelFitPotLists;
-//    AdapterFitPot adapterFitPot;
-//
-//    public static boolean more_top10 = false;
-//    boolean limitedLife = false;
-//
-//    public FgTab1(){}
-//    @Nullable
-//    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//
-//        binding = DataBindingUtil.inflate(inflater, R.layout.fg_tab1, container, false);
-//
-//        initializeViews();
-//
-//        return binding.getRoot();
-//    }
-//
-//    private void initializeViews(){
-//        activityMain = (ActivityMain) getActivity();
-//    }
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if(context instanceof ActivityMain) {
-//            activityMain = (ActivityMain) context;
-//        }
-//    }
-//
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        binding.recyclerView.setHasFixedSize(true);
-//        layoutManager = new LinearLayoutManager(activityMain);
-//
-//        binding.recyclerView.setLayoutManager(layoutManager);
-//        modelFitPotLists = new ArrayList<>();
-//
-//        adapterFitPot = new AdapterFitPot(modelFitPotLists, activityMain);
-//        binding.recyclerView.setAdapter(adapterFitPot);
-//
-//
-//
-//        modelFitPotLists.add(0, new ModelFitPotList(false, "","", "", "", "", "", "", "", "", ""));
-////        modelFitPotLists.add(0, new ModelFitPotList(true, "http://pizzaplanet.tistory.com/","", "", "", "", "", "", "", "", ""));
-//
-//        modelFitPotLists.add(new ModelFitPotList(true, "","내집마련", "정말 더 없이 좋은 나만의 인생 라이프", "30", "1000000000",
-//                "장기플랜", "투자의 고수", "조심조심", "안정형을 추구하는 연금 투자 전략", "44.56%"));
-//        modelFitPotLists.add(new ModelFitPotList(false, "","", "", "", "", "", "", "", "", ""));
-//
-//        adapterFitPot.setEmptyTotalPriceClick(new AdapterFitPot.EmptyTotalPriceClick() {
-//            @Override
-//            public void onClick(int position) {
-////                Intent intent = new Intent()
-//                Toast.makeText(activityMain, "계좌 개설로 이동됩니다.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        adapterFitPot.setEmptyLifeChallengeClick(new AdapterFitPot.EmptyLifeChallengeClick() {
-//            @Override
-//            public void onClick(int position) {
-//                modelFitPotLists.add(modelFitPotLists.size()-1, new ModelFitPotList(true, "","내집마련"+(modelFitPotLists.size()-1), "정말 더 없이 좋은 나만의 인생 라이프", "30", "1000000000",
-//                        "장기플랜", "투자의 고수", "조심조심", "안정형을 추구하는 연금 투자 전략", "44.56%"));
-//                visibleAddLife();
-//            }
-//        });
-//
-//        adapterFitPot.setLifeChallengeClick(new AdapterFitPot.LifeChallengeClick() {
-//            @Override
-//            public void onClick(int position) {
-//                modelFitPotLists.remove(position);
-//                visibleAddLife();
-//            }
-//        });
-//
-//        binding.searchBt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(activityMain, ActivitySearch.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//    }
-//
-//    private void visibleAddLife(){
-//
-//        if(modelFitPotLists.size() == 12){
-//
-//            modelFitPotLists.remove(modelFitPotLists.size()-1);
-//            adapterFitPot.notifyDataSetChanged();
-//
-//            limitedLife = true;
-//
-//        }else{
-//
-//            if(limitedLife){
-//
-//                limitedLife = false;
-//
-//                modelFitPotLists.add(modelFitPotLists.size(), new ModelFitPotList(false, "","", "", "", "", "", "", "", "", ""));
-//                adapterFitPot.notifyDataSetChanged();
-//
-//            }else{
-//                adapterFitPot.notifyDataSetChanged();
-//            }
-//
-//        }
-//
-//    }
-//
-//}
