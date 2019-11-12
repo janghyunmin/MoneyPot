@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintTop_toTopOf="@+id/image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/image"
+        android:layout_marginEnd="20dp"
+        android:textSize="14dp"
+        android:textColor="@color/text_black_color"
+        />
+
+    <TextView
+        android:id="@+id/newspaper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="한국경제"
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        android:layout_marginTop="15dp"
+        />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="19.04.10"
+        android:textSize="11dp"
+        app:layout_constraintStart_toEndOf="@+id/newspaper"
+        app:layout_constraintTop_toTopOf="@+id/newspaper"
+        app:layout_constraintBottom_toBottomOf="@+id/newspaper"
+        android:layout_marginStart="20dp"
+        />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/img_newspaper"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="24dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_gray_color"
+        app:layout_constraintTop_toBottomOf="@+id/image"
+        android:layout_marginTop="30dp"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

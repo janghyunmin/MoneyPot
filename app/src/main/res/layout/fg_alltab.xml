@@ -3,7 +3,7 @@
     <data>
         <variable
             name="allTab"
-            type="quantec.com.moneypot.databinding.FgAlltabBinding" />
+            type="com.quantec.moneypot.databinding.FgAlltabBinding" />
 
     </data>
 

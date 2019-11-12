@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
 
 
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 26
 
 
@@ -23,4 +23,5 @@ android {
 
 dependencies {
     api files('libs/MagicVKeypad_v1.0.4.jar')
+    implementation project(path: ':Lib_Magic_FIDO')
 }

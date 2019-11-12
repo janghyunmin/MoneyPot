@@ -1,130 +1,501 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <data>
-        <variable
-            name="tab1"
-            type="quantec.com.moneypot.databinding.FgTab1Binding" />
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffff"
+    android:orientation="vertical">
 
-    </data>
+    <ImageView
+        android:id="@+id/searchBt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_search_gray" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <TextView
+        android:id="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="포트 마켓"
+        android:textColor="@color/text_black_color"
+        android:textSize="16dp" />
+
+    <ImageView
+        android:id="@+id/userBt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_user" />
+
+    <View
+        android:id="@+id/topLine"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#FFFFFF"
+        android:layout_height="1dp"
+        android:background="#19000000"
+        app:layout_constraintTop_toBottomOf="@+id/searchBt"
+        />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/topLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#FaFaFa"
+        android:overScrollMode="never"
         >
-
-        <ImageView
-            android:id="@+id/searchBt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_search_gray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="맞춤 포트"
-            android:textColor="@color/text_black_color"
-            android:textSize="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/userBt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_user_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/topLine"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="#f4f4f4"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:overScrollMode="never"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/topLine"
-                android:background="#f1f1f1"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="133dp"
+                android:src="@drawable/img_background"
                 />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+            <TextView
+                android:id="@+id/rankingTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SP500을 이기고 있는 기업들"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="24dp"
+                android:textColor="@color/text_black_color"
+                android:textSize="16dp"
+                android:layout_marginTop="20dp"
+                />
 
-<!--<layout>-->
-    <!--<data>-->
-        <!--<variable-->
-            <!--name="tab1"-->
-            <!--type="quantec.com.moneypot.databinding.FgTab1Binding" />-->
+            <TextView
+                android:id="@+id/rankingSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="수익률 1개월 기준"
+                app:layout_constraintTop_toBottomOf="@+id/rankingTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="12dp"
+                android:layout_marginStart="24dp"
+                />
 
-    <!--</data>-->
+            <ImageView
+                android:id="@+id/rankingAddBt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_right_gray"
+                app:layout_constraintTop_toTopOf="@+id/rankingTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/rankingSubTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="15dp"
+                />
 
-<!--<androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rankingRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/rankingSubTitle"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="24dp"
+                android:overScrollMode="never"
+                />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/chartLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/rankingRecyclerView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rectangle_gray_line"
+                >
+                <TextView
+                    android:id="@+id/miniTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="수익률 차트"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/text_black_color"
+                    android:textSize="16dp"
+                    />
+
+                <TextView
+                    android:id="@+id/miniSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="부담없는 금액으로 시작하는 자산관리"
+                    app:layout_constraintTop_toBottomOf="@+id/miniTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textSize="12dp"
+                    />
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#f1f1f1"
+                    app:layout_constraintTop_toBottomOf="@+id/miniSubTitle"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    />
+
+                <com.asksira.loopingviewpager.LoopingViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/line"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:isInfinite="true"
+                    app:autoScroll="true"
+                    app:scrollInterval="3000"
+                    app:wrap_content="true"
+                    android:layout_marginTop="15dp"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.rd.PageIndicatorView
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/chartLayout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="10dp"
+                app:piv_animationType="slide"
+                app:piv_animationDuration="200"
+                app:piv_interactiveAnimation="true"
+                app:piv_radius="3dp"
+                />
+
+            <!--<TextView-->
+                <!--android:id="@+id/miniTitle"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="수익률 차트"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/rankingRecyclerView"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--android:layout_marginStart="24dp"-->
+                <!--android:textColor="@color/text_black_color"-->
+                <!--android:textSize="16dp"-->
+                <!--android:layout_marginTop="48dp"-->
+                <!--/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/miniSubTitle"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="부담없는 금액으로 시작하는 자산관리"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/miniTitle"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--android:textSize="12dp"-->
+                <!--android:layout_marginStart="24dp"-->
+                <!--/>-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/miiniAddBt"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:layout_constraintTop_toTopOf="@+id/miniTitle"-->
+                <!--app:layout_constraintBottom_toBottomOf="@+id/miniSubTitle"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--android:layout_marginEnd="15dp"-->
+                <!--android:src="@drawable/ic_right_gray"-->
+                <!--/>-->
+
+            <!--<androidx.recyclerview.widget.RecyclerView-->
+                <!--android:id="@+id/miniRecyclerView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/miniSubTitle"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_marginStart="24dp"-->
+                <!--android:overScrollMode="never"-->
+                <!--/>-->
+
+            <TextView
+                android:id="@+id/themeTop3Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="팔로우 중인 기업"
+                app:layout_constraintTop_toBottomOf="@+id/chartLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="24dp"
+                android:textColor="@color/text_black_color"
+                android:textSize="16dp"
+                android:layout_marginTop="48dp"
+                />
+
+            <TextView
+                android:id="@+id/themeTop3SubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="내가 제일 잘 아는 분야에 투자"
+                app:layout_constraintTop_toBottomOf="@+id/themeTop3Title"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="12dp"
+                android:layout_marginStart="24dp"
+                />
+
+            <ImageView
+                android:id="@+id/themeAddBt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/themeTop3Title"
+                app:layout_constraintBottom_toBottomOf="@+id/themeTop3SubTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_right_gray"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/themeTop3RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/themeTop3SubTitle"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:overScrollMode="never"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                app:layout_constraintTop_toBottomOf="@+id/themeTop3RecyclerView"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical"-->
-    <!--android:background="#FFFFFF"-->
-    <!--&gt;-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--android:background="#ffffff"-->
+    <!--android:orientation="vertical">-->
 
     <!--<ImageView-->
         <!--android:id="@+id/searchBt"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/ic_search_gray"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
+        <!--android:src="@drawable/ic_search_gray" />-->
 
     <!--<TextView-->
         <!--android:id="@+id/title"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_marginTop="18dp"-->
-        <!--android:text="맞춤 포트"-->
+        <!--android:text="포트 마켓"-->
         <!--android:textColor="@color/text_black_color"-->
-        <!--android:textSize="16dp"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
+        <!--android:textSize="16dp" />-->
 
     <!--<ImageView-->
         <!--android:id="@+id/userBt"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/ic_user_gray"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
+        <!--android:src="@drawable/ic_user_gray" />-->
 
     <!--<View-->
         <!--android:id="@+id/topLine"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="1dp"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:background="#f4f4f4"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/title" />-->
+        <!--android:background="#19000000"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/searchBt"-->
+        <!--/>-->
 
-    <!--<androidx.recyclerview.widget.RecyclerView-->
-        <!--android:id="@+id/recyclerView"-->
+    <!--<androidx.core.widget.NestedScrollView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="0dp"-->
-        <!--android:overScrollMode="never"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/topLine"-->
         <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/topLine" />-->
+        <!--android:background="#FaFaFa"-->
+        <!--android:overScrollMode="never"-->
+        <!--&gt;-->
+        <!--<androidx.constraintlayout.widget.ConstraintLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:layout_constraintTop_toTopOf="parent"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--android:layout_marginTop="133dp"-->
+                <!--android:src="@drawable/img_background"-->
+                <!--/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/rankingTitle"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="SP500을 이기고 있는 기업들"-->
+                <!--app:layout_constraintTop_toTopOf="parent"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--android:layout_marginStart="24dp"-->
+                <!--android:textColor="@color/text_black_color"-->
+                <!--android:textSize="16dp"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/rankingSubTitle"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="수익률 1개월 기준"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/rankingTitle"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--android:textSize="12dp"-->
+                <!--android:layout_marginStart="24dp"-->
+                <!--/>-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/rankingAddBt"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/ic_right_gray"-->
+                <!--app:layout_constraintTop_toTopOf="@+id/rankingTitle"-->
+                <!--app:layout_constraintBottom_toBottomOf="@+id/rankingSubTitle"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--android:layout_marginEnd="15dp"-->
+                <!--/>-->
+
+            <!--<androidx.recyclerview.widget.RecyclerView-->
+                <!--android:id="@+id/rankingRecyclerView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/rankingSubTitle"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_marginStart="24dp"-->
+                <!--android:overScrollMode="never"-->
+                <!--/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/miniTitle"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="수익률 차트"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/rankingRecyclerView"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--android:layout_marginStart="24dp"-->
+                <!--android:textColor="@color/text_black_color"-->
+                <!--android:textSize="16dp"-->
+                <!--android:layout_marginTop="48dp"-->
+                <!--/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/miniSubTitle"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="부담없는 금액으로 시작하는 자산관리"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/miniTitle"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--android:textSize="12dp"-->
+                <!--android:layout_marginStart="24dp"-->
+                <!--/>-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/miiniAddBt"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:layout_constraintTop_toTopOf="@+id/miniTitle"-->
+                <!--app:layout_constraintBottom_toBottomOf="@+id/miniSubTitle"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--android:layout_marginEnd="15dp"-->
+                <!--android:src="@drawable/ic_right_gray"-->
+                <!--/>-->
+
+            <!--<androidx.recyclerview.widget.RecyclerView-->
+                <!--android:id="@+id/miniRecyclerView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/miniSubTitle"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_marginStart="24dp"-->
+                <!--android:overScrollMode="never"-->
+                <!--/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/themeTop3Title"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="팔로우 중인 기업"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/miniRecyclerView"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--android:layout_marginStart="24dp"-->
+                <!--android:textColor="@color/text_black_color"-->
+                <!--android:textSize="16dp"-->
+                <!--android:layout_marginTop="48dp"-->
+                <!--/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/themeTop3SubTitle"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="내가 제일 잘 아는 분야에 투자"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/themeTop3Title"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--android:textSize="12dp"-->
+                <!--android:layout_marginStart="24dp"-->
+                <!--/>-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/themeAddBt"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:layout_constraintTop_toTopOf="@+id/themeTop3Title"-->
+                <!--app:layout_constraintBottom_toBottomOf="@+id/themeTop3SubTitle"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--android:layout_marginEnd="15dp"-->
+                <!--android:src="@drawable/ic_right_gray"-->
+                <!--/>-->
+
+            <!--<androidx.recyclerview.widget.RecyclerView-->
+                <!--android:id="@+id/themeTop3RecyclerView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/themeTop3SubTitle"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_marginStart="24dp"-->
+                <!--android:layout_marginEnd="24dp"-->
+                <!--android:overScrollMode="never"-->
+                <!--/>-->
+
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="36dp"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/themeTop3RecyclerView"-->
+                <!--/>-->
+
+
+        <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--</androidx.core.widget.NestedScrollView>-->
 
 <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--</layout>-->

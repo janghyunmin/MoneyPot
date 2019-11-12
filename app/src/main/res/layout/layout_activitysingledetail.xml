@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="user"
+            type="com.quantec.moneypot.databinding.ActivitySingleDetailBinding" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:chipSpacingVertical="5dp"
+            />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123,000"
+            android:textSize="26dp"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="원"
+            android:textSize="15dp"
+            app:layout_constraintStart_toEndOf="@+id/price"
+            app:layout_constraintBottom_toBottomOf="@+id/price"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="2dp"
+            />
+
+        <TextView
+            android:id="@+id/rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-24.25%"
+            android:textColor="@color/blue_color"
+            app:layout_constraintEnd_toStartOf="@+id/centerLine"
+            app:layout_constraintTop_toTopOf="@+id/centerLine"
+            app:layout_constraintBottom_toBottomOf="@+id/centerLine"
+            android:layout_marginEnd="5dp"
+            android:textSize="12dp"
+            />
+
+        <View
+            android:id="@+id/centerLine"
+            android:layout_width="1dp"
+            android:layout_height="8dp"
+            android:background="@color/gray_brown_color"
+            app:layout_constraintTop_toBottomOf="@+id/price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/rateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_brown_color"
+            app:layout_constraintStart_toEndOf="@+id/centerLine"
+            app:layout_constraintTop_toTopOf="@+id/centerLine"
+            app:layout_constraintBottom_toBottomOf="@+id/centerLine"
+            android:text="전일 기준"
+            android:layout_marginStart="5dp"
+            android:textSize="12dp"
+            />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chartView"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="59dp"
+            app:layout_constraintTop_toBottomOf="@+id/rate" />
+
+        <TextView
+            android:id="@+id/m1Bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1개월"
+            app:layout_constraintTop_toBottomOf="@+id/chartView"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:background="@drawable/rectangle_gray_line"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            />
+
+        <TextView
+            android:id="@+id/m3Bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3개월"
+            app:layout_constraintTop_toBottomOf="@+id/chartView"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/lineB"
+            android:layout_marginStart="40dp"
+            android:background="@drawable/rectangle_gray_line"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginEnd="20dp"
+            />
+
+        <View
+            android:id="@+id/lineB"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chartView"
+            />
+
+        <TextView
+            android:id="@+id/m6Bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6개월"
+            app:layout_constraintTop_toBottomOf="@+id/chartView"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toEndOf="@+id/lineB"
+            android:background="@drawable/rectangle_gray_line"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginStart="20dp"
+            />
+
+        <TextView
+            android:id="@+id/aBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="누적"
+            app:layout_constraintTop_toBottomOf="@+id/chartView"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/rectangle_gray_line"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            />
+
+
+        <View
+            android:id="@+id/topLine"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="30dp"
+            android:background="#fafafa"
+            app:layout_constraintTop_toBottomOf="@+id/m1Bt" />
+
+
+
+
+        <TextView
+            android:id="@+id/investPriceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="투자 가능 금액"
+            app:layout_constraintTop_toBottomOf="@+id/topLine"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="24dp"
+            />
+
+        <ImageView
+            android:id="@+id/helpBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_help_whitegray"
+            app:layout_constraintStart_toEndOf="@+id/investPriceTitle"
+            app:layout_constraintTop_toTopOf="@+id/investPriceTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/investPriceTitle"
+            />
+
+        <TextView
+            android:id="@+id/investPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="40,000"
+            android:textSize="25dp"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintTop_toTopOf="@+id/topLine"
+            app:layout_constraintEnd_toStartOf="@+id/investPriceU"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="2dp"
+            />
+        <TextView
+            android:id="@+id/investPriceU"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="원"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/investPrice"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="2dp"
+            />
+
+
+        <TextView
+            android:id="@+id/sumPriceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1주 합산 금액"
+            app:layout_constraintTop_toBottomOf="@+id/investPriceTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="35dp"
+            android:layout_marginStart="24dp"
+            />
+
+        <TextView
+            android:id="@+id/sumTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전일 기준 가격"
+            app:layout_constraintBottom_toTopOf="@+id/sumPriceTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="11dp"
+            android:layout_marginEnd="24dp"
+            />
+
+
+        <TextView
+            android:id="@+id/sumPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2,423,000"
+            android:textSize="22dp"
+            android:textColor="@color/gray_brown_color"
+            app:layout_constraintTop_toBottomOf="@+id/sumTitle"
+            app:layout_constraintEnd_toStartOf="@+id/sumPriceU"
+            android:layout_marginEnd="2dp"
+            />
+        <TextView
+            android:id="@+id/sumPriceU"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="원"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/sumPrice"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="2dp"
+            />
+
+
+        <View
+            android:id="@+id/middleLine"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="40dp"
+            android:background="#fafafa"
+            app:layout_constraintTop_toBottomOf="@+id/sumTitle" />
+
+
+        <TextView
+            android:id="@+id/infoTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="정보"
+            app:layout_constraintTop_toBottomOf="@+id/middleLine"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="24dp"
+            android:textSize="20dp"
+            android:textColor="@color/text_black_color"
+            />
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="미국의 주료 500개 기업의 자수인 SP 500에 포함되어 있는\nIT 기업들을 포함한 투자"
+            android:textSize="15dp"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintTop_toBottomOf="@+id/infoTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            />
+
+        <View
+            android:id="@+id/middleLine2"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="40dp"
+            android:background="#fafafa"
+            app:layout_constraintTop_toBottomOf="@+id/info" />
+
+
+        <TextView
+            android:id="@+id/articleTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="관련 기사"
+            android:textSize="20dp"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintTop_toBottomOf="@+id/middleLine2"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="24dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/articleRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/articleTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:overScrollMode="never"
+            />
+
+        <TextView
+            android:id="@+id/aiTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인공지능 기사 평가"
+            app:layout_constraintTop_toBottomOf="@+id/articleRecyclerView"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp"
+            android:textSize="20dp"
+            android:textColor="@color/text_black_color"
+            />
+
+        <ImageView
+            android:id="@+id/pro"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/noname_img"
+            app:layout_constraintTop_toBottomOf="@+id/aiTitle"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="34dp"
+            />
+
+        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+            android:id="@+id/progress"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/aiTitle"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toEndOf="@+id/pro"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/progressText"
+            android:layout_marginEnd="5dp"
+            />
+
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="56건 긍정"
+            android:textColor="@color/green_basket_color"
+            app:layout_constraintTop_toTopOf="@+id/progress"
+            app:layout_constraintBottom_toBottomOf="@+id/progress"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"
+            />
+
+        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+            android:id="@+id/progress2"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/progress"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toEndOf="@+id/pro"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/progressText2"
+            android:layout_marginEnd="5dp"
+            />
+
+        <TextView
+            android:id="@+id/progressText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="32건 부정"
+            android:textColor="@color/blue_color"
+            app:layout_constraintTop_toTopOf="@+id/progress2"
+            app:layout_constraintBottom_toBottomOf="@+id/progress2"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"
+            />
+
+        <View
+            android:id="@+id/middleLine3"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="40dp"
+            android:background="#fafafa"
+            app:layout_constraintTop_toBottomOf="@+id/progress2" />
+
+
+        <TextView
+            android:id="@+id/likeEnter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="당신이 좋아할만한 묶음 기업"
+            android:textSize="20dp"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintTop_toBottomOf="@+id/middleLine3"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/likeEnterRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/likeEnter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:overScrollMode="never"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintTop_toBottomOf="@+id/likeEnterRecyclerView"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

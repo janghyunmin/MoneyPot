@@ -3,7 +3,7 @@
     <data>
         <variable
             name="changedPw"
-            type="quantec.com.moneypot.databinding.ActivityChangedPwBinding" />
+            type="com.quantec.moneypot.databinding.ActivityChangedPwBinding" />
 
     </data>
 
@@ -23,7 +23,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".Activity.MyInfomation.ActivityAuthPassword">
+            tools:context=".activity.MyInfomation.ActivityAuthPassword">
 
             <ImageView
                 android:id="@+id/backBt"

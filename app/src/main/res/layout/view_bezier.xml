@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <quantec.com.moneypot.util.view.refresh.header.bezierlayout.WaveView
+    <com.quantec.moneypot.util.view.refresh.header.bezierlayout.WaveView
         android:id="@+id/draweeView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
 
-    <quantec.com.moneypot.util.view.refresh.header.bezierlayout.RoundDotView
+    <com.quantec.moneypot.util.view.refresh.header.bezierlayout.RoundDotView
             android:id="@+id/round1"
             android:gravity="center"
             android:layout_width="match_parent"
@@ -18,14 +18,14 @@
             android:layout_gravity="center" />
 
 
-    <quantec.com.moneypot.util.view.refresh.header.bezierlayout.RoundProgressView
+    <com.quantec.moneypot.util.view.refresh.header.bezierlayout.RoundProgressView
         android:id="@+id/round2"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
-    <quantec.com.moneypot.util.view.refresh.header.bezierlayout.RippleView
+    <com.quantec.moneypot.util.view.refresh.header.bezierlayout.RippleView
         android:id="@+id/ripple"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

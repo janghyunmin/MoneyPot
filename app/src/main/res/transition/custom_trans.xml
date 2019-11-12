@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
-    <changeBounds/>
-</transitionSet>
-
-    <!--* changeBounds - 대상 뷰의 레이아웃 경계에서 변경을 애니메이트합니다.-->
-    <!--* changeClipBounds - 대상 뷰의 클리핑 경계에서 변경을 애니메이트합니다.-->
-    <!--* changeTransform - 대상 뷰의 배율 및 회전 변경을 애니메이트합니다.-->
-    <!--* changeImageTransform - 대상 이미지의 크기 및 배율 변경을 애니메이트합니다.-->

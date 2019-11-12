@@ -5,24 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFFFFF">
 
-    <quantec.com.moneypot.util.view.refresh.TwinklingRefreshLayout
+    <com.quantec.moneypot.util.view.refresh.TwinklingRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <!--<androidx.recyclerview.widget.RecyclerView-->
-            <!--android:id="@+id/recyclerView"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:overScrollMode="never"-->
-            <!--app:animationDuration="600"-->
-            <!--app:layoutAnimation="@anim/layout_animation_from_bottom"-->
-            <!--app:layoutManagerOrientation="vertical"-->
-            <!--app:layoutManagerReverse="false"-->
-            <!--app:layoutManagerType="linear"-->
-            <!--/>-->
         
-        <quantec.com.moneypot.util.view.AnimatedRecyclerView
+        <com.quantec.moneypot.util.view.AnimatedRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -33,6 +21,6 @@
             app:layoutManagerReverse="false"
             app:layoutManagerType="linear"
             />
-    </quantec.com.moneypot.util.view.refresh.TwinklingRefreshLayout>
+    </com.quantec.moneypot.util.view.refresh.TwinklingRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

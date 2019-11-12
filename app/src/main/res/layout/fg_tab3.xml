@@ -1,267 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ffffff"
-    android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/searchBt"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_search_gray" />
+    android:background="#FFFFFF">
 
     <TextView
         android:id="@+id/title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:text="포트 마켓"
+        android:text="자산커스텀"
         android:textColor="@color/text_black_color"
-        android:textSize="16dp" />
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/userBt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_user_gray" />
+        android:src="@drawable/btn_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/topLine"
+    <com.arlib.floatingsearchview.FloatingSearchView
+        android:id="@+id/floating_search_view"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#19000000"
-        app:layout_constraintTop_toBottomOf="@+id/searchBt"
+        android:layout_height="50dp"
+        app:floatingSearch_searchBarMarginLeft="24dp"
+        app:floatingSearch_searchBarMarginRight="24dp"
+        app:floatingSearch_searchHint="추가할 기업명이나 키워드를 검색하세요."
+        app:floatingSearch_searchInputTextSize="5dp"
+        app:floatingSearch_suggestionsListAnimDuration="250"
+        app:floatingSearch_showSearchKey="false"
+        app:floatingSearch_leftActionMode="showSearch"
+        app:floatingSearch_close_search_on_keyboard_dismiss="true"
+        app:floatingSearch_searchSuggestionTextSize="10dp"
+        android:transitionName="searchView"
+        app:layout_constraintTop_toBottomOf="@+id/userBt"
         />
 
-    <androidx.core.widget.NestedScrollView
+    <View
+        android:id="@+id/searchBt"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@+id/floating_search_view"
+        app:layout_constraintBottom_toBottomOf="@+id/floating_search_view"
+        app:layout_constraintStart_toStartOf="@+id/floating_search_view"
+        app:layout_constraintEnd_toEndOf="@+id/floating_search_view"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemEmptyLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/topLine"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="#FaFaFa"
-        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@+id/searchBt"
+        app:layout_constraintBottom_toTopOf="@+id/middleLine"
         >
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="133dp"
-                android:src="@drawable/img_background"
-                />
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_box"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="54dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
-            <TextView
-                android:id="@+id/rankingTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="전체 랭킹 TOP 3"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="24dp"
-                android:textColor="@color/text_black_color"
-                android:textSize="16dp"
-                android:layout_marginTop="20dp"
-                />
+        <TextView
+            android:id="@+id/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자산을 커스텀 할 기업을 선택하세요."
+            android:textSize="16dp"
+            android:textColor="@color/text_black_color"
+            app:layout_constraintTop_toBottomOf="@+id/image"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
-            <TextView
-                android:id="@+id/rankingSubTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="수익률이 가장 높은 상품을 한 눈에"
-                app:layout_constraintTop_toBottomOf="@+id/rankingTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textSize="12dp"
-                android:layout_marginStart="24dp"
-                />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(최소 1개에서 최대 5개까지 추가 가능)"
+            app:layout_constraintTop_toBottomOf="@+id/title2"
+            app:layout_constraintStart_toStartOf="@+id/title2"
+            app:layout_constraintEnd_toEndOf="@+id/title2"
+            android:textSize="12dp"
+            android:textColor="@color/c_9a9a9a"
+            />
 
-            <ImageView
-                android:id="@+id/rankingAddBt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_right_gray"
-                app:layout_constraintTop_toTopOf="@+id/rankingTitle"
-                app:layout_constraintBottom_toBottomOf="@+id/rankingSubTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="15dp"
-                />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rankingRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/rankingSubTitle"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:overScrollMode="never"
-                />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/searchBt"
+        app:layout_constraintBottom_toTopOf="@+id/middleLine"
+        android:visibility="gone"
+        >
 
+        <TextView
+            android:id="@+id/itemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="결과보기를 통해 수익률을 확인하세요."
+            android:textSize="14dp"
+            android:textColor="@color/c_3d3f42"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="56dp"
+            />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/itemTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/itemTitle"
+            app:layout_constraintStart_toEndOf="@+id/itemTitle"
+            android:text="(4/5)"
+            android:textSize="12dp"
+            android:layout_marginStart="2dp"
+            android:textColor="@color/c_3d3f42"
+            />
 
-            <TextView
-                android:id="@+id/strongTop3Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="강력 시리즈 TOP 3"
-                app:layout_constraintTop_toBottomOf="@+id/rankingRecyclerView"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="24dp"
-                android:textColor="@color/text_black_color"
-                android:textSize="16dp"
-                android:layout_marginTop="48dp"
-                />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="결과보기"
+            android:textColor="@color/text_white_color"
+            android:textSize="14dp"
+            android:background="@drawable/custom_bt"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="30dp"
+           />
 
-            <TextView
-                android:id="@+id/strongTop3SubTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="차별화된 전략으로 경험하는 진짜 자산관리"
-                app:layout_constraintTop_toBottomOf="@+id/strongTop3Title"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textSize="12dp"
-                android:layout_marginStart="24dp"
-                />
-
-            <ImageView
-                android:id="@+id/strongTop3AddBt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@+id/strongTop3Title"
-                app:layout_constraintBottom_toBottomOf="@+id/strongTop3SubTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="15dp"
-                android:src="@drawable/ic_right_gray"
-                />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/strongTop3RecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/strongTop3SubTitle"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:overScrollMode="never"
-                />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    <View
+        android:id="@+id/middleLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@+id/floating_search_view"
+        android:layout_marginTop="260dp"
+        android:background="#F4F4F4"
+        />
 
-            <TextView
-                android:id="@+id/miniTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="미니 시리즈"
-                app:layout_constraintTop_toBottomOf="@+id/strongTop3RecyclerView"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="24dp"
-                android:textColor="@color/text_black_color"
-                android:textSize="16dp"
-                android:layout_marginTop="48dp"
-                />
-
-            <TextView
-                android:id="@+id/miniSubTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="부담없는 금액으로 시작하는 자산관리"
-                app:layout_constraintTop_toBottomOf="@+id/miniTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textSize="12dp"
-                android:layout_marginStart="24dp"
-                />
-
-            <ImageView
-                android:id="@+id/miiniAddBt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@+id/miniTitle"
-                app:layout_constraintBottom_toBottomOf="@+id/miniSubTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="15dp"
-                android:src="@drawable/ic_right_gray"
-                />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/miniRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/miniSubTitle"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:overScrollMode="never"
-                />
-
-
-
-            <TextView
-                android:id="@+id/themeTop3Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="테마 시리즈 TOP 3"
-                app:layout_constraintTop_toBottomOf="@+id/miniRecyclerView"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="24dp"
-                android:textColor="@color/text_black_color"
-                android:textSize="16dp"
-                android:layout_marginTop="48dp"
-                />
-
-            <TextView
-                android:id="@+id/themeTop3SubTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="내가 제일 잘 아는 분야에 투자"
-                app:layout_constraintTop_toBottomOf="@+id/themeTop3Title"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textSize="12dp"
-                android:layout_marginStart="24dp"
-                />
-
-            <ImageView
-                android:id="@+id/themeAddBt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@+id/themeTop3Title"
-                app:layout_constraintBottom_toBottomOf="@+id/themeTop3SubTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="15dp"
-                android:src="@drawable/ic_right_gray"
-                />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/themeTop3RecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/themeTop3SubTitle"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:overScrollMode="never"
-                />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                app:layout_constraintTop_toBottomOf="@+id/themeTop3RecyclerView"
-                />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/middleLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

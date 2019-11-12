@@ -3,7 +3,7 @@
     <data>
         <variable
             name="alltabDesc"
-            type="quantec.com.moneypot.databinding.ItemAlltabDescBinding" />
+            type="com.quantec.moneypot.databinding.ItemAlltabDescBinding" />
 
     </data>
 

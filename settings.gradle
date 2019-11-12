@@ -1,2 +1,3 @@
-include ':app', ':Lib_Magic_FIDO'
+include ':app', ':Lib_Magic_FIDO', ':magicvkeypad'
 project(':Lib_Magic_FIDO').projectDir = new File('190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO')
+project(':magicvkeypad').projectDir = new File('190321_MagicFIDO_Android_SDK/Libs/magicvkeypad')

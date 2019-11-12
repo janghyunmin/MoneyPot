@@ -59,7 +59,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/fi_icon_fc"
+                android:src="@drawable/fi_icon_fc"
                 />
         </LinearLayout>
 

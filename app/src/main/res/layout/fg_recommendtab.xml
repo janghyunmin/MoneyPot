@@ -3,7 +3,7 @@
     <data>
         <variable
             name="recommendTab"
-            type="quantec.com.moneypot.databinding.FgRecommendtabBinding" />
+            type="com.quantec.moneypot.databinding.FgRecommendtabBinding" />
 
     </data>
 

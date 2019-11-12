@@ -3,7 +3,7 @@
     <data>
         <variable
             name="search"
-            type="quantec.com.moneypot.databinding.ActivitySearchBinding" />
+            type="com.quantec.moneypot.databinding.ActivitySearchBinding" />
 
     </data>
 

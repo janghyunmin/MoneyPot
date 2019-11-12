@@ -5,7 +5,7 @@
 
         <variable
             name="clientCenter"
-            type="quantec.com.moneypot.databinding.ActivityClientCenterBinding" />
+            type="com.quantec.moneypot.databinding.ActivityClientCenterBinding" />
 
     </data>
 

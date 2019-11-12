@@ -3,7 +3,7 @@
     <data>
         <variable
             name="myInfo"
-            type="quantec.com.moneypot.databinding.ActivityMyInfoBinding" />
+            type="com.quantec.moneypot.databinding.ActivityMyInfoBinding" />
 
     </data>
 

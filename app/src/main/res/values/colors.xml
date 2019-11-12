@@ -31,6 +31,7 @@
     <color name="blue_color">#0081f5</color>
     <color name="dark_gray_color">#9a9a9a</color>
     <color name="red_text_color">#f02626</color>
+    <color name="green_text_color">#00FF22</color>
     <color name="gray_brown_color">#505050</color>
     <color name="green_basket_color">#09A9A9</color>
     <color name="greyish_brown">#505050</color>
@@ -44,6 +45,18 @@
     <color name="text_red_color">#f02626</color>
     <color name="text_white_color">#FFFFFF</color>
     <color name="text_gray_color">#9a9a9a</color>
+    <color name="text_cccccc">#CCCCCC</color>
     <color name="text_black_color">#000000</color>
     <color name="dot_unselect">#7FFCFCFC</color>
+
+    <color name="life_line">#f4f4f4</color>
+    <color name="tab_click">#4e7cff</color>
+    <color name="tab_unclick">#cccccc</color>
+    <color name="sub_title">#3d3f42</color>
+    <color name="c_fafafa">#fafafa</color>
+    <color name="c_3d3f42">#3d3f42</color>
+    <color name="c_9a9a9a">#9A9A9A</color>
+    <color name="c_989898">#989898</color>
+    <color name="c_eaeaea">#eaeaea</color>
+
 </resources>

@@ -19,6 +19,7 @@
         android:textColor="@color/text_black_color"
         android:textSize="16dp"
         android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <TextView

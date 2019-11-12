@@ -5,7 +5,7 @@
 
         <variable
             name="fgTab4"
-            type="quantec.com.moneypot.databinding.ItemFgtab4Binding" />
+            type="com.quantec.moneypot.databinding.ItemFgtab4Binding" />
 
     </data>
 

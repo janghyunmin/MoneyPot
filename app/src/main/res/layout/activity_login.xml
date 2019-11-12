@@ -5,62 +5,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Login.MemberShipPage.ActivityMemberShipMain"
-    android:background="#FFFFFF"
-    >
-    <TextView
-        android:id="@+id/activity_login_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="안녕하세요,\n머니포트입니다!"
-        android:textSize="24dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="92dp"
-        android:layout_marginLeft="36dp"
-        android:textColor="#000000"
-        android:lineSpacingExtra="12dp"
-        />
+    tools:context=".activity.Login.resist.ActivityResistIntro"
+    android:background="#FFFFFF">
 
-    <ImageView
-        android:layout_width="64dp"
-        android:layout_height="55dp"
-        app:srcCompat="@drawable/img_red_coin"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_login_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="35dp"
-        />
-
-    <TextView
-        android:id="@+id/activity_login_subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="본인 확인을 위해 휴대폰 번호를 입력해주세요."
-        app:layout_constraintTop_toBottomOf="@+id/activity_login_title"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textSize="12dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="36dp"
-        android:textColor="#000000"
-        />
-
-    <EditText
-        android:id="@+id/activity_login_phoneEdittext"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginTop="56dp"
-        app:layout_constraintTop_toBottomOf="@+id/activity_login_subtitle"
-        android:inputType="number"
-        android:hint="휴대폰번호 11자리"
-        android:textColorHint="#9e9e9e"
-        android:textSize="18dp"
-        android:backgroundTint="#CCCCCC"
-        android:maxLength="11"
-        android:textColor="#000000"
-        />
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".activity.Login.resist.ActivityResistIntro"
+            >
+            <TextView
+                android:id="@+id/activity_login_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="반갑습니다.\n머니포트입니다!"
+                android:textSize="26dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="92dp"
+                android:layout_marginLeft="36dp"
+                android:textColor="@color/text_black_color"
+                android:lineSpacingMultiplier="1.5"
+                />
 
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="55dp"
+                app:srcCompat="@drawable/img_red_coin"
+                app:layout_constraintBottom_toBottomOf="@+id/activity_login_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginRight="35dp"
+                />
+
+            <TextView
+                android:id="@+id/activity_login_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지금 회원가입하시고\n머니포트만의 특별한 자산관리를 경험하세요."
+                app:layout_constraintTop_toBottomOf="@+id/activity_login_title"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="36dp"
+                android:textColor="@color/text_black_color"
+                android:lineSpacingMultiplier="1.3"
+                />
+
+            <TextView
+                android:id="@+id/phoneTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="휴대폰 번호"
+                android:textColor="@color/text_black_color"
+                app:layout_constraintTop_toBottomOf="@+id/activity_login_subtitle"
+                app:layout_constraintStart_toStartOf="@+id/activity_login_subtitle"
+                android:layout_marginTop="48dp"
+                />
+
+            <EditText
+                android:id="@+id/activity_login_phoneEdittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/phoneTitle"
+                android:inputType="number"
+                android:hint="휴대폰번호 11자리"
+                android:textColorHint="#9e9e9e"
+                android:textSize="18dp"
+                android:backgroundTint="#CCCCCC"
+                android:maxLength="11"
+                android:textColor="#000000"
+                />
+            <TextView
+                android:id="@+id/hintTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-를 제외한 휴대폰 번호 입력"
+                app:layout_constraintTop_toBottomOf="@+id/activity_login_phoneEdittext"
+                app:layout_constraintStart_toStartOf="@+id/activity_login_phoneEdittext"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/text_gray_color"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:layout_constraintTop_toBottomOf="@+id/hintTitle"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
     <TextView
         android:id="@+id/activity_login_Bt"
         android:layout_width="match_parent"
@@ -72,5 +112,4 @@
         android:gravity="center"
         android:textColor="#CCCCCC"
         />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

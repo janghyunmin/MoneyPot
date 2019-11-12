@@ -1,103 +1,103 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:1:1-54:12
-INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:1:1-54:12
-INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:1:1-54:12
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:1:1-54:12
+INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:1:1-54:12
+INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:1:1-54:12
 	package
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:2:5-39
-		INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
-		INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:2:5-39
+		INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
+		INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:1:11-69
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:1:11-69
 uses-permission#android.permission.INTERNET
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:5:5-67
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:5:5-67
 	android:name
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:5:22-64
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:5:22-64
 uses-permission#android.permission.READ_PHONE_STATE
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:6:5-75
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:6:5-75
 	android:name
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:6:22-72
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:6:22-72
 uses-permission#android.permission.USE_FINGERPRINT
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:7:5-74
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:7:5-74
 	android:name
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:7:22-71
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:7:22-71
 application
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:9:5-52:19
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:9:5-52:19
 	android:allowBackup
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:10:9-36
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:10:9-36
 uses-library#org.apache.http.legacy
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:13:9-87
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:13:9-87
 	android:required
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:13:61-85
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:13:61-85
 	android:name
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:13:23-60
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:13:23-60
 activity#com.dream.magic.fido.rpsdk.client.FidoSDKActivity
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:16:9-20:20
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:16:9-20:20
 	android:configChanges
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:18:13-74
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:18:13-74
 	android:theme
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:19:13-72
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:19:13-72
 	android:name
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:17:13-77
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:17:13-77
 activity#com.dream.magic.fido.client.process.UAFClient
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:21:9-25:20
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:21:9-25:20
 	android:configChanges
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:23:13-74
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:23:13-74
 	android:theme
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:24:13-72
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:24:13-72
 	android:name
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:22:13-73
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:22:13-73
 activity#com.dream.magic.fido.client.asm.ui.AsmListActivity
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:26:9-30:20
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:26:9-30:20
 	android:configChanges
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:28:13-74
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:28:13-74
 	android:theme
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:29:13-72
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:29:13-72
 	android:name
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:27:13-78
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:27:13-78
 activity#com.dream.magic.fido.authenticator.asm.api.ASMProcessorActivity
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:31:9-35:20
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:31:9-35:20
 	android:configChanges
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:33:13-74
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:33:13-74
 	android:theme
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:34:13-72
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:34:13-72
 	android:name
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:32:13-91
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:32:13-91
 activity#com.dream.magic.fido.authenticator.finger.local.UserLocal_Normal_Activity
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:36:9-40:20
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:36:9-40:20
 	android:configChanges
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:38:13-74
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:38:13-74
 	android:theme
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:39:13-72
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:39:13-72
 	android:name
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:37:13-101
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:37:13-101
 activity#com.dreamsecurity.lib_passcode.ui.Passcode_UI
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:41:9-45:20
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:41:9-45:20
 	android:configChanges
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:43:13-74
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:43:13-74
 	android:theme
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:44:13-72
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:44:13-72
 	android:name
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:42:13-73
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:42:13-73
 activity#com.dreamsecurity.lib_passcode.ui.Passcode_UI_Square
-ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:46:9-50:20
+ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:46:9-50:20
 	android:configChanges
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:48:13-74
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:48:13-74
 	android:theme
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:49:13-72
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:49:13-72
 	android:name
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:47:13-80
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml:47:13-80
 uses-sdk
-INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
-INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
-INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
-INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
+INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
+INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
+INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
+INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
-		INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
+		INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
+		INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
-		ADDED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
-		INJECTED from /Users/riam/Desktop/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
+		INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
+		ADDED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
+		INJECTED from /Users/riam/Desktop/새로운머니팟/MoneyPot/190321_MagicFIDO_Android_SDK/Libs/Lib_Magic_FIDO/src/main/AndroidManifest.xml
