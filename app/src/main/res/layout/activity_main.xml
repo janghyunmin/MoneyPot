@@ -28,18 +28,20 @@
         <com.ashokvarma.bottomnavigation.BottomNavigationBar
             android:id="@+id/bottombar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="56dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/tab_backgound"
             />
         <View
             android:id="@+id/viewBottom"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="56dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
             />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

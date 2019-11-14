@@ -58,14 +58,14 @@ public class ActivityMain extends AppCompatActivity {
         binding.bottombar.setMode(BottomNavigationBar.MODE_FIXED);
         binding.bottombar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         binding.bottombar
-                .addItem(new BottomNavigationItem(R.drawable.ic_market_on, "HOME").setActiveColorResource(R.color.green_basket_color)
-                        .setInactiveIcon(getResources().getDrawable(R.drawable.ic_market_off)).setInActiveColorResource(R.color.text_gray_color))
-                .addItem(new BottomNavigationItem(R.drawable.ic_star_on, "팔로우").setActiveColorResource(R.color.green_basket_color)
-                        .setInactiveIcon(getResources().getDrawable(R.drawable.ic_star_off)).setInActiveColorResource(R.color.text_gray_color))
-                .addItem(new BottomNavigationItem(R.drawable.ic_star_on, "시뮬레이션").setActiveColorResource(R.color.green_basket_color)
-                        .setInactiveIcon(getResources().getDrawable(R.drawable.ic_star_off)).setInActiveColorResource(R.color.text_gray_color))
-                .addItem(new BottomNavigationItem(R.drawable.ic_all_on, "설정").setActiveColorResource(R.color.green_basket_color)
-                        .setInactiveIcon(getResources().getDrawable(R.drawable.ic_all_off)).setInActiveColorResource(R.color.text_gray_color))
+                .addItem(new BottomNavigationItem(R.drawable.tab_ic_home_inactive, "홈").setActiveColorResource(R.color.c_4e7cff)
+                        .setInactiveIcon(getResources().getDrawable(R.drawable.tab_ic_home_inactive)).setInActiveColorResource(R.color.c_9a9a9a))
+                .addItem(new BottomNavigationItem(R.drawable.tab_ic_follow_inactive, "팔로우").setActiveColorResource(R.color.c_4e7cff)
+                        .setInactiveIcon(getResources().getDrawable(R.drawable.tab_ic_follow_inactive)).setInActiveColorResource(R.color.c_9a9a9a))
+                .addItem(new BottomNavigationItem(R.drawable.tab_ic_custom_active, "자산커스텀").setActiveColorResource(R.color.c_4e7cff)
+                        .setInactiveIcon(getResources().getDrawable(R.drawable.tab_ic_custom_active)).setInActiveColorResource(R.color.c_9a9a9a))
+                .addItem(new BottomNavigationItem(R.drawable.tab_ic_setting_inactive, "설정").setActiveColorResource(R.color.c_4e7cff)
+                        .setInactiveIcon(getResources().getDrawable(R.drawable.tab_ic_setting_inactive)).setInActiveColorResource(R.color.c_9a9a9a))
                 .setFirstSelectedPosition(0)
                 .initialise();
 

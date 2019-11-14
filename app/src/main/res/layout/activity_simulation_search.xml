@@ -10,7 +10,7 @@
     <com.arlib.floatingsearchview.FloatingSearchView
         android:id="@+id/floating_search_view"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         app:floatingSearch_searchBarMarginLeft="24dp"
         app:floatingSearch_searchBarMarginRight="24dp"
         app:floatingSearch_searchHint="추가할 기업명이나 키워드를 검색하세요."
