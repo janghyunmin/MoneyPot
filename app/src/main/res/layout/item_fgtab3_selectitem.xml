@@ -7,6 +7,18 @@
     android:id="@+id/selectedLayout"
     >
 
+    <TextView
+        android:id="@+id/num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="11dp"
+        android:textColor="@color/c_4e7cff"
+        app:layout_constraintTop_toTopOf="@+id/deleteBt"
+        app:layout_constraintBottom_toBottomOf="@+id/deleteBt"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"
+        />
+
     <ImageView
         android:id="@+id/deleteBt"
         android:layout_width="wrap_content"

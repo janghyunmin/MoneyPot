@@ -7,15 +7,13 @@ public class ModelFgTab3Follow {
     double rate;
     int gubun;
     boolean empty;
-    boolean open;
 
-    public ModelFgTab3Follow(String title, String code, double rate, int gubun, boolean empty, boolean open) {
+    public ModelFgTab3Follow(String title, String code, double rate, int gubun, boolean empty) {
         this.title = title;
         this.code = code;
         this.rate = rate;
         this.gubun = gubun;
         this.empty = empty;
-        this.open = open;
     }
 
     public String getTitle() {
@@ -56,13 +54,5 @@ public class ModelFgTab3Follow {
 
     public void setEmpty(boolean empty) {
         this.empty = empty;
-    }
-
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
     }
 }

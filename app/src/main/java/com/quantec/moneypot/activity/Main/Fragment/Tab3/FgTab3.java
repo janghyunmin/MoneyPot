@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,25 +19,38 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.activity.Main.ActivityMain;
 import com.quantec.moneypot.activity.Main.Fragment.Tab2.fragment.ActivitySimulationSearch;
+import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Code;
+import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Ex;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.adapter.AdapterFgTab3;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.adapter.AdapterSelectedItem;
 import com.quantec.moneypot.activity.PotDetail.DecorationItemHorizontal;
+import com.quantec.moneypot.activity.simulation.ActivitySimulation;
+import com.quantec.moneypot.datamanager.ChartManager;
+import com.quantec.moneypot.datamodel.dmodel.ModelTransChartList;
+import com.quantec.moneypot.dialog.DialogSimul;
+import com.quantec.moneypot.dialog.ModelSimulList;
+import com.quantec.moneypot.network.retrofit.RetrofitClient;
+
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FgTab3 extends Fragment {
 
     private ActivityMain activityMain;
-
 
     FloatingSearchView floatingSearchView;
     View searchBt;
@@ -49,7 +63,6 @@ public class FgTab3 extends Fragment {
     ArrayList<ModelFgTab3Follow> modelFgTab3Follows;
     AdapterFgTab3 adapterFgTab3;
 
-
     RecyclerView recyclerViewItem;
     RecyclerView.LayoutManager layoutManager2;
     ArrayList<ModelSelectItem> modelSelectItems;
@@ -57,8 +70,16 @@ public class FgTab3 extends Fragment {
 
     SnapHelper snapHelper;
 
-    ArrayList<String> codeList;
+    TextView resultBt, itemNum;
+
     private int count = 0;
+
+    private DialogSimul dialogSimul;
+    ArrayList<ModelSimulList> modelSimulLists;
+
+    ArrayList<ModelTransChartList> modelTransChartLists;
+
+    ArrayList<ModelPreChartList> modelPreChartLists;
 
     public FgTab3() {
     }
@@ -69,6 +90,14 @@ public class FgTab3 extends Fragment {
         View view = inflater.inflate(R.layout.fg_tab3, container, false);
 
         initializeViews();
+
+        resultBt = view.findViewById(R.id.resultBt);
+        resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_nonselected));
+        resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_cccccc));
+
+        itemNum = view.findViewById(R.id.itemNum);
+
+        modelTransChartLists = new ArrayList<>();
 
         floatingSearchView = view.findViewById(R.id.floating_search_view);
         floatingSearchView.setEnabled(false);
@@ -87,7 +116,7 @@ public class FgTab3 extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         modelFgTab3Follows = new ArrayList<>();
-        modelFgTab3Follows.add(new ModelFgTab3Follow("", "", 0, 0,false, false));
+        modelFgTab3Follows.add(new ModelFgTab3Follow("", "", 0, 0,false));
         adapterFgTab3 = new AdapterFgTab3(modelFgTab3Follows, activityMain);
         recyclerView.setAdapter(adapterFgTab3);
 
@@ -108,10 +137,18 @@ public class FgTab3 extends Fragment {
         adapterSelectedItem = new AdapterSelectedItem(modelSelectItems, activityMain);
         recyclerViewItem.setAdapter(adapterSelectedItem);
 
-        codeList = new ArrayList<>();
+        modelPreChartLists = new ArrayList<>();
+
+        modelSimulLists = new ArrayList<>();
 
         return view;
     }
+
+    private View.OnClickListener closeListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            dialogSimul.dismiss();
+        }
+    };
 
     private void initializeViews(){
         activityMain = (ActivityMain) getActivity();
@@ -146,8 +183,6 @@ public class FgTab3 extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activityMain, ActivitySimulationSearch.class);
-// Pass data object in the bundle and populate details activity.
-//                intent.putExtra(ActivitySimulationSearch.EXTRA_CONTACT, contact);
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(activityMain, (View)floatingSearchView, "searchView");
                 startActivity(intent, options.toBundle());
@@ -162,204 +197,261 @@ public class FgTab3 extends Fragment {
             }
         });
 
-        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키", "NKE", 28.90, 0,false, false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("제이피모건", "JPM", -2.16, 0,false, false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("세계적인 대세 IT 기업들 모음", "묶음기업", 6.11, 1,false, false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키", "NKE", 28.90, 0,false, false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("제이피모건", "JPM", -2.16, 0,false, false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("세계적인 대세 IT 기업들 모음", "묶음기업", 6.11, 1,false, false));
+        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키", "NKE", 28.90, 0,false));
+
+        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키2", "NKE1", 28.90, 0,false));
+        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키3", "NKE2", 28.90, 0,false));
+        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키4", "NKE3", 28.90, 0,false));
+        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키5", "NKE4", 28.90, 0,false));
+        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키6", "NKE5", 28.90, 0,false));
+        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키7", "NKE6", 28.90, 0,false));
+        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키8", "NKE7", 28.90, 0,false));
+
+        modelFgTab3Follows.add(new ModelFgTab3Follow("세계적인 대세 IT 기업들 모음", "묶음기업", 6.11, 1,false));
+        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키", "NKE", 28.90, 0,false));
+        modelFgTab3Follows.add(new ModelFgTab3Follow("제이피모건", "JPM", -2.16, 0,false));
+        modelFgTab3Follows.add(new ModelFgTab3Follow("세계적인 대세 IT 기업들 모음", "묶음기업", 6.11, 1,false));
 
         adapterFgTab3.setFollowAddClick(new AdapterFgTab3.FollowAddClick() {
             @Override
-            public void onClick(int position, String title, String code, double rate, int ent) {
-                if(modelFgTab3Follows.get(position).getGubun() == 0){
-                    Log.e("받은값0", "값 : "+code);
+            public void onClick(int position) {
 
-                    if(count == 0){
+                if (modelFgTab3Follows.get(position).getGubun() == 0) {
+
+                    if (count == 0) {
                         itemEmptyLayout.setVisibility(View.GONE);
                         itemLayout.setVisibility(View.VISIBLE);
                     }
 
-                    if(ent == 1){
+                    if (count < 10) {
 
-                        if(count < 10){
+                        if (CheckedList(modelFgTab3Follows.get(position).getCode())) {
+                            Toast.makeText(activityMain, "중복된 기업입니다.", Toast.LENGTH_SHORT).show();
+                        } else {
 
                             count++;
+                            itemNum.setText("("+count+"/10)");
 
-                            if(count == 1){
-                                modelSelectItems.add(new ModelSelectItem(title, code, rate, false));
-                                codeList.add(code);
-                                modelSelectItems.add(new ModelSelectItem("", "", 0, true));
-                                modelSelectItems.add(new ModelSelectItem("", "", 0, true));
-                            }else if(count == 2){
-                                modelSelectItems.set(1, new ModelSelectItem(title, code,
-                                        rate,false));
-                                adapterSelectedItem.notifyItemChanged(1);
-                                codeList.add(code);
-                            }else if(count == 3){
-                                modelSelectItems.set(2, new ModelSelectItem(title, code,
-                                        rate,false));
-                                codeList.add(code);
+                            if(count >= 2 ){
+                                resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_selected));
+                                resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_ffffff));
                             }else{
-                                modelSelectItems.add(new ModelSelectItem(title, code,
-                                        rate, false));
-                                codeList.add(code);
+                                resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_nonselected));
+                                resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_cccccc));
                             }
 
-//                            codeList.add(modelSelectItems.get(position).getCode());
-                            adapterSelectedItem.notifyDataSetChanged();
-
-                        }else{
-                            Toast.makeText(activityMain, "더이상 추가할 수 없습니다.", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }else{
-
-                        if(count < 10){
-
-                            count++;
-
-                            if(count == 1){
+                            if (count == 1) {
                                 modelSelectItems.add(new ModelSelectItem(modelFgTab3Follows.get(position).getTitle(), modelFgTab3Follows.get(position).getCode(), modelFgTab3Follows.get(position).getRate(), false));
-                                codeList.add(modelFgTab3Follows.get(position).getCode());
+
+                                modelPreChartLists.add(new ModelPreChartList(modelFgTab3Follows.get(position).getTitle(),
+                                        modelFgTab3Follows.get(position).getCode(),
+                                        modelFgTab3Follows.get(position).getRate()));
+
                                 modelSelectItems.add(new ModelSelectItem("", "", 0, true));
                                 modelSelectItems.add(new ModelSelectItem("", "", 0, true));
-                            }else if(count == 2){
+                            } else if (count == 2) {
                                 modelSelectItems.set(1, new ModelSelectItem(modelFgTab3Follows.get(position).getTitle(), modelFgTab3Follows.get(position).getCode(),
-                                        modelFgTab3Follows.get(position).getRate(),false)).setTitle(modelFgTab3Follows.get(position).getTitle());
-                                codeList.add(modelFgTab3Follows.get(position).getCode());
-                            }else if(count == 3){
+                                        modelFgTab3Follows.get(position).getRate(), false)).setTitle(modelFgTab3Follows.get(position).getTitle());
+                                modelPreChartLists.add(new ModelPreChartList(modelFgTab3Follows.get(position).getTitle(),
+                                        modelFgTab3Follows.get(position).getCode(),
+                                        modelFgTab3Follows.get(position).getRate()));
+
+                            } else if (count == 3) {
                                 modelSelectItems.set(2, new ModelSelectItem(modelFgTab3Follows.get(position).getTitle(), modelFgTab3Follows.get(position).getCode(),
-                                        modelFgTab3Follows.get(position).getRate(),false)).setTitle(modelFgTab3Follows.get(position).getTitle());
-                                codeList.add(modelFgTab3Follows.get(position).getCode());
-                            }else{
+                                        modelFgTab3Follows.get(position).getRate(), false)).setTitle(modelFgTab3Follows.get(position).getTitle());
+                                modelPreChartLists.add(new ModelPreChartList(modelFgTab3Follows.get(position).getTitle(),
+                                        modelFgTab3Follows.get(position).getCode(),
+                                        modelFgTab3Follows.get(position).getRate()));
+
+                            } else {
                                 modelSelectItems.add(new ModelSelectItem(modelFgTab3Follows.get(position).getTitle(), modelFgTab3Follows.get(position).getCode(), modelFgTab3Follows.get(position).getRate(), false));
-                                codeList.add(modelFgTab3Follows.get(position).getCode());
+                                modelPreChartLists.add(new ModelPreChartList(modelFgTab3Follows.get(position).getTitle(),
+                                        modelFgTab3Follows.get(position).getCode(),
+                                        modelFgTab3Follows.get(position).getRate()));
+
                             }
-
-//                            codeList.add(modelSelectItems.get(position).getCode());
                             adapterSelectedItem.notifyDataSetChanged();
-
-                        }else{
-                            Toast.makeText(activityMain, "더이상 추가할 수 없습니다.", Toast.LENGTH_SHORT).show();
                         }
-
+                    } else {
+                        Toast.makeText(activityMain, "더이상 추가할 수 없습니다.", Toast.LENGTH_SHORT).show();
                     }
+                }else {
 
-                }else{
-                    Log.e("받은값1", "값 : "+code+"  코드 : "+ent);
+                    modelSimulLists.clear();
 
-                    if(ent == 0){
-                        if(modelFgTab3Follows.get(position).isOpen()){
-                            modelFgTab3Follows.get(position).setOpen(false);
-                        }else{
-                            modelFgTab3Follows.get(position).setOpen(true);
-                        }
-                        adapterFgTab3.notifyDataSetChanged();
-                    }else{
+                    modelSimulLists.add(new ModelSimulList("","", 0));
+                    modelSimulLists.add(new ModelSimulList("엔비디아","NVDA", 20.41));
+                    modelSimulLists.add(new ModelSimulList("AMD","AMD", -2.99));
 
-                        if(count == 0){
-                            itemEmptyLayout.setVisibility(View.GONE);
-                            itemLayout.setVisibility(View.VISIBLE);
-                        }
+                    modelSimulLists.add(new ModelSimulList("블리자드","ATVI", 10.01));
+                    modelSimulLists.add(new ModelSimulList("나이키","NKE", -8.66));
 
-                        if(count < 10){
+                    dialogSimul = new DialogSimul(activityMain, count, modelSimulLists, modelFgTab3Follows.get(position).getTitle(), modelPreChartLists, closeListener);
+                    dialogSimul.show();
 
+                    dialogSimul.setDialogSimulResult(new DialogSimul.OnDialogSimuResult() {
+                        @Override
+                        public void finish(String title, String code, double rate) {
+                            if (count == 0) {
+                                itemEmptyLayout.setVisibility(View.GONE);
+                                itemLayout.setVisibility(View.VISIBLE);
+                            }
                             count++;
+                            itemNum.setText("("+count+"/10)");
 
-                            if(count == 1){
-                                modelSelectItems.add(new ModelSelectItem(title, code, rate, false));
-                                codeList.add(code);
-                                modelSelectItems.add(new ModelSelectItem("", "", 0, true));
-                                modelSelectItems.add(new ModelSelectItem("", "", 0, true));
-                            }else if(count == 2){
-                                modelSelectItems.set(1, new ModelSelectItem(title, code,
-                                        rate,false));
-                                codeList.add(code);
-                            }else if(count == 3){
-                                modelSelectItems.set(2, new ModelSelectItem(title, code,
-                                        rate,false));
-                                codeList.add(code);
+                            if(count >= 2 ){
+                                resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_selected));
+                                resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_ffffff));
                             }else{
-                                modelSelectItems.add(new ModelSelectItem(title, code,
-                                        rate, false));
-                                codeList.add(code);
+                                resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_nonselected));
+                                resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_cccccc));
                             }
 
-//                            codeList.add(modelSelectItems.get(position).getCode());
-                            adapterSelectedItem.notifyDataSetChanged();
+                            if (count == 1) {
+                                modelSelectItems.add(new ModelSelectItem(title, code, rate, false));
+                                modelPreChartLists.add(new ModelPreChartList(title, code, rate));
 
-                        }else{
-                            Toast.makeText(activityMain, "더이상 추가할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                modelSelectItems.add(new ModelSelectItem("", "", 0, true));
+                                modelSelectItems.add(new ModelSelectItem("", "", 0, true));
+                            } else if (count == 2) {
+                                modelSelectItems.set(1, new ModelSelectItem(title, code, rate, false));
+                                modelPreChartLists.add(new ModelPreChartList(title, code, rate));
+
+                            } else if (count == 3) {
+                                modelSelectItems.set(2, new ModelSelectItem(title, code, rate, false));
+                                modelPreChartLists.add(new ModelPreChartList(title, code, rate));
+
+                            } else {
+                                modelSelectItems.add(new ModelSelectItem(title, code, rate, false));
+                                modelPreChartLists.add(new ModelPreChartList(title, code, rate));
+
+                            }
+                            adapterSelectedItem.notifyDataSetChanged();
+                            dialogSimul.dismiss();
                         }
-                    }
+                    });
                 }
             }
         });
 
-//        adapterFgTab3.setFollowAddClick(new AdapterFgTab3.FollowAddClick() {
-//            @Override
-//            public void onClick(int position) {
-//
-//                if(modelFgTab3Follows.get(position).getGubun() == 0){
-//
-//                }else{
-//
-//                }
-//
-//
-//                if(count == 0){
-//                    itemEmptyLayout.setVisibility(View.GONE);
-//                    itemLayout.setVisibility(View.VISIBLE);
-//                }
-//                if(count < 10){
-//
-//                    count++;
-//
-//                    if(count == 1){
-//                        modelSelectItems.add(new ModelSelectItem(modelFgTab3Follows.get(position).getTitle(), modelFgTab3Follows.get(position).getCode(), modelFgTab3Follows.get(position).getRate(), false));
-//                        modelSelectItems.add(new ModelSelectItem("", "", 0, true));
-//                        modelSelectItems.add(new ModelSelectItem("", "", 0, true));
-//                    }else if(count == 2){
-//                        modelSelectItems.set(1, new ModelSelectItem(modelSelectItems.get(position).getTitle(), modelSelectItems.get(position).getCode(),
-//                                modelSelectItems.get(position).getRate(),false)).setTitle(modelSelectItems.get(position).getTitle());
-//                    }else if(count == 3){
-//                        modelSelectItems.set(2, new ModelSelectItem(modelSelectItems.get(position).getTitle(), modelSelectItems.get(position).getCode(),
-//                                modelSelectItems.get(position).getRate(),false)).setTitle(modelSelectItems.get(position).getTitle());
-//                    }else{
-//                        modelSelectItems.add(new ModelSelectItem(modelFgTab3Follows.get(position).getTitle(), modelFgTab3Follows.get(position).getCode(), modelFgTab3Follows.get(position).getRate(), false));
-//                    }
-//
-//                    codeList.add(modelSelectItems.get(position).getCode());
-//                    adapterSelectedItem.notifyDataSetChanged();
-//
-//                }else{
-//                    Toast.makeText(activityMain, "더이상 추가할 수 없습니다.", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
         adapterFgTab3.setFollowItemClick(new AdapterFgTab3.FollowItemClick() {
             @Override
             public void onClick(int position) {
-
             }
         });
-
 
         adapterSelectedItem.setSelectedDeleteClick(new AdapterSelectedItem.SelectedDeleteClick() {
             @Override
             public void onclick(int position) {
 
+                for(int index = 0 ; index < modelPreChartLists.size(); index++){
+                    if(modelSelectItems.get(position).getCode().equals(modelPreChartLists.get(index).getCode())){
+                        modelPreChartLists.remove(index);
+                        return;
+                    }
+                }
+
+                if(count > 1 & count <= 3){
+                    modelSelectItems.remove(position);
+                    modelSelectItems.add(new ModelSelectItem("", "", 0, true));
+                }else if(count == 1){
+                    modelSelectItems.clear();
+                    itemEmptyLayout.setVisibility(View.VISIBLE);
+                    itemLayout.setVisibility(View.GONE);
+                }else{
+                    modelSelectItems.remove(position);
+                }
+
+                count--;
+                itemNum.setText("("+count+"/10)");
+
+                if(count >= 2 ){
+                    resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_selected));
+                    resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_ffffff));
+                }else{
+                    resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_nonselected));
+                    resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_cccccc));
+                }
+
+                adapterSelectedItem.notifyDataSetChanged();
             }
         });
 
         adapterSelectedItem.setSelectedItemClick(new AdapterSelectedItem.SelectedItemClick() {
             @Override
             public void onClick(int position) {
-
             }
         });
 
+
+        resultBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(count < 2){
+                    Toast.makeText(activityMain, "2개 이상을 선택해 주세요.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+
+                    for(int index = 0 ; index < modelPreChartLists.size(); index++){
+                        Log.e("총 코드값", "값 : "+modelPreChartLists.get(index).getCode());
+                    }
+
+                    Code code = new Code();
+                    Ex ex = new Ex();
+                    ArrayList<Code> codes = new ArrayList<>();
+
+                    code.setCode("NVDA");
+                    code.setType(0);
+                    codes.add(code);
+
+                    code.setCode("IBM");
+                    code.setType(0);
+                    codes.add(code);
+
+                    ex.setCodes(codes);
+                    ex.setPeriod("one");
+                    ex.setPropensity(701);
+
+                    Call<ModelPotSimul> getReList = RetrofitClient.getInstance().getService().getPotSimul("application/json", ex);
+                    getReList.enqueue(new Callback<ModelPotSimul>() {
+                        @Override
+                        public void onResponse(Call<ModelPotSimul> call, Response<ModelPotSimul> response) {
+                            if (response.code() == 200) {
+                                if(response.body().getStatus() == 200){
+//                                authCode = response.body().getContent().getAuthCode();
+//                                regToken = response.headers().get("Authorization");
+
+                                    modelTransChartLists.clear();
+                                    for(int index = 0 ; index < response.body().getContent().getChart().size() ; index++) {
+                                        modelTransChartLists.add(new ModelTransChartList(response.body().getContent().getChart().get(index).getDate(),
+                                                response.body().getContent().getChart().get(index).getPrice(),
+                                                response.body().getContent().getChart().get(index).getExp()));
+                                    }
+                                    ChartManager.get_Instance().setTransChartLists(modelTransChartLists);
+                                    Intent intent = new Intent(activityMain, ActivitySimulation.class);
+                                    intent.putExtra("rate", response.body().getContent().getCore().getRate());
+                                    intent.putParcelableArrayListExtra("chartData", modelPreChartLists);
+                                    startActivityForResult(intent, 100);
+                                }
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<ModelPotSimul> call, Throwable t) {
+                            Log.e("실패","실패"+t.getMessage());
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    boolean CheckedList(String code){
+        for(ModelPreChartList modelPreChartLists : modelPreChartLists){
+            if(code.equals(modelPreChartLists.getCode())){
+                return true;
+            }
+        }
+        return false;
     }
 }

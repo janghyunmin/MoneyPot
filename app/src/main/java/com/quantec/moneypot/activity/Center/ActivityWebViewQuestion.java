@@ -3,6 +3,7 @@ package com.quantec.moneypot.activity.Center;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -61,6 +62,12 @@ public class ActivityWebViewQuestion extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        Intent marketIntent = new Intent(Intent.ACTION_VIEW);
+        marketIntent.setData(Uri.parse("testdeep://deeplink.com"));
+        startActivity(marketIntent);
+
     }// onCreate 끝
 
     @Override

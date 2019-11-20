@@ -9,6 +9,7 @@ import com.quantec.moneypot.activity.Login.Model.nModel.ModelLoginData;
 import com.quantec.moneypot.activity.Login.Model.nModel.ModelIdentifyData;
 import com.quantec.moneypot.activity.Login.Model.nModel.ModelAppInit;
 import com.quantec.moneypot.activity.Login.Model.nModel.ModelUserInfo;
+import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPotSimul;
 import com.quantec.moneypot.datamodel.nmodel.ModelAccounts;
 import com.quantec.moneypot.datamodel.nmodel.ModelChartData;
 import com.quantec.moneypot.datamodel.nmodel.ModelChkNicName;
@@ -226,5 +227,14 @@ public interface RetrofitService {
 //    @Streaming
 //    @GET
 //    Call<Object> dw(@Url String url);
+
+
+    /**
+     *
+     *회원가입 사용자 등록
+     *
+     */
+    @POST("pot/getCoreData")
+    Call<ModelPotSimul> getPotSimul(@Header("Content-Type") String content_type, @Body Object ex);
 
 }

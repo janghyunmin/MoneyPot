@@ -65,6 +65,8 @@ public class AdapterSelectedItem extends RecyclerView.Adapter<RecyclerView.ViewH
             ((SelectedItemViewHolder)holder).code.setText(modelSelectItems.get(position).getCode());
             ((SelectedItemViewHolder)holder).rate.setText(modelSelectItems.get(position).getRate()+"%");
 
+            ((SelectedItemViewHolder)holder).num.setText(String.valueOf(position+1));
+
             if(modelSelectItems.get(position).getRate() < 0){
                 ((SelectedItemViewHolder)holder).rate.setTextColor(context.getResources().getColor(R.color.blue_color));
             }else{
@@ -79,22 +81,20 @@ public class AdapterSelectedItem extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 }
             });
-//
-//            ((SelectedItemViewHolder)holder).deleteBt.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(selectedDeleteClick != null){
-//                        selectedDeleteClick.onclick(position);
-//                    }
-//                }
-//            });
+
+            ((SelectedItemViewHolder)holder).deleteBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(selectedDeleteClick != null){
+                        selectedDeleteClick.onclick(position);
+                    }
+                }
+            });
         }
 
         if(holder instanceof SelectedEmptyViewHolder){
-
         }
     }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -115,7 +115,7 @@ public class AdapterSelectedItem extends RecyclerView.Adapter<RecyclerView.ViewH
 
         ConstraintLayout selectedLayout;
         ImageView deleteBt;
-        TextView number, title, code ,rate;
+        TextView num, title, code ,rate;
 
         public SelectedItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -123,7 +123,7 @@ public class AdapterSelectedItem extends RecyclerView.Adapter<RecyclerView.ViewH
             selectedLayout = itemView.findViewById(R.id.selectedLayout);
             deleteBt = itemView.findViewById(R.id.deleteBt);
 
-            number = itemView.findViewById(R.id.number);
+            num = itemView.findViewById(R.id.num);
             title = itemView.findViewById(R.id.title);
             code = itemView.findViewById(R.id.code);
             rate = itemView.findViewById(R.id.rate);

@@ -60,5 +60,9 @@
     <color name="c_eaeaea">#eaeaea</color>
     <color name="c_cccccc">#CCCCCC</color>
     <color name="c_4e7cff">#4E7CFF</color>
+    <color name="c_36383a">#36383a</color>
+    <color name="c_f02654">#f02654</color>
+    <color name="c_ffffff">#ffffff</color>
+    <color name="c_dedede">#dedede</color>
 
 </resources>

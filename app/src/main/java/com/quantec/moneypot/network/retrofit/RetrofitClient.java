@@ -24,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static String baseUrl = "https://dev.quantec.co.kr:7777/core/";
+    private static String baseUrl = "https://dev.quantec.co.kr:7777/api/";
 
     private static int CONNECT_TIMEOUT = 20;
     private static int WRITE_TIMEOUT = 20;
@@ -60,6 +60,7 @@ public class RetrofitClient {
                             token = SharedPreferenceUtil.getInstance(mContext).getStringExtra("aToken");
                         }
                         Log.e("토큰", "값 : "+token);
+                        token = "dummy@quant.co.kr";
 
                         if(request.body() != null) {
                             String time = String.valueOf(new java.sql.Timestamp(System.currentTimeMillis()).getTime());

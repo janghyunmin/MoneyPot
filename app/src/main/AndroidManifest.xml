@@ -26,12 +26,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.prefer.ActivityPrefer">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".activity.simulation.ActivitySimulation"></activity>
+        <activity android:name=".activity.Main.ActivityTestDeepLink">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="deeplink.com"
+                    android:scheme="testdeep" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.prefer.ActivityPrefer">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".activity.splash.ActivitySplash" />
         <activity android:name=".activity.Main.Fragment.Tab2.fragment.ActivitySimulationSearch" />

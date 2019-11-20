@@ -19,12 +19,6 @@ import java.util.ArrayList;
 
 public class AdapterFgTab3 extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
-    RecyclerView.LayoutManager layoutManager;
-    ArrayList<ModelEnterWith> modelEnterWiths;
-    AdapterEnterWith adapterEnterWith;
-
-
     private int TOPITEM = 0;
     private int ITEM = 1;
     private int EMPTY = 2;
@@ -47,8 +41,11 @@ public class AdapterFgTab3 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private FollowAddClick followAddClick;
+//    public interface FollowAddClick {
+//        public void onClick(int position, String title, String code, double rate, int ent);
+//    }
     public interface FollowAddClick {
-        public void onClick(int position, String title, String code, double rate, int ent);
+        public void onClick(int position);
     }
 
     public void setFollowAddClick(FollowAddClick followAddClick) {
@@ -73,7 +70,6 @@ public class AdapterFgTab3 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         if(holder instanceof FgTab3ViewHolder){
-
         }
 
         if(holder instanceof FgTab3ItemViewHolder){
@@ -105,38 +101,18 @@ public class AdapterFgTab3 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-            adapterEnterWith.setEnterWithAddClick(new AdapterEnterWith.EnterWithAddClick() {
-                @Override
-                public void onClick(int position) {
-                    followAddClick.onClick(position, modelEnterWiths.get(position).getTitle(), modelEnterWiths.get(position).getCode(),modelEnterWiths.get(position).getRate(), 1);
-                }
-            });
-
-            if(modelFgTab3Follows.get(position).isOpen()){
-                ((FgTab3ItemViewHolder)holder).recyclerView.setVisibility(View.VISIBLE);
-            }else{
-                ((FgTab3ItemViewHolder)holder).recyclerView.setVisibility(View.GONE);
-            }
-
             ((FgTab3ItemViewHolder)holder).addBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(followAddClick != null){
-                        followAddClick.onClick(position, "","",0, 0);
-//                        if(modelFgTab3Follows.get(position).getGubun() == 0){
-//                            followAddClick.onClick(position, "","",0, 0);
-//                        }else{
-//                            followAddClick.onClick(position, "", "", 0, 0);
-//                        }
+                        followAddClick.onClick(position);
                     }
                 }
             });
         }
 
         if(holder instanceof FgTab3EmptyViewHolder){
-
         }
-
     }
 
     @Override
@@ -169,7 +145,6 @@ public class AdapterFgTab3 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ConstraintLayout itemLayout;
         ImageView addBt;
         TextView title, code, rate, per;
-        RecyclerView recyclerView;
 
         public FgTab3ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -181,28 +156,6 @@ public class AdapterFgTab3 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             code = itemView.findViewById(R.id.code);
             rate = itemView.findViewById(R.id.rate);
             per = itemView.findViewById(R.id.per);
-
-            recyclerView = itemView.findViewById(R.id.recyclerView);
-            recyclerView.setHasFixedSize(true);
-
-            layoutManager = new LinearLayoutManager(context);
-            recyclerView.setLayoutManager(layoutManager);
-
-            modelEnterWiths = new ArrayList<>();
-            modelEnterWiths.add(new ModelEnterWith("", "", 0));
-            adapterEnterWith = new AdapterEnterWith(modelEnterWiths, context);
-            recyclerView.setAdapter(adapterEnterWith);
-
-            modelEnterWiths.add(new ModelEnterWith("어플라이드 머터리얼즈", "AMAT", 87.45));
-            modelEnterWiths.add(new ModelEnterWith("인텔", "INTC", -4.22));
-            modelEnterWiths.add(new ModelEnterWith("블리자드", "ATIV", 10.45));
-
-            recyclerView.setLayoutManager(new LinearLayoutManager(context){
-                @Override
-                public boolean canScrollVertically() {
-                    return false;
-                }
-            });
 
         }
     }
