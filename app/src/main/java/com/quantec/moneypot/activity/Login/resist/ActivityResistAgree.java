@@ -35,16 +35,18 @@ public class ActivityResistAgree extends AppCompatActivity implements View.OnCli
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_agree_page);
 
-        binding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_gray_24_dp);
-        binding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_gray);
-        binding.serviceTitle1Bt2.setBackgroundResource(R.drawable.ic_checkbox_gray);
-        binding.serviceTitle2Bt1.setBackgroundResource(R.drawable.ic_checkbox_gray);
-        binding.serviceTitle2Bt2.setBackgroundResource(R.drawable.ic_checkbox_gray);
-        binding.serviceTitle2Bt3.setBackgroundResource(R.drawable.ic_checkbox_gray);
-        binding.serviceTitle2Bt4.setBackgroundResource(R.drawable.ic_checkbox_gray);
-        binding.serviceTitle3Bt1.setBackgroundResource(R.drawable.ic_checkbox_gray);
-        binding.serviceTitle3Bt2.setBackgroundResource(R.drawable.ic_checkbox_gray);
-        binding.serviceTitle3Bt3.setBackgroundResource(R.drawable.ic_checkbox_gray);
+        binding.nextBt.setBackground(getResources().getDrawable(R.drawable.unselect_bt));
+
+        binding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+        binding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+        binding.serviceTitle1Bt2.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+        binding.serviceTitle2Bt1.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+        binding.serviceTitle2Bt2.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+        binding.serviceTitle2Bt3.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+        binding.serviceTitle2Bt4.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+        binding.serviceTitle3Bt1.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+        binding.serviceTitle3Bt2.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+        binding.serviceTitle3Bt3.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
 
         binding.serviceAllCheckBt.setOnClickListener(this);
         binding.serviceTitle1Bt1.setOnClickListener(this);
@@ -114,10 +116,10 @@ public class ActivityResistAgree extends AppCompatActivity implements View.OnCli
                 && (nonSelectBt[0] == 1 && nonSelectBt[1] == 1 && nonSelectBt[2] == 1)) {
 
             selectAllBt = true;
-            binding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_red_24_dp);
+            binding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
 
             binding.nextBt.setEnabled(true);
-            binding.nextBt.setBackgroundColor(getResources().getColor(R.color.red_text_color));
+            binding.nextBt.setBackground(getResources().getDrawable(R.drawable.select_bt));
             binding.nextBt.setTextColor(getResources().getColor(R.color.normal_title_color));
         }
         else {
@@ -125,19 +127,19 @@ public class ActivityResistAgree extends AppCompatActivity implements View.OnCli
             if(selectBT[0] == 1 && selectBT[1] == 1 && selectBT[2] == 1 && selectBT[3] == 1 && selectBT[4] == 1 && selectBT[5] == 1){
 
                 selectAllBt = false;
-                binding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_gray_24_dp);
+                binding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
 
                 binding.nextBt.setEnabled(true);
-                binding.nextBt.setBackgroundColor(getResources().getColor(R.color.red_text_color));
+                binding.nextBt.setBackground(getResources().getDrawable(R.drawable.select_bt));
                 binding.nextBt.setTextColor(getResources().getColor(R.color.normal_title_color));
 
             }else{
 
                 selectAllBt = false;
-                binding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_gray_24_dp);
+                binding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
 
                 binding.nextBt.setEnabled(false);
-                binding.nextBt.setBackgroundColor(getResources().getColor(R.color.button_enable));
+                binding.nextBt.setBackground(getResources().getDrawable(R.drawable.unselect_bt));
                 binding.nextBt.setTextColor(getResources().getColor(R.color.button_enable_text));
             }
         }
@@ -173,19 +175,19 @@ public class ActivityResistAgree extends AppCompatActivity implements View.OnCli
                     nonSelectBt[1] = 1;
                     nonSelectBt[2] = 1;
 
-                    binding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_red_24_dp);
+                    binding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
 
-                    binding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_red);
-                    binding.serviceTitle1Bt2.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    binding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
+                    binding.serviceTitle1Bt2.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
 
-                    binding.serviceTitle2Bt1.setBackgroundResource(R.drawable.ic_checkbox_red);
-                    binding.serviceTitle2Bt2.setBackgroundResource(R.drawable.ic_checkbox_red);
-                    binding.serviceTitle2Bt3.setBackgroundResource(R.drawable.ic_checkbox_red);
-                    binding.serviceTitle2Bt4.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    binding.serviceTitle2Bt1.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
+                    binding.serviceTitle2Bt2.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
+                    binding.serviceTitle2Bt3.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
+                    binding.serviceTitle2Bt4.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
 
-                    binding.serviceTitle3Bt1.setBackgroundResource(R.drawable.ic_checkbox_red);
-                    binding.serviceTitle3Bt2.setBackgroundResource(R.drawable.ic_checkbox_red);
-                    binding.serviceTitle3Bt3.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    binding.serviceTitle3Bt1.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
+                    binding.serviceTitle3Bt2.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
+                    binding.serviceTitle3Bt3.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
 
                 }else{
 
@@ -202,109 +204,109 @@ public class ActivityResistAgree extends AppCompatActivity implements View.OnCli
                     nonSelectBt[1] = 0;
                     nonSelectBt[2] = 0;
 //
-                    binding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_gray_24_dp);
+                    binding.serviceAllCheckBt.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
 
-                    binding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_gray);
-                    binding.serviceTitle1Bt2.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    binding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+                    binding.serviceTitle1Bt2.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
 
-                    binding.serviceTitle2Bt1.setBackgroundResource(R.drawable.ic_checkbox_gray);
-                    binding.serviceTitle2Bt2.setBackgroundResource(R.drawable.ic_checkbox_gray);
-                    binding.serviceTitle2Bt3.setBackgroundResource(R.drawable.ic_checkbox_gray);
-                    binding.serviceTitle2Bt4.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    binding.serviceTitle2Bt1.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+                    binding.serviceTitle2Bt2.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+                    binding.serviceTitle2Bt3.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+                    binding.serviceTitle2Bt4.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
 
-                    binding.serviceTitle3Bt1.setBackgroundResource(R.drawable.ic_checkbox_gray);
-                    binding.serviceTitle3Bt2.setBackgroundResource(R.drawable.ic_checkbox_gray);
-                    binding.serviceTitle3Bt3.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    binding.serviceTitle3Bt1.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+                    binding.serviceTitle3Bt2.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
+                    binding.serviceTitle3Bt3.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
                 }
                 checkedNextBt();
                 break;
             case R.id.serviceTitle1_bt1:
                 if(selectBT[0] == 0) {
                     selectBT[0] = 1;
-                    binding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    binding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
                 }else{
                     selectBT[0] = 0;
-                    binding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    binding.serviceTitle1Bt1.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
                 }
                 checkedNextBt();
                 break;
             case R.id.serviceTitle1_bt2:
                 if(selectBT[1] == 0) {
                     selectBT[1] = 1;
-                    binding.serviceTitle1Bt2.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    binding.serviceTitle1Bt2.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
                 }else{
                     selectBT[1] = 0;
-                    binding.serviceTitle1Bt2.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    binding.serviceTitle1Bt2.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
                 }
                 checkedNextBt();
                 break;
             case R.id.serviceTitle2_bt1:
                 if(selectBT[2] == 0) {
                     selectBT[2] = 1;
-                    binding.serviceTitle2Bt1.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    binding.serviceTitle2Bt1.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
                 }else{
                     selectBT[2] = 0;
-                    binding.serviceTitle2Bt1.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    binding.serviceTitle2Bt1.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
                 }
                 checkedNextBt();
                 break;
             case R.id.serviceTitle2_bt2:
                 if(selectBT[3] == 0) {
                     selectBT[3] = 1;
-                    binding.serviceTitle2Bt2.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    binding.serviceTitle2Bt2.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
                 }else{
                     selectBT[3] = 0;
-                    binding.serviceTitle2Bt2.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    binding.serviceTitle2Bt2.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
                 }
                 checkedNextBt();
                 break;
             case R.id.serviceTitle2_bt3:
                 if(selectBT[4] == 0) {
                     selectBT[4] = 1;
-                    binding.serviceTitle2Bt3.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    binding.serviceTitle2Bt3.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
                 }else{
                     selectBT[4] = 0;
-                    binding.serviceTitle2Bt3.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    binding.serviceTitle2Bt3.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
                 }
                 checkedNextBt();
                 break;
             case R.id.serviceTitle2_bt4:
                 if(selectBT[5] == 0) {
                     selectBT[5] = 1;
-                    binding.serviceTitle2Bt4.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    binding.serviceTitle2Bt4.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
                 }else{
                     selectBT[5] = 0;
-                    binding.serviceTitle2Bt4.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    binding.serviceTitle2Bt4.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
                 }
                 checkedNextBt();
                 break;
             case R.id.serviceTitle3_bt1:
                 if(nonSelectBt[0] == 0) {
                     nonSelectBt[0] = 1;
-                    binding.serviceTitle3Bt1.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    binding.serviceTitle3Bt1.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
                 }else{
                     nonSelectBt[0] = 0;
-                    binding.serviceTitle3Bt1.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    binding.serviceTitle3Bt1.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
                 }
                 checkedNextBt();
                 break;
             case R.id.serviceTitle3_bt2:
                 if(nonSelectBt[1] == 0) {
                     nonSelectBt[1] = 1;
-                    binding.serviceTitle3Bt2.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    binding.serviceTitle3Bt2.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
                 }else{
                     nonSelectBt[1] = 0;
-                    binding.serviceTitle3Bt2.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    binding.serviceTitle3Bt2.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
                 }
                 checkedNextBt();
                 break;
             case R.id.serviceTitle3_bt3:
                 if(nonSelectBt[2] == 0) {
                     nonSelectBt[2] = 1;
-                    binding.serviceTitle3Bt3.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    binding.serviceTitle3Bt3.setBackgroundResource(R.drawable.ic_checkbox_active_24_dp);
                 }else{
                     nonSelectBt[2] = 0;
-                    binding.serviceTitle3Bt3.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    binding.serviceTitle3Bt3.setBackgroundResource(R.drawable.ic_checkbox_inactive_24_dp);
                 }
                 checkedNextBt();
                 break;

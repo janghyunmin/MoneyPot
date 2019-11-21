@@ -73,10 +73,14 @@ public class ActivityLoginPage extends AppCompatActivity {
 
         textId = findViewById(R.id.textId);
         joinBt = findViewById(R.id.joinBt);
+
+        joinBt.setBackground(getResources().getDrawable(R.drawable.custom_bt_unselected_29dp));
+        joinBt.setTextColor(getResources().getColor(R.color.c_cccccc));
+
         findPw = findViewById(R.id.findPw);
         textPw = findViewById(R.id.textPw);
 
-        textId.setText(uid);
+        textId.setText("ID "+uid);
 
         textPw.addTextChangedListener(new passwordText());
 
@@ -165,12 +169,12 @@ public class ActivityLoginPage extends AppCompatActivity {
 
             if(textPw.getText().length() >= 8){
                 joinBt.setEnabled(true);
-                joinBt.setBackgroundColor(getResources().getColor(R.color.red_text_color));
-                joinBt.setTextColor(getResources().getColor(R.color.normal_title_color));
+                joinBt.setBackground(getResources().getDrawable(R.drawable.custom_bt_selected_29dp));
+                joinBt.setTextColor(getResources().getColor(R.color.c_ffffff));
             }else{
                 joinBt.setEnabled(false);
-                joinBt.setBackgroundColor(getResources().getColor(R.color.button_enable));
-                joinBt.setTextColor(getResources().getColor(R.color.button_enable_text));
+                joinBt.setBackground(getResources().getDrawable(R.drawable.custom_bt_unselected_29dp));
+                joinBt.setTextColor(getResources().getColor(R.color.c_cccccc));
             }
         }
     }

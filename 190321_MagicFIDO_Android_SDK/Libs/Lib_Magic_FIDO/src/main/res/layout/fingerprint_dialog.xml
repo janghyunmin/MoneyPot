@@ -41,7 +41,7 @@
                 android:layout_height="55dp"
                 android:gravity="center"
                 android:text="@string/fip_m_explain"
-                android:textColor="#333333"
+                android:textColor="#3d3f42"
                 android:textSize="14dp"
                 android:textStyle="bold" />
             <TextView

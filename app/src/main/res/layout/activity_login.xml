@@ -36,7 +36,7 @@
             <ImageView
                 android:layout_width="64dp"
                 android:layout_height="55dp"
-                app:srcCompat="@drawable/img_red_coin"
+                app:srcCompat="@drawable/img_coin"
                 app:layout_constraintBottom_toBottomOf="@+id/activity_login_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginRight="35dp"

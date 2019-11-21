@@ -15,54 +15,48 @@
         android:text="@string/login_page_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="56dp"
         android:layout_marginLeft="24dp"
         android:textColor="@color/normal_text_color"
         android:textSize="24dp"
+        android:lineSpacingMultiplier="1.5"
+        />
+
+    <TextView
+        android:id="@+id/subTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/loginPage_title"
+        android:text="이미 머니포트에 가입되어 있습니다.\n비밀번호를 입력해주세요."
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="24dp"
         android:lineSpacingMultiplier="1.3"
+        android:textColor="@color/c_3d3f42"
+        android:textSize="12dp"
         />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/img_red_coin"
+        app:srcCompat="@drawable/img_coin"
         app:layout_constraintBottom_toBottomOf="@+id/loginPage_title"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
         />
 
     <TextView
-        android:id="@+id/textIdTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ID"
-        android:textSize="14dp"
-        android:textColor="@color/text_black_color"
-        app:layout_constraintTop_toBottomOf="@+id/loginPage_title"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="24dp"
-        />
-    <TextView
         android:id="@+id/textId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="@color/button_enable_text"
-        app:layout_constraintTop_toBottomOf="@+id/textIdTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="12dp"
-        android:layout_marginLeft="24dp"
-        />
-    <View
-        android:id="@+id/textIdLine"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#cccccc"
-        app:layout_constraintTop_toBottomOf="@+id/textId"
-        android:layout_marginTop="6.2dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_height="42dp"
+        android:textSize="12dp"
+        android:textColor="@color/c_9a9a9a"
+        app:layout_constraintTop_toBottomOf="@+id/subTitle"
+        android:layout_marginTop="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:background="@drawable/id_rectangle"
         />
 
     <TextView
@@ -72,10 +66,10 @@
         android:text="비밀번호"
         android:textSize="14dp"
         android:textColor="@color/text_black_color"
-        app:layout_constraintTop_toBottomOf="@+id/textIdLine"
+        app:layout_constraintTop_toBottomOf="@+id/textId"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="24dp"
-        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         />
     <EditText
         android:id="@+id/textPw"
@@ -87,7 +81,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textPwTitle"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="12dp"
-        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:hint="비밀번호 입력"
         android:textColorHint="@color/button_enable_text"
         android:inputType="textWebPassword"
@@ -108,15 +102,14 @@
         android:layout_width="match_parent"
         android:layout_height="57dp"
         android:text="로그인"
-        android:background="@drawable/login_round"
         android:layout_marginLeft="24dp"
+        android:textSize="18dp"
         android:layout_marginRight="24dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/findPw"
         android:gravity="center"
-        android:textColor="@color/button_enable_text"
+        app:layout_constraintBottom_toTopOf="@+id/findPw"
         />
 
     <TextView

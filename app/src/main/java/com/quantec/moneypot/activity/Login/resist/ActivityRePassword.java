@@ -142,25 +142,25 @@ public class ActivityRePassword extends AppCompatActivity implements View.OnClic
 
         if(!matcher.matches()) {
             binding.regInfoPwDesc.setText("영문,숫자,특수문자를 포함하여 8글자 이상.");
-            binding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.text_red_color));
+            binding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.c_7f61fd));
             return false;
         }
         else {
             if(matcher2.find()){
                 binding.regInfoPwDesc.setText("3자리 이상의 연속된 같은 문자/숫자를 사용할 수 없습니다.");
-                binding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.text_red_color));
+                binding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.c_7f61fd));
                 return false;
             }
             else{
 
                 if(password.contains(" ")){
                     binding.regInfoPwDesc.setText("비밀번호에 띄어쓰기를 포함할 수 없습니다.");
-                    binding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.text_red_color));
+                    binding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.c_7f61fd));
                     return false;
                 }
                 else{
                     binding.regInfoPwDesc.setText("영문,숫자,특수문자를 포함하여 8글자 이상.");
-                    binding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.text_gray_color));
+                    binding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.c_7f61fd));
 
                     return true;
                 }

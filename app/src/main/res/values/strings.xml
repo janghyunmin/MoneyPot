@@ -9,10 +9,10 @@
     <string name="default_notification_channel_name">quant</string>
 
 
-    <string name="dialog_fido_finger_title">지문 인증 등록</string>
+    <string name="dialog_fido_finger_title">간편 지문 인증 등록</string>
     <string name="dialog_fido_finger_sub">지문 등록을 하시면 앱을 더욱 간편하게\n사용하실 수 있습니다.</string>
 
-    <string name="login_page_title">머니포트로\n진정한 자산관리를\n시작해볼까요?</string>
+    <string name="login_page_title">반갑습니다.\n머니포트입니다!</string>
 
     <string name="warring_invest">-  위험이 큰 상품은 기대 수익도 크고, 기대 수익이 작으면 위험
     도 작아집니다.\n\n\n -  투자결정기준으로 고수익을 선호한다면, 반면 그만큼의 높은

@@ -98,6 +98,10 @@ public class FIDONotAuthenticatioin {
         Hashtable<String, Object> authOption = new Hashtable<String, Object>();
         authOption.put(MagicFIDOUtil.KEY_RETRY_COUNT_TO_LOCK, 5);
         authOption.put(MagicFIDOUtil.KEY_LOCK_TIME, 1);
+
+//        authOption.put(MagicFIDOUtil.KEY_MISMATCH_LINE_COLOR, "#7f61fd");
+//        authOption.put(MagicFIDOUtil.KEY_LINE_COLOR, "#7f61fd");
+
         magicFIDOUtil.setAuthenticatorOptions(LOCAL_AUTH_TYPE.LOCAL_FINGERPRINT_TYPE, authOption);
     }
 }

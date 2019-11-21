@@ -69,7 +69,7 @@ public interface RetrofitService {
      *회원가입 사용자 등록
      *
      */
-    @POST("Auth/register")
+    @POST("auth/register")
     Call<ModelUserInfo> getConfirmedUserInfo(@Header("Content-Type") String content_type, @Body Object user);
 
     /**
@@ -77,7 +77,7 @@ public interface RetrofitService {
      *앱실행 시작
      *
      */
-    @POST("Auth/init")
+    @POST("auth/init")
     Call<ModelAppInit> getAppInitData(@Header("Content-Type") String content_type, @Body Object InitReqDto);
 
     /**
@@ -101,7 +101,7 @@ public interface RetrofitService {
      *FIDO 미사용 JWT 로그인
      *
      */
-    @POST("Auth/authenticate")
+    @POST("auth/authenticate")
     Call<ModelLoginData> getLoginData(@Header("Content-Type") String content_type, @Body Object login);
 
     /**
@@ -109,7 +109,7 @@ public interface RetrofitService {
      *SMS 인증
      *
      */
-    @POST("Auth/identify")
+    @POST("auth/identify")
     Call<ModelIdentifyData> getIdentifyData(@Header("Content-Type") String content_type, @Body Object identifyDto);
 
     /**
@@ -126,7 +126,7 @@ public interface RetrofitService {
      * Url 끝에  /  를 붙여준다 ( 안붙여주면 404 에러뜨는데 원인 불명 )
      *
      */
-    @POST("Auth/flushAuth/")
+    @POST("auth/flushAuth/")
     Call<ModelFlushAuth> getFlushAuthData(@Header("Content-Type") String content_type, @Body Object identifyDto);
 
     /**
@@ -142,7 +142,7 @@ public interface RetrofitService {
      * Email 인증
      *
      */
-    @POST("Auth/sendAuthEmail")
+    @POST("auth/sendAuthEmail")
     Call<ModelAuthEmail> getSendAuthEmailData(@Header("Content-Type") String content_type, @Body Object authReqDto);
 
     //공통코드 목록
@@ -220,7 +220,7 @@ public interface RetrofitService {
      * investType은 704로 고정 값임 -> 넣어주는 값으로 변뎡되지 않는다.
      *
      */
-    @POST("Auth/chkNickName/{nick}")
+    @POST("auth/chkNickName/{nick}")
     Call<ModelChkNicName> getChkNicName(@Header("Content-Type") String content_type, @Path("nick") String nick);
 
 //    해당 json 파일을 불러오는 로직은 완전히 따로 부르는 시스템을 만들어야된다.
@@ -231,7 +231,7 @@ public interface RetrofitService {
 
     /**
      *
-     *회원가입 사용자 등록
+     * 시뮬레이션 차트 데이터
      *
      */
     @POST("pot/getCoreData")

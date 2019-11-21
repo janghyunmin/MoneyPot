@@ -16,6 +16,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -95,11 +96,18 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
     Unregistrar unregistrar;
     float dp;
 
+    TextView nextBt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         regInfoBinding = DataBindingUtil.setContentView(this, R.layout.activity_reg_info);
+
+        nextBt = findViewById(R.id.nextBt);
+        nextBt.setOnClickListener(this);
+        nextBt.setBackground(getResources().getDrawable(R.drawable.unselect_bt));
+        nextBt.setTextColor(getResources().getColor(R.color.c_cccccc));
 
         //스테이터스 바 색상 변경 -> 화이트
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -520,20 +528,20 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
 
         if(!matcher.matches()) {
             regInfoBinding.regInfoPwDesc.setText("영문,숫자,특수문자를 포함하여 8글자 이상.");
-            regInfoBinding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.text_red_color));
+            regInfoBinding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.c_7f61fd));
             return false;
         }
         else {
             if(matcher2.find()){
                 regInfoBinding.regInfoPwDesc.setText("3자리 이상의 연속된 같은 문자/숫자를 사용할 수 없습니다.");
-                regInfoBinding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.text_red_color));
+                regInfoBinding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.c_7f61fd));
                 return false;
             }
             else{
 
                     if(password.contains(" ")){
                         regInfoBinding.regInfoPwDesc.setText("비밀번호에 띄어쓰기를 포함할 수 없습니다.");
-                        regInfoBinding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.text_red_color));
+                        regInfoBinding.regInfoPwDesc.setTextColor(getResources().getColor(R.color.c_7f61fd));
                         return false;
                     }
                     else{
@@ -592,6 +600,10 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
     // 문자 바로 삭제 버튼 비지블 인비지블
     private void isVisibledDeleteBt(String password, String rePassword){
         if(password.isEmpty()){
+
+            nextBt.setBackground(getResources().getDrawable(R.drawable.unselect_bt));
+            nextBt.setTextColor(getResources().getColor(R.color.c_cccccc));
+
             regInfoBinding.regInfoPwEditDeleteBt.setVisibility(View.INVISIBLE);
             if(rePassword.isEmpty()){
                 regInfoBinding.regInfoRPwEditTextDeleteBt.setVisibility(View.INVISIBLE);
@@ -599,6 +611,10 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
                 regInfoBinding.regInfoRPwEditTextDeleteBt.setVisibility(View.VISIBLE);
             }
         }else{
+
+            nextBt.setBackground(getResources().getDrawable(R.drawable.select_bt));
+            nextBt.setTextColor(getResources().getColor(R.color.c_ffffff));
+
             regInfoBinding.regInfoPwEditDeleteBt.setVisibility(View.VISIBLE);
             if(rePassword.isEmpty()){
                 regInfoBinding.regInfoRPwEditTextDeleteBt.setVisibility(View.INVISIBLE);

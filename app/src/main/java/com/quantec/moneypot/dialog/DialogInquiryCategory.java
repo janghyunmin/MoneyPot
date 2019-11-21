@@ -42,15 +42,15 @@ public class DialogInquiryCategory extends Dialog {
 
 
         if(categoryNumber.equals("01")){
-            appBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            appBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
         }else if(categoryNumber.equals("02")){
-            accountBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            accountBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
         }else if(categoryNumber.equals("03")){
-            productBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            productBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
         }else if(categoryNumber.equals("04")){
-            yieldBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            yieldBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
         }else if(categoryNumber.equals("05")){
-            otherBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            otherBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
         }
 
 

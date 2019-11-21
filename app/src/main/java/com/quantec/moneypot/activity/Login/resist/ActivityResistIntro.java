@@ -132,7 +132,7 @@ public class ActivityResistIntro extends AppCompatActivity{
         public void afterTextChanged(Editable s) {
             if(activity_login_phoneEdittext.getText().length() >= 10){
                 activity_login_Bt.setEnabled(true);
-                activity_login_Bt.setBackgroundColor(getResources().getColor(R.color.red_text_color));
+                activity_login_Bt.setBackground(getResources().getDrawable(R.drawable.select_bt));
                 activity_login_Bt.setTextColor(getResources().getColor(R.color.normal_title_color));
             }else{
                 activity_login_Bt.setBackgroundColor(getResources().getColor(R.color.button_enable));

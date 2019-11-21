@@ -26,7 +26,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.simulation.ActivitySimulation"></activity>
+        <activity android:name=".activity.account.ActivityEmptyAccount">
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+        </activity>
+        <activity android:name=".activity.simulation.ActivitySimulation" />
         <activity android:name=".activity.Main.ActivityTestDeepLink">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -122,15 +129,23 @@
             android:alwaysRetainTaskState="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".activity.Intro.ActivityIntro"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -160,7 +175,15 @@
 
         <activity
             android:name=".activity.Login.resist.ActivityResistIntro"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
         <activity
             android:name=".activity.Login.resist.ActivityResistAgree"
             android:screenOrientation="portrait" />
@@ -223,10 +246,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Login.resist.ActivityRegInfo"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.Login.loginPage.ActivityLoginPage"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.FIDO.ActivityRegFido"
             android:screenOrientation="portrait" />

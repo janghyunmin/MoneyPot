@@ -56,22 +56,22 @@ public class DialogBottomSheet extends Dialog {
         closeBt.setBackgroundResource(R.drawable.bottom_sheet_line);
 
         if(agencyNumber.equals("01")){
-            sktBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            sktBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
             sktBt.setBackgroundResource(R.drawable.bottom_sheet_on);
         }else if(agencyNumber.equals("02")){
-            ktBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            ktBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
             ktBt.setBackgroundResource(R.drawable.bottom_sheet_on);
         }else if(agencyNumber.equals("03")){
-            lgBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            lgBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
             lgBt.setBackgroundResource(R.drawable.bottom_sheet_on);
         }else if(agencyNumber.equals("04")){
-            sktRBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            sktRBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
             sktRBt.setBackgroundResource(R.drawable.bottom_sheet_on);
         }else if(agencyNumber.equals("05")){
-            ktRBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            ktRBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
             ktRBt.setBackgroundResource(R.drawable.bottom_sheet_on);
         }else if(agencyNumber.equals("06")){
-            lgRBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            lgRBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
             lgRBt.setBackgroundResource(R.drawable.bottom_sheet_on);
         }
 

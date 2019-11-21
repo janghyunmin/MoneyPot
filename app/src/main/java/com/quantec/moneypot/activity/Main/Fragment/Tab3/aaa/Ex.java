@@ -7,15 +7,39 @@ import java.util.List;
 
 public class Ex {
 
+
+    @SerializedName("code")
+    @Expose
+    private String code;
     @SerializedName("codes")
     @Expose
     private List<Code> codes = null;
+    @SerializedName("descript")
+    @Expose
+    private String descript;
+    @SerializedName("name")
+    @Expose
+    private String name;
     @SerializedName("period")
     @Expose
     private String period;
     @SerializedName("propensity")
     @Expose
     private Integer propensity;
+    @SerializedName("rate")
+    @Expose
+    private Integer rate;
+    @SerializedName("type")
+    @Expose
+    private Integer type;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public List<Code> getCodes() {
         return codes;
@@ -23,6 +47,22 @@ public class Ex {
 
     public void setCodes(List<Code> codes) {
         this.codes = codes;
+    }
+
+    public String getDescript() {
+        return descript;
+    }
+
+    public void setDescript(String descript) {
+        this.descript = descript;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPeriod() {
@@ -39,6 +79,22 @@ public class Ex {
 
     public void setPropensity(Integer propensity) {
         this.propensity = propensity;
+    }
+
+    public Integer getRate() {
+        return rate;
+    }
+
+    public void setRate(Integer rate) {
+        this.rate = rate;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
 }

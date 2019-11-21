@@ -106,6 +106,9 @@ public class FIDOAuthentication {
 //		magicFIDOUtil.setAuthenticatorOptions(LOCAL_AUTH_TYPE.LOCAL_FINGERPRINT_TYPE, authOption);
 		magicFIDOUtil.setPasscodeUIType(FIDO_UI_TYPE.FIDO_PASSCODE_PIN6);
 
+		authOption.put(MagicFIDOUtil.KEY_MISMATCH_LINE_COLOR, "#7f61fd");
+		authOption.put(MagicFIDOUtil.KEY_LINE_COLOR, "#7f61fd");
+
 //		Hashtable<String, Object> patternOption = new Hashtable<String, Object>();
         magicFIDOUtil.setAuthenticatorOptions(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE, authOption);
 //		patternOption.put(MagicFIDOUtil.KEY_RETRY_COUNT_TO_LOCK, 5);
@@ -119,6 +122,10 @@ public class FIDOAuthentication {
 		Hashtable<String, Object> authOption = new Hashtable<String, Object>();
 		authOption.put(MagicFIDOUtil.KEY_RETRY_COUNT_TO_LOCK, 5);
 		authOption.put(MagicFIDOUtil.KEY_LOCK_TIME, 1);
+
+//		authOption.put(MagicFIDOUtil.KEY_MISMATCH_LINE_COLOR, "#7f61fd");
+//		authOption.put(MagicFIDOUtil.KEY_LINE_COLOR, "#7f61fd");
+
 		magicFIDOUtil.setAuthenticatorOptions(LOCAL_AUTH_TYPE.LOCAL_FINGERPRINT_TYPE, authOption);
 
 	}

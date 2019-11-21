@@ -66,6 +66,11 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_phone_confirm);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_phone_confirm);
+        binding.nextBt.setBackground(getResources().getDrawable(R.drawable.unselect_bt));
+
+        binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.custom_bt_unselected_5dp);
+        binding.myinfoPhoneNumberNumberBt.setText("인증 요청");
+        binding.myinfoPhoneNumberNumberBt.setTextColor(getResources().getColor(R.color.text_white_color));
 
         Intent intent = getIntent();
         phoneNum = intent.getStringExtra("passPhoneNum");
@@ -144,7 +149,7 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
         imm.hideSoftInputFromWindow(binding.myinfoPhoneNumberEditText.getWindowToken(), 0);
 
         if(isClicked){
-            binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.rectangle_red_5dp);
+            binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.custom_bt_unselected_5dp);
             binding.myinfoPhoneNumberNumberBt.setText("재인증");
             binding.myinfoPhoneNumberNumberBt.setTextColor(getResources().getColor(R.color.text_white_color));
 
@@ -152,7 +157,7 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
             visibleCertNum(true);
 
         }else{
-            binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.rectangle_red_5dp);
+            binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.custom_bt_selected_5dp);
             binding.myinfoPhoneNumberNumberBt.setText("인증 요청");
             binding.myinfoPhoneNumberNumberBt.setTextColor(getResources().getColor(R.color.text_white_color));
 
@@ -198,7 +203,7 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
             openedConfirmNumber = true;
 
             binding.nextBt.setEnabled(true);
-            binding.nextBt.setBackgroundColor(getResources().getColor(R.color.text_red_color));
+            binding.nextBt.setBackground(getResources().getDrawable(R.drawable.select_bt));
             binding.nextBt.setTextColor(getResources().getColor(R.color.text_white_color));
 
             binding.myinfoConfirmNumber.setVisibility(View.VISIBLE);
@@ -213,7 +218,7 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
             openedConfirmNumber = false;
 
             binding.nextBt.setEnabled(false);
-            binding.nextBt.setBackgroundColor(getResources().getColor(R.color.button_enable));
+            binding.nextBt.setBackground(getResources().getDrawable(R.drawable.unselect_bt));
             binding.nextBt.setTextColor(getResources().getColor(R.color.button_enable_text));
 
             binding.myinfoConfirmNumber.setVisibility(View.INVISIBLE);

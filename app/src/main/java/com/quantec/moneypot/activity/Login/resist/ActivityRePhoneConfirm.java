@@ -195,7 +195,8 @@ public class ActivityRePhoneConfirm extends AppCompatActivity implements View.On
             openedConfirmNumber = true;
 
             binding.nextBt.setEnabled(true);
-            binding.nextBt.setBackgroundColor(getResources().getColor(R.color.text_red_color));
+            binding.nextBt.setBackground(getResources().getDrawable(R.drawable.custom_bt_selected_5dp));
+            binding.nextBt.setBackgroundColor(getResources().getColor(R.color.c_ffffff));
             binding.nextBt.setTextColor(getResources().getColor(R.color.text_white_color));
 
             binding.myinfoConfirmNumber.setVisibility(View.VISIBLE);

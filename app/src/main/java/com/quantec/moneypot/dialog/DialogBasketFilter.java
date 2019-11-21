@@ -35,18 +35,18 @@ public class DialogBasketFilter extends Dialog {
         singleBt.setOnClickListener(selectedAccountBt);
         packBt.setOnClickListener(selectedProductBt);
 
-        allBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+        allBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
 
         if(filterNumber.equals("01")){
-            allBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            allBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
             singleBt.setTextColor(context.getResources().getColor(R.color.text_black_color));
             packBt.setTextColor(context.getResources().getColor(R.color.text_black_color));
         }else if(filterNumber.equals("02")){
-            singleBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            singleBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
             allBt.setTextColor(context.getResources().getColor(R.color.text_black_color));
             packBt.setTextColor(context.getResources().getColor(R.color.text_black_color));
         }else if(filterNumber.equals("03")){
-            packBt.setTextColor(context.getResources().getColor(R.color.text_red_color));
+            packBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
             allBt.setTextColor(context.getResources().getColor(R.color.text_black_color));
             singleBt.setTextColor(context.getResources().getColor(R.color.text_black_color));
 
