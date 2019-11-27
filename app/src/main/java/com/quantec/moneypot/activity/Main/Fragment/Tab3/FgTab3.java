@@ -383,7 +383,6 @@ public class FgTab3 extends Fragment {
             }
         });
 
-
         resultBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

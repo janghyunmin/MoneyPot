@@ -66,5 +66,11 @@
     <color name="c_dedede">#dedede</color>
     <color name="c_7f61fd">#7f61fd</color>
     <color name="c_646464">#646464</color>
+    <color name="c_6e6eff">#6d6dff</color>
+    <color name="c_5182ff">#5182ff</color>
+    <color name="c_696b6d">#696b6d</color>
+
+    <drawable name="cc">@drawable/custom_bt
+    </drawable>
 
 </resources>
