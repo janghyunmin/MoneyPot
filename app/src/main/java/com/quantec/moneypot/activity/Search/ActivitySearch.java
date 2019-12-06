@@ -88,7 +88,6 @@ public class ActivitySearch extends AppCompatActivity implements TextView.OnEdit
                     }
                 });
 
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 

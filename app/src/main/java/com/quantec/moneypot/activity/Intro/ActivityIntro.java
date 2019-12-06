@@ -1,9 +1,15 @@
 package com.quantec.moneypot.activity.Intro;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,6 +32,11 @@ import com.quantec.moneypot.activity.Login.Model.dModel.ModelAuthReqDto;
 import com.quantec.moneypot.activity.Login.Model.dModel.ModelFidoauthReqDto;
 import com.quantec.moneypot.activity.Login.Model.nModel.ModelAppInit;
 import com.quantec.moneypot.activity.Login.Model.nModel.ModelFlushAuth;
+import com.quantec.moneypot.database.room.entry.RoomEntity2;
+import com.quantec.moneypot.database.room.local.RoomDao;
+import com.quantec.moneypot.database.room.local.SearchRoomDatabase;
+import com.quantec.moneypot.database.room.viewmodel.SearchViewModel;
+import com.quantec.moneypot.database.room.viewmodel.SearchViewModel2;
 import com.quantec.moneypot.datamodel.nmodel.ModelCommonData;
 import com.quantec.moneypot.database.realm.CommonCode;
 import com.quantec.moneypot.database.realm.commonlist.AgeList;
@@ -36,12 +47,23 @@ import com.quantec.moneypot.database.realm.commonlist.PartnerList;
 import com.quantec.moneypot.database.realm.commonlist.TimeList;
 import com.quantec.moneypot.database.realm.commonlist.TypeList;
 import com.quantec.moneypot.database.realm.commonlist.WeightList;
+import com.quantec.moneypot.datamodel.nmodel.ModelSearchDb;
 import com.quantec.moneypot.dialog.DialogLoadingMakingPort;
 import com.quantec.moneypot.fido.PropertyManager;
 import com.quantec.moneypot.network.retrofit.RetrofitClient;
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.util.NetworkStateCheck.NetworkStateCheck;
 import com.quantec.moneypot.util.SharedPreference.SharedPreferenceUtil;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,6 +89,15 @@ public class ActivityIntro extends AppCompatActivity {
     TypeList typeList;
     WeightList weightList;
 
+
+    private SearchViewModel2 searchViewModel;
+
+    private RoomDao roomDao;
+    private RoomEntity2 RoomSelectCode;
+    private List<RoomEntity2> RoomAllData;
+
+    private List<RoomEntity2> roomEntity2s;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +114,6 @@ public class ActivityIntro extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         RealmResults<CommonCode> results = realm.where(CommonCode.class)
                 .findAllAsync();
-
         //>>>>>전체 삭제<<<<<//
 //        realm.beginTransaction();
 //        RealmResults<CommonCode> results = realm.where(CommonCode.class)
@@ -123,7 +153,6 @@ public class ActivityIntro extends AppCompatActivity {
             });
 
             if(fcmToken == null || fcmToken.equals("")){
-
                 fcmToken = SharedPreferenceUtil.getInstance(ActivityIntro.this).getStringExtra("fcmToken");;
             }
 
@@ -134,7 +163,121 @@ public class ActivityIntro extends AppCompatActivity {
             Toast.makeText(ActivityIntro.this, "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
         }
 
+        // (코드,한글 종목명,영어 종목명,종목내용) -> 서치필드에서 맨 마지막 데이터가 묶음 기업의 내용이다 나머지는 단일 종목의 (코드,한글 종목명, 영어 종목명, 종목내용 ) 순이다.
+
+//        Call<ModelSearchDb> getReList = RetrofitClient.getInstance(ActivityIntro.this).getService().getStockDb();
+//        getReList.enqueue(new Callback<ModelSearchDb>() {
+//            @Override
+//            public void onResponse(Call<ModelSearchDb> call, Response<ModelSearchDb> response) {
+//                if (response.code() == 200) {
+//
+////                    for(int index = 0 ;index < response.body().getContent().getRateList().size(); index++){
+////                        Log.e("데이터", "값 : "+response.body().getContent().getRateList().get(index).getSearchField());
+//////                        for(int index2 = 0 ; index2 < response.body().getContent().getRateList().get(index).getSearchField().size(); index2++){
+//////                            Log.e("데이터", "인덱스 카테고리 : "+index+"값 : "+response.body().getContent().getRateList().get(index).getSearchField().get(index2));
+//////                        }
+////                    }
+//
+//                    searchViewModel = ViewModelProviders.of(ActivityIntro.this).get(SearchViewModel2.class);
+//                    roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
+//                    DeleteAll();
+//
+//                    for (int index = 0; index < response.body().getContent().getRateList().size(); index++) {
+//                        RoomDataInsert("",
+//                                response.body().getContent().getRateList().get(index).getType(),
+//                                response.body().getContent().getRateList().get(index).getCode(),
+//                                response.body().getContent().getRateList().get(index).getName(),
+//                                response.body().getContent().getRateList().get(index).getName(),
+//                                response.body().getContent().getRateList().get(index).getSearchField().toString(),
+//                                response.body().getContent().getRateList().get(index).getRate());
+//                        Log.e("데이터", "값 : " + response.body().getContent().getRateList().get(index).getSearchField().toString());
+//                    }
+//
+//                    try {
+//                        Thread.sleep(500);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    RoomDataInsert2();
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ModelSearchDb> call, Throwable t) {
+//                Log.e("실패","실패"+t.getMessage());
+//            }
+//        });
+
+//        RoomDataInsert2();
+//        DeleteAll();
+
     }//onCreate 끝
+
+    //딜리트 올
+    void DeleteAll(){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+//                searchViewModel = ViewModelProviders.of(ActivityIntro.this).get(SearchViewModel2.class);
+//                roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
+                roomDao.delete2();
+            }
+        }).start();
+    }
+
+
+    //최근 검색어 저장 이벤트
+    void RoomDataInsert2(){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+//                searchViewModel = ViewModelProviders.of(ActivityIntro.this).get(SearchViewModel2.class);
+//                roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
+//                RoomSelectCode = roomDao.findStock("쉑쉑버거", "SHAK", "SHAK");
+
+                roomEntity2s = roomDao.findStock("%버거킹%","%버거킹%", "%버거킹%");
+
+                if(roomEntity2s != null && roomEntity2s.size() != 0){
+                    for(int index = 0; index < roomEntity2s.size(); index++){
+                        Log.e("찾은 데어터", "단일0|묶음1 : "+roomEntity2s.get(index).getType()+" | 이름  : "+roomEntity2s.get(index).getName()+ " | 코드 : "+roomEntity2s.get(index).getCode()+" | 설명 : "+roomEntity2s.get(index).getDescript());
+                    }
+                }else{
+                    Log.e("찾은 데어터", "값 : 룸에 데이터가 없습니다.");
+                }
+//                for(int index=0; index < roomEntity2s.size(); index++){
+//                    Log.e("룸데이터", "데이터 : "+roomEntity2s.get(index).getName());
+//                }
+            }
+        }).start();
+    }
+
+    //최근 검색어 저장 이벤트
+    void RoomDataInsert(String title, int type, String code, String name, String elStock, String descript, double rate){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+//                searchViewModel = ViewModelProviders.of(ActivityIntro.this).get(SearchViewModel2.class);
+//                roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
+                searchViewModel.insert2(new RoomEntity2(title, type, code, name, elStock, descript, rate));
+//                //해당 포트에 대해서 Room에 저장된 동일한 데이터가 없을때
+//                if(RoomSelectCode == null) {
+//
+//                    if(RoomAllData != null) {
+//                        if (RoomAllData.size() <= 4) {
+//                            searchViewModel.insert(new RoomEntity(PortName, PortCode));
+//                        }else {
+//                            searchViewModel.delete(RoomAllData.get(0));
+//                            searchViewModel.insert(new RoomEntity(PortName, PortCode));
+//                        }
+//                    }
+//                }
+            }
+        }).start();
+
+    }
+
 
     void InsertCommonDate(){
 
@@ -158,11 +301,11 @@ public class ActivityIntro extends AppCompatActivity {
                             typeList = realm.createObject(TypeList.class);
                             weightList = realm.createObject(WeightList.class);
 
-                            ageList.setCode(response.body().getContent().getAGE().get(index).getCode());
-                            ageList.setGrade(response.body().getContent().getAGE().get(index).getGrade());
-                            ageList.setQuestion(response.body().getContent().getAGE().get(index).getQuestion());
-                            ageList.setType(response.body().getContent().getAGE().get(index).getType());
-                            commonCode.getAgeLists().add(ageList);
+//                            ageList.setCode(response.body().getContent().getAGE().get(index).getCode());
+//                            ageList.setGrade(response.body().getContent().getAGE().get(index).getGrade());
+//                            ageList.setQuestion(response.body().getContent().getAGE().get(index).getQuestion());
+//                            ageList.setType(response.body().getContent().getAGE().get(index).getType());
+//                            commonCode.getAgeLists().add(ageList);
 
                             expList.setCode(response.body().getContent().getEXP().get(index).getCode());
                             expList.setGrade(response.body().getContent().getEXP().get(index).getGrade());
@@ -170,11 +313,11 @@ public class ActivityIntro extends AppCompatActivity {
                             expList.setType(response.body().getContent().getEXP().get(index).getType());
                             commonCode.getExpLists().add(expList);
 
-                            gainList.setCode(response.body().getContent().getGAIN().get(index).getCode());
-                            gainList.setGrade(response.body().getContent().getGAIN().get(index).getGrade());
-                            gainList.setQuestion(response.body().getContent().getGAIN().get(index).getQuestion());
-                            gainList.setType(response.body().getContent().getGAIN().get(index).getType());
-                            commonCode.getGainLists().add(gainList);
+//                            gainList.setCode(response.body().getContent().getGAIN().get(index).getCode());
+//                            gainList.setGrade(response.body().getContent().getGAIN().get(index).getGrade());
+//                            gainList.setQuestion(response.body().getContent().getGAIN().get(index).getQuestion());
+//                            gainList.setType(response.body().getContent().getGAIN().get(index).getType());
+//                            commonCode.getGainLists().add(gainList);
 
                             incomeList.setCode(response.body().getContent().getINCOME().get(index).getCode());
                             incomeList.setGrade(response.body().getContent().getINCOME().get(index).getGrade());
@@ -188,11 +331,11 @@ public class ActivityIntro extends AppCompatActivity {
                             partnerList.setType(response.body().getContent().getPARTNER().get(index).getType());
                             commonCode.getPartnerLists().add(partnerList);
 
-                            timeList.setCode(response.body().getContent().getTIME().get(index).getCode());
-                            timeList.setGrade(response.body().getContent().getTIME().get(index).getGrade());
-                            timeList.setQuestion(response.body().getContent().getTIME().get(index).getQuestion());
-                            timeList.setType(response.body().getContent().getTIME().get(index).getType());
-                            commonCode.getTimeLists().add(timeList);
+//                            timeList.setCode(response.body().getContent().getTIME().get(index).getCode());
+//                            timeList.setGrade(response.body().getContent().getTIME().get(index).getGrade());
+//                            timeList.setQuestion(response.body().getContent().getTIME().get(index).getQuestion());
+//                            timeList.setType(response.body().getContent().getTIME().get(index).getType());
+//                            commonCode.getTimeLists().add(timeList);
 
                             typeList.setCode(response.body().getContent().getTYPE().get(index).getCode());
                             typeList.setGrade(response.body().getContent().getTYPE().get(index).getGrade());
@@ -440,4 +583,5 @@ public class ActivityIntro extends AppCompatActivity {
             Toast.makeText(this, "파이도 재등록", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

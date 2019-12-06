@@ -5,9 +5,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,15 +18,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.activity.account.adapter.AdapterMyAccount;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ActivityMyAccount extends AppCompatActivity {
 
-    ImageView backBt;
+    ImageView backBt, copyImage;
     LinearLayout historyBt;
     TextView accountBt;
 
@@ -42,6 +47,20 @@ public class ActivityMyAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
 
+        try {
+            Runtime.getRuntime().exec("su");
+
+        } catch ( Exception e) {
+            Log.e("루팅", "값 : "+e.getMessage());
+            //Exception이 발생한다면 Rooting이 되지 않은 것으로 확인
+        }
+
+        String[] RootingPath = getResources().getStringArray(R.array.rootingpath);
+        for(String path : RootingPath){
+            Log.e("루팅1", "값 : "+existRootingFile(path));
+        }
+
+
         // 스테이터스 바 색상 변경 -> 화이트
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Window w = getWindow(); // in Activity's onCreate() for instance
@@ -55,6 +74,8 @@ public class ActivityMyAccount extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+
+        copyImage = findViewById(R.id.copyImage);
 
         AccountedLayout = findViewById(R.id.AccountedLayout);
         AccountingLayout = findViewById(R.id.AccountingLayout);
@@ -123,5 +144,27 @@ public class ActivityMyAccount extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        copyImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("CODE", "CM-29-2884848"); //클립보드에 ID라는 이름표로 id 값을 복사하여 저장
+                clipboardManager.setPrimaryClip(clipData);
+
+            }
+        });
+
+    }// onCreate 끝
+
+    public static boolean existRootingFile(String path){
+        boolean checkResult = false;
+        File file = new File(path);
+
+        if(file != null && file.exists() && file.isFile()){
+            checkResult = true;
+        }
+        return checkResult;
     }
 }

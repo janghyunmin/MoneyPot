@@ -22,6 +22,7 @@ import com.quantec.moneypot.datamodel.nmodel.ModelPotList;
 import com.quantec.moneypot.datamodel.nmodel.ModelPrevPotContent;
 import com.quantec.moneypot.datamodel.nmodel.ModelPrevPotSave;
 import com.quantec.moneypot.datamodel.nmodel.ModelRecommendList;
+import com.quantec.moneypot.datamodel.nmodel.ModelSearchDb;
 import com.quantec.moneypot.datamodel.nmodel.ModelSearchedPageList;
 import com.quantec.moneypot.datamodel.nmodel.ModelZimData;
 import com.quantec.moneypot.datamodel.nmodel.ModelZimPotList;
@@ -228,7 +229,6 @@ public interface RetrofitService {
 //    @GET
 //    Call<Object> dw(@Url String url);
 
-
     /**
      *
      * 시뮬레이션 차트 데이터
@@ -236,5 +236,14 @@ public interface RetrofitService {
      */
     @POST("pot/getCoreData")
     Call<ModelPotSimul> getPotSimul(@Header("Content-Type") String content_type, @Body Object ex);
+
+
+    /**
+     *
+     *검색 로컬 DB에 넣을 단일 묶음 데이터 호출
+     *
+     */
+    @GET("home/init")
+    Call<ModelSearchDb> getStockDb();
 
 }

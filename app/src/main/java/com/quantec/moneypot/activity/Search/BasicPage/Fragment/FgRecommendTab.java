@@ -51,7 +51,8 @@ public class FgRecommendTab extends Fragment {
         adapterRecommendPortTab = new AdapterRecommendTab(modelRecommendPorts, getContext());
         binding.recyclerView.setAdapter(adapterRecommendPortTab);
 
-        return binding.getRoot();    }
+        return binding.getRoot();
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -101,6 +102,5 @@ public class FgRecommendTab extends Fragment {
                 }
             }
         });
-
     }
 }

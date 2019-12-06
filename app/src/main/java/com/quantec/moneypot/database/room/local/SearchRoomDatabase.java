@@ -6,6 +6,7 @@ import androidx.room.RoomDatabase;
 import android.content.Context;
 
 import com.quantec.moneypot.database.room.entry.RoomEntity;
+import com.quantec.moneypot.database.room.entry.RoomEntity2;
 
 
 /**
@@ -31,7 +32,45 @@ import com.quantec.moneypot.database.room.entry.RoomEntity;
 //        }
 //    };
 
-@Database(entities = {RoomEntity.class}, version = 1, exportSchema = false)
+//@Database(entities = {RoomEntity.class}, version = 1, exportSchema = false)
+//public abstract class SearchRoomDatabase extends RoomDatabase {
+//
+////    //Add column
+////    static final Migration MIGRATION_2_3 = new Migration(3, 5) {
+////        @Override
+////        public void migrate(SupportSQLiteDatabase database) {
+////
+////            database.execSQL("ALTER TABLE recentlySearch_table "
+////                    + " ADD COLUMN test INTEGER NOT NULL default 0");
+////        }
+////    };
+//
+//    //데이터베이스와 연결되는 DAO
+//    //DAO는 abstract로 "getter"을 제공
+//    public abstract RoomDao roomDao();
+//    //singleton pattern, room database 는 한개 만 존재
+//    private static SearchRoomDatabase INSTANCE;
+//
+//    public static SearchRoomDatabase getINSTANCE(final Context context) {
+//        if(INSTANCE == null){
+//            //동시에 2개의 INSTANCE가 생성되는 것을 막기위한 synchronized
+//            synchronized (SearchRoomDatabase.class) {
+//                if(INSTANCE == null) {
+//                    //데이터 베이스 생성부분
+//                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+//                            SearchRoomDatabase.class, "recentlySearch_database")
+////                            .addMigrations(MIGRATION_2_3)
+//                            .fallbackToDestructiveMigration()
+//                            .build();
+//                }
+//            }
+//        }
+//        return INSTANCE;
+//    }
+//}
+
+
+@Database(entities = {RoomEntity.class, RoomEntity2.class}, version = 1, exportSchema = false)
 public abstract class SearchRoomDatabase extends RoomDatabase {
 
 //    //Add column

@@ -94,6 +94,7 @@ public class ActivityAuthPassword extends AppCompatActivity implements View.OnCl
         loadingCustomMakingPort.show();
 
         if(authCount < 5){
+            //구글 토큰 추가
             LoginData loginData = new LoginData("", md5(binding.passwordEdit.getText().toString().trim()), userId);
             Call<ModelLoginData> getReList = RetrofitClient.getInstance(ActivityAuthPassword.this).getService().getLoginData("application/json",  loginData);
             getReList.enqueue(new Callback<ModelLoginData>() {

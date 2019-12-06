@@ -13,12 +13,12 @@ public class Content {
     @SerializedName("INCOME")
     @Expose
     private List<INCOME> iNCOME = null;
+    @SerializedName("ISWEAK")
+    @Expose
+    private List<ISWEAK> iSWEAK = null;
     @SerializedName("PURPOSE")
     @Expose
     private List<PURPOSE> pURPOSE = null;
-    @SerializedName("TIME")
-    @Expose
-    private List<TIME> tIME = null;
     @SerializedName("WEIGHT")
     @Expose
     private List<WEIGHT> wEIGHT = null;
@@ -28,12 +28,9 @@ public class Content {
     @SerializedName("TYPE")
     @Expose
     private List<TYPE> tYPE = null;
-    @SerializedName("GAIN")
+    @SerializedName("STOCK")
     @Expose
-    private List<GAIN> gAIN = null;
-    @SerializedName("AGE")
-    @Expose
-    private List<AGE> aGE = null;
+    private List<STOCK> sTOCK = null;
 
     public List<PARTNER> getPARTNER() {
         return pARTNER;
@@ -51,20 +48,20 @@ public class Content {
         this.iNCOME = iNCOME;
     }
 
+    public List<ISWEAK> getISWEAK() {
+        return iSWEAK;
+    }
+
+    public void setISWEAK(List<ISWEAK> iSWEAK) {
+        this.iSWEAK = iSWEAK;
+    }
+
     public List<PURPOSE> getPURPOSE() {
         return pURPOSE;
     }
 
     public void setPURPOSE(List<PURPOSE> pURPOSE) {
         this.pURPOSE = pURPOSE;
-    }
-
-    public List<TIME> getTIME() {
-        return tIME;
-    }
-
-    public void setTIME(List<TIME> tIME) {
-        this.tIME = tIME;
     }
 
     public List<WEIGHT> getWEIGHT() {
@@ -91,20 +88,13 @@ public class Content {
         this.tYPE = tYPE;
     }
 
-    public List<GAIN> getGAIN() {
-        return gAIN;
+    public List<STOCK> getSTOCK() {
+        return sTOCK;
     }
 
-    public void setGAIN(List<GAIN> gAIN) {
-        this.gAIN = gAIN;
+    public void setSTOCK(List<STOCK> sTOCK) {
+        this.sTOCK = sTOCK;
     }
 
-    public List<AGE> getAGE() {
-        return aGE;
-    }
-
-    public void setAGE(List<AGE> aGE) {
-        this.aGE = aGE;
-    }
 
 }

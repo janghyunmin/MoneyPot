@@ -1,20 +1,26 @@
 package com.quantec.moneypot.activity.Main.Fragment.Tab1.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
+import com.quantec.moneypot.activity.PotDetail.ActivitySingleDetail;
 import com.quantec.moneypot.datamodel.dmodel.ModelAllRankingTop3;
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.rxandroid.RxView;
 
 public class AdapterAllRankingTop3 extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -57,14 +63,22 @@ public class AdapterAllRankingTop3 extends RecyclerView.Adapter<RecyclerView.Vie
                 ((AllRankingTop3ViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.red_text_color));
             }
 
-            ((AllRankingTop3ViewHolder)holder).itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(allRankingTop3ItemClick != null){
-                        allRankingTop3ItemClick.onClick(position);
-                    }
-                }
+//            ((AllRankingTop3ViewHolder)holder).itemLayout.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if(allRankingTop3ItemClick != null){
+//                        allRankingTop3ItemClick.onClick(position);
+//                    }
+//                }
+//            });
+
+            RxView.clicks(((AllRankingTop3ViewHolder)holder).itemLayout).throttleFirst(500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+                Intent intent1 = new Intent(context, ActivitySingleDetail.class);
+                context.startActivity(intent1);
+                Toast.makeText(context, "상세페이지 이동 : " + modelAllRankingTop3s.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                Log.e("클릭","클릭");
             });
+
         }
     }
 

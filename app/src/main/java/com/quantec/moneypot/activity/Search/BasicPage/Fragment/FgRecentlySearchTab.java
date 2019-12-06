@@ -87,12 +87,10 @@ public class FgRecentlySearchTab extends Fragment {
             }
         });
 
-
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
                 if(linearLayoutManager.findFirstCompletelyVisibleItemPosition() > 0) {
                     binding.line.setVisibility(View.VISIBLE);
                 }else{
@@ -109,34 +107,28 @@ public class FgRecentlySearchTab extends Fragment {
                 intent.putExtra("detailcode", roomEntity.getSearchCode());
                 intent.putExtra("detailtitle", roomEntity.getSearchTItle());
                 startActivity(intent);
-
             }
         });
 
         //최근 검색어 밀어서 삭제
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-
             @Override
             public boolean isItemViewSwipeEnabled() {
                 return DragState;
             }
-
             @Override
             public boolean isLongPressDragEnabled() {
                 return DragState;
             }
-
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return true;
             }
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
                 searchViewModel.delete(adapterRecentlySearchTab.getRoomAt(viewHolder.getAdapterPosition()));
             }
         };
-
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(binding.recyclerView);
     }

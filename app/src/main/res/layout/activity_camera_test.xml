@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.quantec.moneypot.activity.cameratest.ActivityCameraTest">
+    tools:context="com.quantec.moneypot.activity.cameratest.ActivityCameraTest"
+    android:background="#00000000"
+    >
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
@@ -21,11 +23,11 @@
         custom:layout_constraintTop_toTopOf="parent"
         />
 
-    <Button
-        android:id="@+id/bt"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+    <!--<Button-->
+        <!--android:id="@+id/bt"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,7 +45,7 @@ public class FgBasicPage extends Fragment {
         recentlyTab = view.findViewById(R.id.recentlyTab);
         recommendTab = view.findViewById(R.id.recommendTab);
 
-        recentlyTab.setBackgroundResource(R.drawable.bt_red_search_page);
+        recentlyTab.setBackgroundResource(R.drawable.custom_bt);
         recentlyTab.setTextColor(getResources().getColor(R.color.normal_title_color));
 
         recommendTab.setBackgroundResource(0);
@@ -63,7 +63,7 @@ public class FgBasicPage extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 if(position == 0) {
-                    recentlyTab.setBackgroundResource(R.drawable.bt_red_search_page);
+                    recentlyTab.setBackgroundResource(R.drawable.custom_bt);
                     recentlyTab.setTextColor(getResources().getColor(R.color.normal_title_color));
 
                     recommendTab.setBackgroundResource(0);
@@ -72,7 +72,7 @@ public class FgBasicPage extends Fragment {
                     recentlyTab.setBackgroundResource(0);
                     recentlyTab.setTextColor(getResources().getColor(R.color.dark_gray_color));
 
-                    recommendTab.setBackgroundResource(R.drawable.bt_blue_search_page);
+                    recommendTab.setBackgroundResource(R.drawable.custom_bt);
                     recommendTab.setTextColor(getResources().getColor(R.color.normal_title_color));
                 }
             }
@@ -121,7 +121,7 @@ public class FgBasicPage extends Fragment {
                 recentlyTab.setBackgroundResource(0);
                 recentlyTab.setTextColor(getResources().getColor(R.color.dark_gray_color));
 
-                recommendTab.setBackgroundResource(R.drawable.bt_blue_search_page);
+                recommendTab.setBackgroundResource(R.drawable.custom_bt);
                 recommendTab.setTextColor(getResources().getColor(R.color.normal_title_color));
 
                 viewPager.setCurrentItem(1, true);
@@ -132,8 +132,8 @@ public class FgBasicPage extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         RecommendAdapter adapter = new RecommendAdapter(getChildFragmentManager());
-        adapter.addFragment(new FgRecentlySearchTab(), "최근 검색어");
-        adapter.addFragment(new FgRecommendTab(), "지금 뜨는 상품");
+        adapter.addFragment(new FgRecentlySearchTab(), "최근 검색");
+        adapter.addFragment(new FgRecommendTab(), "인기 검색어");
         viewPager.setAdapter(adapter);
     }
     static class RecommendAdapter extends FragmentPagerAdapter {

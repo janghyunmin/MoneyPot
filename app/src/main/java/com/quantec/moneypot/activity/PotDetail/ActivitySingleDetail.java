@@ -24,7 +24,6 @@ import java.util.List;
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.databinding.ActivitySingleDetailBinding;
 
-
 /**
  *
  * Databinding 으로 activity 내에 include layout 이용시 먼저 해당 액티비티를 먼저 바인딩 작업을 해준뒤에 include 작업을 해준다

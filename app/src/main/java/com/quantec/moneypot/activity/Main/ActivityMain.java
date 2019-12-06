@@ -58,14 +58,14 @@ public class ActivityMain extends AppCompatActivity {
         binding.bottombar.setMode(BottomNavigationBar.MODE_FIXED);
         binding.bottombar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         binding.bottombar
-                .addItem(new BottomNavigationItem(R.drawable.tab_ic_home_inactive, "홈").setActiveColorResource(R.color.c_4e7cff)
-                        .setInactiveIcon(getResources().getDrawable(R.drawable.tab_ic_home_inactive)).setInActiveColorResource(R.color.c_9a9a9a))
-                .addItem(new BottomNavigationItem(R.drawable.tab_ic_follow_inactive, "팔로우").setActiveColorResource(R.color.c_4e7cff)
-                        .setInactiveIcon(getResources().getDrawable(R.drawable.tab_ic_follow_inactive)).setInActiveColorResource(R.color.c_9a9a9a))
-                .addItem(new BottomNavigationItem(R.drawable.tab_ic_custom_active, "자산커스텀").setActiveColorResource(R.color.c_4e7cff)
-                        .setInactiveIcon(getResources().getDrawable(R.drawable.tab_ic_custom_active)).setInActiveColorResource(R.color.c_9a9a9a))
-                .addItem(new BottomNavigationItem(R.drawable.tab_ic_setting_inactive, "설정").setActiveColorResource(R.color.c_4e7cff)
-                        .setInactiveIcon(getResources().getDrawable(R.drawable.tab_ic_setting_inactive)).setInActiveColorResource(R.color.c_9a9a9a))
+                .addItem(new BottomNavigationItem(R.drawable.tab_home_active, "홈").setActiveColorResource(R.color.c_4e7cff)
+                        .setInactiveIcon(getResources().getDrawable(R.drawable.tab_home_inactive)).setInActiveColorResource(R.color.c_9a9a9a))
+                .addItem(new BottomNavigationItem(R.drawable.tab_follow_active, "팔로우").setActiveColorResource(R.color.c_4e7cff)
+                        .setInactiveIcon(getResources().getDrawable(R.drawable.tab_follow_inactive)).setInActiveColorResource(R.color.c_9a9a9a))
+                .addItem(new BottomNavigationItem(R.drawable.tab_custom_active, "자산커스텀").setActiveColorResource(R.color.c_4e7cff)
+                        .setInactiveIcon(getResources().getDrawable(R.drawable.tab_custom_inactive)).setInActiveColorResource(R.color.c_9a9a9a))
+                .addItem(new BottomNavigationItem(R.drawable.tab_setting_active, "설정").setActiveColorResource(R.color.c_4e7cff)
+                        .setInactiveIcon(getResources().getDrawable(R.drawable.tab_setting_inactive)).setInActiveColorResource(R.color.c_9a9a9a))
                 .setFirstSelectedPosition(0)
                 .initialise();
 
@@ -108,7 +108,6 @@ public class ActivityMain extends AppCompatActivity {
                             transaction.hide(currentFragment).show(fgTab2).commit();
                             currentFragment = fgTab2;
                         }
-
                     }
 
                     else if(position == 2){

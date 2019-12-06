@@ -501,7 +501,7 @@ public class FgSearchedPage extends Fragment {
 
         preTab = tab;
 
-        tab.setBackgroundResource(R.drawable.bt_red_search_page);
+        tab.setBackgroundResource(R.drawable.custom_bt);
         tab.setTextColor(activitySearch.getResources().getColor(R.color.normal_title_color));
 
     }

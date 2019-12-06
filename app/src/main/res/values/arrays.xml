@@ -14,4 +14,10 @@
         <item>원금 비보장형 ELS / DLS / ELF</item>
     </string-array>
 
+    <string-array name="rootingpath">
+        <item>/system/bin/su</item>
+        <item>/system/xbin/su</item>
+        <item>/system/app/SuperUser.apk</item>
+        <item>/sbin/su</item>
+    </string-array>
 </resources>

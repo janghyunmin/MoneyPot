@@ -3,6 +3,7 @@ package com.quantec.moneypot.activity.Main.Fragment.Tab1;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.asksira.loopingviewpager.LoopingPagerAdapter;
 import com.asksira.loopingviewpager.LoopingViewPager;
+import com.quantec.moneypot.activity.Search.ActivitySearch;
+import com.quantec.moneypot.rxandroid.RxView;
 import com.rd.PageIndicatorView;
 import com.rd.animation.type.AnimationType;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import com.quantec.moneypot.activity.Main.ActivityMain;
 import com.quantec.moneypot.activity.Main.Fragment.Tab1.Activity.ActivityPotMarket;
@@ -49,7 +53,7 @@ public class FgTab1 extends Fragment implements View.OnClickListener {
     AdapterMini adapterMini;
     AdapterThemeTop3 adapterThemeTop3;
 
-    ImageView rankingAddBt, themeAddBt;
+    ImageView rankingAddBt, themeAddBt, searchBt;
 
     DemoInfiniteAdapter adapter;
     LoopingViewPager viewPager;
@@ -70,6 +74,8 @@ public class FgTab1 extends Fragment implements View.OnClickListener {
         initializeViews();
 
         modelYieldCharts = new ArrayList<>();
+
+        searchBt = view.findViewById(R.id.searchBt);
 
         rankingAddBt = view.findViewById(R.id.rankingAddBt);
         rankingAddBt.setOnClickListener(this);
@@ -117,7 +123,6 @@ public class FgTab1 extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         modelAllRankingTop3s.add(new ModelAllRankingTop3(activityMain.getResources().getDrawable(R.drawable.img_gold_medal), "해외 여행 플랜", 30.13));
         modelAllRankingTop3s.add(new ModelAllRankingTop3(activityMain.getResources().getDrawable(R.drawable.img_silver_medal), "연금 준비 플랜", 26.91));
         modelAllRankingTop3s.add(new ModelAllRankingTop3(activityMain.getResources().getDrawable(R.drawable.img_brown_medal), "지속 성장 플랜", 24.13));
@@ -137,12 +142,16 @@ public class FgTab1 extends Fragment implements View.OnClickListener {
 
         adapterThemeTop3.notifyDataSetChanged();
 
+
+
         adapterAllRankingTop3.setAllRankingTop3ItemClick(new AdapterAllRankingTop3.AllRankingTop3ItemClick() {
             @Override
             public void onClick(int position) {
+
                 Intent intent1 = new Intent(activityMain, ActivitySingleDetail.class);
                 startActivity(intent1);
                 Toast.makeText(activityMain, "상세페이지 이동 : " + modelAllRankingTop3s.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                Log.e("클릭","클릭");
             }
         });
 
@@ -162,6 +171,16 @@ public class FgTab1 extends Fragment implements View.OnClickListener {
 
         //내가 만든 포트 불러옴
         setMyPotDate();
+
+        searchBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activityMain, ActivitySearch.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
 

@@ -26,12 +26,10 @@ public class ActivityInvestHistory extends AppCompatActivity {
 
     ImageView backBt;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invest_history);
-
 
         //스테이터스 바 색상 변경 -> 화이트
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -69,25 +67,19 @@ public class ActivityInvestHistory extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
-
         backBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
     }//onCreate 끝
 
     public class TabPagerAdapter extends FragmentStatePagerAdapter {
@@ -114,7 +106,6 @@ public class ActivityInvestHistory extends AppCompatActivity {
                 case 2:
                     FgHistoryComplete fgHistoryComplete = new FgHistoryComplete();
                     return fgHistoryComplete;
-
                 default:
                     return null;
             }
