@@ -22,12 +22,15 @@ public class RateList {
     @SerializedName("price")
     @Expose
     private Double price;
+    @SerializedName("elCodes")
+    @Expose
+    private Object elCodes;
     @SerializedName("file")
     @Expose
     private File file;
     @SerializedName("userSelect")
     @Expose
-    private Object userSelect;
+    private UserSelect userSelect;
     @SerializedName("searchField")
     @Expose
     private List<String> searchField = null;
@@ -72,6 +75,14 @@ public class RateList {
         this.price = price;
     }
 
+    public Object getElCodes() {
+        return elCodes;
+    }
+
+    public void setElCodes(Object elCodes) {
+        this.elCodes = elCodes;
+    }
+
     public File getFile() {
         return file;
     }
@@ -80,11 +91,11 @@ public class RateList {
         this.file = file;
     }
 
-    public Object getUserSelect() {
+    public UserSelect getUserSelect() {
         return userSelect;
     }
 
-    public void setUserSelect(Object userSelect) {
+    public void setUserSelect(UserSelect userSelect) {
         this.userSelect = userSelect;
     }
 

@@ -30,8 +30,11 @@ public class RoomEntity2 {
     @ColumnInfo(name = "rate")
     public double rate;
 
+    @ColumnInfo(name = "follow")
+    public int follow;
 
-    public RoomEntity2(String searchTitle, int type, String code, String name, String elStock, String descript, double rate) {
+
+    public RoomEntity2(String searchTitle, int type, String code, String name, String elStock, String descript, double rate, int follow) {
         this.searchTitle = searchTitle;
         this.type = type;
         this.code = code;
@@ -39,6 +42,7 @@ public class RoomEntity2 {
         this.elStock = elStock;
         this.descript = descript;
         this.rate = rate;
+        this.follow = follow;
     }
 
     public void setId(int id) {
@@ -75,5 +79,9 @@ public class RoomEntity2 {
 
     public double getRate() {
         return rate;
+    }
+
+    public int getFollow() {
+        return follow;
     }
 }

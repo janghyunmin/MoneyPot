@@ -27,8 +27,10 @@ import io.reactivex.disposables.Disposable;
 import com.quantec.moneypot.activity.PotDetail.ActivitySingleDetail;
 import com.quantec.moneypot.activity.Search.ActivitySearch;
 import com.quantec.moneypot.activity.Search.SearchedPage.Adapter.AdapterAllTabDesc;
+import com.quantec.moneypot.activity.Search.SearchedPage.Adapter.AdapterAllTabSingleEn;
 import com.quantec.moneypot.activity.Search.SearchedPage.Adapter.AdapterAllTabStock;
 import com.quantec.moneypot.activity.Search.SearchedPage.Adapter.AdapterAllTabTitle;
+import com.quantec.moneypot.activity.Search.SearchedPage.ModelSingleEn;
 import com.quantec.moneypot.datamanager.DataManager;
 import com.quantec.moneypot.datamodel.dmodel.ModelDescItem;
 import com.quantec.moneypot.datamodel.dmodel.ModelEmptyItem;
@@ -52,13 +54,15 @@ import retrofit2.Response;
 
 public class FgAllTab extends Fragment {
 
-    AdapterAllTabTitle adapterAllPageTitle;
+    AdapterAllTabSingleEn adapterAllPageTitle;
+//    AdapterAllTabTitle adapterAllPageTitle;
     AdapterAllTabDesc adapterAllPageDesc;
     AdapterAllTabStock adapterAllPageStock;
 
     RecyclerView.LayoutManager layoutManagerT, layoutManagerD, layoutManagerS;
 
-    ArrayList<ModelTitleItem> titleItemModels;
+    ArrayList<ModelSingleEn> titleItemModels;
+//    ArrayList<ModelTitleItem> titleItemModels;
     ArrayList<ModelDescItem> descItemModels;
     ArrayList<ModelStockItem> stockItemModels;
     ArrayList<ModelEmptyItem> emptyItemModels;
@@ -158,9 +162,12 @@ public class FgAllTab extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         titleItemModels.addAll(getSearchedData.getParcelableArrayList("title_list"));
-        descItemModels.addAll(getSearchedData.getParcelableArrayList("desc_list"));
-        stockItemModels.addAll(getSearchedData.getParcelableArrayList("stock_list"));
-        emptyItemModels.addAll(getSearchedData.getParcelableArrayList("empty_list"));
+
+        Log.e("받은 총값","갯수 : "+titleItemModels.size());
+
+//        descItemModels.addAll(getSearchedData.getParcelableArrayList("desc_list"));
+//        stockItemModels.addAll(getSearchedData.getParcelableArrayList("stock_list"));
+//        emptyItemModels.addAll(getSearchedData.getParcelableArrayList("empty_list"));
 
         RecyclerViewState(getSearchedData.getInt("category_empty"));
 
@@ -174,295 +181,294 @@ public class FgAllTab extends Fragment {
         toastZzimLimit.setView(toastView);
         toastZzimLimit.setDuration(Toast.LENGTH_SHORT);
 
-        RxEventBus.getInstance()
-                .filteredObservable(RxEvent.class)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<RxEvent>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-                    @Override
-                    public void onNext(RxEvent rxEvent) {
-
-                        switch (rxEvent.getActiion()) {
-
-                            case RxEvent.SEARCH_CLICK_ZZIM:
-                                String code = rxEvent.getBundle().getString("search_code");
-                                int page = rxEvent.getBundle().getInt("search_page");
-                                int category = rxEvent.getBundle().getInt("search_category");
-
-                                //통합페이지에서 찜 이벤트 있을때
-                                if(page == 0) {
-                                    //제목에서 찜 이벤트 있을때
-                                    if (category == 1) {
-                                        //찜 체크됨
-                                        if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
-                                            for (int a = 0; a < descItemModels.size(); a++) {
-                                                if (descItemModels.get(a).getCode().equals(code)) {
-                                                    descItemModels.get(a).setZim(true);
-                                                    adapterAllPageDesc.notifyItemChanged(a);
-                                                    break;
-                                                }
-                                            }
-                                            for (int b = 0; b < stockItemModels.size(); b++) {
-                                                if (stockItemModels.get(b).getCode().equals(code)) {
-                                                    stockItemModels.get(b).setZim(true);
-                                                    adapterAllPageStock.notifyItemChanged(b);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        //찜 헤제됨
-                                        else {
-                                            for (int a = 0; a < descItemModels.size(); a++) {
-                                                if (descItemModels.get(a).getCode().equals(code)) {
-                                                    descItemModels.get(a).setZim(false);
-                                                    adapterAllPageDesc.notifyItemChanged(a);
-                                                    break;
-                                                }
-                                            }
-                                            for (int b = 0; b < stockItemModels.size(); b++) {
-                                                if (stockItemModels.get(b).getCode().equals(code)) {
-                                                    stockItemModels.get(b).setZim(false);
-                                                    adapterAllPageStock.notifyItemChanged(b);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    //내용에서 찜 이벤트 있을때
-                                    else if (category == 2) {
-                                        //찜 체크됨
-                                        if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
-                                            for (int a = 0; a < titleItemModels.size(); a++) {
-                                                if (titleItemModels.get(a).getCode().equals(code)) {
-                                                    titleItemModels.get(a).setZim(true);
-                                                    adapterAllPageTitle.notifyItemChanged(a);
-                                                    break;
-                                                }
-                                            }
-                                            for (int b = 0; b < stockItemModels.size(); b++) {
-                                                if (stockItemModels.get(b).getCode().equals(code)) {
-                                                    stockItemModels.get(b).setZim(true);
-                                                    adapterAllPageStock.notifyItemChanged(b);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        //찜 헤제됨
-                                        else {
-                                            for (int a = 0; a < titleItemModels.size(); a++) {
-                                                if (titleItemModels.get(a).getCode().equals(code)) {
-                                                    titleItemModels.get(a).setZim(false);
-                                                    adapterAllPageTitle.notifyItemChanged(a);
-                                                    break;
-                                                }
-                                            }
-                                            for (int b = 0; b < stockItemModels.size(); b++) {
-                                                if (stockItemModels.get(b).getCode().equals(code)) {
-                                                    stockItemModels.get(b).setZim(false);
-                                                    adapterAllPageStock.notifyItemChanged(b);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    //종목에서 찜 이벤트 있을때
-                                    else if (category == 3) {
-                                        //찜 체크됨
-                                        if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
-                                            for (int a = 0; a < titleItemModels.size(); a++) {
-                                                if (titleItemModels.get(a).getCode().equals(code)) {
-                                                    titleItemModels.get(a).setZim(true);
-                                                    adapterAllPageTitle.notifyItemChanged(a);
-                                                    break;
-                                                }
-                                            }
-                                            for (int b = 0; b < descItemModels.size(); b++) {
-                                                if (descItemModels.get(b).getCode().equals(code)) {
-                                                    descItemModels.get(b).setZim(true);
-                                                    adapterAllPageDesc.notifyItemChanged(b);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        //찜 헤제됨
-                                        else {
-                                            for (int a = 0; a < titleItemModels.size(); a++) {
-                                                if (titleItemModels.get(a).getCode().equals(code)) {
-                                                    titleItemModels.get(a).setZim(false);
-                                                    adapterAllPageTitle.notifyItemChanged(a);
-                                                    break;
-                                                }
-                                            }
-                                            for (int b = 0; b < descItemModels.size(); b++) {
-                                                if (descItemModels.get(b).getCode().equals(code)) {
-                                                    descItemModels.get(b).setZim(false);
-                                                    adapterAllPageDesc.notifyItemChanged(b);
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                    }
-                                    //상세페이지에서 찜 이벤트 후 전달
-                                    else if(category == 4) {
-
-                                        //찜 체크됨
-                                        if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
-                                            for (int a = 0; a < titleItemModels.size(); a++) {
-                                                if (titleItemModels.get(a).getCode().equals(code)) {
-                                                    titleItemModels.get(a).setZim(true);
-                                                    adapterAllPageTitle.notifyItemChanged(a);
-                                                    break;
-                                                }
-                                            }
-                                            for (int b = 0; b < descItemModels.size(); b++) {
-                                                if (descItemModels.get(b).getCode().equals(code)) {
-                                                    descItemModels.get(b).setZim(true);
-                                                    adapterAllPageDesc.notifyItemChanged(b);
-                                                    break;
-                                                }
-                                            }
-                                            for (int c = 0; c < stockItemModels.size(); c++) {
-                                                if (stockItemModels.get(c).getCode().equals(code)) {
-                                                    stockItemModels.get(c).setZim(true);
-                                                    adapterAllPageStock.notifyItemChanged(c);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        //찜 헤제됨
-                                        else {
-                                            for (int a = 0; a < titleItemModels.size(); a++) {
-                                                if (titleItemModels.get(a).getCode().equals(code)) {
-                                                    titleItemModels.get(a).setZim(false);
-                                                    adapterAllPageTitle.notifyItemChanged(a);
-                                                    break;
-                                                }
-                                            }
-                                            for (int b = 0; b < descItemModels.size(); b++) {
-                                                if (descItemModels.get(b).getCode().equals(code)) {
-                                                    descItemModels.get(b).setZim(false);
-                                                    adapterAllPageDesc.notifyItemChanged(b);
-                                                    break;
-                                                }
-                                            }
-                                            for (int c = 0; c < stockItemModels.size(); c++) {
-                                                if (stockItemModels.get(c).getCode().equals(code)) {
-                                                    stockItemModels.get(c).setZim(false);
-                                                    adapterAllPageStock.notifyItemChanged(c);
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                    }
-
-                                }
-                                //각 페이지에서 찜 이벤트 있을때
-                                else if(page == 1){
-                                    //찜 체크됨
-                                    if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
-                                        for (int a = 0; a < titleItemModels.size(); a++) {
-                                            if (titleItemModels.get(a).getCode().equals(code)) {
-                                                titleItemModels.get(a).setZim(true);
-                                                adapterAllPageTitle.notifyItemChanged(a);
-                                                break;
-                                            }
-                                        }
-                                        for (int b = 0; b < descItemModels.size(); b++) {
-                                            if (descItemModels.get(b).getCode().equals(code)) {
-                                                descItemModels.get(b).setZim(true);
-                                                adapterAllPageDesc.notifyItemChanged(b);
-                                                break;
-                                            }
-                                        }
-                                        for (int c = 0; c < stockItemModels.size(); c++) {
-                                            if (stockItemModels.get(c).getCode().equals(code)) {
-                                                stockItemModels.get(c).setZim(true);
-                                                adapterAllPageStock.notifyItemChanged(c);
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    //찜 헤제됨
-                                    else {
-                                        for (int a = 0; a < titleItemModels.size(); a++) {
-                                            if (titleItemModels.get(a).getCode().equals(code)) {
-                                                titleItemModels.get(a).setZim(false);
-                                                adapterAllPageTitle.notifyItemChanged(a);
-                                                break;
-                                            }
-                                        }
-                                        for (int b = 0; b < descItemModels.size(); b++) {
-                                            if (descItemModels.get(b).getCode().equals(code)) {
-                                                descItemModels.get(b).setZim(false);
-                                                adapterAllPageDesc.notifyItemChanged(b);
-                                                break;
-                                            }
-                                        }
-                                        for (int c = 0; c < stockItemModels.size(); c++) {
-                                            if (stockItemModels.get(c).getCode().equals(code)) {
-                                                stockItemModels.get(c).setZim(false);
-                                                adapterAllPageStock.notifyItemChanged(c);
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                                break;
-                        }
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-                    @Override
-                    public void onComplete() {
-                    }
-                });
-
-
-        //제목에서 상세 페이지로 이동
-        adapterAllPageTitle.setTitleItemClick(new AdapterAllTabTitle.TitleItemClick() {
-            @Override
-            public void onClick(int position) {
-                MovedDetailPage(titleItemModels.get(position).getCode(), titleItemModels.get(position).getName(), 600);
-            }
-        });
+//        RxEventBus.getInstance()
+//                .filteredObservable(RxEvent.class)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<RxEvent>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//                    }
+//                    @Override
+//                    public void onNext(RxEvent rxEvent) {
 //
+//                        switch (rxEvent.getActiion()) {
 //
-        //제목에서 찜하기 클릭
-        adapterAllPageTitle.setTitleZzimClick(new AdapterAllTabTitle.TitleZzimClick() {
-            @Override
-            public void onClick(int position) {
+//                            case RxEvent.SEARCH_CLICK_ZZIM:
+//                                String code = rxEvent.getBundle().getString("search_code");
+//                                int page = rxEvent.getBundle().getInt("search_page");
+//                                int category = rxEvent.getBundle().getInt("search_category");
+//
+//                                //통합페이지에서 찜 이벤트 있을때
+//                                if(page == 0) {
+//                                    //제목에서 찜 이벤트 있을때
+//                                    if (category == 1) {
+//                                        //찜 체크됨
+//                                        if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
+//                                            for (int a = 0; a < descItemModels.size(); a++) {
+//                                                if (descItemModels.get(a).getCode().equals(code)) {
+//                                                    descItemModels.get(a).setZim(true);
+//                                                    adapterAllPageDesc.notifyItemChanged(a);
+//                                                    break;
+//                                                }
+//                                            }
+//                                            for (int b = 0; b < stockItemModels.size(); b++) {
+//                                                if (stockItemModels.get(b).getCode().equals(code)) {
+//                                                    stockItemModels.get(b).setZim(true);
+//                                                    adapterAllPageStock.notifyItemChanged(b);
+//                                                    break;
+//                                                }
+//                                            }
+//                                        }
+//                                        //찜 헤제됨
+//                                        else {
+//                                            for (int a = 0; a < descItemModels.size(); a++) {
+//                                                if (descItemModels.get(a).getCode().equals(code)) {
+//                                                    descItemModels.get(a).setZim(false);
+//                                                    adapterAllPageDesc.notifyItemChanged(a);
+//                                                    break;
+//                                                }
+//                                            }
+//                                            for (int b = 0; b < stockItemModels.size(); b++) {
+//                                                if (stockItemModels.get(b).getCode().equals(code)) {
+//                                                    stockItemModels.get(b).setZim(false);
+//                                                    adapterAllPageStock.notifyItemChanged(b);
+//                                                    break;
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                    //내용에서 찜 이벤트 있을때
+//                                    else if (category == 2) {
+//                                        //찜 체크됨
+//                                        if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
+//                                            for (int a = 0; a < titleItemModels.size(); a++) {
+//                                                if (titleItemModels.get(a).getCode().equals(code)) {
+//                                                    titleItemModels.get(a).setZim(true);
+//                                                    adapterAllPageTitle.notifyItemChanged(a);
+//                                                    break;
+//                                                }
+//                                            }
+//                                            for (int b = 0; b < stockItemModels.size(); b++) {
+//                                                if (stockItemModels.get(b).getCode().equals(code)) {
+//                                                    stockItemModels.get(b).setZim(true);
+//                                                    adapterAllPageStock.notifyItemChanged(b);
+//                                                    break;
+//                                                }
+//                                            }
+//                                        }
+//                                        //찜 헤제됨
+//                                        else {
+//                                            for (int a = 0; a < titleItemModels.size(); a++) {
+//                                                if (titleItemModels.get(a).getCode().equals(code)) {
+//                                                    titleItemModels.get(a).setZim(false);
+//                                                    adapterAllPageTitle.notifyItemChanged(a);
+//                                                    break;
+//                                                }
+//                                            }
+//                                            for (int b = 0; b < stockItemModels.size(); b++) {
+//                                                if (stockItemModels.get(b).getCode().equals(code)) {
+//                                                    stockItemModels.get(b).setZim(false);
+//                                                    adapterAllPageStock.notifyItemChanged(b);
+//                                                    break;
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                    //종목에서 찜 이벤트 있을때
+//                                    else if (category == 3) {
+//                                        //찜 체크됨
+//                                        if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
+//                                            for (int a = 0; a < titleItemModels.size(); a++) {
+//                                                if (titleItemModels.get(a).getCode().equals(code)) {
+//                                                    titleItemModels.get(a).setZim(true);
+//                                                    adapterAllPageTitle.notifyItemChanged(a);
+//                                                    break;
+//                                                }
+//                                            }
+//                                            for (int b = 0; b < descItemModels.size(); b++) {
+//                                                if (descItemModels.get(b).getCode().equals(code)) {
+//                                                    descItemModels.get(b).setZim(true);
+//                                                    adapterAllPageDesc.notifyItemChanged(b);
+//                                                    break;
+//                                                }
+//                                            }
+//                                        }
+//                                        //찜 헤제됨
+//                                        else {
+//                                            for (int a = 0; a < titleItemModels.size(); a++) {
+//                                                if (titleItemModels.get(a).getCode().equals(code)) {
+//                                                    titleItemModels.get(a).setZim(false);
+//                                                    adapterAllPageTitle.notifyItemChanged(a);
+//                                                    break;
+//                                                }
+//                                            }
+//                                            for (int b = 0; b < descItemModels.size(); b++) {
+//                                                if (descItemModels.get(b).getCode().equals(code)) {
+//                                                    descItemModels.get(b).setZim(false);
+//                                                    adapterAllPageDesc.notifyItemChanged(b);
+//                                                    break;
+//                                                }
+//                                            }
+//                                        }
+//
+//                                    }
+//                                    //상세페이지에서 찜 이벤트 후 전달
+//                                    else if(category == 4) {
+//
+//                                        //찜 체크됨
+//                                        if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
+//                                            for (int a = 0; a < titleItemModels.size(); a++) {
+//                                                if (titleItemModels.get(a).getCode().equals(code)) {
+//                                                    titleItemModels.get(a).setZim(true);
+//                                                    adapterAllPageTitle.notifyItemChanged(a);
+//                                                    break;
+//                                                }
+//                                            }
+//                                            for (int b = 0; b < descItemModels.size(); b++) {
+//                                                if (descItemModels.get(b).getCode().equals(code)) {
+//                                                    descItemModels.get(b).setZim(true);
+//                                                    adapterAllPageDesc.notifyItemChanged(b);
+//                                                    break;
+//                                                }
+//                                            }
+//                                            for (int c = 0; c < stockItemModels.size(); c++) {
+//                                                if (stockItemModels.get(c).getCode().equals(code)) {
+//                                                    stockItemModels.get(c).setZim(true);
+//                                                    adapterAllPageStock.notifyItemChanged(c);
+//                                                    break;
+//                                                }
+//                                            }
+//                                        }
+//                                        //찜 헤제됨
+//                                        else {
+//                                            for (int a = 0; a < titleItemModels.size(); a++) {
+//                                                if (titleItemModels.get(a).getCode().equals(code)) {
+//                                                    titleItemModels.get(a).setZim(false);
+//                                                    adapterAllPageTitle.notifyItemChanged(a);
+//                                                    break;
+//                                                }
+//                                            }
+//                                            for (int b = 0; b < descItemModels.size(); b++) {
+//                                                if (descItemModels.get(b).getCode().equals(code)) {
+//                                                    descItemModels.get(b).setZim(false);
+//                                                    adapterAllPageDesc.notifyItemChanged(b);
+//                                                    break;
+//                                                }
+//                                            }
+//                                            for (int c = 0; c < stockItemModels.size(); c++) {
+//                                                if (stockItemModels.get(c).getCode().equals(code)) {
+//                                                    stockItemModels.get(c).setZim(false);
+//                                                    adapterAllPageStock.notifyItemChanged(c);
+//                                                    break;
+//                                                }
+//                                            }
+//                                        }
+//
+//                                    }
+//
+//                                }
+//                                //각 페이지에서 찜 이벤트 있을때
+//                                else if(page == 1){
+//                                    //찜 체크됨
+//                                    if (rxEvent.getBundle().getBoolean("search_zzim_state")) {
+//                                        for (int a = 0; a < titleItemModels.size(); a++) {
+//                                            if (titleItemModels.get(a).getCode().equals(code)) {
+//                                                titleItemModels.get(a).setZim(true);
+//                                                adapterAllPageTitle.notifyItemChanged(a);
+//                                                break;
+//                                            }
+//                                        }
+//                                        for (int b = 0; b < descItemModels.size(); b++) {
+//                                            if (descItemModels.get(b).getCode().equals(code)) {
+//                                                descItemModels.get(b).setZim(true);
+//                                                adapterAllPageDesc.notifyItemChanged(b);
+//                                                break;
+//                                            }
+//                                        }
+//                                        for (int c = 0; c < stockItemModels.size(); c++) {
+//                                            if (stockItemModels.get(c).getCode().equals(code)) {
+//                                                stockItemModels.get(c).setZim(true);
+//                                                adapterAllPageStock.notifyItemChanged(c);
+//                                                break;
+//                                            }
+//                                        }
+//                                    }
+//                                    //찜 헤제됨
+//                                    else {
+//                                        for (int a = 0; a < titleItemModels.size(); a++) {
+//                                            if (titleItemModels.get(a).getCode().equals(code)) {
+//                                                titleItemModels.get(a).setZim(false);
+//                                                adapterAllPageTitle.notifyItemChanged(a);
+//                                                break;
+//                                            }
+//                                        }
+//                                        for (int b = 0; b < descItemModels.size(); b++) {
+//                                            if (descItemModels.get(b).getCode().equals(code)) {
+//                                                descItemModels.get(b).setZim(false);
+//                                                adapterAllPageDesc.notifyItemChanged(b);
+//                                                break;
+//                                            }
+//                                        }
+//                                        for (int c = 0; c < stockItemModels.size(); c++) {
+//                                            if (stockItemModels.get(c).getCode().equals(code)) {
+//                                                stockItemModels.get(c).setZim(false);
+//                                                adapterAllPageStock.notifyItemChanged(c);
+//                                                break;
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                                break;
+//                        }
+//                    }
+//                    @Override
+//                    public void onError(Throwable e) {
+//                    }
+//                    @Override
+//                    public void onComplete() {
+//                    }
+//                });
 
-                //찜 안된 상태 -> 찜 하기
-                if(!titleItemModels.get(position).isZim()){
 
-                    if(SharedPreferenceUtil.getInstance(activitySearch).getIntExtra("PortZzimCount") >= 25) {
-                        //초과시 토스트
-                        toastZzimLimit.show();
-                    }else {
-                        ItemZzim(titleItemModels.get(position).getCode(), position, 0, 1, titleItemModels.get(position).isDam(), true);
-                    }
-                }
-                //찜한 상태 -> 찜 풀기
-                else{
-                    ItemZzim(titleItemModels.get(position).getCode(), position, 1, 1, titleItemModels.get(position).isDam(), false);
-                }
-            }
-        });
+//        //제목에서 상세 페이지로 이동
+//        adapterAllPageTitle.setTitleItemClick(new AdapterAllTabTitle.TitleItemClick() {
+//            @Override
+//            public void onClick(int position) {
+//                MovedDetailPage(titleItemModels.get(position).getCode(), titleItemModels.get(position).getName(), 600);
+//            }
+//        });
+
+//        //제목에서 찜하기 클릭
+//        adapterAllPageTitle.setTitleZzimClick(new AdapterAllTabTitle.TitleZzimClick() {
+//            @Override
+//            public void onClick(int position) {
+//
+//                //찜 안된 상태 -> 찜 하기
+//                if(!titleItemModels.get(position).isZim()){
+//
+//                    if(SharedPreferenceUtil.getInstance(activitySearch).getIntExtra("PortZzimCount") >= 25) {
+//                        //초과시 토스트
+//                        toastZzimLimit.show();
+//                    }else {
+//                        ItemZzim(titleItemModels.get(position).getCode(), position, 0, 1, titleItemModels.get(position).isDam(), true);
+//                    }
+//                }
+//                //찜한 상태 -> 찜 풀기
+//                else{
+//                    ItemZzim(titleItemModels.get(position).getCode(), position, 1, 1, titleItemModels.get(position).isDam(), false);
+//                }
+//            }
+//        });
 
 
-        //제목에서 전체보기 클릭시 상세제목으로 이동
-        adapterAllPageTitle.setTitleAddViewClick(new AdapterAllTabTitle.TitleAddViewClick() {
-            @Override
-            public void onClick(int position) {
-                MovedTab.putInt("allPage_MovedTab", 0);
-                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_TRANS_PAGE, MovedTab));
-            }
-        });
+//        //제목에서 전체보기 클릭시 상세제목으로 이동
+//        adapterAllPageTitle.setTitleAddViewClick(new AdapterAllTabTitle.TitleAddViewClick() {
+//            @Override
+//            public void onClick(int position) {
+//                MovedTab.putInt("allPage_MovedTab", 0);
+//                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_TRANS_PAGE, MovedTab));
+//            }
+//        });
 //
 //
         //내용에서 상세페이지로 이동
@@ -472,30 +478,29 @@ public class FgAllTab extends Fragment {
                 MovedDetailPage(descItemModels.get(position).getCode(), descItemModels.get(position).getName(), 600);
             }
         });
+
+//        //내용에서 찜하기 클릭
+//        adapterAllPageDesc.setDescZzimClick(new AdapterAllTabDesc.DescZzimClick() {
+//            @Override
+//            public void onClick(int position) {
 //
+//                //찜 안된 상태 -> 찜 하기
+//                if(!descItemModels.get(position).isZim()){
 //
-        //내용에서 찜하기 클릭
-        adapterAllPageDesc.setDescZzimClick(new AdapterAllTabDesc.DescZzimClick() {
-            @Override
-            public void onClick(int position) {
-
-                //찜 안된 상태 -> 찜 하기
-                if(!descItemModels.get(position).isZim()){
-
-                    if(SharedPreferenceUtil.getInstance(activitySearch).getIntExtra("PortZzimCount") >= 25) {
-                        //초과시 토스트
-                        toastZzimLimit.show();
-                    }else {
-                        ItemZzim(descItemModels.get(position).getCode(), position, 0, 2, descItemModels.get(position).isDam(), true);
-                    }
-                }
-                //찜한 상태 -> 찜 풀기
-                else{
-                    ItemZzim(descItemModels.get(position).getCode(), position, 1, 2,  descItemModels.get(position).isDam(), false);
-                }
-
-            }
-        });
+//                    if(SharedPreferenceUtil.getInstance(activitySearch).getIntExtra("PortZzimCount") >= 25) {
+//                        //초과시 토스트
+//                        toastZzimLimit.show();
+//                    }else {
+//                        ItemZzim(descItemModels.get(position).getCode(), position, 0, 2, descItemModels.get(position).isDam(), true);
+//                    }
+//                }
+//                //찜한 상태 -> 찜 풀기
+//                else{
+//                    ItemZzim(descItemModels.get(position).getCode(), position, 1, 2,  descItemModels.get(position).isDam(), false);
+//                }
+//
+//            }
+//        });
 
 
         //내용에서 전체보기 클릭시 상세내용으로 이동
@@ -516,27 +521,27 @@ public class FgAllTab extends Fragment {
         });
 
 
-        //종목에서 찜하기 클릭
-        adapterAllPageStock.setStockZzimClick(new AdapterAllTabStock.StockZzimClick() {
-            @Override
-            public void onClick(int position) {
-
-                //찜 안된 상태 -> 찜 하기
-                if(!stockItemModels.get(position).isZim()){
-
-                    if(SharedPreferenceUtil.getInstance(activitySearch).getIntExtra("PortZzimCount") >= 25) {
-                        //초과시 토스트
-                        toastZzimLimit.show();
-                    }else {
-                        ItemZzim(stockItemModels.get(position).getCode(), position, 0, 3,  stockItemModels.get(position).isDam(), true);
-                    }
-                }
-                //찜한 상태 -> 찜 풀기
-                else{
-                    ItemZzim(stockItemModels.get(position).getCode(), position, 1, 3, stockItemModels.get(position).isDam(), false);
-                }
-            }
-        });
+//        //종목에서 찜하기 클릭
+//        adapterAllPageStock.setStockZzimClick(new AdapterAllTabStock.StockZzimClick() {
+//            @Override
+//            public void onClick(int position) {
+//
+//                //찜 안된 상태 -> 찜 하기
+//                if(!stockItemModels.get(position).isZim()){
+//
+//                    if(SharedPreferenceUtil.getInstance(activitySearch).getIntExtra("PortZzimCount") >= 25) {
+//                        //초과시 토스트
+//                        toastZzimLimit.show();
+//                    }else {
+//                        ItemZzim(stockItemModels.get(position).getCode(), position, 0, 3,  stockItemModels.get(position).isDam(), true);
+//                    }
+//                }
+//                //찜한 상태 -> 찜 풀기
+//                else{
+//                    ItemZzim(stockItemModels.get(position).getCode(), position, 1, 3, stockItemModels.get(position).isDam(), false);
+//                }
+//            }
+//        });
 
         //종목에서 전체보기 클릭시 상세종목으로 이동
         adapterAllPageStock.setStockAddviewClick(new AdapterAllTabStock.StockAddviewClick() {
@@ -547,16 +552,16 @@ public class FgAllTab extends Fragment {
             }
         });
 
-        //검색 데이터가 없을때 검색 제안 키워드 클릭시 검색됨
-        adapterAllPageTitle.setEmptyTextClick(new AdapterAllTabTitle.EmptyTextClick() {
-            @Override
-            public void onClick(int position) {
-
-                if(onClickEmptyText != null) {
-                    onClickEmptyText.onReceivedData(emptyItemModels.get(position).getName());
-                }
-            }
-        });
+//        //검색 데이터가 없을때 검색 제안 키워드 클릭시 검색됨
+//        adapterAllPageTitle.setEmptyTextClick(new AdapterAllTabTitle.EmptyTextClick() {
+//            @Override
+//            public void onClick(int position) {
+//
+//                if(onClickEmptyText != null) {
+//                    onClickEmptyText.onReceivedData(emptyItemModels.get(position).getName());
+//                }
+//            }
+//        });
 
     }//onViewCreated 끝
 
@@ -576,65 +581,65 @@ public class FgAllTab extends Fragment {
 
     // SelectedState : 0 -> 포트 찜하기 / 1 -> 포트 찜 해제
     // SearchCategory : 1 -> 제목 / 2 -> 내용 / 3 -> 종목
-    void ItemZzim(String PortCode, int PortPosition, int SelectedState, int SearchCategory, boolean isDam, boolean isZim) {
-
-        Select select = new Select(PortCode, "",isDam, isZim, 0, "", 0, 0, "");
-
-
-        Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"add");
-        getSelectPort.enqueue(new Callback<ModelZimData>() {
-            @Override
-            public void onResponse(Call<ModelZimData> call, Response<ModelZimData> response) {
-                if(response.code() == 200) {
-                    if(response.body().getErrorcode() == 200){
-
-                        zzimInfo.putInt("search_category", SearchCategory);
-                        zzimInfo.putInt("search_zzim_position", PortPosition);
-                        zzimInfo.putInt("search_page", 0);
-                        zzimInfo.putString("search_code", PortCode);
-                        //찜하기
-                        if(SelectedState == 0) {
-                            zzimInfo.putBoolean("search_zzim_state", true);
-
-                            if(SearchCategory == 1){
-                                titleItemModels.get(PortPosition).setZim(true);
-                                adapterAllPageTitle.notifyItemChanged(PortPosition);
-                            }else if(SearchCategory == 2){
-                                descItemModels.get(PortPosition).setZim(true);
-                                adapterAllPageDesc.notifyItemChanged(PortPosition);
-                            }else{
-                                stockItemModels.get(PortPosition).setZim(true);
-                                adapterAllPageStock.notifyItemChanged(PortPosition);
-                            }
-                        }
-                        //찜 해제
-                        else{
-                            zzimInfo.putBoolean("search_zzim_state", false);
-
-                            if(SearchCategory == 1){
-                                titleItemModels.get(PortPosition).setZim(false);
-                                adapterAllPageTitle.notifyItemChanged(PortPosition);
-                            }else if(SearchCategory == 2){
-                                descItemModels.get(PortPosition).setZim(false);
-                                adapterAllPageDesc.notifyItemChanged(PortPosition);
-                            }else{
-                                stockItemModels.get(PortPosition).setZim(false);
-                                adapterAllPageStock.notifyItemChanged(PortPosition);
-                            }
-                        }
-                        RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
-                    }
-                }
-                else{
-                    Log.e("에러 값 ","값 : "+ response.errorBody().toString());
-                }
-            }
-            @Override
-            public void onFailure(Call<ModelZimData> call, Throwable t) {
-                Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    void ItemZzim(String PortCode, int PortPosition, int SelectedState, int SearchCategory, boolean isDam, boolean isZim) {
+//
+//        Select select = new Select(PortCode, "",isDam, isZim, 0, "", 0, 0, "");
+//
+//
+//        Call<ModelZimData> getSelectPort = RetrofitClient.getInstance().getService().getSelectedPortDate("application/json",select, 1,"add");
+//        getSelectPort.enqueue(new Callback<ModelZimData>() {
+//            @Override
+//            public void onResponse(Call<ModelZimData> call, Response<ModelZimData> response) {
+//                if(response.code() == 200) {
+//                    if(response.body().getErrorcode() == 200){
+//
+//                        zzimInfo.putInt("search_category", SearchCategory);
+//                        zzimInfo.putInt("search_zzim_position", PortPosition);
+//                        zzimInfo.putInt("search_page", 0);
+//                        zzimInfo.putString("search_code", PortCode);
+//                        //찜하기
+//                        if(SelectedState == 0) {
+//                            zzimInfo.putBoolean("search_zzim_state", true);
+//
+//                            if(SearchCategory == 1){
+//                                titleItemModels.get(PortPosition).setZim(true);
+//                                adapterAllPageTitle.notifyItemChanged(PortPosition);
+//                            }else if(SearchCategory == 2){
+//                                descItemModels.get(PortPosition).setZim(true);
+//                                adapterAllPageDesc.notifyItemChanged(PortPosition);
+//                            }else{
+//                                stockItemModels.get(PortPosition).setZim(true);
+//                                adapterAllPageStock.notifyItemChanged(PortPosition);
+//                            }
+//                        }
+//                        //찜 해제
+//                        else{
+//                            zzimInfo.putBoolean("search_zzim_state", false);
+//
+//                            if(SearchCategory == 1){
+//                                titleItemModels.get(PortPosition).setZim(false);
+//                                adapterAllPageTitle.notifyItemChanged(PortPosition);
+//                            }else if(SearchCategory == 2){
+//                                descItemModels.get(PortPosition).setZim(false);
+//                                adapterAllPageDesc.notifyItemChanged(PortPosition);
+//                            }else{
+//                                stockItemModels.get(PortPosition).setZim(false);
+//                                adapterAllPageStock.notifyItemChanged(PortPosition);
+//                            }
+//                        }
+//                        RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
+//                    }
+//                }
+//                else{
+//                    Log.e("에러 값 ","값 : "+ response.errorBody().toString());
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ModelZimData> call, Throwable t) {
+//                Toast.makeText(getActivity(),"네트워크가 불안정 합니다\n 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     //최근 검색어 저장 이벤트
     void RoomDataInsert(String PortName, String PortCode){
@@ -754,7 +759,7 @@ public class FgAllTab extends Fragment {
         }
     }
 
-    //리사이클러뷰 초기화
+//    //리사이클러뷰 초기화
     void InitRecyclerView(){
 
         binding.recyclerView1.setHasFixedSize(true);
@@ -774,7 +779,8 @@ public class FgAllTab extends Fragment {
         stockItemModels = new ArrayList<>();
         emptyItemModels = new ArrayList<>();
 
-        adapterAllPageTitle = new AdapterAllTabTitle(titleItemModels, emptyItemModels, getContext());
+        adapterAllPageTitle = new AdapterAllTabSingleEn(titleItemModels, getContext());
+//        adapterAllPageTitle = new AdapterAllTabTitle(titleItemModels, emptyItemModels, getContext());
         adapterAllPageDesc = new AdapterAllTabDesc(descItemModels, getContext());
         adapterAllPageStock = new AdapterAllTabStock(stockItemModels, getContext());
 

@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class ModelPostTitleItem implements Parcelable {
 
+    boolean empty;
     int category;
     int totalNum;
     String code;

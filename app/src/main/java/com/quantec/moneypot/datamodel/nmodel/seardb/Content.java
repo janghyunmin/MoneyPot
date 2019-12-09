@@ -6,6 +6,30 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Content {
+
+//    @SerializedName("codes")
+//    @Expose
+//    private Codes codes;
+//    @SerializedName("userSelects")
+//    @Expose
+//    private List<UserSelect> userSelects = null;
+//
+//    public Codes getCodes() {
+//        return codes;
+//    }
+//
+//    public void setCodes(Codes codes) {
+//        this.codes = codes;
+//    }
+//
+//    public List<UserSelect> getUserSelects() {
+//        return userSelects;
+//    }
+//
+//    public void setUserSelects(List<UserSelect> userSelects) {
+//        this.userSelects = userSelects;
+//    }
+
     @SerializedName("codes")
     @Expose
     private Codes codes;

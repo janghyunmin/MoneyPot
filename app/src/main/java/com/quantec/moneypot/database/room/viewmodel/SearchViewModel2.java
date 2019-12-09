@@ -23,10 +23,6 @@ public class SearchViewModel2 extends AndroidViewModel {
     public List<RoomEntity2> getFindAll(){
         return searchRepository.findAll();
     }
-
-//    public RoomEntity2 getfindSearch(String name, String elStock, String descript){
-//        return searchRepository.findStock(name, elStock, descript);
-//    }
     public List<RoomEntity2> getfindSearch(String name, String elStock, String descript){
         return searchRepository.findStock(name, elStock, descript);
     }

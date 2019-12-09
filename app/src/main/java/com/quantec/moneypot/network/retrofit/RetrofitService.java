@@ -10,7 +10,9 @@ import com.quantec.moneypot.activity.Login.Model.nModel.ModelIdentifyData;
 import com.quantec.moneypot.activity.Login.Model.nModel.ModelAppInit;
 import com.quantec.moneypot.activity.Login.Model.nModel.ModelUserInfo;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPotSimul;
+import com.quantec.moneypot.datamodel.nmodel.ModelAccountExist;
 import com.quantec.moneypot.datamodel.nmodel.ModelAccounts;
+import com.quantec.moneypot.datamodel.nmodel.ModelApiToken;
 import com.quantec.moneypot.datamodel.nmodel.ModelChartData;
 import com.quantec.moneypot.datamodel.nmodel.ModelChkNicName;
 import com.quantec.moneypot.datamodel.nmodel.ModelCommonData;
@@ -245,5 +247,31 @@ public interface RetrofitService {
      */
     @GET("home/init")
     Call<ModelSearchDb> getStockDb();
+
+
+    /**
+     *
+     * 계좌여부 체크
+     *
+     */
+    @POST("partner/sh/accountExist")
+    Call<ModelAccountExist> getAccountExist(@Header("Content-Type") String content_type);
+
+
+    /**
+     *
+     * 제휴사별 토큰 발행
+     *
+     */
+    @POST("partner/sh/getApiToken")
+    Call<ModelApiToken> getApiToken(@Header("Content-Type") String content_type);
+
+    /**
+     *
+     * 계좌개설 처리 상태 저장 0(임시)/1(정상)
+     *
+     */
+    @POST("partner/sh/setAccountStatus/{type}/{account}")
+    Call<Object> setAccountStatus(@Header("Content-Type") String content_type, @Path("type") int type, @Path("account") String account);
 
 }

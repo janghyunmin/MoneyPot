@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ import com.quantec.moneypot.activity.Search.SearchedPage.Fragment.FgAllTab;
 import com.quantec.moneypot.activity.Search.SearchedPage.Fragment.FgDescTab;
 import com.quantec.moneypot.activity.Search.SearchedPage.Fragment.FgStockTab;
 import com.quantec.moneypot.activity.Search.SearchedPage.Fragment.FgTitleTab;
+import com.quantec.moneypot.database.room.entry.RoomEntity2;
+import com.quantec.moneypot.database.room.local.RoomDao;
+import com.quantec.moneypot.database.room.local.SearchRoomDatabase;
+import com.quantec.moneypot.database.room.viewmodel.SearchViewModel2;
 import com.quantec.moneypot.datamodel.dmodel.Filter;
 import com.quantec.moneypot.datamodel.dmodel.ModelDescItem;
 import com.quantec.moneypot.datamodel.dmodel.ModelEmptyItem;
@@ -68,6 +73,18 @@ public class FgSearchedPage extends Fragment {
     int noContent = 0;
     int categoryState;
 
+
+    /**
+     *
+     *
+     */
+
+    ArrayList<ModelSingleEn> modelSingleEns;
+    ArrayList<ModelSumEn> modelSumEn;
+    ArrayList<ModelNewsEn> modelNewsEns;
+
+
+
     /**
      *
      * 검색 시 제목, 설명, 검색 중에서 검색된 부분에 따라서 달라짐
@@ -81,6 +98,10 @@ public class FgSearchedPage extends Fragment {
 
     SearchPortAdapter searchPortAdapter;
 
+    private SearchViewModel2 searchViewModel;
+    private RoomDao roomDao;
+    private List<RoomEntity2> roomEntity2s;
+
     public FgSearchedPage() {
     }
 
@@ -91,6 +112,15 @@ public class FgSearchedPage extends Fragment {
 
         initializeViews();
 
+        modelSingleEns = new ArrayList<>();
+        modelSumEn = new ArrayList<>();
+        modelNewsEns = new ArrayList<>();
+
+        modelSingleEns.add(new ModelSingleEn(true, "", "", 0, 0));
+        modelSumEn.add(new ModelSumEn(true, "", "", "", 0, 0));
+        modelNewsEns.add(new ModelNewsEn(true, 0, "", "", ""));
+
+
         titleItemModels = new ArrayList<>();
         descItemModels = new ArrayList<>();
         stockItemModels = new ArrayList<>();
@@ -99,7 +129,6 @@ public class FgSearchedPage extends Fragment {
         postTitleItemModels = new ArrayList<>();
         postDescItemModels = new ArrayList<>();
         postStockItemModels = new ArrayList<>();
-
 
         viewPager = view.findViewById(R.id.viewPager);
 
@@ -132,6 +161,14 @@ public class FgSearchedPage extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        searchViewModel = ViewModelProviders.of(activitySearch).get(SearchViewModel2.class);
+        roomDao = SearchRoomDatabase.getINSTANCE(activitySearch).roomDao();
+
+//        RoomDataInsert2(searchText);
+        if(RoomDataInsert2(searchText)){
+            setViewPager(viewPager);
+        }
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -236,222 +273,265 @@ public class FgSearchedPage extends Fragment {
          *
          *
          */
-        Filter filter = new Filter(searchText, "0");
-        Call<ModelSearchedPageList> getTest2 = RetrofitClient.getInstance().getService().getPageList("application/json", filter, "E", 0,1,30);
-        getTest2.enqueue(new Callback<ModelSearchedPageList>() {
+//        Filter filter = new Filter(searchText, "0");
+//        Call<ModelSearchedPageList> getTest2 = RetrofitClient.getInstance().getService().getPageList("application/json", filter, "E", 0,1,30);
+//        getTest2.enqueue(new Callback<ModelSearchedPageList>() {
+//            @Override
+//            public void onResponse(Call<ModelSearchedPageList> call, Response<ModelSearchedPageList> response) {
+//                if (response.code() == 200) {
+//
+//                    titleItemModels.clear();
+//                    descItemModels.clear();
+//                    stockItemModels.clear();
+//                    emptyItemModels.clear();
+//
+//                    postTitleItemModels.clear();
+//                    postDescItemModels.clear();
+//                    postStockItemModels.clear();
+//
+//                    searchStatus.clear();
+//
+//                    int T_ItemSize;
+//
+//                    if(!response.body().isNoContent()) {
+//
+//                        if(response.body().getTotalElements() >= 5) {
+//                            T_ItemSize = 5;
+//                        }else{
+//                            T_ItemSize = response.body().getTotalElements();
+//                        }
+//
+//                        // == 제목 데이터 == //
+//                        titleItemModels.add(0, new ModelTitleItem(0, response.body().getTotalElements(), "", "", 0, false, false,  0));
+//                        for(int tCount = 0 ; tCount < T_ItemSize ; tCount++) {
+//                            if(response.body().getContent().get(tCount).getSelect() != null){
+//                                titleItemModels.add(new ModelTitleItem(1, T_ItemSize, response.body().getContent().get(tCount).getCode()
+//                                        , response.body().getContent().get(tCount).getName(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(tCount).getRate()*100), 2, 2)
+//                                        , response.body().getContent().get(tCount).getSelect().isZim(),response.body().getContent().get(tCount).getSelect().isDam(), 0));
+//                            }else{
+//                                titleItemModels.add(new ModelTitleItem(1, T_ItemSize, response.body().getContent().get(tCount).getCode()
+//                                        , response.body().getContent().get(tCount).getName(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(tCount).getRate()*100), 2, 2)
+//                                        , false, false, 0));
+//                            }
+//                        }
+//                        titleItemModels.add(new ModelTitleItem(2, T_ItemSize, "", "", 0, false, false,0));
+//                        // ==제목 전체 데이터 == //
+//                        postTitleItemModels.add(0, new ModelPostTitleItem(0, response.body().getTotalElements(), "", "", 0, false, false, 0));
+//
+//                        for(int ptCount = 0 ; ptCount < response.body().getTotalElements() ; ptCount++) {
+//                            if(response.body().getContent().get(ptCount).getSelect() != null){
+//                                postTitleItemModels.add(new ModelPostTitleItem(1, response.body().getTotalElements(), response.body().getContent().get(ptCount).getCode()
+//                                        , response.body().getContent().get(ptCount).getName(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(ptCount).getRate()*100), 2, 2)
+//                                        , response.body().getContent().get(ptCount).getSelect().isZim(), response.body().getContent().get(ptCount).getSelect().isDam(), 0));
+//                            }else{
+//                                postTitleItemModels.add(new ModelPostTitleItem(1, response.body().getTotalElements(), response.body().getContent().get(ptCount).getCode()
+//                                        , response.body().getContent().get(ptCount).getName(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(ptCount).getRate()*100), 2, 2)
+//                                        , false, false, 0));
+//                            }
+//                        }
+//
+//                        searchStatus.add(0, 1);
+//                    }
+//                    else{
+//                        noContent++;
+//                        postTitleItemModels.add(0, new ModelPostTitleItem(201, 0, "", "", 0, false, false, 0));
+//                        searchStatus.add(0, 0);
+//                    }
+//
+//                    Filter filter = new Filter(searchText, "0");
+//                    Call<ModelSearchedPageList> getTest2 = RetrofitClient.getInstance().getService().getPageList("application/json", filter, "E", 0,1,30);
+//                    getTest2.enqueue(new Callback<ModelSearchedPageList>() {
+//                        @Override
+//                        public void onResponse(Call<ModelSearchedPageList> call, Response<ModelSearchedPageList> response) {
+//                            if (response.code() == 200) {
+//                                if(!response.body().isNoContent()) {
+//
+//                                    int D_ItemSize;
+//
+//                                    if(response.body().getTotalElements() >= 3) {
+//                                        D_ItemSize = 3;
+//                                    }else{
+//                                        D_ItemSize = response.body().getTotalElements();
+//                                    }
+//                                    // == 내용 데이터 == //
+//                                    descItemModels.add(0, new ModelDescItem(0, response.body().getTotalElements(), "", "", "", 0, false, false, 0));
+//                                    for(int dCount = 0 ; dCount < D_ItemSize ; dCount++) {
+//
+//                                        if(response.body().getContent().get(dCount).getSelect() != null){
+//                                            descItemModels.add(new ModelDescItem(1, D_ItemSize, response.body().getContent().get(dCount).getCode()
+//                                                    , response.body().getContent().get(dCount).getName(), response.body().getContent().get(dCount).getDescript(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(dCount).getRate()*100), 2, 2)
+//                                                    , response.body().getContent().get(dCount).getSelect().isZim(), response.body().getContent().get(dCount).getSelect().isDam(), 0));
+//                                        }else{
+//                                            descItemModels.add(new ModelDescItem(1, D_ItemSize, response.body().getContent().get(dCount).getCode()
+//                                                    , response.body().getContent().get(dCount).getName(), response.body().getContent().get(dCount).getDescript(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(dCount).getRate()*100), 2, 2)
+//                                                    , false, false, 0));
+//                                        }
+//
+//                                    }
+//                                    descItemModels.add(new ModelDescItem(2, D_ItemSize, "", "", "", 0, false, false, 0));
+//                                    // ==내용 전체 데이터 ==//
+//                                    postDescItemModels.add(0, new ModelPostDescItem(0, response.body().getTotalElements(), "", "", "", 0, false, 0));
+//
+//                                    for(int pdCount = 0 ; pdCount < response.body().getTotalElements() ; pdCount++){
+//                                        postDescItemModels.add(new ModelPostDescItem(1, response.body().getTotalElements(), response.body().getContent().get(pdCount).getCode()
+//                                                , response.body().getContent().get(pdCount).getName(), response.body().getContent().get(pdCount).getDescript()
+//                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(pdCount).getRate()*100), 2, 2)
+//                                                , false, 0));
+//                                    }
+//                                    searchStatus.add(1, 2);
+//                                }else{
+//                                    noContent++;
+//                                    postDescItemModels.add(0, new ModelPostDescItem(202, 0, "", "", "", 0, false, 0));
+//                                    searchStatus.add(1, 0);
+//                                }
+//
+//                                Filter filter = new Filter(searchText, 0);
+//                                Call<ModelSearchedPageList> getTest2 = RetrofitClient.getInstance().getService().getPageList("application/json", filter, "E", 0,1,30);
+//                                getTest2.enqueue(new Callback<ModelSearchedPageList>() {
+//                                    @Override
+//                                    public void onResponse(Call<ModelSearchedPageList> call, Response<ModelSearchedPageList> response) {
+//                                        if (response.code() == 200) {
+//                                            int S_ItemSize;
+//
+//                                            if(!response.body().isNoContent()) {
+//                                                if(response.body().getTotalElements() >= 3) {
+//                                                    S_ItemSize = 3;
+//                                                }else{
+//                                                    S_ItemSize = response.body().getTotalElements();
+//                                                }
+//                                                // == 종목 데이터 == //
+//                                                stockItemModels.add(0, new ModelStockItem(0, response.body().getTotalElements(), "", "", 0,0, "", false, false, 0));
+//                                                for(int sCount = 0 ; sCount < S_ItemSize ; sCount++) {
+//                                                    if(response.body().getContent().get(sCount).getSelect() != null){
+//                                                        stockItemModels.add(new ModelStockItem(1, S_ItemSize
+//                                                                , response.body().getContent().get(sCount).getCode(), response.body().getContent().get(sCount).getName()
+//                                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(sCount).getRate()*100), 2, 2), 0
+//                                                                , response.body().getContent().get(sCount).getPotEls().get(0).getElName()
+//                                                                , response.body().getContent().get(sCount).getSelect().isZim(), response.body().getContent().get(sCount).getSelect().isDam(), 0));
+//                                                    }else{
+//                                                        stockItemModels.add(new ModelStockItem(1, S_ItemSize
+//                                                                , response.body().getContent().get(sCount).getCode(), response.body().getContent().get(sCount).getName()
+//                                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(sCount).getRate()*100), 2, 2), 0
+//                                                                , response.body().getContent().get(sCount).getPotEls().get(0).getElName(), false, false, 0));
+//                                                    }
+//                                                }
+//                                                stockItemModels.add(new ModelStockItem(2, response.body().getTotalElements(), "", "", 0, 0, "", false, false, 0));
+//                                                // ==종목 전체 데이터 == //
+//                                                postStockItemModels.add(0, new ModelPostStockItem(0, response.body().getTotalElements(), "", "", 0,0, "", false, false, 0));
+//                                                for(int psCount = 0 ; psCount < response.body().getTotalElements() ; psCount++){
+//                                                    if(response.body().getContent().get(psCount).getSelect() != null){
+//                                                        postStockItemModels.add(new ModelPostStockItem(1, S_ItemSize
+//                                                                , response.body().getContent().get(psCount).getCode(), response.body().getContent().get(psCount).getName()
+//                                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(psCount).getRate()*100), 2, 2), 0
+//                                                                , response.body().getContent().get(psCount).getPotEls().get(0).getElName(), response.body().getContent().get(psCount).getSelect().isZim(), response.body().getContent().get(psCount).getSelect().isDam(),0));
+//                                                    }else{
+//                                                        postStockItemModels.add(new ModelPostStockItem(1, S_ItemSize
+//                                                                , response.body().getContent().get(psCount).getCode(), response.body().getContent().get(psCount).getName()
+//                                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(psCount).getRate()*100), 2, 2), 0
+//                                                                , response.body().getContent().get(psCount).getPotEls().get(0).getElName(), false, false, 0));
+//                                                    }
+//                                                }
+//
+//                                                searchStatus.add(2, 4);
+//                                            }else{
+//                                                noContent++;
+//                                                postStockItemModels.add(0, new ModelPostStockItem(205, 0, "", "", 0,0, "", false, false, 0));
+//                                                searchStatus.add(2, 0);
+//                                            }
+//
+//                                            bundle.putParcelableArrayList("title_list", titleItemModels);
+//                                            bundle.putParcelableArrayList("desc_list", descItemModels);
+//                                            bundle.putParcelableArrayList("stock_list", stockItemModels);
+//                                            bundle.putParcelableArrayList("empty_list", emptyItemModels);
+//                                            bundle.putParcelableArrayList("post_title_list", postTitleItemModels);
+//                                            bundle.putParcelableArrayList("post_desc_list", postDescItemModels);
+//                                            bundle.putParcelableArrayList("post_stock_list", postStockItemModels);
+//
+//                                            categoryState = 200 + searchStatus.get(0) + searchStatus.get(1) + searchStatus.get(2);
+//
+//                                            if(noContent >= 3) {
+//                                                //포트 제목, 내용, 종목 모두 없을때 -> 검색 제안
+//                                                // == 검색결과 없을때  검색 제안 데이터 == //
+//                                                titleItemModels.add(new ModelTitleItem(208, 0,"","", 0, false, false, 0));
+//
+//                                                emptyItemModels.add(0, new ModelEmptyItem(10, 0, "", ""));
+//                                                emptyItemModels.add(1, new ModelEmptyItem(12, 0, "", ""));
+//                                                for(int gCount = 0 ; gCount < 3 ; gCount++) {
+//                                                    emptyItemModels.add(new ModelEmptyItem(11, 0
+//                                                            , response.body().getContent().get(gCount).getCode(), response.body().getContent().get(gCount).getName()));
+//                                                }
+//                                                bundle.putParcelableArrayList("post_stock_list", postStockItemModels);
+//                                                categoryState = 208;
+//                                            }
+//
+//                                            bundle.putInt("category_empty", categoryState);
+//                                            setViewPager(viewPager);
+//                                        }
+//                                    }
+//                                    @Override
+//                                    public void onFailure(Call<ModelSearchedPageList> call, Throwable t) {
+//                                        Log.e("레트로핏 실패","값 : "+t.getMessage());
+//                                    }
+//                                });
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ModelSearchedPageList> call, Throwable t) {
+//                            Log.e("레트로핏 실패","값 : "+t.getMessage());
+//                        }
+//                    });
+//
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ModelSearchedPageList> call, Throwable t) {
+//                Log.e("레트로핏 실패","값 : "+t.getMessage());
+//            }
+//        });
+
+
+    }//onViewCreated 끝
+
+
+    //최근 검색어 저장 이벤트
+    boolean RoomDataInsert2(String searchText){
+
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(Call<ModelSearchedPageList> call, Response<ModelSearchedPageList> response) {
-                if (response.code() == 200) {
+            public void run() {
 
-                    titleItemModels.clear();
-                    descItemModels.clear();
-                    stockItemModels.clear();
-                    emptyItemModels.clear();
+                roomEntity2s = roomDao.findStock("%"+searchText+"%","%"+searchText+"%", "%"+searchText+"%");
 
-                    postTitleItemModels.clear();
-                    postDescItemModels.clear();
-                    postStockItemModels.clear();
+                if(roomEntity2s != null && roomEntity2s.size() != 0){
+                    for(int index = 0; index < roomEntity2s.size(); index++){
 
-                    searchStatus.clear();
-
-                    int T_ItemSize;
-
-                    if(!response.body().isNoContent()) {
-
-                        if(response.body().getTotalElements() >= 5) {
-                            T_ItemSize = 5;
+                        if(roomEntity2s.get(index).getType()==0){
+                            modelSingleEns.add(new ModelSingleEn(true, roomEntity2s.get(index).getName(),
+                                    roomEntity2s.get(index).getCode(), roomEntity2s.get(index).getRate(), roomEntity2s.get(index).getFollow()));
                         }else{
-                            T_ItemSize = response.body().getTotalElements();
+                            modelSumEn.add(new ModelSumEn(true, roomEntity2s.get(index).getName(), roomEntity2s.get(index).getCode(),
+                                    roomEntity2s.get(index).getElStock(), roomEntity2s.get(index).getRate(), roomEntity2s.get(index).getFollow()));
                         }
 
-                        // == 제목 데이터 == //
-                        titleItemModels.add(0, new ModelTitleItem(0, response.body().getTotalElements(), "", "", 0, false, false,  0));
-                        for(int tCount = 0 ; tCount < T_ItemSize ; tCount++) {
-                            if(response.body().getContent().get(tCount).getSelect() != null){
-                                titleItemModels.add(new ModelTitleItem(1, T_ItemSize, response.body().getContent().get(tCount).getCode()
-                                        , response.body().getContent().get(tCount).getName(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(tCount).getRate()*100), 2, 2)
-                                        , response.body().getContent().get(tCount).getSelect().isZim(),response.body().getContent().get(tCount).getSelect().isDam(), 0));
-                            }else{
-                                titleItemModels.add(new ModelTitleItem(1, T_ItemSize, response.body().getContent().get(tCount).getCode()
-                                        , response.body().getContent().get(tCount).getName(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(tCount).getRate()*100), 2, 2)
-                                        , false, false, 0));
-                            }
-                        }
-                        titleItemModels.add(new ModelTitleItem(2, T_ItemSize, "", "", 0, false, false,0));
-                        // ==제목 전체 데이터 == //
-                        postTitleItemModels.add(0, new ModelPostTitleItem(0, response.body().getTotalElements(), "", "", 0, false, false, 0));
-
-                        for(int ptCount = 0 ; ptCount < response.body().getTotalElements() ; ptCount++) {
-                            if(response.body().getContent().get(ptCount).getSelect() != null){
-                                postTitleItemModels.add(new ModelPostTitleItem(1, response.body().getTotalElements(), response.body().getContent().get(ptCount).getCode()
-                                        , response.body().getContent().get(ptCount).getName(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(ptCount).getRate()*100), 2, 2)
-                                        , response.body().getContent().get(ptCount).getSelect().isZim(), response.body().getContent().get(ptCount).getSelect().isDam(), 0));
-                            }else{
-                                postTitleItemModels.add(new ModelPostTitleItem(1, response.body().getTotalElements(), response.body().getContent().get(ptCount).getCode()
-                                        , response.body().getContent().get(ptCount).getName(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(ptCount).getRate()*100), 2, 2)
-                                        , false, false, 0));
-                            }
-                        }
-
-                        searchStatus.add(0, 1);
+                        Log.e("찾은 데어터", "단일0|묶음1 : "+roomEntity2s.get(index).getType()
+                                +" | 이름  : "+roomEntity2s.get(index).getName()
+                                + " | 코드 : "+roomEntity2s.get(index).getCode()
+                                +" | 설명 : "+roomEntity2s.get(index).getDescript()
+                                +" | 팔로우 : "+roomEntity2s.get(index).getFollow()
+                                +" | 레이트 : "+roomEntity2s.get(index).getRate());
                     }
-                    else{
-                        noContent++;
-                        postTitleItemModels.add(0, new ModelPostTitleItem(201, 0, "", "", 0, false, false, 0));
-                        searchStatus.add(0, 0);
-                    }
-
-                    Filter filter = new Filter(searchText, "0");
-                    Call<ModelSearchedPageList> getTest2 = RetrofitClient.getInstance().getService().getPageList("application/json", filter, "E", 0,1,30);
-                    getTest2.enqueue(new Callback<ModelSearchedPageList>() {
-                        @Override
-                        public void onResponse(Call<ModelSearchedPageList> call, Response<ModelSearchedPageList> response) {
-                            if (response.code() == 200) {
-                                if(!response.body().isNoContent()) {
-
-                                    int D_ItemSize;
-
-                                    if(response.body().getTotalElements() >= 3) {
-                                        D_ItemSize = 3;
-                                    }else{
-                                        D_ItemSize = response.body().getTotalElements();
-                                    }
-                                    // == 내용 데이터 == //
-                                    descItemModels.add(0, new ModelDescItem(0, response.body().getTotalElements(), "", "", "", 0, false, false, 0));
-                                    for(int dCount = 0 ; dCount < D_ItemSize ; dCount++) {
-
-                                        if(response.body().getContent().get(dCount).getSelect() != null){
-                                            descItemModels.add(new ModelDescItem(1, D_ItemSize, response.body().getContent().get(dCount).getCode()
-                                                    , response.body().getContent().get(dCount).getName(), response.body().getContent().get(dCount).getDescript(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(dCount).getRate()*100), 2, 2)
-                                                    , response.body().getContent().get(dCount).getSelect().isZim(), response.body().getContent().get(dCount).getSelect().isDam(), 0));
-                                        }else{
-                                            descItemModels.add(new ModelDescItem(1, D_ItemSize, response.body().getContent().get(dCount).getCode()
-                                                    , response.body().getContent().get(dCount).getName(), response.body().getContent().get(dCount).getDescript(), DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(dCount).getRate()*100), 2, 2)
-                                                    , false, false, 0));
-                                        }
-
-                                    }
-                                    descItemModels.add(new ModelDescItem(2, D_ItemSize, "", "", "", 0, false, false, 0));
-                                    // ==내용 전체 데이터 ==//
-                                    postDescItemModels.add(0, new ModelPostDescItem(0, response.body().getTotalElements(), "", "", "", 0, false, 0));
-
-                                    for(int pdCount = 0 ; pdCount < response.body().getTotalElements() ; pdCount++){
-                                        postDescItemModels.add(new ModelPostDescItem(1, response.body().getTotalElements(), response.body().getContent().get(pdCount).getCode()
-                                                , response.body().getContent().get(pdCount).getName(), response.body().getContent().get(pdCount).getDescript()
-                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(pdCount).getRate()*100), 2, 2)
-                                                , false, 0));
-                                    }
-                                    searchStatus.add(1, 2);
-                                }else{
-                                    noContent++;
-                                    postDescItemModels.add(0, new ModelPostDescItem(202, 0, "", "", "", 0, false, 0));
-                                    searchStatus.add(1, 0);
-                                }
-
-                                Filter filter = new Filter(searchText, 0);
-                                Call<ModelSearchedPageList> getTest2 = RetrofitClient.getInstance().getService().getPageList("application/json", filter, "E", 0,1,30);
-                                getTest2.enqueue(new Callback<ModelSearchedPageList>() {
-                                    @Override
-                                    public void onResponse(Call<ModelSearchedPageList> call, Response<ModelSearchedPageList> response) {
-                                        if (response.code() == 200) {
-                                            int S_ItemSize;
-
-                                            if(!response.body().isNoContent()) {
-                                                if(response.body().getTotalElements() >= 3) {
-                                                    S_ItemSize = 3;
-                                                }else{
-                                                    S_ItemSize = response.body().getTotalElements();
-                                                }
-                                                // == 종목 데이터 == //
-                                                stockItemModels.add(0, new ModelStockItem(0, response.body().getTotalElements(), "", "", 0,0, "", false, false, 0));
-                                                for(int sCount = 0 ; sCount < S_ItemSize ; sCount++) {
-                                                    if(response.body().getContent().get(sCount).getSelect() != null){
-                                                        stockItemModels.add(new ModelStockItem(1, S_ItemSize
-                                                                , response.body().getContent().get(sCount).getCode(), response.body().getContent().get(sCount).getName()
-                                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(sCount).getRate()*100), 2, 2), 0
-                                                                , response.body().getContent().get(sCount).getPotEls().get(0).getElName()
-                                                                , response.body().getContent().get(sCount).getSelect().isZim(), response.body().getContent().get(sCount).getSelect().isDam(), 0));
-                                                    }else{
-                                                        stockItemModels.add(new ModelStockItem(1, S_ItemSize
-                                                                , response.body().getContent().get(sCount).getCode(), response.body().getContent().get(sCount).getName()
-                                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(sCount).getRate()*100), 2, 2), 0
-                                                                , response.body().getContent().get(sCount).getPotEls().get(0).getElName(), false, false, 0));
-                                                    }
-                                                }
-                                                stockItemModels.add(new ModelStockItem(2, response.body().getTotalElements(), "", "", 0, 0, "", false, false, 0));
-                                                // ==종목 전체 데이터 == //
-                                                postStockItemModels.add(0, new ModelPostStockItem(0, response.body().getTotalElements(), "", "", 0,0, "", false, false, 0));
-                                                for(int psCount = 0 ; psCount < response.body().getTotalElements() ; psCount++){
-                                                    if(response.body().getContent().get(psCount).getSelect() != null){
-                                                        postStockItemModels.add(new ModelPostStockItem(1, S_ItemSize
-                                                                , response.body().getContent().get(psCount).getCode(), response.body().getContent().get(psCount).getName()
-                                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(psCount).getRate()*100), 2, 2), 0
-                                                                , response.body().getContent().get(psCount).getPotEls().get(0).getElName(), response.body().getContent().get(psCount).getSelect().isZim(), response.body().getContent().get(psCount).getSelect().isDam(),0));
-                                                    }else{
-                                                        postStockItemModels.add(new ModelPostStockItem(1, S_ItemSize
-                                                                , response.body().getContent().get(psCount).getCode(), response.body().getContent().get(psCount).getName()
-                                                                , DecimalScale.decimalScale(String.valueOf(response.body().getContent().get(psCount).getRate()*100), 2, 2), 0
-                                                                , response.body().getContent().get(psCount).getPotEls().get(0).getElName(), false, false, 0));
-                                                    }
-                                                }
-
-                                                searchStatus.add(2, 4);
-                                            }else{
-                                                noContent++;
-                                                postStockItemModels.add(0, new ModelPostStockItem(205, 0, "", "", 0,0, "", false, false, 0));
-                                                searchStatus.add(2, 0);
-                                            }
-
-                                            bundle.putParcelableArrayList("title_list", titleItemModels);
-                                            bundle.putParcelableArrayList("desc_list", descItemModels);
-                                            bundle.putParcelableArrayList("stock_list", stockItemModels);
-                                            bundle.putParcelableArrayList("empty_list", emptyItemModels);
-                                            bundle.putParcelableArrayList("post_title_list", postTitleItemModels);
-                                            bundle.putParcelableArrayList("post_desc_list", postDescItemModels);
-                                            bundle.putParcelableArrayList("post_stock_list", postStockItemModels);
-
-                                            categoryState = 200 + searchStatus.get(0) + searchStatus.get(1) + searchStatus.get(2);
-
-                                            if(noContent >= 3) {
-                                                //포트 제목, 내용, 종목 모두 없을때 -> 검색 제안
-                                                // == 검색결과 없을때  검색 제안 데이터 == //
-                                                titleItemModels.add(new ModelTitleItem(208, 0,"","", 0, false, false, 0));
-
-                                                emptyItemModels.add(0, new ModelEmptyItem(10, 0, "", ""));
-                                                emptyItemModels.add(1, new ModelEmptyItem(12, 0, "", ""));
-                                                for(int gCount = 0 ; gCount < 3 ; gCount++) {
-                                                    emptyItemModels.add(new ModelEmptyItem(11, 0
-                                                            , response.body().getContent().get(gCount).getCode(), response.body().getContent().get(gCount).getName()));
-                                                }
-                                                bundle.putParcelableArrayList("post_stock_list", postStockItemModels);
-                                                categoryState = 208;
-                                            }
-
-                                            bundle.putInt("category_empty", categoryState);
-                                            setViewPager(viewPager);
-                                        }
-                                    }
-                                    @Override
-                                    public void onFailure(Call<ModelSearchedPageList> call, Throwable t) {
-                                        Log.e("레트로핏 실패","값 : "+t.getMessage());
-                                    }
-                                });
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ModelSearchedPageList> call, Throwable t) {
-                            Log.e("레트로핏 실패","값 : "+t.getMessage());
-                        }
-                    });
-
+                }else{
+                    Log.e("찾은 데어터", "값 : 룸에 데이터가 없습니다.");
                 }
+
+                bundle.putParcelableArrayList("title_list", modelSingleEns);
+//                setViewPager(viewPager);
+
             }
-            @Override
-            public void onFailure(Call<ModelSearchedPageList> call, Throwable t) {
-                Log.e("레트로핏 실패","값 : "+t.getMessage());
-            }
-        });
+
+        }).start();
+        return true;
     }
 
 

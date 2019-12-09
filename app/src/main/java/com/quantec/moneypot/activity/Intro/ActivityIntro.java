@@ -135,77 +135,94 @@ public class ActivityIntro extends AppCompatActivity {
 //            }
 //        });
 
-        if(NetworkStateCheck.getNetworkState(this)){
-            Toast.makeText(ActivityIntro.this, "네트워크가 연결되어 있습니다.", Toast.LENGTH_SHORT).show();
-
-            if(results.where().count() == 0){
-                InsertCommonDate();
-            }
-
-            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(ActivityIntro.this, new OnSuccessListener<InstanceIdResult>() {
-                @Override
-                public void onSuccess(InstanceIdResult instanceIdResult) {
-                    String newToken = instanceIdResult.getToken();
-
-                    fcmToken = newToken;
-                    SharedPreferenceUtil.getInstance(ActivityIntro.this).putFcmToken("fcmToken", newToken);
-                }
-            });
-
-            if(fcmToken == null || fcmToken.equals("")){
-                fcmToken = SharedPreferenceUtil.getInstance(ActivityIntro.this).getStringExtra("fcmToken");;
-            }
-
-            NextPage();
-
-        }
-        else{
-            Toast.makeText(ActivityIntro.this, "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
-        }
+//        if(NetworkStateCheck.getNetworkState(this)){
+//            Toast.makeText(ActivityIntro.this, "네트워크가 연결되어 있습니다.", Toast.LENGTH_SHORT).show();
+//
+//            if(results.where().count() == 0){
+//                InsertCommonDate();
+//            }
+//
+//            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(ActivityIntro.this, new OnSuccessListener<InstanceIdResult>() {
+//                @Override
+//                public void onSuccess(InstanceIdResult instanceIdResult) {
+//                    String newToken = instanceIdResult.getToken();
+//
+//                    fcmToken = newToken;
+//                    SharedPreferenceUtil.getInstance(ActivityIntro.this).putFcmToken("fcmToken", newToken);
+//                }
+//            });
+//
+//            if(fcmToken == null || fcmToken.equals("")){
+//                fcmToken = SharedPreferenceUtil.getInstance(ActivityIntro.this).getStringExtra("fcmToken");;
+//            }
+//
+//            NextPage();
+//
+//        }
+//        else{
+//            Toast.makeText(ActivityIntro.this, "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
+//        }
 
         // (코드,한글 종목명,영어 종목명,종목내용) -> 서치필드에서 맨 마지막 데이터가 묶음 기업의 내용이다 나머지는 단일 종목의 (코드,한글 종목명, 영어 종목명, 종목내용 ) 순이다.
 
-//        Call<ModelSearchDb> getReList = RetrofitClient.getInstance(ActivityIntro.this).getService().getStockDb();
-//        getReList.enqueue(new Callback<ModelSearchDb>() {
-//            @Override
-//            public void onResponse(Call<ModelSearchDb> call, Response<ModelSearchDb> response) {
-//                if (response.code() == 200) {
-//
-////                    for(int index = 0 ;index < response.body().getContent().getRateList().size(); index++){
-////                        Log.e("데이터", "값 : "+response.body().getContent().getRateList().get(index).getSearchField());
-//////                        for(int index2 = 0 ; index2 < response.body().getContent().getRateList().get(index).getSearchField().size(); index2++){
-//////                            Log.e("데이터", "인덱스 카테고리 : "+index+"값 : "+response.body().getContent().getRateList().get(index).getSearchField().get(index2));
-//////                        }
-////                    }
-//
-//                    searchViewModel = ViewModelProviders.of(ActivityIntro.this).get(SearchViewModel2.class);
-//                    roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
-//                    DeleteAll();
-//
-//                    for (int index = 0; index < response.body().getContent().getRateList().size(); index++) {
-//                        RoomDataInsert("",
-//                                response.body().getContent().getRateList().get(index).getType(),
-//                                response.body().getContent().getRateList().get(index).getCode(),
-//                                response.body().getContent().getRateList().get(index).getName(),
-//                                response.body().getContent().getRateList().get(index).getName(),
-//                                response.body().getContent().getRateList().get(index).getSearchField().toString(),
-//                                response.body().getContent().getRateList().get(index).getRate());
-//                        Log.e("데이터", "값 : " + response.body().getContent().getRateList().get(index).getSearchField().toString());
-//                    }
-//
-//                    try {
-//                        Thread.sleep(500);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    RoomDataInsert2();
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ModelSearchDb> call, Throwable t) {
-//                Log.e("실패","실패"+t.getMessage());
-//            }
-//        });
+        Call<ModelSearchDb> getReList = RetrofitClient.getInstance(ActivityIntro.this).getService().getStockDb();
+        getReList.enqueue(new Callback<ModelSearchDb>() {
+            @Override
+            public void onResponse(Call<ModelSearchDb> call, Response<ModelSearchDb> response) {
+                if (response.code() == 200) {
+
+                    searchViewModel = ViewModelProviders.of(ActivityIntro.this).get(SearchViewModel2.class);
+                    roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
+                    DeleteAll();
+
+                    for (int index = 0; index < response.body().getContent().getRateList().size(); index++) {
+
+                            String elCodes = "";
+                            String descript = "";
+                            int follow = 0;
+
+                            if(response.body().getContent().getRateList().get(index).getUserSelect() != null){
+                                follow = response.body().getContent().getRateList().get(index).getUserSelect().getIsFollow();
+                            }else{
+                                follow = 0;
+                            }
+
+                            if(response.body().getContent().getRateList().get(index).getElCodes() != null){
+                                elCodes = response.body().getContent().getRateList().get(index).getElCodes().toString();
+                            }else{
+                                elCodes = "";
+                            }
+
+                            if(response.body().getContent().getRateList().get(index).getSearchField() != null){
+                                descript = response.body().getContent().getRateList().get(index).getSearchField().toString();
+                            }else{
+                                descript = "";
+                            }
+
+                            RoomDataInsert("",
+                                    response.body().getContent().getRateList().get(index).getType(),
+                                    response.body().getContent().getRateList().get(index).getCode(),
+                                    response.body().getContent().getRateList().get(index).getName(),
+                                    elCodes,
+                                    descript,
+                                    response.body().getContent().getRateList().get(index).getRate(),
+                                    follow);
+                    }
+
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                            RoomDataInsert2();
+                }
+            }
+            @Override
+            public void onFailure(Call<ModelSearchDb> call, Throwable t) {
+                Log.e("실패","실패"+t.getMessage());
+            }
+        });
 
 //        RoomDataInsert2();
 //        DeleteAll();
@@ -236,11 +253,16 @@ public class ActivityIntro extends AppCompatActivity {
 //                roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
 //                RoomSelectCode = roomDao.findStock("쉑쉑버거", "SHAK", "SHAK");
 
-                roomEntity2s = roomDao.findStock("%버거킹%","%버거킹%", "%버거킹%");
+                roomEntity2s = roomDao.findStock("%버거%","%버거%", "%버거%");
 
                 if(roomEntity2s != null && roomEntity2s.size() != 0){
                     for(int index = 0; index < roomEntity2s.size(); index++){
-                        Log.e("찾은 데어터", "단일0|묶음1 : "+roomEntity2s.get(index).getType()+" | 이름  : "+roomEntity2s.get(index).getName()+ " | 코드 : "+roomEntity2s.get(index).getCode()+" | 설명 : "+roomEntity2s.get(index).getDescript());
+                        Log.e("찾은 데어터", "단일0|묶음1 : "+roomEntity2s.get(index).getType()
+                                +" | 이름  : "+roomEntity2s.get(index).getName()
+                                + " | 코드 : "+roomEntity2s.get(index).getCode()
+                                +" | 설명 : "+roomEntity2s.get(index).getDescript()
+                                +" | 팔로우 : "+roomEntity2s.get(index).getFollow()
+                                +" | 레이트 : "+roomEntity2s.get(index).getRate());
                     }
                 }else{
                     Log.e("찾은 데어터", "값 : 룸에 데이터가 없습니다.");
@@ -253,14 +275,14 @@ public class ActivityIntro extends AppCompatActivity {
     }
 
     //최근 검색어 저장 이벤트
-    void RoomDataInsert(String title, int type, String code, String name, String elStock, String descript, double rate){
+    void RoomDataInsert(String title, int type, String code, String name, String elStock, String descript, double rate, int follow){
 
         new Thread(new Runnable() {
             @Override
             public void run() {
 //                searchViewModel = ViewModelProviders.of(ActivityIntro.this).get(SearchViewModel2.class);
 //                roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
-                searchViewModel.insert2(new RoomEntity2(title, type, code, name, elStock, descript, rate));
+                searchViewModel.insert2(new RoomEntity2(title, type, code, name, elStock, descript, rate, follow));
 //                //해당 포트에 대해서 Room에 저장된 동일한 데이터가 없을때
 //                if(RoomSelectCode == null) {
 //
