@@ -41,11 +41,20 @@ public interface RoomDao {
     @Insert
     void insert2(RoomEntity2 roomEntity2);
 
+    @Update
+    void update2(RoomEntity2 roomEntity2);
+
+    @Query("UPDATE search_table SET follow = :follow WHERE code = :code")
+    void updateData(int follow, String code);
+
     @Query("DELETE FROM search_table")
     void delete2();
 
     @Query("SELECT * FROM search_table ORDER BY id DESC")
     LiveData<List<RoomEntity2>> getAllSearched();
+
+//    @Query("SELECT * FROM search_table")
+//    void findA();
 
 //    @Query("SELECT * FROM search_table WHERE name LIKE :name OR elStock LIKE :elStock OR descript LIKE :descript")
 //    RoomEntity2 findStock(String name, String elStock, String descript);

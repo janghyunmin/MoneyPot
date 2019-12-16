@@ -1,4 +1,4 @@
-package com.quantec.moneypot.activity.Main.Fragment.Tab2.fragment;
+package com.quantec.moneypot.activity.simulationsearch;
 
 public class ModelSearchItem {
 

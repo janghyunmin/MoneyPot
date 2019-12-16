@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import com.quantec.moneypot.activity.Search.SearchedPage.ModelSingleEn;
 import com.quantec.moneypot.datamodel.dmodel.ModelPostTitleItem;
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.databinding.ItemTitletabBinding;
@@ -22,6 +23,7 @@ public class AdapterTitleTab extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private final int[] EMPTY = {201, 203, 206, 208};
 
+//    ArrayList<ModelSingleEn> postTitleItemModels;
     ArrayList<ModelPostTitleItem> postTitleItemModels;
     Context context;
 

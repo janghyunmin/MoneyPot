@@ -139,16 +139,6 @@ public class ActivityCameraTest extends AppCompatActivity {
         }else if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
 
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            Log.e("들어옴","들어옴" + result.getUri());
-
-            Glide.with(this)
-                    .load(result.getUri())
-                    .placeholder(R.drawable.noname_img)
-                    .error(R.drawable.noname_img)
-//                    .circleCrop()
-                    .into(image);
-
-
 
             try {
                 imageStream = getContentResolver().openInputStream(result.getUri());
@@ -156,13 +146,13 @@ public class ActivityCameraTest extends AppCompatActivity {
                 e.printStackTrace();
             }
             final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-            String encodedImage = encodeImage(selectedImage);
-            Log.e("베이스64", "값 : "+encodedImage);
 
-            Intent intent1 = new Intent(ActivityCameraTest.this, ActivityNotiWebView.class);
+            String encodedImage = encodeImage(selectedImage);
+            Intent intent1 = new Intent();
             intent1.putExtra("base64", encodedImage);
             setResult(100,intent1);
             finish();
+
         }
     }
 
@@ -178,7 +168,7 @@ public class ActivityCameraTest extends AppCompatActivity {
     private String encodeImage(Bitmap bm)
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        bm.compress(Bitmap.CompressFormat.JPEG,50,baos);
         byte[] b = baos.toByteArray();
         String encImage = Base64.encodeToString(b, Base64.DEFAULT);
 

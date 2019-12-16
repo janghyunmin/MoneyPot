@@ -3,7 +3,7 @@ package com.quantec.moneypot.activity.Search.SearchedPage;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ModelSingleEn implements Parcelable {
+public class ModelSingleEn implements Parcelable{
 
     boolean empty;
     String title;

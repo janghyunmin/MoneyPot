@@ -150,7 +150,7 @@ public class FgTab1 extends Fragment implements View.OnClickListener {
 
                 Intent intent1 = new Intent(activityMain, ActivitySingleDetail.class);
                 startActivity(intent1);
-                Toast.makeText(activityMain, "상세페이지 이동 : " + modelAllRankingTop3s.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activityMain.getApplicationContext(), "상세페이지 이동 : " + modelAllRankingTop3s.get(position).getTitle(), Toast.LENGTH_SHORT).show();
                 Log.e("클릭","클릭");
             }
         });

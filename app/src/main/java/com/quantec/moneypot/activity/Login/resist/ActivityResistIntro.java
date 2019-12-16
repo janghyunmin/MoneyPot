@@ -83,7 +83,7 @@ public class ActivityResistIntro extends AppCompatActivity{
                          finish();
                  }
                  else{
-                     Toast.makeText(ActivityResistIntro.this, "잘못된 형식의 번호입니다.", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(getApplicationContext(), "잘못된 형식의 번호입니다.", Toast.LENGTH_SHORT).show();
                  }
             }
         });

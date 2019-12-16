@@ -25,11 +25,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.activity.Main.ActivityMain;
-import com.quantec.moneypot.activity.Main.Fragment.Tab2.fragment.ActivitySimulationSearch;
+import com.quantec.moneypot.activity.simulationsearch.ActivitySimulationSearch;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Code;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Ex;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.adapter.AdapterFgTab3;
@@ -197,7 +195,7 @@ public class FgTab3 extends Fragment {
             }
         });
 
-        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키", "NKE", 28.90, 0,false));
+        modelFgTab3Follows.add(new ModelFgTab3Follow("맥도날드", "MCD", 0.603, 0,false));
 
         modelFgTab3Follows.add(new ModelFgTab3Follow("나이키2", "NKE1", 28.90, 0,false));
         modelFgTab3Follows.add(new ModelFgTab3Follow("나이키3", "NKE2", 28.90, 0,false));
@@ -412,7 +410,32 @@ public class FgTab3 extends Fragment {
                     ex.setPeriod("one");
                     ex.setPropensity(701);
 
-                    Call<ModelPotSimul> getReList = RetrofitClient.getInstance().getService().getPotSimul("application/json", ex);
+
+                    ModelSimulCode modelSimulCode = new ModelSimulCode();
+                    modelSimulCode.setCode("");
+                    modelSimulCode.setDescript("");
+                    modelSimulCode.setName("");
+                    modelSimulCode.setPeriod("all");
+                    modelSimulCode.setPropensity(701);
+                    modelSimulCode.setRate(0);
+                    modelSimulCode.setType(0);
+
+                    Code code1 = new Code();
+                    code1.setCode("MCD");
+                    code1.setType(0);
+                    code1.setPtCode("");
+                    code1.setWeight(0.45f);
+
+                    modelSimulCode.getCodes().add(code1);
+
+                    code1.setCode("MCD");
+                    code1.setType(0);
+                    code1.setPtCode("");
+                    code1.setWeight(0.45f);
+                    modelSimulCode.getCodes().add(code1);
+
+
+                    Call<ModelPotSimul> getReList = RetrofitClient.getInstance().getService().getPotSimul("application/json", modelSimulCode);
                     getReList.enqueue(new Callback<ModelPotSimul>() {
                         @Override
                         public void onResponse(Call<ModelPotSimul> call, Response<ModelPotSimul> response) {

@@ -84,4 +84,36 @@ public class RoomEntity2 {
     public int getFollow() {
         return follow;
     }
+
+    public void setSearchTitle(String searchTitle) {
+        this.searchTitle = searchTitle;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setElStock(String elStock) {
+        this.elStock = elStock;
+    }
+
+    public void setDescript(String descript) {
+        this.descript = descript;
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
+    }
+
+    public void setFollow(int follow) {
+        this.follow = follow;
+    }
 }

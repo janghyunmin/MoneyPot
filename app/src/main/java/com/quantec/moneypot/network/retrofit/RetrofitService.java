@@ -25,6 +25,7 @@ import com.quantec.moneypot.datamodel.nmodel.ModelPrevPotContent;
 import com.quantec.moneypot.datamodel.nmodel.ModelPrevPotSave;
 import com.quantec.moneypot.datamodel.nmodel.ModelRecommendList;
 import com.quantec.moneypot.datamodel.nmodel.ModelSearchDb;
+import com.quantec.moneypot.datamodel.nmodel.ModelSearchOrder;
 import com.quantec.moneypot.datamodel.nmodel.ModelSearchedPageList;
 import com.quantec.moneypot.datamodel.nmodel.ModelZimData;
 import com.quantec.moneypot.datamodel.nmodel.ModelZimPotList;
@@ -273,5 +274,24 @@ public interface RetrofitService {
      */
     @POST("partner/sh/setAccountStatus/{type}/{account}")
     Call<Object> setAccountStatus(@Header("Content-Type") String content_type, @Path("type") int type, @Path("account") String account);
+
+
+
+    /**
+     *
+     * 검색 없을때 검색 제안 단어 불러오기
+     *
+     */
+    @GET("home/getRecommendation/{type}")
+    Call<Object> getRecommendation(@Path("type")int type);
+
+    /**
+     *
+     * 인기검색어 불러오기
+     *
+     */
+    @GET("common/getSearchOrder/{limit}")
+    Call<ModelSearchOrder> getSearchOrder(@Path("limit")int limit);
+
 
 }

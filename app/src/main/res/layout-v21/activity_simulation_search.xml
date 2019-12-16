@@ -4,35 +4,114 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.Main.Fragment.Tab2.fragment.ActivitySimulationSearch">
+    tools:context=".activity.simulationsearch.ActivitySimulationSearch">
 
 
     <com.arlib.floatingsearchview.FloatingSearchView
         android:id="@+id/floating_search_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:transitionName="searchView"
+        app:floatingSearch_close_search_on_keyboard_dismiss="true"
+        app:floatingSearch_dimBackground="false"
+        app:floatingSearch_leftActionMode="showSearch"
         app:floatingSearch_searchBarMarginLeft="24dp"
         app:floatingSearch_searchBarMarginRight="24dp"
         app:floatingSearch_searchHint="추가할 기업명이나 키워드를 검색하세요."
         app:floatingSearch_searchInputTextSize="5dp"
-        app:floatingSearch_suggestionsListAnimDuration="250"
-        app:floatingSearch_showSearchKey="false"
-        app:floatingSearch_leftActionMode="showSearch"
-        app:floatingSearch_close_search_on_keyboard_dismiss="true"
         app:floatingSearch_searchSuggestionTextSize="10dp"
-        android:transitionName="searchView"
+        app:floatingSearch_showSearchKey="false"
+        app:floatingSearch_suggestionsListAnimDuration="250"
         app:layout_constraintTop_toTopOf="parent"
-        app:floatingSearch_dimBackground="false"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="15dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/floating_search_view">
+
+        <RelativeLayout
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_gray_search_page">
+
+            <TextView
+                android:id="@+id/tab1"
+                android:layout_width="55dp"
+                android:layout_height="32dp"
+                android:background="@drawable/custom_bt"
+                android:gravity="center"
+                android:text="전체"
+                android:textColor="@color/normal_title_color"
+                android:textSize="11dp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="9dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tab1"
+                android:background="#e1e1e1" />
+
+            <TextView
+                android:id="@+id/tab2"
+                android:layout_width="65dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@+id/tab1"
+                android:gravity="center"
+                android:text="단일기업"
+                android:textColor="@color/dark_gray_color"
+                android:textSize="11dp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="9dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tab2"
+                android:background="#e1e1e1" />
+
+            <TextView
+                android:id="@+id/tab3"
+                android:layout_width="65dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@+id/tab2"
+                android:gravity="center"
+                android:text="묶음기업"
+                android:textColor="@color/dark_gray_color"
+                android:textSize="11dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/viewPagerLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/floating_search_view"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:overScrollMode="never"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout">
+
+        <com.quantec.moneypot.util.view.SwipeViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+    </LinearLayout>
+
+    <!--<androidx.recyclerview.widget.RecyclerView-->
+    <!--android:id="@+id/recyclerView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/floating_search_view"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--android:overScrollMode="never"-->
+    <!--/>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

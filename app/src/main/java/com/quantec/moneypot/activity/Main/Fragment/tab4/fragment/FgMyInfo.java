@@ -81,7 +81,6 @@ public class FgMyInfo extends Fragment implements View.OnClickListener{
 
         initializeViews();
 
-
         switchView = view.findViewById(R.id.switchView);
         email_phoneBt = view.findViewById(R.id.email_phoneBt);
         passwordBt = view.findViewById(R.id.passwordBt);

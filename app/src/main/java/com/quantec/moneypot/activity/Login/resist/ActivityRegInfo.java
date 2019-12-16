@@ -203,7 +203,7 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
             startActivity(intent);
 //            actFinish();
 
-            Toast.makeText(ActivityRegInfo.this, "바로 로그인", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "바로 로그인", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -367,7 +367,7 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
                         dialogFidoFinger.show();
 
                     }else{
-                        Toast.makeText(ActivityRegInfo.this, "지문없이 메인으로 이동" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "지문없이 메인으로 이동" , Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(ActivityRegInfo.this, ActivityMain.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -439,7 +439,7 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
             reg2 = new FIDORegistration(fidoResult2, ActivityRegInfo.this);
 
             if (regUid.length() < 1) {
-                Toast.makeText(ActivityRegInfo.this, "Please, Fill out the UserID.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Please, Fill out the UserID.", Toast.LENGTH_LONG).show();
                 return;
             }
             // FIDO
@@ -706,7 +706,7 @@ public class ActivityRegInfo extends AppCompatActivity implements View.OnClickLi
             });
         }
         else{
-            Toast.makeText(ActivityRegInfo.this, "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -120,7 +120,7 @@ public class FgAllmTab extends Fragment {
                     @Override
                     public void run() {
                         refreshLayout.finishRefreshing();
-                        Toast.makeText(activityPotMarket, "탑입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activityPotMarket.getApplicationContext(), "탑입니다.", Toast.LENGTH_SHORT).show();
                         pageNumber = 0;
                         initPotList();
                     }
@@ -134,10 +134,10 @@ public class FgAllmTab extends Fragment {
                     public void run() {
 
                         if(lastPageState){
-                            Toast.makeText(activityPotMarket, "더 이상 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activityPotMarket.getApplicationContext(), "더 이상 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
                             refreshLayout.finishLoadmore();
                         }else{
-                            Toast.makeText(activityPotMarket, "바텀입니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activityPotMarket.getApplicationContext(), "바텀입니다.", Toast.LENGTH_SHORT).show();
                             refreshLayout.finishLoadmore();
 
                             //팟 리스트 데이터 추가
@@ -264,7 +264,7 @@ public class FgAllmTab extends Fragment {
 
             @Override
             public void onFailure(Call<ModelZimData> call, Throwable t) {
-                Toast.makeText(getActivity(), "네트워크가 불안정 합니다\n 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activityPotMarket.getApplicationContext(), "네트워크가 불안정 합니다\n 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -286,7 +286,7 @@ public class FgAllmTab extends Fragment {
                     boolean zimState;
 
                     if(response.body().getContent().isEmpty()){
-                        Toast.makeText(activityPotMarket, "더 이상 값이 없습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activityPotMarket.getApplicationContext(), "더 이상 값이 없습니다.", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         for(int index = 0; index < response.body().getContent().size() ; index++){
@@ -330,7 +330,7 @@ public class FgAllmTab extends Fragment {
                     boolean zimState;
 
                     if(response.body().getContent().isEmpty()){
-                        Toast.makeText(activityPotMarket, "더 이상 값이 없습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activityPotMarket.getApplicationContext(), "더 이상 값이 없습니다.", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         for(int index = 0; index < response.body().getContent().size() ; index++){

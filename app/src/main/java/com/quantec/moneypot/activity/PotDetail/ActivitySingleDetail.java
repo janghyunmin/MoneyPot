@@ -83,7 +83,7 @@ public class ActivitySingleDetail extends AppCompatActivity {
         chip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivitySingleDetail.this, "검색으로 이동", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "검색으로 이동", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -99,7 +99,7 @@ public class ActivitySingleDetail extends AppCompatActivity {
         chip1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivitySingleDetail.this, "검색으로 이동", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "검색으로 이동", Toast.LENGTH_SHORT).show();
             }
         });
         binding.includeSingleDetail.chipGroup.addView(chip1);
@@ -114,7 +114,7 @@ public class ActivitySingleDetail extends AppCompatActivity {
         chip2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivitySingleDetail.this, "검색으로 이동", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "검색으로 이동", Toast.LENGTH_SHORT).show();
             }
         });
         binding.includeSingleDetail.chipGroup.addView(chip2);
@@ -129,7 +129,7 @@ public class ActivitySingleDetail extends AppCompatActivity {
         chip3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivitySingleDetail.this, "검색으로 이동", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "검색으로 이동", Toast.LENGTH_SHORT).show();
             }
         });
         binding.includeSingleDetail.chipGroup.addView(chip3);
@@ -144,7 +144,7 @@ public class ActivitySingleDetail extends AppCompatActivity {
         chip4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivitySingleDetail.this, "검색으로 이동", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "검색으로 이동", Toast.LENGTH_SHORT).show();
             }
         });
         binding.includeSingleDetail.chipGroup.addView(chip4);
@@ -159,7 +159,7 @@ public class ActivitySingleDetail extends AppCompatActivity {
         chip5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivitySingleDetail.this, "검색으로 이동", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "검색으로 이동", Toast.LENGTH_SHORT).show();
             }
         });
         binding.includeSingleDetail.chipGroup.addView(chip5);

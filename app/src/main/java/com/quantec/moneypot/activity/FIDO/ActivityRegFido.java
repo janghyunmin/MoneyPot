@@ -77,7 +77,7 @@ public class ActivityRegFido extends AppCompatActivity {
             finish();
 //            actFinish();
 
-            Toast.makeText(ActivityRegFido.this, "바로 로그인", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "바로 로그인", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -132,7 +132,7 @@ public class ActivityRegFido extends AppCompatActivity {
                             break;
                         case FidoResult.RESULT_USER_SELECT_REREG:
                             // 에러코드 980: 사용자가 재등록 버튼 클릭
-                            Toast.makeText(ActivityRegFido.this, "사용자가 재등록 버튼 클릭" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "사용자가 재등록 버튼 클릭" , Toast.LENGTH_SHORT).show();
                             break;
                         case FidoResult.ERROR_ALREADY_REGI_USER:
                             // 에러코드 1008: -이미 등록 된 사용자
@@ -209,7 +209,7 @@ public class ActivityRegFido extends AppCompatActivity {
                             break;
                         case FidoResult.RESULT_USER_SELECT_REREG:
                             // 에러코드 980: 사용자가 재등록 버튼 클릭
-                            Toast.makeText(ActivityRegFido.this, "사용자가 재등록 버튼 클릭" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "사용자가 재등록 버튼 클릭" , Toast.LENGTH_SHORT).show();
                             break;
                         case FidoResult.ERROR_ALREADY_REGI_USER:
                             // 에러코드 1008: -이미 등록 된 사용자
@@ -246,7 +246,7 @@ public class ActivityRegFido extends AppCompatActivity {
                         dialogFidoFinger.show();
 
                     }else{
-                        Toast.makeText(ActivityRegFido.this, "지문없이 메인으로 이동" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "지문없이 메인으로 이동" , Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(ActivityRegFido.this, ActivityMain.class);
                         startActivity(intent);
@@ -312,7 +312,7 @@ public class ActivityRegFido extends AppCompatActivity {
 
             reg2 = new FIDORegistration(fidoResult2, ActivityRegFido.this);
             if (userId.length() < 1) {
-                Toast.makeText(ActivityRegFido.this, "Please, Fill out the UserID.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Please, Fill out the UserID.", Toast.LENGTH_LONG).show();
                 return;
             }
             // FIDO

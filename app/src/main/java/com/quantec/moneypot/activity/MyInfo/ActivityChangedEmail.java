@@ -111,7 +111,7 @@ public class ActivityChangedEmail extends AppCompatActivity {
 
                 matcher = Pattern.compile(regex).matcher(emailEditText.getText().toString());
                 if(!matcher.matches()){
-                    Toast.makeText(ActivityChangedEmail.this, "잘못된 형식의 이메일 입니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "잘못된 형식의 이메일 입니다.", Toast.LENGTH_SHORT).show();
                 }else{
 
                     loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityChangedEmail.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");

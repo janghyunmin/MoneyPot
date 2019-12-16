@@ -35,6 +35,15 @@ public class SearchViewModel2 extends AndroidViewModel {
         searchRepository.insert2(roomEntity);
     }
 
+//    public void update2(RoomEntity2 roomEntity) {
+//        searchRepository.update2(roomEntity);
+//    }
+    public void updateData(int follow ,String code){
+        searchRepository.updateData(follow, code);
+    }
+
+
+
     public void delete2(RoomEntity2 roomEntity){
         searchRepository.delete2(roomEntity);
     }

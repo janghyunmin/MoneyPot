@@ -94,7 +94,7 @@ public class ActivityResistAgree extends AppCompatActivity implements View.OnCli
                     intent.putExtra("passPhoneNum", phoneNum);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(ActivityResistAgree.this, "필수 약관을 동의해 주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "필수 약관을 동의해 주세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

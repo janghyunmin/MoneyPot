@@ -196,7 +196,7 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                             Intent intent2 = new Intent(ActivityAuthFidoDouble.this, ActivityRePhoneConfirm.class);
                             intent2.putExtra("passwordPage", "DoFido");
                             startActivityForResult(intent2, 200);
-                            Toast.makeText(ActivityAuthFidoDouble.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
                             break;
                         default:
                             dialogExitApp = new DialogExitApp(ActivityAuthFidoDouble.this, exitApp);
@@ -325,7 +325,7 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                             mAuth = new FIDOAuthentication(ActivityAuthFidoDouble.this, fidoCallbackResult2);
                             mAuth.startAuthentication(userId);
                             SharedPreferenceUtil.getInstance(ActivityAuthFidoDouble.this).putFingerState("fingerState", false);
-                            Toast.makeText(ActivityAuthFidoDouble.this, "지문인증 횟수가 초과되었습니다.\n      패스워드를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "지문인증 횟수가 초과되었습니다.\n      패스워드를 입력해주세요.", Toast.LENGTH_SHORT).show();
                             break;
                             // 에러코드 5000: 지문 인증 실패
                         case FidoResult.ERROR_UNKNOWN:
@@ -348,7 +348,7 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                             intent2.putExtra("passwordPage", "DoFido");
                             startActivityForResult(intent2, 200);
 
-                            Toast.makeText(ActivityAuthFidoDouble.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
                             break;
                         default:
                             dialogExitApp = new DialogExitApp(ActivityAuthFidoDouble.this, exitApp);
@@ -440,7 +440,7 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                             break;
                         case FidoResult.RESULT_USER_SELECT_REREG:
 
-                            Toast.makeText(ActivityAuthFidoDouble.this, "재등록합니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "재등록합니다", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(ActivityAuthFidoDouble.this, ActivityRePhoneConfirm.class);
                             intent.putExtra("passwordPage", "DoFido");
                             startActivityForResult(intent, 200);
@@ -451,7 +451,7 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                             intent2.putExtra("passwordPage", "DoFido");
                             startActivityForResult(intent2, 200);
 
-                            Toast.makeText(ActivityAuthFidoDouble.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
                             break;
                         default:
                             dialogExitApp = new DialogExitApp(ActivityAuthFidoDouble.this, exitApp);
@@ -550,12 +550,12 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                     }
                     @Override
                     public void onFailure(Call<ModelRegChk> call, Throwable t) {
-                        Toast.makeText(ActivityAuthFidoDouble.this, "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
                     }
                 });
 
             }else{
-                Toast.makeText(ActivityAuthFidoDouble.this, "앱을 종료합니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "앱을 종료합니다", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }

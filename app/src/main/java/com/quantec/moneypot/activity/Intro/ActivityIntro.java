@@ -48,6 +48,7 @@ import com.quantec.moneypot.database.realm.commonlist.TimeList;
 import com.quantec.moneypot.database.realm.commonlist.TypeList;
 import com.quantec.moneypot.database.realm.commonlist.WeightList;
 import com.quantec.moneypot.datamodel.nmodel.ModelSearchDb;
+import com.quantec.moneypot.datamodel.nmodel.ModelSearchOrder;
 import com.quantec.moneypot.dialog.DialogLoadingMakingPort;
 import com.quantec.moneypot.fido.PropertyManager;
 import com.quantec.moneypot.network.retrofit.RetrofitClient;
@@ -88,7 +89,6 @@ public class ActivityIntro extends AppCompatActivity {
     TimeList timeList;
     TypeList typeList;
     WeightList weightList;
-
 
     private SearchViewModel2 searchViewModel;
 
@@ -135,94 +135,94 @@ public class ActivityIntro extends AppCompatActivity {
 //            }
 //        });
 
-//        if(NetworkStateCheck.getNetworkState(this)){
-//            Toast.makeText(ActivityIntro.this, "네트워크가 연결되어 있습니다.", Toast.LENGTH_SHORT).show();
-//
-//            if(results.where().count() == 0){
-//                InsertCommonDate();
-//            }
-//
-//            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(ActivityIntro.this, new OnSuccessListener<InstanceIdResult>() {
-//                @Override
-//                public void onSuccess(InstanceIdResult instanceIdResult) {
-//                    String newToken = instanceIdResult.getToken();
-//
-//                    fcmToken = newToken;
-//                    SharedPreferenceUtil.getInstance(ActivityIntro.this).putFcmToken("fcmToken", newToken);
-//                }
-//            });
-//
-//            if(fcmToken == null || fcmToken.equals("")){
-//                fcmToken = SharedPreferenceUtil.getInstance(ActivityIntro.this).getStringExtra("fcmToken");;
-//            }
-//
-//            NextPage();
-//
-//        }
-//        else{
-//            Toast.makeText(ActivityIntro.this, "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
-//        }
+        if(NetworkStateCheck.getNetworkState(this)){
+            Toast.makeText(getApplicationContext(), "네트워크가 연결되어 있습니다.", Toast.LENGTH_SHORT).show();
 
-        // (코드,한글 종목명,영어 종목명,종목내용) -> 서치필드에서 맨 마지막 데이터가 묶음 기업의 내용이다 나머지는 단일 종목의 (코드,한글 종목명, 영어 종목명, 종목내용 ) 순이다.
+            if(results.where().count() == 0){
+                InsertCommonDate();
+            }
 
-        Call<ModelSearchDb> getReList = RetrofitClient.getInstance(ActivityIntro.this).getService().getStockDb();
-        getReList.enqueue(new Callback<ModelSearchDb>() {
-            @Override
-            public void onResponse(Call<ModelSearchDb> call, Response<ModelSearchDb> response) {
-                if (response.code() == 200) {
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(ActivityIntro.this, new OnSuccessListener<InstanceIdResult>() {
+                @Override
+                public void onSuccess(InstanceIdResult instanceIdResult) {
+                    String newToken = instanceIdResult.getToken();
 
-                    searchViewModel = ViewModelProviders.of(ActivityIntro.this).get(SearchViewModel2.class);
-                    roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
-                    DeleteAll();
-
-                    for (int index = 0; index < response.body().getContent().getRateList().size(); index++) {
-
-                            String elCodes = "";
-                            String descript = "";
-                            int follow = 0;
-
-                            if(response.body().getContent().getRateList().get(index).getUserSelect() != null){
-                                follow = response.body().getContent().getRateList().get(index).getUserSelect().getIsFollow();
-                            }else{
-                                follow = 0;
-                            }
-
-                            if(response.body().getContent().getRateList().get(index).getElCodes() != null){
-                                elCodes = response.body().getContent().getRateList().get(index).getElCodes().toString();
-                            }else{
-                                elCodes = "";
-                            }
-
-                            if(response.body().getContent().getRateList().get(index).getSearchField() != null){
-                                descript = response.body().getContent().getRateList().get(index).getSearchField().toString();
-                            }else{
-                                descript = "";
-                            }
-
-                            RoomDataInsert("",
-                                    response.body().getContent().getRateList().get(index).getType(),
-                                    response.body().getContent().getRateList().get(index).getCode(),
-                                    response.body().getContent().getRateList().get(index).getName(),
-                                    elCodes,
-                                    descript,
-                                    response.body().getContent().getRateList().get(index).getRate(),
-                                    follow);
-                    }
-
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                            RoomDataInsert2();
+                    fcmToken = newToken;
+                    SharedPreferenceUtil.getInstance(ActivityIntro.this).putFcmToken("fcmToken", newToken);
                 }
+            });
+
+            if(fcmToken == null || fcmToken.equals("")){
+                fcmToken = SharedPreferenceUtil.getInstance(ActivityIntro.this).getStringExtra("fcmToken");;
             }
-            @Override
-            public void onFailure(Call<ModelSearchDb> call, Throwable t) {
-                Log.e("실패","실패"+t.getMessage());
-            }
-        });
+
+            NextPage();
+
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
+        }
+
+//        // (코드,한글 종목명,영어 종목명,종목내용) -> 서치필드에서 맨 마지막 데이터가 묶음 기업의 내용이다 나머지는 단일 종목의 (코드,한글 종목명, 영어 종목명, 종목내용 ) 순이다.
+//
+//        Call<ModelSearchDb> getReList = RetrofitClient.getInstance(ActivityIntro.this).getService().getStockDb();
+//        getReList.enqueue(new Callback<ModelSearchDb>() {
+//            @Override
+//            public void onResponse(Call<ModelSearchDb> call, Response<ModelSearchDb> response) {
+//                if (response.code() == 200) {
+//
+//                    searchViewModel = ViewModelProviders.of(ActivityIntro.this).get(SearchViewModel2.class);
+//                    roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
+//                    DeleteAll();
+//
+//                    for (int index = 0; index < response.body().getContent().getRateList().size(); index++) {
+//
+//                            String elCodes = "";
+//                            String descript = "";
+//                            int follow = 0;
+//
+//                            if(response.body().getContent().getRateList().get(index).getUserSelect() != null){
+//                                follow = response.body().getContent().getRateList().get(index).getUserSelect().getIsFollow();
+//                            }else{
+//                                follow = 0;
+//                            }
+//
+//                            if(response.body().getContent().getRateList().get(index).getElCodes() != null){
+//                                elCodes = response.body().getContent().getRateList().get(index).getElCodes().toString();
+//                            }else{
+//                                elCodes = "";
+//                            }
+//
+//                            if(response.body().getContent().getRateList().get(index).getSearchField() != null){
+//                                descript = response.body().getContent().getRateList().get(index).getSearchField().toString();
+//                            }else{
+//                                descript = "";
+//                            }
+//
+//                            RoomDataInsert("",
+//                                    response.body().getContent().getRateList().get(index).getType(),
+//                                    response.body().getContent().getRateList().get(index).getCode(),
+//                                    response.body().getContent().getRateList().get(index).getName(),
+//                                    elCodes,
+//                                    descript,
+//                                    response.body().getContent().getRateList().get(index).getRate(),
+//                                    follow);
+//                    }
+//
+//                        try {
+//                            Thread.sleep(500);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                            RoomDataInsert2();
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ModelSearchDb> call, Throwable t) {
+//                Log.e("실패","실패"+t.getMessage());
+//            }
+//        });
 
 //        RoomDataInsert2();
 //        DeleteAll();
@@ -244,7 +244,7 @@ public class ActivityIntro extends AppCompatActivity {
 
 
     //최근 검색어 저장 이벤트
-    void RoomDataInsert2(){
+    boolean RoomDataInsert2(){
 
         new Thread(new Runnable() {
             @Override
@@ -272,6 +272,7 @@ public class ActivityIntro extends AppCompatActivity {
 //                }
             }
         }).start();
+        return true;
     }
 
     //최근 검색어 저장 이벤트
@@ -409,99 +410,167 @@ public class ActivityIntro extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ModelFlushAuth> call, Response<ModelFlushAuth> response) {
                     if(response.code() == 200) {
+
+                        // (코드,한글 종목명,영어 종목명,종목내용) -> 서치필드에서 맨 마지막 데이터가 묶음 기업의 내용이다 나머지는 단일 종목의 (코드,한글 종목명, 영어 종목명, 종목내용 ) 순이다.
+
                         SharedPreferenceUtil.getInstance(ActivityIntro.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
                         SharedPreferenceUtil.getInstance(ActivityIntro.this).putTokenA("aToken", response.headers().get("Authorization"));
 
-                        InitReqDto initReqDto = new InitReqDto(authCode, userCid, fcmToken, userId);
-                        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-                        String jsonItentifyData = gson.toJson(initReqDto).replace("\\n", "").replace(" ", "")
-                                .replace("\\", "").replace("\"{", "{").replace("}\"", "}");
-
-                        Call<ModelAppInit> getReList = RetrofitClient.getInstance().getService().getAppInitData("application/json",jsonItentifyData);
-                        getReList.enqueue(new Callback<ModelAppInit>() {
+                        Call<ModelSearchDb> getReList = RetrofitClient.getInstance(ActivityIntro.this).getService().getStockDb();
+                        getReList.enqueue(new Callback<ModelSearchDb>() {
                             @Override
-                            public void onResponse(Call<ModelAppInit> call, Response<ModelAppInit> response) {
+                            public void onResponse(Call<ModelSearchDb> call, Response<ModelSearchDb> response) {
                                 if (response.code() == 200) {
-                                    if(response.body().getStatus() == 200){
-                                        if(response.body().getContent().getActiveStep() >= 10) {
 
-                                            // FIDO PASSCODE 사용 가능 여부 체크
-                                            if(mFidoUtil.isAvailableFIDO(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE)){
+                                    searchViewModel = ViewModelProviders.of(ActivityIntro.this).get(SearchViewModel2.class);
+                                    roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
+                                    DeleteAll();
 
-                                                ModelAuthReqDto initReqDto = new ModelAuthReqDto(authCode, "",userId);
-                                                Call<ModelRegChk> getRegChkData = RetrofitClient.getInstance().getService().getRegChkData("application/json", initReqDto);
-                                                getRegChkData.enqueue(new Callback<ModelRegChk>() {
-                                                    @Override
-                                                    public void onResponse(Call<ModelRegChk> call, Response<ModelRegChk> response) {
-                                                        if(response.code() == 200) {
+                                        for (int index = 0; index < response.body().getContent().getRateList().size(); index++) {
 
-                                                            boolean finger = false;
-                                                            boolean passcode = false;
+                                                String elCodes = "";
+                                                String descript = "";
+                                                int follow = 0;
 
-                                                            for(int index = 0 ; index < response.body().getContent().size() ; index++) {
+                                                if(response.body().getContent().getRateList().get(index).getUserSelect() != null){
+                                                    follow = response.body().getContent().getRateList().get(index).getUserSelect().getIsFollow();
+                                                }else{
+                                                    follow = 0;
+                                                }
 
-                                                                if(response.body().getContent().get(index).getSite().equals("FINGER")){
-                                                                    finger = response.body().getContent().get(index).isFidoReg();
-                                                                }else if(response.body().getContent().get(index).getSite().equals("PASSCODE")){
-                                                                    passcode = response.body().getContent().get(index).isFidoReg();
+                                                if(response.body().getContent().getRateList().get(index).getElCodes() != null){
+                                                    elCodes = response.body().getContent().getRateList().get(index).getElCodes().toString();
+                                                }else{
+                                                    elCodes = "";
+                                                }
+
+                                                if(response.body().getContent().getRateList().get(index).getSearchField() != null){
+                                                    descript = response.body().getContent().getRateList().get(index).getSearchField().toString();
+                                                }else{
+                                                    descript = "";
+                                                }
+
+                                                RoomDataInsert("",
+                                                        response.body().getContent().getRateList().get(index).getType(),
+                                                        response.body().getContent().getRateList().get(index).getCode(),
+                                                        response.body().getContent().getRateList().get(index).getName(),
+                                                        elCodes,
+                                                        descript,
+                                                        response.body().getContent().getRateList().get(index).getRate(),
+                                                        follow);
+                                        }
+
+                                        try {
+                                            Thread.sleep(500);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                        if(RoomDataInsert2()){
+
+                                            InitReqDto initReqDto = new InitReqDto(authCode, userCid, fcmToken, userId);
+                                            Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+                                            String jsonItentifyData = gson.toJson(initReqDto).replace("\\n", "").replace(" ", "")
+                                                    .replace("\\", "").replace("\"{", "{").replace("}\"", "}");
+
+                                            Call<ModelAppInit> getReList = RetrofitClient.getInstance().getService().getAppInitData("application/json",jsonItentifyData);
+                                            getReList.enqueue(new Callback<ModelAppInit>() {
+                                                @Override
+                                                public void onResponse(Call<ModelAppInit> call, Response<ModelAppInit> response) {
+                                                    if (response.code() == 200) {
+                                                        if(response.body().getStatus() == 200){
+                                                            if(response.body().getContent().getActiveStep() >= 10) {
+
+                                                                // FIDO PASSCODE 사용 가능 여부 체크
+                                                                if(mFidoUtil.isAvailableFIDO(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE)){
+
+                                                                    ModelAuthReqDto initReqDto = new ModelAuthReqDto(authCode, "",userId);
+                                                                    Call<ModelRegChk> getRegChkData = RetrofitClient.getInstance().getService().getRegChkData("application/json", initReqDto);
+                                                                    getRegChkData.enqueue(new Callback<ModelRegChk>() {
+                                                                        @Override
+                                                                        public void onResponse(Call<ModelRegChk> call, Response<ModelRegChk> response) {
+                                                                            if(response.code() == 200) {
+
+                                                                                boolean finger = false;
+                                                                                boolean passcode = false;
+
+                                                                                for(int index = 0 ; index < response.body().getContent().size() ; index++) {
+
+                                                                                    if(response.body().getContent().get(index).getSite().equals("FINGER")){
+                                                                                        finger = response.body().getContent().get(index).isFidoReg();
+                                                                                    }else if(response.body().getContent().get(index).getSite().equals("PASSCODE")){
+                                                                                        passcode = response.body().getContent().get(index).isFidoReg();
+                                                                                    }
+                                                                                }
+
+                                                                                MovedFidoPage(passcode, finger);
+                                                                            }
+                                                                        }
+                                                                        @Override
+                                                                        public void onFailure(Call<ModelRegChk> call, Throwable t) {
+                                                                            Toast.makeText(getApplicationContext(), "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    });
+
+                                                                }else{
+
+                                                                    loadingCustomMakingPort = new DialogLoadingMakingPort(getApplicationContext(), "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
+                                                                    loadingCustomMakingPort.show();
+
+                                                                    Toast.makeText(getApplicationContext(), "파이도 사용 불가능 로그인 페이지 이동", Toast.LENGTH_SHORT).show();
+
+                                                                    final Intent intent1 = new Intent(ActivityIntro.this, ActivityLoginPage.class);
+                                                                    Handler mHandler = new Handler();
+                                                                    mHandler.postDelayed(new Runnable() {
+                                                                        @Override
+                                                                        public void run() {
+
+                                                                            loadingCustomMakingPort.dismiss();
+                                                                            intent1.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                                            startActivity(intent1);
+                                                                            finish();
+                                                                        }
+                                                                    }, 1300);
                                                                 }
                                                             }
+                                                            else{
 
-                                                            MovedFidoPage(passcode, finger);
+                                                                loadingCustomMakingPort = new DialogLoadingMakingPort(getApplicationContext(), "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
+                                                                loadingCustomMakingPort.show();
+
+                                                                Toast.makeText(getApplicationContext(), "액티브스텝이 10이상이 아니므로 가입페이지 이동", Toast.LENGTH_SHORT).show();
+
+                                                                Intent intent = new Intent(ActivityIntro.this, ActivityResistIntro.class);
+                                                                Handler mHandler = new Handler();
+                                                                mHandler.postDelayed(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+
+                                                                        loadingCustomMakingPort.dismiss();
+                                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                                        startActivity(intent);
+                                                                        finish();
+                                                                    }
+                                                                }, 1300);
+                                                            }
                                                         }
                                                     }
-                                                    @Override
-                                                    public void onFailure(Call<ModelRegChk> call, Throwable t) {
-                                                        Toast.makeText(ActivityIntro.this, "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-
-                                            }else{
-
-                                                loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityIntro.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
-                                                loadingCustomMakingPort.show();
-
-                                                Toast.makeText(ActivityIntro.this, "파이도 사용 불가능 로그인 페이지 이동", Toast.LENGTH_SHORT).show();
-
-                                                final Intent intent1 = new Intent(ActivityIntro.this, ActivityLoginPage.class);
-                                                Handler mHandler = new Handler();
-                                                mHandler.postDelayed(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-
-                                                        loadingCustomMakingPort.dismiss();
-                                                        intent1.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                                        startActivity(intent1);
-                                                        finish();
-                                                    }
-                                                }, 1300);
-                                            }
-                                        }
-                                        else{
-
-                                            loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityIntro.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
-                                            loadingCustomMakingPort.show();
-
-                                            Toast.makeText(ActivityIntro.this, "액티브스텝이 10이상이 아니므로 가입페이지 이동", Toast.LENGTH_SHORT).show();
-
-                                            Intent intent = new Intent(ActivityIntro.this, ActivityResistIntro.class);
-                                            Handler mHandler = new Handler();
-                                            mHandler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-
-                                                    loadingCustomMakingPort.dismiss();
-                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                                    startActivity(intent);
-                                                    finish();
                                                 }
-                                            }, 1300);
+                                                @Override
+                                                public void onFailure(Call<ModelAppInit> call, Throwable t) {
+                                                }
+                                            });
+
+
+                                        }else{
+                                            Toast.makeText(getApplicationContext(), "룸 종목 저장 네트워크 에러입니다.", Toast.LENGTH_SHORT).show();
                                         }
-                                    }
                                 }
                             }
                             @Override
-                            public void onFailure(Call<ModelAppInit> call, Throwable t) {
+                            public void onFailure(Call<ModelSearchDb> call, Throwable t) {
+                                Log.e("실패","실패"+t.getMessage());
                             }
                         });
                     }
@@ -510,9 +579,121 @@ public class ActivityIntro extends AppCompatActivity {
                 public void onFailure(Call<ModelFlushAuth> call, Throwable t) {
                 }
             });
+
+
+
+//            ModelFidoauthReqDto fidoauthReqDto = new ModelFidoauthReqDto(authCode, "PASSCODE", userId);
+//            Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+//            String data = gson.toJson(fidoauthReqDto).replace("\\n", "").replace(" ", "")
+//                    .replace("\\", "").replace("\"{", "{").replace("}\"", "}");
+//            Call<ModelFlushAuth> tt = RetrofitClient.getInstance(ActivityIntro.this).getService().getFlushAuthData("application/json", data);
+//            tt.enqueue(new Callback<ModelFlushAuth>() {
+//                @Override
+//                public void onResponse(Call<ModelFlushAuth> call, Response<ModelFlushAuth> response) {
+//                    if(response.code() == 200) {
+//                        SharedPreferenceUtil.getInstance(ActivityIntro.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
+//                        SharedPreferenceUtil.getInstance(ActivityIntro.this).putTokenA("aToken", response.headers().get("Authorization"));
+//
+//                        InitReqDto initReqDto = new InitReqDto(authCode, userCid, fcmToken, userId);
+//                        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+//                        String jsonItentifyData = gson.toJson(initReqDto).replace("\\n", "").replace(" ", "")
+//                                .replace("\\", "").replace("\"{", "{").replace("}\"", "}");
+//
+//                        Call<ModelAppInit> getReList = RetrofitClient.getInstance().getService().getAppInitData("application/json",jsonItentifyData);
+//                        getReList.enqueue(new Callback<ModelAppInit>() {
+//                            @Override
+//                            public void onResponse(Call<ModelAppInit> call, Response<ModelAppInit> response) {
+//                                if (response.code() == 200) {
+//                                    if(response.body().getStatus() == 200){
+//                                        if(response.body().getContent().getActiveStep() >= 10) {
+//
+//                                            // FIDO PASSCODE 사용 가능 여부 체크
+//                                            if(mFidoUtil.isAvailableFIDO(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE)){
+//
+//                                                ModelAuthReqDto initReqDto = new ModelAuthReqDto(authCode, "",userId);
+//                                                Call<ModelRegChk> getRegChkData = RetrofitClient.getInstance().getService().getRegChkData("application/json", initReqDto);
+//                                                getRegChkData.enqueue(new Callback<ModelRegChk>() {
+//                                                    @Override
+//                                                    public void onResponse(Call<ModelRegChk> call, Response<ModelRegChk> response) {
+//                                                        if(response.code() == 200) {
+//
+//                                                            boolean finger = false;
+//                                                            boolean passcode = false;
+//
+//                                                            for(int index = 0 ; index < response.body().getContent().size() ; index++) {
+//
+//                                                                if(response.body().getContent().get(index).getSite().equals("FINGER")){
+//                                                                    finger = response.body().getContent().get(index).isFidoReg();
+//                                                                }else if(response.body().getContent().get(index).getSite().equals("PASSCODE")){
+//                                                                    passcode = response.body().getContent().get(index).isFidoReg();
+//                                                                }
+//                                                            }
+//
+//                                                            MovedFidoPage(passcode, finger);
+//                                                        }
+//                                                    }
+//                                                    @Override
+//                                                    public void onFailure(Call<ModelRegChk> call, Throwable t) {
+//                                                        Toast.makeText(ActivityIntro.this, "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+//                                                    }
+//                                                });
+//
+//                                            }else{
+//
+//                                                loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityIntro.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
+//                                                loadingCustomMakingPort.show();
+//
+//                                                Toast.makeText(ActivityIntro.this, "파이도 사용 불가능 로그인 페이지 이동", Toast.LENGTH_SHORT).show();
+//
+//                                                final Intent intent1 = new Intent(ActivityIntro.this, ActivityLoginPage.class);
+//                                                Handler mHandler = new Handler();
+//                                                mHandler.postDelayed(new Runnable() {
+//                                                    @Override
+//                                                    public void run() {
+//
+//                                                        loadingCustomMakingPort.dismiss();
+//                                                        intent1.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                                                        startActivity(intent1);
+//                                                        finish();
+//                                                    }
+//                                                }, 1300);
+//                                            }
+//                                        }
+//                                        else{
+//
+//                                            loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityIntro.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
+//                                            loadingCustomMakingPort.show();
+//
+//                                            Toast.makeText(ActivityIntro.this, "액티브스텝이 10이상이 아니므로 가입페이지 이동", Toast.LENGTH_SHORT).show();
+//
+//                                            Intent intent = new Intent(ActivityIntro.this, ActivityResistIntro.class);
+//                                            Handler mHandler = new Handler();
+//                                            mHandler.postDelayed(new Runnable() {
+//                                                @Override
+//                                                public void run() {
+//
+//                                                    loadingCustomMakingPort.dismiss();
+//                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                                                    startActivity(intent);
+//                                                    finish();
+//                                                }
+//                                            }, 1300);
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                            @Override
+//                            public void onFailure(Call<ModelAppInit> call, Throwable t) {
+//                            }
+//                        });
+//                    }
+//                }
+//                @Override
+//                public void onFailure(Call<ModelFlushAuth> call, Throwable t) {
+//                }
+//            });
         }
     }
-
 
     public void MovedFidoPage(boolean passCode, boolean finger) {
 
@@ -521,7 +702,7 @@ public class ActivityIntro extends AppCompatActivity {
             if(mFidoUtil.isAvailableFIDO(LOCAL_AUTH_TYPE.LOCAL_FINGERPRINT_TYPE)){
                 //지문 사용 ON
                 if(fingerState){
-                    Toast.makeText(this, "지문사용 ON으로 핑거 인증으로 이동", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "지문사용 ON으로 핑거 인증으로 이동", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(ActivityIntro.this, ActivityAuthFidoDouble.class);
                     Handler mHandler = new Handler();
@@ -539,7 +720,7 @@ public class ActivityIntro extends AppCompatActivity {
                 }
                 //지문 사용 OFF
                 else{
-                    Toast.makeText(this, "지문사용 OFF로 패스코드 인증으로 이동", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "지문사용 OFF로 패스코드 인증으로 이동", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(ActivityIntro.this, ActivityAuthFidoSingle.class);
                     Handler mHandler = new Handler();
@@ -556,7 +737,7 @@ public class ActivityIntro extends AppCompatActivity {
                 }
             }
             else{
-                Toast.makeText(this, "패스코드 인증으로 이동", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "패스코드 인증으로 이동", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(ActivityIntro.this, ActivityAuthFidoSingle.class);
                 Handler mHandler = new Handler();
@@ -573,7 +754,7 @@ public class ActivityIntro extends AppCompatActivity {
             }
         }
         else if(passCode){
-            Toast.makeText(this, "패스코드 인증으로 이동", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "패스코드 인증으로 이동", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(ActivityIntro.this, ActivityAuthFidoSingle.class);
             Handler mHandler = new Handler();
@@ -602,7 +783,7 @@ public class ActivityIntro extends AppCompatActivity {
                 }
             }, 100);
 
-            Toast.makeText(this, "파이도 재등록", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "파이도 재등록", Toast.LENGTH_SHORT).show();
         }
     }
 

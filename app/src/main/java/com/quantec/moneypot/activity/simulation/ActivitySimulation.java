@@ -147,7 +147,7 @@ public class ActivitySimulation extends AppCompatActivity {
             chip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(ActivitySimulation.this, "칩 클릭 함", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "칩 클릭 함", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -168,12 +168,17 @@ public class ActivitySimulation extends AppCompatActivity {
                     ChartManager.get_Instance().getTransChartLists().get(xCount).getPrice(),
                     ChartManager.get_Instance().getTransChartLists().get(xCount).getRate()));
 
+//            entries.add(new Entry(xCount,
+//                    DecimalScale.decimalScale2(String.valueOf(ChartManager.get_Instance().getTransChartLists().get(xCount).getRate()*100), 2, 2), ChartManager.get_Instance().getTransChartLists().get(xCount).getDate()
+//
             entries.add(new Entry(xCount,
-                    DecimalScale.decimalScale2(String.valueOf(ChartManager.get_Instance().getTransChartLists().get(xCount).getRate()*100), 2, 2), ChartManager.get_Instance().getTransChartLists().get(xCount).getDate()
+                    DecimalScale.decimalScale2(String.valueOf(ChartManager.get_Instance().getTransChartLists().get(xCount).getRate()), 2, 2), ChartManager.get_Instance().getTransChartLists().get(xCount).getDate()
+
             ));
         }
 
-        chartExp = DecimalScale.decimalScale2(String.valueOf(date.get(date.size()-1).getRate()*100), 2, 2);
+//        chartExp = DecimalScale.decimalScale2(String.valueOf(date.get(date.size()-1).getRate()*100), 2, 2);
+        chartExp = DecimalScale.decimalScale2(String.valueOf(date.get(date.size()-1).getRate()), 2, 2);
 
         //최근 날짜 받음 -> 몇개월뒤 날짜 계산을 위해서
         nowDate = date.get(date.size()-1).getDate();
@@ -216,11 +221,14 @@ public class ActivitySimulation extends AppCompatActivity {
             }
         }
         for(int index = 0 ; index < resultDate.size() ; index++){
-            monThEntries.add(new Entry(index, DecimalScale.decimalScale2(String.valueOf(resultDate.get(index).getExp()*100), 2, 2),
+//            monThEntries.add(new Entry(index, DecimalScale.decimalScale2(String.valueOf(resultDate.get(index).getExp()*100), 2, 2),
+//                    resultDate.get(index).getDate()));
+            monThEntries.add(new Entry(index, DecimalScale.decimalScale2(String.valueOf(resultDate.get(index).getExp()), 2, 2),
                     resultDate.get(index).getDate()));
         }
 
-        chartExp = DecimalScale.decimalScale2(String.valueOf(resultDate.get(resultDate.size()-1).getExp()*100), 2, 2);
+//        chartExp = DecimalScale.decimalScale2(String.valueOf(resultDate.get(resultDate.size()-1).getExp()*100), 2, 2);
+        chartExp = DecimalScale.decimalScale2(String.valueOf(resultDate.get(resultDate.size()-1).getExp()), 2, 2);
     }
 
 

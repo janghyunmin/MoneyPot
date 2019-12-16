@@ -75,7 +75,7 @@ public class AdapterAllRankingTop3 extends RecyclerView.Adapter<RecyclerView.Vie
             RxView.clicks(((AllRankingTop3ViewHolder)holder).itemLayout).throttleFirst(500, TimeUnit.MILLISECONDS).subscribe(empty -> {
                 Intent intent1 = new Intent(context, ActivitySingleDetail.class);
                 context.startActivity(intent1);
-                Toast.makeText(context, "상세페이지 이동 : " + modelAllRankingTop3s.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context.getApplicationContext(), "상세페이지 이동 : " + modelAllRankingTop3s.get(position).getTitle(), Toast.LENGTH_SHORT).show();
                 Log.e("클릭","클릭");
             });
 

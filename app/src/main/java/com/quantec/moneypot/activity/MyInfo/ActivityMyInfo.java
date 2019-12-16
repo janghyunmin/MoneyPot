@@ -165,7 +165,7 @@ public class ActivityMyInfo extends AppCompatActivity implements View.OnClickLis
                             }
                             else{
                                 SharedPreferenceUtil.getInstance(ActivityMyInfo.this).putFingerState("fingerState", false);
-                                Toast.makeText(ActivityMyInfo.this, "지문 미사용", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "지문 미사용", Toast.LENGTH_SHORT).show();
                             }
 
                         }
@@ -448,7 +448,7 @@ public class ActivityMyInfo extends AppCompatActivity implements View.OnClickLis
                                                 reg2 = new FIDORegistration(fidoResult2, ActivityMyInfo.this);
 
                                                 if (userId.length() < 1) {
-                                                    Toast.makeText(ActivityMyInfo.this, "Please, Fill out the UserID.", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "Please, Fill out the UserID.", Toast.LENGTH_LONG).show();
                                                     return;
                                                 }
                                                 // FIDO
@@ -577,7 +577,7 @@ public class ActivityMyInfo extends AppCompatActivity implements View.OnClickLis
                         case FidoResult.ERROR_MAX_LOCK_COUNT_OVER:
 
                             finish();
-                            Toast.makeText(ActivityMyInfo.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
                             break;
                         default:
                     }
@@ -593,7 +593,7 @@ public class ActivityMyInfo extends AppCompatActivity implements View.OnClickLis
             if(requestCode == FIDORequestCode.REQUEST_LOCAL_CHANGE_VALUE){
                 if(fidoResult.getErrorCode() == FidoResult.RESULT_SUCCESS){
 
-                    Toast.makeText(ActivityMyInfo.this, "등록 성공", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "등록 성공", Toast.LENGTH_SHORT).show();
                     loadingCustomMakingPort.dismiss();
                 }
                 else{
@@ -601,7 +601,7 @@ public class ActivityMyInfo extends AppCompatActivity implements View.OnClickLis
                     switch(fidoResult.getErrorCode()){
                         case FidoResult.RESULT_USER_CANCEL:
 
-                            Toast.makeText(ActivityMyInfo.this, "등록 취소", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "등록 취소", Toast.LENGTH_SHORT).show();
                             loadingCustomMakingPort.dismiss();
 
                             break;
@@ -640,7 +640,7 @@ public class ActivityMyInfo extends AppCompatActivity implements View.OnClickLis
                         case FidoResult.ERROR_MAX_LOCK_COUNT_OVER:
                             finish();
 
-                            Toast.makeText(ActivityMyInfo.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
                             break;
                         default:
                     }

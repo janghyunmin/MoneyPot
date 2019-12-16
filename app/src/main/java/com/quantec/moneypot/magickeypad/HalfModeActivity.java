@@ -62,7 +62,7 @@ public class HalfModeActivity extends AppCompatActivity implements View.OnClickL
 //            magicVKeypadView.setNoScreenShot();
             if(useE2E) setPublickeyForE2E();
         } else {
-            Toast.makeText(this, "라이선스 검증 실패로 인한 사용 불가", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "라이선스 검증 실패로 인한 사용 불가", Toast.LENGTH_SHORT).show();
             finish();
         }
     }

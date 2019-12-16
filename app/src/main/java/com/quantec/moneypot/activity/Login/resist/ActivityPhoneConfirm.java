@@ -290,30 +290,30 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
 
                 if (binding.myinfoNameEditText.getText().toString().isEmpty()) {
                     requestFocus2(binding.myinfoNameEditText);
-                    Toast.makeText(ActivityPhoneConfirm.this, "이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
                 } else {
 
                     if(binding.myinfoCertifyNumberEditText.getText().toString().isEmpty()){
                         requestFocus2(binding.myinfoCertifyNumberEditText);
-                        Toast.makeText(ActivityPhoneConfirm.this, "주민 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "주민 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
                     }else{
 
 
                         if(binding.myinfoCertifyNumberEditText.getText().length() < 6){
                             requestFocus2(binding.myinfoCertifyNumberEditText);
-                            Toast.makeText(ActivityPhoneConfirm.this, "생년월일을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "생년월일을 입력해주세요.", Toast.LENGTH_SHORT).show();
                         }else{
 
                             if(binding.myinfoCertifyNumberEditText2.getText().toString().isEmpty()){
                                 requestFocus2(binding.myinfoCertifyNumberEditText2);
-                                Toast.makeText(ActivityPhoneConfirm.this, "주민 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "주민 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
                             }else{
 
                                 if (validateDay(binding.myinfoCertifyNumberEditText2.getText().toString(), binding.myinfoCertifyNumberEditText.getText().toString())) {
 
                                     if(binding.myinfoPhoneNumberEditText.getText().toString().isEmpty()){
                                         requestFocus2(binding.myinfoPhoneNumberEditText);
-                                        Toast.makeText(ActivityPhoneConfirm.this, "전화 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "전화 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
                                     }else{
 
                                         if(agencyNumber.equals("00")){
@@ -323,7 +323,7 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
                                             imm.hideSoftInputFromWindow(binding.myinfoPhoneNumberEditText.getWindowToken(), 0);
 
                                             requestFocus2(binding.myinfoNameEditText);
-                                            Toast.makeText(ActivityPhoneConfirm.this, "통신사를 선택해 주세요.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "통신사를 선택해 주세요.", Toast.LENGTH_SHORT).show();
                                         }else{
 
                                             if(NetworkStateCheck.getNetworkState(this)){
@@ -368,11 +368,11 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
                                                                 }
                                                                 else if(response.body().getContent().getCode().equals("0011")){
                                                                     requestFocus2(binding.myinfoCertifyNumberEditText);
-                                                                    Toast.makeText(ActivityPhoneConfirm.this, "본인인증을 위한 성명/생년월일/휴대폰 번호를 다시 입력해주세요", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(getApplicationContext(), "본인인증을 위한 성명/생년월일/휴대폰 번호를 다시 입력해주세요", Toast.LENGTH_SHORT).show();
                                                                     closedCertNum();
                                                                 }
                                                                 else{
-                                                                    Toast.makeText(ActivityPhoneConfirm.this, "네트워크가 불안정 합니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(getApplicationContext(), "네트워크가 불안정 합니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             }
                                                         }
@@ -385,7 +385,7 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
 
                                             }
                                             else{
-                                                Toast.makeText(ActivityPhoneConfirm.this, "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
                                             }
 
                                         }
@@ -393,7 +393,7 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
                                 }
                                 else {
                                     requestFocus2(binding.myinfoCertifyNumberEditText);
-                                    Toast.makeText(ActivityPhoneConfirm.this, "생년월일 정보가 올바르지 않습니다.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "생년월일 정보가 올바르지 않습니다.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -404,7 +404,7 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
             ///0:설치, 1:가입시작, 10:가입완료, 20:간편인증 등록완료, 99 해지
             case R.id.nextBt:
                 if(binding.myinfoConfirmNumberEditText.getText().toString().isEmpty() || binding.myinfoConfirmNumberEditText.getText().length() < 6){
-                    Toast.makeText(ActivityPhoneConfirm.this, "인증번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "인증번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else{
 
@@ -468,7 +468,7 @@ public class ActivityPhoneConfirm extends AppCompatActivity implements View.OnCl
                         });
                     }
                     else{
-                        Toast.makeText(ActivityPhoneConfirm.this, "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
                     }
 
                 }

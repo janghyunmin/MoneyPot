@@ -47,7 +47,7 @@ public class ActivityNotice extends AppCompatActivity {
         adapterNotice.setNoticeItemClcick(new AdapterNotice.NoticeItemClcick() {
             @Override
             public void onClick(int position) {
-                Toast.makeText(ActivityNotice.this, modelNoticeLists.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), modelNoticeLists.get(position).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
 

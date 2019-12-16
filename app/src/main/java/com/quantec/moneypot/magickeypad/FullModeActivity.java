@@ -63,7 +63,7 @@ public class FullModeActivity extends AppCompatActivity implements View.OnClickL
             if(useE2E) setPublickeyForE2E();
         }
         else {
-            Toast.makeText(mContext, "라이선스 검증 실패로 인한 사용 불가", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "라이선스 검증 실패로 인한 사용 불가", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
@@ -143,7 +143,7 @@ public class FullModeActivity extends AppCompatActivity implements View.OnClickL
                     if(useE2E == false){
                         // 암호화 된 값 복호화
                         byte[] decData = magicVKeypad.decryptData(encData);
-                        Toast.makeText(mContext , "복호화 된 데이터 : " + new String(decData) , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext() , "복호화 된 데이터 : " + new String(decData) , Toast.LENGTH_SHORT).show();
                     }
                 } else
                     insertNum.setText("");
@@ -160,7 +160,7 @@ public class FullModeActivity extends AppCompatActivity implements View.OnClickL
                     if(useE2E == false){
                         // 암호화 된 값 복호화
                         byte[] decData = magicVKeypad.decryptData(encData);
-                        Toast.makeText(mContext , "복호화 된 데이터 : " + new String(decData) , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext() , "복호화 된 데이터 : " + new String(decData) , Toast.LENGTH_SHORT).show();
                     }
                 }
             }

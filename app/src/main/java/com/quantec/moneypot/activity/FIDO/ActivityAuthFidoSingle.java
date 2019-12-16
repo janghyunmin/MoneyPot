@@ -143,7 +143,7 @@ public class ActivityAuthFidoSingle extends AppCompatActivity {
                     // 실패 사유
                     switch (fidoResult.getErrorCode()) {
                         case FidoResult.RESULT_USER_CANCEL:
-                            Toast.makeText(ActivityAuthFidoSingle.this, "앱을 종료합니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "앱을 종료합니다", Toast.LENGTH_SHORT).show();
 //                            finish();
                             break;
                         // 에러코드 999: 사용자 취소
@@ -184,7 +184,7 @@ public class ActivityAuthFidoSingle extends AppCompatActivity {
                             break;
                         case FidoResult.RESULT_USER_SELECT_REREG:
                             // 에러코드 980: 사용자가 재등록 버튼 클릭
-                            Toast.makeText(ActivityAuthFidoSingle.this, "사용자가 재등록 버튼 클릭" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "사용자가 재등록 버튼 클릭" , Toast.LENGTH_SHORT).show();
                             break;
                         case FidoResult.ERROR_ALREADY_REGI_USER:
                             dialogExitApp = new DialogExitApp(ActivityAuthFidoSingle.this, exitApp);
@@ -262,24 +262,24 @@ public class ActivityAuthFidoSingle extends AppCompatActivity {
                     switch(fidoResult.getErrorCode()){
 
                         case FidoResult.RESULT_USER_CANCEL:
-                            Toast.makeText(ActivityAuthFidoSingle.this, "접속에 실패하였습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "접속에 실패하였습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
                             finish();
                             break;
                         case FidoResult.RESULT_USER_SELECT_REREG:
                             Intent intent = new Intent(ActivityAuthFidoSingle.this, ActivityRePhoneConfirm.class);
                             intent.putExtra("passwordPage", "DoFido");
                             startActivityForResult(intent, 200);
-                            Toast.makeText(ActivityAuthFidoSingle.this, "재등록합니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "재등록합니다", Toast.LENGTH_SHORT).show();
                             break;
                         case FidoResult.ERROR_MAX_LOCK_COUNT_OVER:
                             Intent intent2 = new Intent(ActivityAuthFidoSingle.this, ActivityRePhoneConfirm.class);
                             intent2.putExtra("passwordPage", "DoFido");
                             startActivityForResult(intent2, 200);
 
-                            Toast.makeText(ActivityAuthFidoSingle.this, "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "초과하였습니다  재등록합니다", Toast.LENGTH_SHORT).show();
                             break;
                         default:
-                            Toast.makeText(ActivityAuthFidoSingle.this, "접속에 실패하였습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "접속에 실패하였습니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
                             finish();
                     }
                 }
@@ -385,12 +385,12 @@ public class ActivityAuthFidoSingle extends AppCompatActivity {
                     }
                     @Override
                     public void onFailure(Call<ModelRegChk> call, Throwable t) {
-                        Toast.makeText(ActivityAuthFidoSingle.this, "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
                     }
                 });
 
             }else{
-                Toast.makeText(ActivityAuthFidoSingle.this, "앱을 종료합니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "앱을 종료합니다", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }

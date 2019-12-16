@@ -89,7 +89,7 @@ public class ActivityLoginPage extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(textPw.getText().toString().isEmpty()){
-                    Toast.makeText(ActivityLoginPage.this, "계정 정보가 없습니다.\n다시 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "계정 정보가 없습니다.\n다시 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else{
 
@@ -125,7 +125,7 @@ public class ActivityLoginPage extends AppCompatActivity {
                                             }
                                         }, 100);
 
-                                        Toast.makeText(ActivityLoginPage.this, "파이도 재등록", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "파이도 재등록", Toast.LENGTH_SHORT).show();
                                     }
                                     else{
                                         nextMainPage();
@@ -133,7 +133,7 @@ public class ActivityLoginPage extends AppCompatActivity {
                                 }
                             }
                             else {
-                                Toast.makeText(ActivityLoginPage.this, "로그인 정보를 잘못 기입하셨습니다.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "로그인 정보를 잘못 기입하셨습니다.", Toast.LENGTH_SHORT).show();
                             }
                         }
                         @Override

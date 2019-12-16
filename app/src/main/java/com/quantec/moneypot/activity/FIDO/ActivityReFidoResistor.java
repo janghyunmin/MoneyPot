@@ -246,7 +246,7 @@ public class ActivityReFidoResistor extends AppCompatActivity {
                                     dialogFidoFinger.show();
 
                                 }else{
-                                    Toast.makeText(ActivityReFidoResistor.this, "지문없이 메인으로 이동" , Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "지문없이 메인으로 이동" , Toast.LENGTH_SHORT).show();
 
                                     Intent intent = new Intent(ActivityReFidoResistor.this, ActivityMain.class);
                                     startActivity(intent);
@@ -335,7 +335,7 @@ public class ActivityReFidoResistor extends AppCompatActivity {
             reg2 = new FIDORegistration(fidoResult2, ActivityReFidoResistor.this);
 
             if (userId.length() < 1) {
-                Toast.makeText(ActivityReFidoResistor.this, "Please, Fill out the UserID.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Please, Fill out the UserID.", Toast.LENGTH_LONG).show();
                 return;
             }
             // FIDO

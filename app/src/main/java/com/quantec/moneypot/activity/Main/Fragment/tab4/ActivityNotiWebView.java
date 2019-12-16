@@ -9,14 +9,19 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.GeolocationPermissions;
+import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -29,6 +34,7 @@ import android.widget.Toast;
 
 import com.quantec.moneypot.R;
 
+import java.io.ByteArrayOutputStream;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,16 +57,25 @@ public class ActivityNotiWebView extends AppCompatActivity {
         webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setDomStorageEnabled(true);
 
-        webView.loadUrl("https://mdev3.shinhaninvest.com/moneypot/account/new-account01.jsp?token=ldb");
-//        webView.setWebViewClient(new MyWebViewClient());
-
-//        webView.addJavascriptInterface();
-
+        webView.loadUrl("https://mdev3.shinhaninvest.com/moneypot/account/new-account.jsp?token=ldb");
         webView.setWebChromeClient(new WebChromeClient(){
 
-        });
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
 
+                Log.e("리턴받은값","값 : "+message+" | 리절트 : "+result);
+
+                return super.onJsAlert(view, url, message, result);
+            }
+
+            @Override
+            public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
+                Log.e("받음리턴","값");
+                return super.onJsConfirm(view, url, message, result);
+            }
+        });
         webView.setWebViewClient(new WebViewClient(){
+
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -74,7 +89,6 @@ public class ActivityNotiWebView extends AppCompatActivity {
                 Intent marketIntent = new Intent(Intent.ACTION_VIEW);
                 marketIntent.setData(Uri.parse(url));
                 startActivityForResult(marketIntent, 100);
-//                startActivity(marketIntent);
 
                 return true;
             }
@@ -86,8 +100,28 @@ public class ActivityNotiWebView extends AppCompatActivity {
                 super.onReceivedError(view, request, error);
                 Log.e("에러","값 : "+request.getUrl() + " || "+error.getDescription());
             }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                Log.e("온페이지 스타트", "값 :"+url);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                Log.e("온페이지 피니쉬", "값 :"+url);
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                Log.e("받은 에러", "값 : "+errorResponse.getEncoding());
+            }
         });
-    }
+
+
+    }//onCreate 끝
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -95,10 +129,9 @@ public class ActivityNotiWebView extends AppCompatActivity {
 
         if(requestCode == 100){
             if(resultCode == 100){
-                Log.e("받은 값", "베이스 64 : "+data.getStringExtra("base64"));
+                webView.loadUrl("javascript:processImageByApp('"+data.getStringExtra("base64")+"');");
             }
         }
-
     }
 
     @Override
@@ -111,6 +144,18 @@ public class ActivityNotiWebView extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @JavascriptInterface
+    public void androidLogWrite(final String log){
+        Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("로그받음", "값 : "+log);
+            }
+        });
+    }
+
 }
 
 

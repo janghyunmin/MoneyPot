@@ -124,7 +124,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 					break;
 
 						case FidoResult.ERROR_MAX_LOCK_COUNT_OVER:
-							Toast.makeText(AuthenticationActivity.this, "초과하였습니다", Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), "초과하였습니다", Toast.LENGTH_SHORT).show();
 							break;
 					default:
 //						showDialog("FAIL", fidoResult.getDescription() + "(" +  fidoResult.getErrorCode() + ")");

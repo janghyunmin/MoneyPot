@@ -254,7 +254,7 @@ public class AdapterFgAllmTab extends RecyclerView.Adapter<RecyclerView.ViewHold
             convertView.findViewById(R.id.image).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "배너 클릭 : "+modelFgAllmTab3Banners.get(listPosition).getTitle(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context.getApplicationContext(), "배너 클릭 : "+modelFgAllmTab3Banners.get(listPosition).getTitle(), Toast.LENGTH_SHORT).show();
 
 //                    Intent intent = new Intent(context, ActivityMyInfo.class);
 //                    context.startActivity(intent);

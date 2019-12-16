@@ -140,7 +140,7 @@ public class FgTab2 extends Fragment {
                     @Override
                     public void run() {
                         refreshLayout.finishRefreshing();
-                        Toast.makeText(activityMain, "탑입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activityMain.getApplicationContext(), "탑입니다.", Toast.LENGTH_SHORT).show();
                         initZimPotList();
                     }
                 },2000);
@@ -150,7 +150,7 @@ public class FgTab2 extends Fragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(activityMain, "바텀입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activityMain.getApplicationContext(), "바텀입니다.", Toast.LENGTH_SHORT).show();
                         refreshLayout.finishLoadmore();
                     }
                 },2000);

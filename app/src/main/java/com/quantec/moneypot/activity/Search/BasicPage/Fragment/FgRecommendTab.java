@@ -58,27 +58,27 @@ public class FgRecommendTab extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Filter filter = new Filter();
-        Call<ModelRecommendList> getReList = RetrofitClient.getInstance().getService().getSearchRecomList("application/json", filter, "H", 0,1,10);
-        getReList.enqueue(new Callback<ModelRecommendList>() {
-            @Override
-            public void onResponse(Call<ModelRecommendList> call, Response<ModelRecommendList> response) {
-                if (response.code() == 200) {
-                    for(int a= 0 ; a < response.body().getTotalElements() ; a++) {
-                        modelRecommendPorts.add(new ModelRecommendPort(response.body().getContent().get(a).getName(),response.body().getContent().get(a).getCode()));
-                    }
-                    if(modelRecommendPorts.size() == 0) {
-                        binding.title.setVisibility(View.GONE);
-                    }else{
-                        binding.title.setVisibility(View.VISIBLE);
-                    }
-                    adapterRecommendPortTab.notifyDataSetChanged();
-                }
-            }
-            @Override
-            public void onFailure(Call<ModelRecommendList> call, Throwable t) {
-            }
-        });
+//        Filter filter = new Filter();
+//        Call<ModelRecommendList> getReList = RetrofitClient.getInstance().getService().getSearchRecomList("application/json", filter, "H", 0,1,10);
+//        getReList.enqueue(new Callback<ModelRecommendList>() {
+//            @Override
+//            public void onResponse(Call<ModelRecommendList> call, Response<ModelRecommendList> response) {
+//                if (response.code() == 200) {
+//                    for(int a= 0 ; a < response.body().getTotalElements() ; a++) {
+//                        modelRecommendPorts.add(new ModelRecommendPort(response.body().getContent().get(a).getName(),response.body().getContent().get(a).getCode()));
+//                    }
+//                    if(modelRecommendPorts.size() == 0) {
+//                        binding.title.setVisibility(View.GONE);
+//                    }else{
+//                        binding.title.setVisibility(View.VISIBLE);
+//                    }
+//                    adapterRecommendPortTab.notifyDataSetChanged();
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ModelRecommendList> call, Throwable t) {
+//            }
+//        });
 
         adapterRecommendPortTab.setPortItemClick(new AdapterRecommendTab.PortItemClick() {
             @Override

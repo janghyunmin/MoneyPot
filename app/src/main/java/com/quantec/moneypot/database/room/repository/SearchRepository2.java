@@ -51,6 +51,16 @@ public class SearchRepository2 {
         new insertAsyncTask(roomDao).execute(roomEntity);
     }
 
+//    //search를 업데이트 하는 함수
+//    public void update2(RoomEntity2 roomEntity2){
+//        new UpdateAsyncTask(roomDao).execute(roomEntity2);
+//    }
+
+    //search를 업데이트 하는 함수
+    public void updateData(int follow, String code){
+        roomDao.updateData(follow, code);
+    }
+
     //search를 삭제하는 함수
     public void delete2(RoomEntity2 roomEntity) {
         new DeleteAsyncTask(roomDao).execute(roomEntity);
@@ -72,6 +82,18 @@ public class SearchRepository2 {
             return null;
         }
     }
+//    private static class UpdateAsyncTask extends AsyncTask<RoomEntity2, Void, Void> {
+//        private RoomDao mAsyncTaskDao;
+//        public UpdateAsyncTask(RoomDao roomDao) {
+//            mAsyncTaskDao = roomDao;
+//        }
+//        @Override
+//        protected Void doInBackground(RoomEntity2... roomEntity2s) {
+////            mAsyncTaskDao.update2(roomEntity2s[0]);
+//            mAsyncTaskDao.update2(0,"");
+//            return null;
+//        }
+//    }
     private static class DeleteAsyncTask extends AsyncTask<RoomEntity2, Void, Void> {
         private RoomDao mAsyncTaskDao;
         public DeleteAsyncTask(RoomDao roomDao) {

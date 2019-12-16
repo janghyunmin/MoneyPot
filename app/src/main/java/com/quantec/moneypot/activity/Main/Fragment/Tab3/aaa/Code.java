@@ -17,7 +17,7 @@ public class Code {
     private Integer type;
     @SerializedName("weight")
     @Expose
-    private Integer weight;
+    private float weight;
 
     public String getCode() {
         return code;
@@ -43,12 +43,11 @@ public class Code {
         this.type = type;
     }
 
-    public Integer getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
-
 }

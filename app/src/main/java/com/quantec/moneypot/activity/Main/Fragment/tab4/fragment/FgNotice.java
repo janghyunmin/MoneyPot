@@ -87,8 +87,8 @@ public class FgNotice extends Fragment {
             @Override
             public void onClick(int position) {
                 Toast.makeText(activityMain, "이동합니다.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(activityMain, ActivityNotiWebView.class);
-                startActivity(intent);
+//                Intent intent = new Intent(activityMain, ActivityNotiWebView.class);
+//                startActivity(intent);
             }
         });
 
