@@ -117,7 +117,6 @@ public class AdapterAllTabSingleEn extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                 }
             });
-
         }
     }
 

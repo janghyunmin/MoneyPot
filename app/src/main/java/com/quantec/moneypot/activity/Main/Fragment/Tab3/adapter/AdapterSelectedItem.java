@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelSelectItem;
+import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class AdapterSelectedItem extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -88,6 +90,12 @@ public class AdapterSelectedItem extends RecyclerView.Adapter<RecyclerView.ViewH
                     if(selectedDeleteClick != null){
                         selectedDeleteClick.onclick(position);
                     }
+                }
+            });
+
+            RxView.clicks(((SelectedItemViewHolder)holder).deleteBt).throttleFirst(600, TimeUnit.MILLISECONDS).subscribe(empty -> {
+                if(selectedDeleteClick != null){
+                    selectedDeleteClick.onclick(position);
                 }
             });
         }

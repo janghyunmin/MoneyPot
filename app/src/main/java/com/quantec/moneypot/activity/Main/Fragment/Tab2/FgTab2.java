@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +37,18 @@ import com.quantec.moneypot.R;
 import com.quantec.moneypot.databinding.FgTab2Binding;
 
 import com.quantec.moneypot.datamodel.dmodel.ModelFgAllPage;
+import com.quantec.moneypot.datamodel.nmodel.ModelUserFollow;
 import com.quantec.moneypot.dialog.DialogBasketFilter;
+import com.quantec.moneypot.network.retrofit.RetrofitClient;
 import com.quantec.moneypot.util.DecimalScale.DecimalScale;
 import com.quantec.moneypot.util.view.refresh.Footer.LoadingView;
 import com.quantec.moneypot.util.view.refresh.RefreshListenerAdapter;
 import com.quantec.moneypot.util.view.refresh.TwinklingRefreshLayout;
 import com.quantec.moneypot.util.view.refresh.header.SinaRefreshView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FgTab2 extends Fragment {
 
@@ -162,11 +169,11 @@ public class FgTab2 extends Fragment {
             @Override
             public void onClick(int position) {
 
-                if(myData.get(position).isZim()){
-//                    setZimPot(myData.get(position).getCode(), false, "del", position);
-                }else{
-//                    setZimPot(myData.get(position).getCode(), true, "add", position);
-                }
+//                if(myData.get(position).isZim()){
+////                    setZimPot(myData.get(position).getCode(), false, "del", position);
+//                }else{
+////                    setZimPot(myData.get(position).getCode(), true, "add", position);
+//                }
             }
         });
 
@@ -191,8 +198,33 @@ public class FgTab2 extends Fragment {
             }
         });
 
-    }//onViewCreate 끝
+        Call<ModelUserFollow> getReList = RetrofitClient.getInstance().getService().getUserSelect("application/json", 0);
+        getReList.enqueue(new Callback<ModelUserFollow>() {
+            @Override
+            public void onResponse(Call<ModelUserFollow> call, Response<ModelUserFollow> response) {
+                if (response.code() == 200) {
+                    if(response.body().getStatus() == 200){
+                        for(int index = 0 ; index < response.body().getContent().size(); index++){
 
+                            myData.add(new ModelFgAllPage(false,
+                                    response.body().getContent().get(index).getType(),
+                                    response.body().getContent().get(index).getName(),
+                                    response.body().getContent().get(index).getCode(),
+                                    response.body().getContent().get(index).getRate(),
+                                    response.body().getContent().get(index).getUserSelect().getIsFollow(),
+                                    "전체"));
+                        }
+                        myAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ModelUserFollow> call, Throwable t) {
+                Log.e("실패","실패"+t.getMessage());
+            }
+        });
+
+    }//onViewCreate 끝
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -205,11 +237,10 @@ public class FgTab2 extends Fragment {
         }
     }
 
-
     private View.OnClickListener selectedAppBt = new View.OnClickListener() {
         public void onClick(View v) {
 
-            myData.get(0).setFilterText("전체");
+            myData.get(0).setFilterTitle("전체");
             myAdapter.notifyItemChanged(0);
             filterNumber = "01";
             dialogBasketFilter.dismiss();
@@ -219,7 +250,7 @@ public class FgTab2 extends Fragment {
     private View.OnClickListener selectedAccountBt = new View.OnClickListener() {
         public void onClick(View v) {
 
-            myData.get(0).setFilterText("단일 기업 순");
+            myData.get(0).setFilterTitle("단일 기업 순");
             myAdapter.notifyItemChanged(0);
             filterNumber = "02";
             dialogBasketFilter.dismiss();
@@ -229,7 +260,7 @@ public class FgTab2 extends Fragment {
     private View.OnClickListener selectedProductBt = new View.OnClickListener() {
         public void onClick(View v) {
 
-            myData.get(0).setFilterText("묶음 기업 순");
+            myData.get(0).setFilterTitle("묶음 기업 순");
             myAdapter.notifyItemChanged(0);
             filterNumber = "03";
             dialogBasketFilter.dismiss();
@@ -239,18 +270,18 @@ public class FgTab2 extends Fragment {
 
     void initZimPotList(){
 
-        for(int index = 0 ; index < 20 ; index++){
-            myData.add(new ModelFgAllPage(false,
-                    index+" 번호입니다",
-                    "",
-                    DecimalScale.decimalScale(String.valueOf(0.4314*100), 2, 2),
-                    true,
-                    false,
-                    "",
-                    true,
-                    0L,
-                    "전체"));
-        }
-        myAdapter.notifyDataSetChanged();
+//        for(int index = 0 ; index < 20 ; index++){
+//            myData.add(new ModelFgAllPage(false,
+//                    index+" 번호입니다",
+//                    "",
+//                    DecimalScale.decimalScale(String.valueOf(0.4314*100), 2, 2),
+//                    true,
+//                    false,
+//                    "",
+//                    true,
+//                    0L,
+//                    "전체"));
+//        }
+//        myAdapter.notifyDataSetChanged();
     }
 }

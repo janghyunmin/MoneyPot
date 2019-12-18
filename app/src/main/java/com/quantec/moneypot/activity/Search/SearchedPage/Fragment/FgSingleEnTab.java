@@ -80,9 +80,9 @@ public class FgSingleEnTab extends Fragment {
         recyclerView.setAdapter(adapterSingleEn);
 
         bundle = getArguments();
-//        zzimInfo = new Bundle();
+//      zzimInfo = new Bundle();
 
-//        searchViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+//      searchViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
 
         return view;
 

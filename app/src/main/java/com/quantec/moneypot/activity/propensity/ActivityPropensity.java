@@ -592,12 +592,12 @@ public class ActivityPropensity extends AppCompatActivity {
                     recyclerView.smoothScrollToPosition(9);
                     Toast.makeText(ActivityPropensity.this,"최소 1개 이상의 상품을 선택해 주세요.", Toast.LENGTH_SHORT).show();
                 }else{
-                    insertDb();
+//                    insertDb();
                     Toast.makeText(ActivityPropensity.this, "확인", Toast.LENGTH_SHORT).show();
                 }
 
             }else{
-                insertDb();
+//                insertDb();
                 Toast.makeText(ActivityPropensity.this, "확인", Toast.LENGTH_SHORT).show();
             }
 

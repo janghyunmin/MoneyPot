@@ -215,15 +215,20 @@ public class AdapterAllPage extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder instanceof MyViewHolder) {
 
             ((MyViewHolder)holder).binding.potName.setText(myData.get(position).getTitle());
+            ((MyViewHolder)holder).binding.potRate.setText(String.format("%.2f", myData.get(position).getRate()));
 
             if(myData.get(position).getRate() < 0) {
-                ((MyViewHolder)holder).binding.potRate.setText(String.valueOf(myData.get(position).getRate()));
                 ((MyViewHolder)holder).binding.potRate.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
                 ((MyViewHolder)holder).binding.potPer.setTextColor(context.getResources().getColor(R.color.make_port_blue_color));
             }else{
-                ((MyViewHolder)holder).binding.potRate.setText(String.valueOf(myData.get(position).getRate()));
                 ((MyViewHolder)holder).binding.potRate.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
                 ((MyViewHolder)holder).binding.potPer.setTextColor(context.getResources().getColor(R.color.delete_pressed_text));
+            }
+
+            if(myData.get(position).getFollow() == 0){
+                ((MyViewHolder)holder).binding.potZimBt.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_star_off));
+            }else{
+                ((MyViewHolder)holder).binding.potZimBt.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_star_on));
             }
 
 //            ((MyViewHolder)holder).binding.potFollow.setOnClickListener(new View.OnClickListener() {
@@ -235,16 +240,16 @@ public class AdapterAllPage extends RecyclerView.Adapter<RecyclerView.ViewHolder
 //                }
 //            });
 //
-//            //포트 클릭 이벤트
-//            ((MyViewHolder)holder).binding.linearLayout.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (itemClick != null) {
-//                        itemClick.onClick(position);
-//                        checkedPosition = 4;
-//                    }
-//                }
-//            });
+            //포트 클릭 이벤트
+            ((MyViewHolder)holder).binding.linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (itemClick != null) {
+                        itemClick.onClick(position);
+                        checkedPosition = 4;
+                    }
+                }
+            });
 //
 //            //포트 차트 1개월 버튼
 //            ((MyViewHolder)holder).binding.m1Bt.setOnClickListener(new View.OnClickListener() {
@@ -408,7 +413,7 @@ public class AdapterAllPage extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         else if(holder instanceof FilterViewHolder){
-            ((FilterViewHolder)holder).binding.title.setText(myData.get(position).getFilterText());
+            ((FilterViewHolder)holder).binding.title.setText(myData.get(position).getFilterTitle());
 
             ((FilterViewHolder)holder).binding.filterBt.setOnClickListener(new View.OnClickListener() {
                 @Override

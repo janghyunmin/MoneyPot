@@ -1,6 +1,7 @@
 package com.quantec.moneypot.activity.simulationsearch;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
@@ -27,9 +26,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPreChartList;
 import com.quantec.moneypot.activity.simulationsearch.fragment.FgSimulAllTab;
 import com.quantec.moneypot.activity.simulationsearch.fragment.FgSimulSingleEnTab;
 import com.quantec.moneypot.activity.simulationsearch.fragment.FgSimulSumEnTab;
@@ -41,8 +40,10 @@ import com.quantec.moneypot.datamodel.nmodel.ModelSearchOrder;
 import com.quantec.moneypot.network.retrofit.RetrofitClient;
 import com.quantec.moneypot.rxandroid.RxEvent;
 import com.quantec.moneypot.rxandroid.RxEventBus;
+
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.BehaviorSubject;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,7 +52,7 @@ import retrofit2.Response;
 public class ActivitySimulationSearch extends AppCompatActivity {
 
     ViewPager viewPager;
-    TextView tab1, tab2, tab3, preTab;
+    TextView tab1, tab2, tab3, preTab, closeBt;
 
     Bundle bundle;
     SearchPortAdapter searchPortAdapter;
@@ -64,20 +65,18 @@ public class ActivitySimulationSearch extends AppCompatActivity {
     Bundle filterValue;
     List<ModelBlog> name;
 
-//    RecyclerView recyclerView;
-//    RecyclerView.LayoutManager layoutManager;
-//    ArrayList<ModelSearchItem> modelSearchItems;
-//    AdapterSimulationSearch adapterSimulationSearch;
-
-    boolean empty = true;
     InputMethodManager imm;
-
     BehaviorSubject<String> userInputSubject;
 
-    int currentPage = 0;
-    boolean debounceStae;
+    public static ArrayList<String> recommandSearchList;
 
-    ArrayList<String> recommandSearchList;
+    ArrayList<ModelSimulSingle> modelSimulSingles;
+    ArrayList<ModelSimulSum> modelSimulSums;
+
+    String newQueryTitle;
+
+    ArrayList<ModelPreChartList> modelPreChartLists;
+    ArrayList<String> preAddCode;
 
     /**
      *
@@ -85,7 +84,6 @@ public class ActivitySimulationSearch extends AppCompatActivity {
      *
      * @param savedInstanceState
      */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,13 +103,29 @@ public class ActivitySimulationSearch extends AppCompatActivity {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
+        modelPreChartLists = new ArrayList<>();
+        preAddCode = new ArrayList<>();
+        preAddCode.clear();
+        preAddCode.add("");
+
+        Intent intent1 = getIntent();
+        modelPreChartLists = intent1.getParcelableArrayListExtra("chartData");
+
+        for(ModelPreChartList mChart : modelPreChartLists){
+            Log.e("이미 추가한것", "이름 : "+mChart.getName() + " | 코드 : "+mChart.getCode());
+            preAddCode.add(mChart.getCode());
+        }
+
+        modelSimulSingles = new ArrayList<>();
+        modelSimulSums = new ArrayList<>();
+
         recommandSearchList = new ArrayList<>();
 
         viewPager = findViewById(R.id.viewPager);
-
         tab1 = findViewById(R.id.tab1);
         tab2 = findViewById(R.id.tab2);
         tab3 = findViewById(R.id.tab3);
+        closeBt = findViewById(R.id.closeBt);
 
         preTab = tab1;
 
@@ -127,15 +141,6 @@ public class ActivitySimulationSearch extends AppCompatActivity {
 
         filterValue = new Bundle();
 
-//        recyclerView = findViewById(R.id.recyclerView);
-//        recyclerView.setHasFixedSize(true);
-//        layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//
-//        modelSearchItems = new ArrayList<>();
-//        adapterSimulationSearch = new AdapterSimulationSearch(modelSearchItems, this);
-//        recyclerView.setAdapter(adapterSimulationSearch);
-
         floatingSearchView.setOnClearSearchActionListener(new FloatingSearchView.OnClearSearchActionListener() {
             @Override
             public void onClearSearchClicked() {
@@ -147,52 +152,40 @@ public class ActivitySimulationSearch extends AppCompatActivity {
             @Override
             public void onSearchTextChanged(String oldQuery, String newQuery) {
 
-                Log.e("이전 텍스트","값 : "+oldQuery+" | "+"최신 텍스트 값 : "+newQuery);
-
-                if(newQuery.isEmpty()){
-                    Log.e("인기검색어","띄웁니다.");
-                }else{
-                    RoomSearchedData(newQuery);
+                if(viewPager.getCurrentItem() != 0){
+                    viewPager.setCurrentItem(0, true);
                 }
-//                userInputSubject.onNext(newQuery);
-//                if(newQuery.length() == 0){
-//                    binding.cancleBt.setVisibility(View.INVISIBLE);
-//                    if(currentPage != 0) {
-//                        if(fragment_searchPage1 != null || fragment_searchPage2 != null)
-//                        {
-//                            fragment_searchPage1 = null;
-//                            fragment_searchPage2 = null;
-//                        }
-//                        FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
-//                        transaction3.replace(R.id.container, fragment_recommendPage).commitAllowingStateLoss();
-//                        currentPage = 0;
-//                    }
-//                }else{
-//                    binding.cancleBt.setVisibility(View.VISIBLE);
-//                }
+
+                newQueryTitle = newQuery;
+
+                if(newQueryTitle.isEmpty()){
+                    modelSimulSingles.clear();
+                    modelSimulSums.clear();
+
+                    modelSimulSingles.add(new ModelSimulSingle(true, 0, "", "", 0));
+                    modelSimulSums.add(new ModelSimulSum(true, 0, "", "", "", 0));
+
+                    bundle.putParcelableArrayList("singleEn", modelSimulSingles);
+                    bundle.putParcelableArrayList("sumEn", modelSimulSums);
+
+                    setViewPager(viewPager);
+                }else{
+                    if(RoomSearchedData(newQueryTitle)){
+                        setViewPager(viewPager);
+                    }
+                }
             }
         });
 
         InputStream XmlFileInputStream = getResources().openRawResource(R.raw.blog);
         //2 This reads your JSON file
         String jsonString = readTextFile(XmlFileInputStream);
-
         // create a gson object
         Gson gson = new Gson();
         // read your json file into an array
         ModelBlog[] modelBlogs =  gson.fromJson(jsonString, ModelBlog[].class);
         // convert your array to a list using the Arrays utility class
         name = Arrays.asList(modelBlogs);
-
-//        adapterSimulationSearch.setSearchItemClick(new AdapterSimulationSearch.SearchItemClick() {
-//            @Override
-//            public void onClick(int position) {
-//                imm.hideSoftInputFromWindow(floatingSearchView.getWindowToken(), 0);
-//                filterValue.putString("filter", modelSearchItems.get(position).getTitle());
-//                RxEventBus.getInstance().post(new RxEvent(RxEvent.FILTER_VALUE, filterValue));
-//                supportFinishAfterTransition();
-//            }
-//        });
 
         tab1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,15 +209,8 @@ public class ActivitySimulationSearch extends AppCompatActivity {
             }
         });
 
-
         searchViewModel = ViewModelProviders.of(ActivitySimulationSearch.this).get(SearchViewModel2.class);
         roomDao = SearchRoomDatabase.getINSTANCE(ActivitySimulationSearch.this).roomDao();
-
-        setViewPager(viewPager);
-
-//        if(RoomDataInsert2("")){
-//            setViewPager(viewPager);
-//        }
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -250,25 +236,6 @@ public class ActivitySimulationSearch extends AppCompatActivity {
         });
 
         userInputSubject = BehaviorSubject.create();
-//        userInputSubject
-//                .debounce(2, TimeUnit.SECONDS)
-//                .subscribeOn(Schedulers.io())
-//                .distinctUntilChanged()
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(prediction -> {
-//                    if(!debounceStae) {
-//                        if (prediction.length() != 0) {
-//                            FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
-//                            fragment_searchPage1 = new FgSearchedPage();
-//                            transaction2.replace(R.id.container, fragment_searchPage1).commitAllowingStateLoss();
-//                            currentPage = 1;
-//                            FgSearchedPage.getSearchText(binding.searchEditText.getText().toString());
-//                        }
-//                    }else{
-//                        debounceStae = false;
-//                    }
-//                });
-
 
         Call<ModelSearchOrder> getTest2 = RetrofitClient.getInstance().getService().getSearchOrder(5);
         getTest2.enqueue(new Callback<ModelSearchOrder>() {
@@ -278,8 +245,16 @@ public class ActivitySimulationSearch extends AppCompatActivity {
 
                     for(int index = 0; index < response.body().getContent().size() ; index++){
                         recommandSearchList.add(response.body().getContent().get(index).getWord());
-//                        Log.e("인기검색어","값 : "+response.body().getContent().get(index).getWord());
                     }
+
+                    modelSimulSingles.add(new ModelSimulSingle(true, 0, "", "", 0));
+                    modelSimulSums.add(new ModelSimulSum(true, 0, "", "", "", 0));
+
+                    bundle.putParcelableArrayList("singleEn", modelSimulSingles);
+                    bundle.putParcelableArrayList("sumEn", modelSimulSums);
+                    bundle.putStringArrayList("preAddCode", preAddCode);
+
+                    setViewPager(viewPager);
                 }
             }
             @Override
@@ -287,6 +262,65 @@ public class ActivitySimulationSearch extends AppCompatActivity {
                 Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
+
+        closeBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                supportFinishAfterTransition();
+            }
+        });
+
+
+
+        RxEventBus.getInstance()
+                .filteredObservable(RxEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RxEvent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+                    @Override
+                    public void onNext(RxEvent rxEvent) {
+
+                        switch (rxEvent.getActiion()) {
+
+                            case RxEvent.SIMUL_SEARCH_TITLE:
+
+                                newQueryTitle = rxEvent.getBundle().getString("title");
+
+                                floatingSearchView.setSearchText(newQueryTitle);
+
+                                if(viewPager.getCurrentItem() != 0){
+                                    viewPager.setCurrentItem(0, true);
+                                }
+
+                                if(newQueryTitle.isEmpty()){
+                                    modelSimulSingles.clear();
+                                    modelSimulSums.clear();
+
+                                    modelSimulSingles.add(new ModelSimulSingle(true, 0, "", "", 0));
+                                    modelSimulSums.add(new ModelSimulSum(true, 0, "", "", "", 0));
+
+                                    bundle.putParcelableArrayList("singleEn", modelSimulSingles);
+                                    bundle.putParcelableArrayList("sumEn", modelSimulSums);
+
+                                    setViewPager(viewPager);
+                                }else{
+                                    if(RoomSearchedData(newQueryTitle)){
+                                        setViewPager(viewPager);
+                                    }
+                                }
+
+                                break;
+                        }
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                    @Override
+                    public void onComplete() {
+                    }
+                });
 
 
     }//onCreate 끝
@@ -315,45 +349,39 @@ public class ActivitySimulationSearch extends AppCompatActivity {
         return outputStream.toString();
     }
 
-
     //검색어 찾기
     boolean RoomSearchedData(String searchText){
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-//                modelSingleEns.clear();
-//                modelSumEn.clear();
-//                modelNewsEns.clear();
-//
-//                modelSingleEns.add(new ModelSingleEn(true, "", "", 0, 0));
-//                modelSumEn.add(new ModelSumEn(true, "", "", "", 0, 0));
-//                modelNewsEns.add(new ModelNewsEn(true, 0, "", "", ""));
-
-//              roomDao.updateData(1, "FP0007");
+                modelSimulSingles.clear();
+                modelSimulSums.clear();
 
                 roomEntity2s = roomDao.findStock("%"+searchText+"%","%"+searchText+"%", "%"+searchText+"%");
 
                 if(roomEntity2s != null && roomEntity2s.size() != 0){
+                    modelSimulSingles.add(new ModelSimulSingle(false, 0, "", "", 0));
+                    modelSimulSums.add(new ModelSimulSum(false, 0, "", "", "", 0));
                     for(int index = 0; index < roomEntity2s.size(); index++){
 
-//                        if(roomEntity2s.get(index).getType()==0){
-//                            modelSingleEns.add(new ModelSingleEn(true, roomEntity2s.get(index).getName(),
-//                                    roomEntity2s.get(index).getCode(), roomEntity2s.get(index).getRate(), roomEntity2s.get(index).getFollow()));
-//                        }else{
-//                            modelSumEn.add(new ModelSumEn(true, roomEntity2s.get(index).getName(), roomEntity2s.get(index).getCode(),
-//                                    roomEntity2s.get(index).getElStock(), roomEntity2s.get(index).getRate(), roomEntity2s.get(index).getFollow()));
-//                        }
+                        if(roomEntity2s.get(index).getType()==0){
+                            modelSimulSingles.add(new ModelSimulSingle(false, roomEntity2s.size(), roomEntity2s.get(index).getName(),
+                                    roomEntity2s.get(index).getCode(), roomEntity2s.get(index).getRate()));
+                        }else{
+                            modelSimulSums.add(new ModelSimulSum(false, roomEntity2s.size(), roomEntity2s.get(index).getName(), roomEntity2s.get(index).getCode(),
+                                    roomEntity2s.get(index).getElStock(), roomEntity2s.get(index).getRate()));
+                        }
                         Log.e("찾음 데이터","값 : "+roomEntity2s.get(index).getName());
                     }
-
                 }
                 else{
+                    modelSimulSingles.add(new ModelSimulSingle(true, 0, "", "", 0));
+                    modelSimulSums.add(new ModelSimulSum(true, 0, "", "", "", 0));
                     Log.e("찾은 데어터", "값 : 룸에 데이터가 없습니다.");
                 }
-//                bundle.putParcelableArrayList("singleEn", modelSingleEns);
-//                bundle.putParcelableArrayList("sumEn", modelSumEn);
-//                bundle.putParcelableArrayList("newsEn", modelNewsEns);
+                bundle.putParcelableArrayList("singleEn", modelSimulSingles);
+                bundle.putParcelableArrayList("sumEn", modelSimulSums);
             }
         }).start();
         return true;
@@ -402,4 +430,5 @@ public class ActivitySimulationSearch extends AppCompatActivity {
         tab.setBackgroundResource(R.drawable.custom_bt);
         tab.setTextColor(getResources().getColor(R.color.normal_title_color));
     }
+
 }

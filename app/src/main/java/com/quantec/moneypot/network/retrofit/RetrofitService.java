@@ -27,6 +27,7 @@ import com.quantec.moneypot.datamodel.nmodel.ModelRecommendList;
 import com.quantec.moneypot.datamodel.nmodel.ModelSearchDb;
 import com.quantec.moneypot.datamodel.nmodel.ModelSearchOrder;
 import com.quantec.moneypot.datamodel.nmodel.ModelSearchedPageList;
+import com.quantec.moneypot.datamodel.nmodel.ModelUserFollow;
 import com.quantec.moneypot.datamodel.nmodel.ModelZimData;
 import com.quantec.moneypot.datamodel.nmodel.ModelZimPotList;
 import retrofit2.Call;
@@ -292,6 +293,15 @@ public interface RetrofitService {
      */
     @GET("common/getSearchOrder/{limit}")
     Call<ModelSearchOrder> getSearchOrder(@Path("limit")int limit);
+
+
+    /**
+     *
+     * 선호도/팔로우/찜/담 선호도 리턴
+     *
+     */
+    @POST("pot/getUserSelect/{type}")
+    Call<ModelUserFollow> getUserSelect(@Header("Content-Type") String content_type, @Path("type") int type);
 
 
 }

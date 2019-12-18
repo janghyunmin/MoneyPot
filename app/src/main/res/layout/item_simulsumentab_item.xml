@@ -11,9 +11,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:textSize="15dp"
+        android:textColor="@color/c_3d3f42"
+        />
+    <TextView
+        android:id="@+id/stock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="1dp"
+        android:textSize="12dp"
+        android:textColor="@color/c_9a9a9a"
         />
 
     <TextView
@@ -34,10 +47,11 @@
         android:text="%"
         app:layout_constraintEnd_toStartOf="@+id/addBt"
         app:layout_constraintBottom_toBottomOf="@+id/rate"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="10dp"
         android:textSize="13dp"
         android:textColor="@color/c_f02654"
         />
+
     <ImageView
         android:id="@+id/addBt"
         android:layout_width="wrap_content"
@@ -46,7 +60,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="22dp"
         />
 
     <View

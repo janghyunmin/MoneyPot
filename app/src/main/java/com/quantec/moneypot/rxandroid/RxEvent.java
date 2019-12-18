@@ -29,6 +29,8 @@ public class RxEvent {
 
     public static final String PREFER_ITEM_DELETE = "prefer_item_delete";
 
+    public static final String SIMUL_SEARCH_TITLE = "simul_search_title";
+
 
     private String action;
     private Bundle bundle;

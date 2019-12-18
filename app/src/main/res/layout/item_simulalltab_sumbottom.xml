@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="102dp"
+    android:gravity="center"
+    >
+
+    <TextView
+        android:id="@+id/detailBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="묶음 기업 자세히"
+        android:background="@drawable/custom_bt_line_14dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        />
+
+</LinearLayout>

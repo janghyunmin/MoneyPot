@@ -56,7 +56,6 @@ public class FgSearchedPage extends Fragment {
     private RoomDao roomDao;
     private List<RoomEntity2> roomEntity2s;
 
-
     public FgSearchedPage() {
     }
 

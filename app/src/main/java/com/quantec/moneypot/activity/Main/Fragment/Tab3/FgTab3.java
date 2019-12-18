@@ -183,7 +183,8 @@ public class FgTab3 extends Fragment {
                 Intent intent = new Intent(activityMain, ActivitySimulationSearch.class);
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(activityMain, (View)floatingSearchView, "searchView");
-                startActivity(intent, options.toBundle());
+                intent.putParcelableArrayListExtra("chartData", modelPreChartLists);
+                startActivityForResult(intent, 100, options.toBundle());
             }
         });
 
@@ -220,7 +221,6 @@ public class FgTab3 extends Fragment {
                         itemEmptyLayout.setVisibility(View.GONE);
                         itemLayout.setVisibility(View.VISIBLE);
                     }
-
                     if (count < 10) {
 
                         if (CheckedList(modelFgTab3Follows.get(position).getCode())) {
@@ -390,27 +390,6 @@ public class FgTab3 extends Fragment {
                 }
                 else{
 
-                    for(int index = 0 ; index < modelPreChartLists.size(); index++){
-                        Log.e("총 코드값", "값 : "+modelPreChartLists.get(index).getCode());
-                    }
-
-                    Code code = new Code();
-                    Ex ex = new Ex();
-                    ArrayList<Code> codes = new ArrayList<>();
-
-                    code.setCode("NVDA");
-                    code.setType(0);
-                    codes.add(code);
-
-                    code.setCode("IBM");
-                    code.setType(0);
-                    codes.add(code);
-
-                    ex.setCodes(codes);
-                    ex.setPeriod("one");
-                    ex.setPropensity(701);
-
-
                     ModelSimulCode modelSimulCode = new ModelSimulCode();
                     modelSimulCode.setCode("");
                     modelSimulCode.setDescript("");
@@ -421,19 +400,15 @@ public class FgTab3 extends Fragment {
                     modelSimulCode.setType(0);
 
                     Code code1 = new Code();
-                    code1.setCode("MCD");
-                    code1.setType(0);
-                    code1.setPtCode("");
-                    code1.setWeight(0.45f);
 
-                    modelSimulCode.getCodes().add(code1);
+                    for(int index = 0 ; index < modelPreChartLists.size(); index++){
 
-                    code1.setCode("MCD");
-                    code1.setType(0);
-                    code1.setPtCode("");
-                    code1.setWeight(0.45f);
-                    modelSimulCode.getCodes().add(code1);
-
+                        code1.setCode(modelPreChartLists.get(index).getCode());
+                        code1.setType(0);
+                        code1.setPtCode("");
+                        code1.setWeight(0);
+                        modelSimulCode.getCodes().add(code1);
+                    }
 
                     Call<ModelPotSimul> getReList = RetrofitClient.getInstance().getService().getPotSimul("application/json", modelSimulCode);
                     getReList.enqueue(new Callback<ModelPotSimul>() {
@@ -441,8 +416,6 @@ public class FgTab3 extends Fragment {
                         public void onResponse(Call<ModelPotSimul> call, Response<ModelPotSimul> response) {
                             if (response.code() == 200) {
                                 if(response.body().getStatus() == 200){
-//                                authCode = response.body().getContent().getAuthCode();
-//                                regToken = response.headers().get("Authorization");
 
                                     modelTransChartLists.clear();
                                     for(int index = 0 ; index < response.body().getContent().getChart().size() ; index++) {
@@ -475,5 +448,77 @@ public class FgTab3 extends Fragment {
             }
         }
         return false;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 100 && resultCode == 100){
+
+            if (count == 0) {
+                itemEmptyLayout.setVisibility(View.GONE);
+                itemLayout.setVisibility(View.VISIBLE);
+            }
+
+            if (count < 10) {
+
+                    count++;
+                    itemNum.setText("("+count+"/10)");
+
+                    if(count >= 2 ){
+                        resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_selected));
+                        resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_ffffff));
+                    }else{
+                        resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_nonselected));
+                        resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_cccccc));
+                    }
+
+                    if (count == 1) {
+                        modelSelectItems.add(new ModelSelectItem(data.getStringExtra("addTitle"),
+                                data.getStringExtra("addCode"),
+                                data.getDoubleExtra("addRate", 0), false));
+
+
+                        modelPreChartLists.add(new ModelPreChartList(data.getStringExtra("addTitle"),
+                                data.getStringExtra("addCode"),
+                                data.getDoubleExtra("addRate", 0)));
+
+                        modelSelectItems.add(new ModelSelectItem("", "", 0, true));
+                        modelSelectItems.add(new ModelSelectItem("", "", 0, true));
+                    } else if (count == 2) {
+                        modelSelectItems.set(1, new ModelSelectItem(data.getStringExtra("addTitle"),
+                                data.getStringExtra("addCode"),
+                                data.getDoubleExtra("addRate", 0), false));
+
+                        modelPreChartLists.add(new ModelPreChartList(data.getStringExtra("addTitle"),
+                                data.getStringExtra("addCode"),
+                                data.getDoubleExtra("addRate", 0)));
+
+                    } else if (count == 3) {
+                        modelSelectItems.set(2, new ModelSelectItem(data.getStringExtra("addTitle"),
+                                data.getStringExtra("addCode"),
+                                data.getDoubleExtra("addRate", 0), false));
+
+                        modelPreChartLists.add(new ModelPreChartList(data.getStringExtra("addTitle"),
+                                data.getStringExtra("addCode"),
+                                data.getDoubleExtra("addRate", 0)));
+
+                    } else {
+                        modelSelectItems.add(new ModelSelectItem(data.getStringExtra("addTitle"),
+                                data.getStringExtra("addCode"),
+                                data.getDoubleExtra("addRate", 0), false));
+
+                        modelPreChartLists.add(new ModelPreChartList(data.getStringExtra("addTitle"),
+                                data.getStringExtra("addCode"),
+                                data.getDoubleExtra("addRate", 0)));
+                    }
+
+                    adapterSelectedItem.notifyDataSetChanged();
+            }
+            else {
+                Toast.makeText(activityMain, "더이상 추가할 수 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
