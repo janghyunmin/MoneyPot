@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.activity.Search.SearchedPage.ModelPreSingleEn;
 import com.quantec.moneypot.activity.Search.SearchedPage.ModelSingleEn;
+import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class AdapterAllTabSingleEn extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -88,14 +90,12 @@ public class AdapterAllTabSingleEn extends RecyclerView.Adapter<RecyclerView.Vie
                 ((AllTabSingleEnViewHolder)holder).followBt.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_star_on));
             }
 
-            ((AllTabSingleEnViewHolder)holder).followBt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(singleEnFollowBt != null){
-                        singleEnFollowBt.onClick(position);
-                    }
+            RxView.clicks(((AllTabSingleEnViewHolder)holder).followBt).throttleFirst(600, TimeUnit.MILLISECONDS).subscribe(empty -> {
+                if(singleEnFollowBt != null){
+                    singleEnFollowBt.onClick(position);
                 }
             });
+
 
         }
 

@@ -76,7 +76,6 @@ public class ActivityNotiWebView extends AppCompatActivity {
         });
         webView.setWebViewClient(new WebViewClient(){
 
-
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 //                view.loadUrl(url);
@@ -120,7 +119,6 @@ public class ActivityNotiWebView extends AppCompatActivity {
             }
         });
 
-
     }//onCreate 끝
 
     @Override
@@ -129,7 +127,8 @@ public class ActivityNotiWebView extends AppCompatActivity {
 
         if(requestCode == 100){
             if(resultCode == 100){
-                webView.loadUrl("javascript:processImageByApp('"+data.getStringExtra("base64")+"');");
+//                webView.loadUrl("javascript:processImageByApp('"+data.getStringExtra("base64")+"');");
+                webView.loadUrl("javascript:processImageByApp('"+data.getStringExtra("base64")+"')");
             }
         }
     }

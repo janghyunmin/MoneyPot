@@ -2,6 +2,7 @@ package com.quantec.moneypot.activity.Search.BasicPage.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.quantec.moneypot.activity.Search.BasicPage.Adapter.AdapterRecommendTa
 import com.quantec.moneypot.datamodel.dmodel.Filter;
 import com.quantec.moneypot.datamodel.dmodel.ModelRecommendPort;
 import com.quantec.moneypot.datamodel.nmodel.ModelRecommendList;
+import com.quantec.moneypot.datamodel.nmodel.ModelSearchOrder;
 import com.quantec.moneypot.network.retrofit.RetrofitClient;
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.databinding.FgRecommendtabBinding;
@@ -58,25 +60,18 @@ public class FgRecommendTab extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        Filter filter = new Filter();
-//        Call<ModelRecommendList> getReList = RetrofitClient.getInstance().getService().getSearchRecomList("application/json", filter, "H", 0,1,10);
-//        getReList.enqueue(new Callback<ModelRecommendList>() {
+//        Call<ModelSearchOrder> getTest2 = RetrofitClient.getInstance().getService().getSearchOrder(5);
+//        getTest2.enqueue(new Callback<ModelSearchOrder>() {
 //            @Override
-//            public void onResponse(Call<ModelRecommendList> call, Response<ModelRecommendList> response) {
-//                if (response.code() == 200) {
-//                    for(int a= 0 ; a < response.body().getTotalElements() ; a++) {
-//                        modelRecommendPorts.add(new ModelRecommendPort(response.body().getContent().get(a).getName(),response.body().getContent().get(a).getCode()));
-//                    }
-//                    if(modelRecommendPorts.size() == 0) {
-//                        binding.title.setVisibility(View.GONE);
-//                    }else{
-//                        binding.title.setVisibility(View.VISIBLE);
-//                    }
-//                    adapterRecommendPortTab.notifyDataSetChanged();
+//            public void onResponse(Call<ModelSearchOrder> call, Response<ModelSearchOrder> response) {
+//                if(response.code() == 200) {
+//
+//
 //                }
 //            }
 //            @Override
-//            public void onFailure(Call<ModelRecommendList> call, Throwable t) {
+//            public void onFailure(Call<ModelSearchOrder> call, Throwable t) {
+//                Log.e("레트로핏 실패","값 : "+t.getMessage());
 //            }
 //        });
 

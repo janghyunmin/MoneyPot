@@ -42,7 +42,8 @@ import com.quantec.moneypot.datamodel.dmodel.ModelDescItem;
 import com.quantec.moneypot.datamodel.dmodel.ModelEmptyItem;
 import com.quantec.moneypot.datamodel.dmodel.ModelStockItem;
 import com.quantec.moneypot.datamodel.dmodel.ModelTitleItem;
-import com.quantec.moneypot.datamodel.dmodel.Select;
+import com.quantec.moneypot.datamodel.dmodel.ModelUserSelectDto;
+import com.quantec.moneypot.datamodel.dmodel.userselectdto.Select;
 import com.quantec.moneypot.datamodel.nmodel.ModelZimData;
 import com.quantec.moneypot.database.room.entry.RoomEntity;
 import com.quantec.moneypot.database.room.local.RoomDao;
@@ -200,12 +201,67 @@ public class FgAllTab extends Fragment {
         adapterAllTabSingleEn.setSingleEnFollowBt(new AdapterAllTabSingleEn.SingleEnFollowBt() {
             @Override
             public void onClick(int position) {
+
+                List<Select> selects = new ArrayList<>();
+                Select select = new Select();
+                select.setIsDam(0);
+                select.setIsLike(0);
+                select.setIsZim(0);
+
+                select.setCode(modelPreSingleEns.get(position).getCode());
+                select.setIsFollow(1);
+                select.setType(0);
+                selects.add(select);
+
+                ModelUserSelectDto modelUserSelectDto = new ModelUserSelectDto();
+                modelUserSelectDto.setSelects(selects);
+
+                Call<Object> getReList = RetrofitClient.getInstance().getService().setUserSelect("application/json", "follow", modelUserSelectDto);
+                getReList.enqueue(new Callback<Object>() {
+                    @Override
+                    public void onResponse(Call<Object> call, Response<Object> response) {
+                        if (response.code() == 200) {
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Object> call, Throwable t) {
+                        Log.e("실패","실패"+t.getMessage());
+                    }
+                });
             }
         });
 
         adapterAllTabSumEn.setSumEnFollowBt(new AdapterAllTabSumEn.SumEnFollowBt() {
             @Override
             public void onClick(int position) {
+
+                List<Select> selects = new ArrayList<>();
+                Select select = new Select();
+                select.setIsDam(0);
+                select.setIsLike(0);
+                select.setIsZim(0);
+
+                select.setCode(modelPreSumEn.get(position).getCode());
+                select.setIsFollow(1);
+                select.setType(1);
+                selects.add(select);
+
+                ModelUserSelectDto modelUserSelectDto = new ModelUserSelectDto();
+                modelUserSelectDto.setSelects(selects);
+
+                Call<Object> getReList = RetrofitClient.getInstance().getService().setUserSelect("application/json", "follow", modelUserSelectDto);
+                getReList.enqueue(new Callback<Object>() {
+                    @Override
+                    public void onResponse(Call<Object> call, Response<Object> response) {
+                        if (response.code() == 200) {
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Object> call, Throwable t) {
+                        Log.e("실패","실패"+t.getMessage());
+                    }
+                });
+
             }
         });
 

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.asksira.loopingviewpager.LoopingPagerAdapter;
 import com.asksira.loopingviewpager.LoopingViewPager;
+import com.quantec.moneypot.activity.Main.Fragment.tab4.ActivityNotiWebView;
 import com.quantec.moneypot.activity.Search.ActivitySearch;
 import com.quantec.moneypot.rxandroid.RxView;
 import com.rd.PageIndicatorView;
@@ -53,7 +54,7 @@ public class FgTab1 extends Fragment implements View.OnClickListener {
     AdapterMini adapterMini;
     AdapterThemeTop3 adapterThemeTop3;
 
-    ImageView rankingAddBt, themeAddBt, searchBt;
+    ImageView rankingAddBt, themeAddBt, searchBt, userBt;
 
     DemoInfiniteAdapter adapter;
     LoopingViewPager viewPager;
@@ -76,6 +77,7 @@ public class FgTab1 extends Fragment implements View.OnClickListener {
         modelYieldCharts = new ArrayList<>();
 
         searchBt = view.findViewById(R.id.searchBt);
+        userBt = view.findViewById(R.id.userBt);
 
         rankingAddBt = view.findViewById(R.id.rankingAddBt);
         rankingAddBt.setOnClickListener(this);
@@ -180,8 +182,15 @@ public class FgTab1 extends Fragment implements View.OnClickListener {
             }
         });
 
+        userBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(activityMain, ActivityNotiWebView.class);
+                startActivity(intent1);
+            }
+        });
 
-    }
+    }//onViewCreate 끝
 
 
     private void initializeViews() {

@@ -13,6 +13,7 @@ import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPotSimul;
 import com.quantec.moneypot.datamodel.nmodel.ModelAccountExist;
 import com.quantec.moneypot.datamodel.nmodel.ModelAccounts;
 import com.quantec.moneypot.datamodel.nmodel.ModelApiToken;
+import com.quantec.moneypot.datamodel.nmodel.ModelAssetsCustom;
 import com.quantec.moneypot.datamodel.nmodel.ModelChartData;
 import com.quantec.moneypot.datamodel.nmodel.ModelChkNicName;
 import com.quantec.moneypot.datamodel.nmodel.ModelCommonData;
@@ -277,7 +278,6 @@ public interface RetrofitService {
     Call<Object> setAccountStatus(@Header("Content-Type") String content_type, @Path("type") int type, @Path("account") String account);
 
 
-
     /**
      *
      * 검색 없을때 검색 제안 단어 불러오기
@@ -295,13 +295,38 @@ public interface RetrofitService {
     Call<ModelSearchOrder> getSearchOrder(@Path("limit")int limit);
 
 
+//    /**
+//     *
+//     * 선호도/팔로우/찜/담 선호도 리턴
+//     *
+//     */
+//    @POST("pot/getUserSelect/{type}")
+//    Call<ModelUserFollow> getUserSelect(@Header("Content-Type") String content_type, @Path("type") int type);
     /**
      *
      * 선호도/팔로우/찜/담 선호도 리턴
      *
      */
     @POST("pot/getUserSelect/{type}")
-    Call<ModelUserFollow> getUserSelect(@Header("Content-Type") String content_type, @Path("type") int type);
+    Call<ModelUserFollow> getUserSelect(@Header("Content-Type") String content_type, @Path("type") String type);
 
+
+    /**
+     *
+     * 선호도/팔로우/찜/담 선호도 저장
+     *
+     */
+    @POST("pot/setUserSelect/{type}")
+    Call<Object> setUserSelect(@Header("Content-Type") String content_type, @Path("type") String type, @Body Object userSelectDto);
+
+
+    /**
+     *
+     * 자산커스텀 목록
+     * code : all / code number
+     *
+     */
+    @POST("pot/getAssetsCustom/{code}")
+    Call<ModelAssetsCustom> getAssetsCustom(@Header("Content-Type") String content_type, @Path("code") String type);
 
 }

@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:bind="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="tab4"
-            type="com.quantec.moneypot.databinding.FgTab2Binding" />
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -28,9 +18,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="장바구니"
-            android:textColor="@color/text_black_color"
-            android:textSize="16dp"
+            android:text="팔로우"
+            android:textColor="@color/c_3d3f42"
+            android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -43,51 +33,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/line"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/userBt"
-            android:background="#f1f1f1"
             />
 
-
-        <com.quantec.moneypot.util.view.refresh.TwinklingRefreshLayout
-            android:id="@+id/refresh"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/line"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
-            >
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never" />
-        </com.quantec.moneypot.util.view.refresh.TwinklingRefreshLayout>
-
-
-        <!--<com.google.android.material.appbar.AppBarLayout-->
-            <!--android:id="@+id/appbar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:theme="@style/TabTheme"-->
-            <!--app:elevation="0dp"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/line"-->
-            <!--android:layout_marginTop="10dp">-->
-            <!--<com.google.android.material.tabs.TabLayout-->
-                <!--android:id="@+id/Search_tabLayout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--app:elevation="0dp"/>-->
-        <!--</com.google.android.material.appbar.AppBarLayout>-->
-
-        <!--<androidx.viewpager.widget.ViewPager-->
-            <!--android:id="@+id/fragment_tab2_viewpager"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/appbar"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--/>-->
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>

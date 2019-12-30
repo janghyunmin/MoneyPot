@@ -57,6 +57,7 @@ import com.quantec.moneypot.util.NetworkStateCheck.NetworkStateCheck;
 import com.quantec.moneypot.util.SharedPreference.SharedPreferenceUtil;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -412,7 +413,6 @@ public class ActivityIntro extends AppCompatActivity {
                     if(response.code() == 200) {
 
                         // (코드,한글 종목명,영어 종목명,종목내용) -> 서치필드에서 맨 마지막 데이터가 묶음 기업의 내용이다 나머지는 단일 종목의 (코드,한글 종목명, 영어 종목명, 종목내용 ) 순이다.
-
                         SharedPreferenceUtil.getInstance(ActivityIntro.this).putAuthCode("authCode", response.body().getContent().getAuthCode());
                         SharedPreferenceUtil.getInstance(ActivityIntro.this).putTokenA("aToken", response.headers().get("Authorization"));
 
@@ -425,6 +425,7 @@ public class ActivityIntro extends AppCompatActivity {
                                     searchViewModel = ViewModelProviders.of(ActivityIntro.this).get(SearchViewModel2.class);
                                     roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
                                     DeleteAll();
+
 
                                         for (int index = 0; index < response.body().getContent().getRateList().size(); index++) {
 
@@ -573,6 +574,19 @@ public class ActivityIntro extends AppCompatActivity {
                                 Log.e("실패","실패"+t.getMessage());
                             }
                         });
+                    }
+                    else{
+
+                        Gson gson = new GsonBuilder().create();
+                        ErrorPojoClass mError = new ErrorPojoClass();
+                        try {
+                            mError= gson.fromJson(response.errorBody().string(),ErrorPojoClass .class);
+                            Log.e("스프링 에러", "에러메시지 값 : "+ mError.getDetails());
+                            Log.e("스프링 에러", "에러메시지 값 : "+ mError.getMessage());
+                            Log.e("스프링 에러", "에러메시지 값 : "+ mError.getTimestamp());
+                        } catch (IOException e) {
+                            // handle failure to read error
+                        }
                     }
                 }
                 @Override

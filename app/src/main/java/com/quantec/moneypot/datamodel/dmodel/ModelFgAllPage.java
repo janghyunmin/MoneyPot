@@ -8,15 +8,17 @@ public class ModelFgAllPage {
     String code;
     double rate;
     int follow;
+    int filter;
     String filterTitle;
 
-    public ModelFgAllPage(boolean empty, int type, String title, String code, double rate, int follow, String filterTitle) {
+    public ModelFgAllPage(boolean empty, int type, String title, String code, double rate, int follow, int filter, String filterTitle) {
         this.empty = empty;
         this.type = type;
         this.title = title;
         this.code = code;
         this.rate = rate;
         this.follow = follow;
+        this.filter = filter;
         this.filterTitle = filterTitle;
     }
 
@@ -66,6 +68,14 @@ public class ModelFgAllPage {
 
     public void setFollow(int follow) {
         this.follow = follow;
+    }
+
+    public int getFilter() {
+        return filter;
+    }
+
+    public void setFilter(int filter) {
+        this.filter = filter;
     }
 
     public String getFilterTitle() {
