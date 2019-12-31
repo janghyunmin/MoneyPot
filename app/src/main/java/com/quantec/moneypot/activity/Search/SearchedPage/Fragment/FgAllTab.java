@@ -76,7 +76,7 @@ public class FgAllTab extends Fragment {
 
     ActivitySearch activitySearch;
 
-    Bundle getSearchedData, MovedTab, zzimInfo;
+    Bundle getSearchedData, MovedTab, followInfo;
 
     //검색 제안 데이터 전달
     private OnClickEmptyText onClickEmptyText;
@@ -130,7 +130,7 @@ public class FgAllTab extends Fragment {
         //전체보기시 클릭시 탭이동 구분
         // 0 : 단일 / 1 : 묶음 / 2 : 기사
         MovedTab = new Bundle();
-        zzimInfo = new Bundle();
+        followInfo = new Bundle();
 
         searchViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
 
@@ -202,32 +202,11 @@ public class FgAllTab extends Fragment {
             @Override
             public void onClick(int position) {
 
-                List<Select> selects = new ArrayList<>();
-                Select select = new Select();
-                select.setIsDam(0);
-                select.setIsLike(0);
-                select.setIsZim(0);
-
-                select.setCode(modelPreSingleEns.get(position).getCode());
-                select.setIsFollow(1);
-                select.setType(0);
-                selects.add(select);
-
-                ModelUserSelectDto modelUserSelectDto = new ModelUserSelectDto();
-                modelUserSelectDto.setSelects(selects);
-
-                Call<Object> getReList = RetrofitClient.getInstance().getService().setUserSelect("application/json", "follow", modelUserSelectDto);
-                getReList.enqueue(new Callback<Object>() {
-                    @Override
-                    public void onResponse(Call<Object> call, Response<Object> response) {
-                        if (response.code() == 200) {
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<Object> call, Throwable t) {
-                        Log.e("실패","실패"+t.getMessage());
-                    }
-                });
+                if(modelPreSingleEns.get(position).getFollow() == 0){
+                    FollowClick(1, 0, position);
+                }else{
+                    FollowClick(0, 0, position);
+                }
             }
         });
 
@@ -235,33 +214,11 @@ public class FgAllTab extends Fragment {
             @Override
             public void onClick(int position) {
 
-                List<Select> selects = new ArrayList<>();
-                Select select = new Select();
-                select.setIsDam(0);
-                select.setIsLike(0);
-                select.setIsZim(0);
-
-                select.setCode(modelPreSumEn.get(position).getCode());
-                select.setIsFollow(1);
-                select.setType(1);
-                selects.add(select);
-
-                ModelUserSelectDto modelUserSelectDto = new ModelUserSelectDto();
-                modelUserSelectDto.setSelects(selects);
-
-                Call<Object> getReList = RetrofitClient.getInstance().getService().setUserSelect("application/json", "follow", modelUserSelectDto);
-                getReList.enqueue(new Callback<Object>() {
-                    @Override
-                    public void onResponse(Call<Object> call, Response<Object> response) {
-                        if (response.code() == 200) {
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<Object> call, Throwable t) {
-                        Log.e("실패","실패"+t.getMessage());
-                    }
-                });
-
+                if(modelPreSumEn.get(position).getFollow() == 0){
+                    FollowClick(1, 1, position);
+                }else{
+                    FollowClick(0, 1, position);
+                }
             }
         });
 
@@ -281,6 +238,90 @@ public class FgAllTab extends Fragment {
             }
         });
 
+        adapterAllTabSingleEn.setSingleItemClick(new AdapterAllTabSingleEn.SingleItemClick() {
+            @Override
+            public void onClick(int position) {
+                MovedDetailPage(modelPreSingleEns.get(position).getCode(), modelPreSingleEns.get(position).getTitle(), 600);
+            }
+        });
+
+
+        RxEventBus.getInstance()
+                .filteredObservable(RxEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RxEvent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(RxEvent rxEvent) {
+
+                        switch (rxEvent.getActiion()) {
+
+                            case RxEvent.SEARCH_CLICK_ZZIM:
+                                String code = rxEvent.getBundle().getString("search_code");
+                                int page = rxEvent.getBundle().getInt("search_page");
+                                int type = rxEvent.getBundle().getInt("search_type");
+
+                                if(page == 1){
+                                    if(type == 0){
+                                        if (rxEvent.getBundle().getBoolean("search_follow")) {
+                                            for (int a = 0; a < modelPreSingleEns.size(); a++) {
+                                                if (modelPreSingleEns.get(a).getCode().equals(code)) {
+                                                    modelPreSingleEns.get(a).setFollow(1);
+                                                    adapterAllTabSingleEn.notifyItemChanged(a);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        //찜 헤제됨
+                                        else {
+                                            for (int a = 0; a < modelPreSingleEns.size(); a++) {
+                                                if (modelPreSingleEns.get(a).getCode().equals(code)) {
+                                                    modelPreSingleEns.get(a).setFollow(0);
+                                                    adapterAllTabSingleEn.notifyItemChanged(a);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else{
+
+                                        if (rxEvent.getBundle().getBoolean("search_follow")) {
+                                            for (int a = 0; a < modelPreSumEn.size(); a++) {
+                                                if (modelPreSumEn.get(a).getCode().equals(code)) {
+                                                    modelPreSumEn.get(a).setFollow(1);
+                                                    adapterAllTabSumEn.notifyItemChanged(a);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        //찜 헤제됨
+                                        else {
+                                            for (int a = 0; a < modelPreSumEn.size(); a++) {
+                                                if (modelPreSumEn.get(a).getCode().equals(code)) {
+                                                    modelPreSumEn.get(a).setFollow(0);
+                                                    adapterAllTabSumEn.notifyItemChanged(a);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
+
     }//onViewCreated 끝
 
     // 각 카테고리에서 상세페이지로 이동
@@ -294,10 +335,23 @@ public class FgAllTab extends Fragment {
 
         //최근 검색어 저장 이벤트
         RoomDataInsert(portName, portCode);
+
+        Call<Object> setSearch = RetrofitClient.getInstance().getService().setSearch(5, portName);
+        setSearch.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if(response.code() == 200) {
+
+                }
+            }
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.e("레트로핏 실패","값 : "+t.getMessage());
+            }
+        });
     }
     //최근 검색어 저장 이벤트
     void RoomDataInsert(String PortName, String PortCode){
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -320,7 +374,6 @@ public class FgAllTab extends Fragment {
                 }
             }
         }).start();
-
     }
 
     @Override
@@ -331,12 +384,12 @@ public class FgAllTab extends Fragment {
             if(resultCode == 500) {
                 String codeD = data.getStringExtra("search_code_D");
 
-                zzimInfo.putInt("search_category", 4);
-                zzimInfo.putInt("search_page", 0);
-                zzimInfo.putString("search_code", codeD);
+                followInfo.putInt("search_category", 4);
+                followInfo.putInt("search_page", 0);
+                followInfo.putString("search_code", codeD);
 
-                zzimInfo.putBoolean("search_zzim_state", true);
-                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
+                followInfo.putBoolean("search_zzim_state", true);
+                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, followInfo));
 
                 DataManager.get_INstance().setCheckTab1(true);
 
@@ -344,15 +397,143 @@ public class FgAllTab extends Fragment {
             else if(resultCode == 501) {
                 String codeD = data.getStringExtra("search_code_D");
 
-                zzimInfo.putInt("search_category", 4);
-                zzimInfo.putInt("search_page", 0);
-                zzimInfo.putString("search_code", codeD);
+                followInfo.putInt("search_category", 4);
+                followInfo.putInt("search_page", 0);
+                followInfo.putString("search_code", codeD);
 
-                zzimInfo.putBoolean("search_zzim_state", false);
-                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
+                followInfo.putBoolean("search_zzim_state", false);
+                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, followInfo));
 
                 DataManager.get_INstance().setCheckTab1(true);
             }
+        }
+    }
+
+
+    void FollowClick(int follow, int type, int position){
+
+        if(type == 0){
+
+            followInfo.putInt("search_type", 0);
+            followInfo.putInt("search_page", 0);
+            followInfo.putString("search_code", modelSingleEns.get(position).getCode());
+
+            List<Select> selects = new ArrayList<>();
+            Select select = new Select();
+            select.setIsDam(0);
+            select.setIsLike(0);
+            select.setIsZim(0);
+
+            select.setCode(modelPreSingleEns.get(position).getCode());
+            select.setIsFollow(follow);
+            select.setType(type);
+            selects.add(select);
+
+            ModelUserSelectDto modelUserSelectDto = new ModelUserSelectDto();
+            modelUserSelectDto.setSelects(selects);
+
+            Call<Object> getReList = RetrofitClient.getInstance().getService().setUserSelect("application/json", "follow", modelUserSelectDto);
+            getReList.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    if (response.code() == 200) {
+                        if(follow == 0){
+                            modelPreSingleEns.get(position).setFollow(0);
+                            followInfo.putBoolean("search_follow", false);
+
+                            Toast.makeText(activitySearch, "팔로우 취소", Toast.LENGTH_SHORT).show();
+                            roomDao = SearchRoomDatabase.getINSTANCE(getContext()).roomDao();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    roomDao.updateData(0, modelPreSingleEns.get(position).getCode());
+                                }
+                            }).start();
+
+                        }else{
+                            modelPreSingleEns.get(position).setFollow(1);
+                            followInfo.putBoolean("search_follow", true);
+
+                            Toast.makeText(activitySearch, "팔로우", Toast.LENGTH_SHORT).show();
+                            roomDao = SearchRoomDatabase.getINSTANCE(getContext()).roomDao();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    roomDao.updateData(1, modelPreSingleEns.get(position).getCode());
+                                }
+                            }).start();
+                        }
+                        RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, followInfo));
+                        adapterAllTabSingleEn.notifyDataSetChanged();
+                    }
+                }
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    Log.e("실패","실패"+t.getMessage());
+                }
+            });
+
+        }else{
+
+            followInfo.putInt("search_type", 1);
+            followInfo.putInt("search_page", 0);
+            followInfo.putString("search_code", modelPreSumEn.get(position).getCode());
+
+            List<Select> selects = new ArrayList<>();
+            Select select = new Select();
+            select.setIsDam(0);
+            select.setIsLike(0);
+            select.setIsZim(0);
+
+            select.setCode(modelPreSumEn.get(position).getCode());
+            select.setIsFollow(follow);
+            select.setType(type);
+            selects.add(select);
+
+            ModelUserSelectDto modelUserSelectDto = new ModelUserSelectDto();
+            modelUserSelectDto.setSelects(selects);
+
+            Call<Object> getReList = RetrofitClient.getInstance().getService().setUserSelect("application/json", "follow", modelUserSelectDto);
+            getReList.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    if (response.code() == 200) {
+                        if(follow == 0){
+                            modelPreSumEn.get(position).setFollow(0);
+                            followInfo.putBoolean("search_follow", false);
+
+                            Toast.makeText(activitySearch, "팔로우 취소", Toast.LENGTH_SHORT).show();
+                            roomDao = SearchRoomDatabase.getINSTANCE(getContext()).roomDao();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    roomDao.updateData(0, modelPreSumEn.get(position).getCode());
+                                }
+                            }).start();
+
+                        }else{
+                            modelPreSumEn.get(position).setFollow(1);
+                            followInfo.putBoolean("search_follow", true);
+
+                            Toast.makeText(activitySearch, "팔로우", Toast.LENGTH_SHORT).show();
+                            roomDao = SearchRoomDatabase.getINSTANCE(getContext()).roomDao();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    roomDao.updateData(1, modelPreSumEn.get(position).getCode());
+                                }
+                            }).start();
+                        }
+                        RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, followInfo));
+                        adapterAllTabSumEn.notifyDataSetChanged();
+                    }
+                }
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    Log.e("실패","실패"+t.getMessage());
+                }
+            });
+
         }
     }
 

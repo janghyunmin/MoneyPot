@@ -60,20 +60,22 @@ public class FgRecommendTab extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        Call<ModelSearchOrder> getTest2 = RetrofitClient.getInstance().getService().getSearchOrder(5);
-//        getTest2.enqueue(new Callback<ModelSearchOrder>() {
-//            @Override
-//            public void onResponse(Call<ModelSearchOrder> call, Response<ModelSearchOrder> response) {
-//                if(response.code() == 200) {
-//
-//
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ModelSearchOrder> call, Throwable t) {
-//                Log.e("레트로핏 실패","값 : "+t.getMessage());
-//            }
-//        });
+        Call<ModelSearchOrder> getTest2 = RetrofitClient.getInstance().getService().getSearchOrder(5);
+        getTest2.enqueue(new Callback<ModelSearchOrder>() {
+            @Override
+            public void onResponse(Call<ModelSearchOrder> call, Response<ModelSearchOrder> response) {
+                if(response.code() == 200) {
+
+                    for(int index = 0; index < response.body().getContent().size(); index++){
+                        modelRecommendPorts.add(new ModelRecommendPort(response.body().getContent().get(index).getWord(), ""));
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ModelSearchOrder> call, Throwable t) {
+                Log.e("레트로핏 실패","값 : "+t.getMessage());
+            }
+        });
 
         adapterRecommendPortTab.setPortItemClick(new AdapterRecommendTab.PortItemClick() {
             @Override

@@ -30,6 +30,24 @@ public class AdapterSumEn extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.context = context;
     }
 
+    private SumEnFollowClick sumEnFollowClick;
+    public interface SumEnFollowClick{
+        public void onClick(int position);
+    }
+
+    public void setSumEnFollowClick(SumEnFollowClick sumEnFollowClick) {
+        this.sumEnFollowClick = sumEnFollowClick;
+    }
+
+    private SumEnItemClick sumEnItemClick;
+    public interface SumEnItemClick{
+        public void onClick(int position);
+    }
+
+    public void setSumEnItemClick(SumEnItemClick sumEnItemClick) {
+        this.sumEnItemClick = sumEnItemClick;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,9 +85,18 @@ public class AdapterSumEn extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             ((SumEnViewHolder)holder).followBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    if(singleEnFollowBt != null){
-//                        singleEnFollowBt.onClick(position);
-//                    }
+                    if(sumEnFollowClick != null){
+                        sumEnFollowClick.onClick(position);
+                    }
+                }
+            });
+
+            ((SumEnViewHolder)holder).itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(sumEnItemClick != null){
+                        sumEnItemClick.onClick(position);
+                    }
                 }
             });
 

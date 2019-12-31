@@ -52,6 +52,15 @@ public class AdapterAllTabSingleEn extends RecyclerView.Adapter<RecyclerView.Vie
         this.singleEnDetailBt = singleEnDetailBt;
     }
 
+    private SingleItemClick singleItemClick;
+    public interface SingleItemClick{
+        public void onClick(int position);
+    }
+
+    public void setSingleItemClick(SingleItemClick singleItemClick) {
+        this.singleItemClick = singleItemClick;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -96,6 +105,14 @@ public class AdapterAllTabSingleEn extends RecyclerView.Adapter<RecyclerView.Vie
                 }
             });
 
+            ((AllTabSingleEnViewHolder)holder).itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(singleItemClick != null){
+                        singleItemClick.onClick(position);
+                    }
+                }
+            });
 
         }
 

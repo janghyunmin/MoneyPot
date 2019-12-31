@@ -294,14 +294,14 @@ public interface RetrofitService {
     @GET("common/getSearchOrder/{limit}")
     Call<ModelSearchOrder> getSearchOrder(@Path("limit")int limit);
 
+    /**
+     *
+     * 검색어 저장
+     *
+     */
+    @GET("common/setSearch/{limit}/{search}")
+    Call<Object> setSearch(@Path("limit")int limit, @Path("search")String search);
 
-//    /**
-//     *
-//     * 선호도/팔로우/찜/담 선호도 리턴
-//     *
-//     */
-//    @POST("pot/getUserSelect/{type}")
-//    Call<ModelUserFollow> getUserSelect(@Header("Content-Type") String content_type, @Path("type") int type);
     /**
      *
      * 선호도/팔로우/찜/담 선호도 리턴

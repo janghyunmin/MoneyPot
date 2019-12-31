@@ -201,7 +201,6 @@ public class FgSearchedPage extends Fragment {
 
     }//onViewCreated 끝
 
-    //최근 검색어 저장 이벤트
     boolean RoomDataInsert2(String searchText){
         new Thread(new Runnable() {
             @Override

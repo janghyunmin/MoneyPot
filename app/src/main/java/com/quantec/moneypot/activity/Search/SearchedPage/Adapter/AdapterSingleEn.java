@@ -30,6 +30,24 @@ public class AdapterSingleEn extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.context = context;
     }
 
+    private SingleEnFollowClick singleEnFollowClick;
+    public interface SingleEnFollowClick{
+        public void onClick(int position);
+    }
+
+    public void setSingleEnFollowClick(SingleEnFollowClick singleEnFollowClick) {
+        this.singleEnFollowClick = singleEnFollowClick;
+    }
+
+    private SingleEnItemClick singleEnItemClick;
+    public interface SingleEnItemClick{
+        public void onClick(int position);
+    }
+
+    public void setSingleEnItemClick(SingleEnItemClick singleEnItemClick) {
+        this.singleEnItemClick = singleEnItemClick;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,9 +85,18 @@ public class AdapterSingleEn extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((SingleEnViewHolder)holder).followBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    if(singleEnFollowBt != null){
-//                        singleEnFollowBt.onClick(position);
-//                    }
+                    if(singleEnFollowClick != null){
+                        singleEnFollowClick.onClick(position);
+                    }
+                }
+            });
+
+            ((SingleEnViewHolder)holder).itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(singleEnItemClick != null){
+                        singleEnItemClick.onClick(position);
+                    }
                 }
             });
 
@@ -83,7 +110,6 @@ public class AdapterSingleEn extends RecyclerView.Adapter<RecyclerView.ViewHolde
             int total = modelSingleEns.size()-1;
             ((SingleEnTopViewHolder)holder).num.setText("단일기업 "+total+"건");
         }
-
     }
 
     @Override
@@ -98,7 +124,6 @@ public class AdapterSingleEn extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return EMPTY;
         }
         else{
-
             if(position == 0){
                 return TOP;
             }else{

@@ -3,6 +3,7 @@ package com.quantec.moneypot.activity.Search.SearchedPage.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,9 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import com.quantec.moneypot.activity.PotDetail.ActivitySingleDetail;
 import com.quantec.moneypot.activity.Search.ActivitySearch;
@@ -34,9 +38,13 @@ import com.quantec.moneypot.database.room.local.RoomDao;
 import com.quantec.moneypot.database.room.local.SearchRoomDatabase;
 import com.quantec.moneypot.database.room.viewmodel.SearchViewModel;
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.network.retrofit.RetrofitClient;
 import com.quantec.moneypot.rxandroid.RxEvent;
 import com.quantec.moneypot.rxandroid.RxEventBus;
 import com.quantec.moneypot.util.SharedPreference.SharedPreferenceUtil;
+
+import com.quantec.moneypot.datamodel.dmodel.ModelUserSelectDto;
+import com.quantec.moneypot.datamodel.dmodel.userselectdto.Select;
 
 public class FgSingleEnTab extends Fragment {
 
@@ -47,7 +55,7 @@ public class FgSingleEnTab extends Fragment {
     AdapterSingleEn adapterSingleEn;
 //    ArrayList<ModelPostTitleItem> postTitleItemModels;
 
-    Bundle bundle, zzimInfo;
+    Bundle bundle, followInfo;
 
     Toast toastZzimLimit;
 
@@ -80,9 +88,9 @@ public class FgSingleEnTab extends Fragment {
         recyclerView.setAdapter(adapterSingleEn);
 
         bundle = getArguments();
-//      zzimInfo = new Bundle();
+        followInfo = new Bundle();
 
-//      searchViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+        searchViewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
 
         return view;
 
@@ -99,12 +107,88 @@ public class FgSingleEnTab extends Fragment {
         }
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         modelSingleEns.addAll(bundle.getParcelableArrayList("singleEn"));
+
+        adapterSingleEn.setSingleEnFollowClick(new AdapterSingleEn.SingleEnFollowClick() {
+            @Override
+            public void onClick(int position) {
+
+                if(modelSingleEns.get(position).getFollow() == 0){
+                    FollowClick(1, position);
+                }else{
+                    FollowClick(0, position);
+                }
+            }
+        });
+
+        adapterSingleEn.setSingleEnItemClick(new AdapterSingleEn.SingleEnItemClick() {
+            @Override
+            public void onClick(int position) {
+
+                MovedDetailPage(modelSingleEns.get(position).getCode(), modelSingleEns.get(position).getTitle(), 600);
+            }
+        });
+
+
+        RxEventBus.getInstance()
+                .filteredObservable(RxEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RxEvent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(RxEvent rxEvent) {
+
+                        switch (rxEvent.getActiion()) {
+
+                            case RxEvent.SEARCH_CLICK_ZZIM:
+                                String code = rxEvent.getBundle().getString("search_code");
+                                int page = rxEvent.getBundle().getInt("search_page");
+                                int type = rxEvent.getBundle().getInt("search_type");
+
+                                if(page == 0){
+                                    if(type == 0){
+                                        if (rxEvent.getBundle().getBoolean("search_follow")) {
+                                            for (int a = 0; a < modelSingleEns.size(); a++) {
+                                                if (modelSingleEns.get(a).getCode().equals(code)) {
+                                                    modelSingleEns.get(a).setFollow(1);
+                                                    adapterSingleEn.notifyItemChanged(a);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        //찜 헤제됨
+                                        else {
+                                            for (int a = 0; a < modelSingleEns.size(); a++) {
+                                                if (modelSingleEns.get(a).getCode().equals(code)) {
+                                                    modelSingleEns.get(a).setFollow(0);
+                                                    adapterSingleEn.notifyItemChanged(a);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
+
+
 //        adapterTitlePage.notifyDataSetChanged();
 
         //커스텀 토스트 메시지
@@ -238,6 +322,71 @@ public class FgSingleEnTab extends Fragment {
 
     }//onViewCreate 끝
 
+    void FollowClick(int follow, int position){
+
+//        SharedPreferenceUtil.getInstance(activitySearch).putIntZzimCount("PortZzimCount", response.body().getNum());
+
+        followInfo.putInt("search_type", 0);
+        followInfo.putInt("search_page", 1);
+        followInfo.putString("search_code", modelSingleEns.get(position).getCode());
+
+        List<Select> selects = new ArrayList<>();
+        Select select = new Select();
+        select.setIsDam(0);
+        select.setIsLike(0);
+        select.setIsZim(0);
+
+        select.setCode(modelSingleEns.get(position).getCode());
+        select.setIsFollow(follow);
+        select.setType(0);
+        selects.add(select);
+
+        ModelUserSelectDto modelUserSelectDto = new ModelUserSelectDto();
+        modelUserSelectDto.setSelects(selects);
+
+        Call<Object> getReList = RetrofitClient.getInstance().getService().setUserSelect("application/json", "follow", modelUserSelectDto);
+        getReList.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.code() == 200) {
+                    if(follow == 0){
+                        modelSingleEns.get(position).setFollow(0);
+                        followInfo.putBoolean("search_follow", false);
+
+                        Toast.makeText(activitySearch, "팔로우 취소", Toast.LENGTH_SHORT).show();
+                        roomDao = SearchRoomDatabase.getINSTANCE(getContext()).roomDao();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                roomDao.updateData(0, modelSingleEns.get(position).getCode());
+                            }
+                        }).start();
+
+                    }else{
+                        modelSingleEns.get(position).setFollow(1);
+                        followInfo.putBoolean("search_follow", true);
+
+                        Toast.makeText(activitySearch, "팔로우", Toast.LENGTH_SHORT).show();
+                        roomDao = SearchRoomDatabase.getINSTANCE(getContext()).roomDao();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                roomDao.updateData(1, modelSingleEns.get(position).getCode());
+                            }
+                        }).start();
+                    }
+                    RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, followInfo));
+                    adapterSingleEn.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.e("실패","실패"+t.getMessage());
+            }
+        });
+    }
+
+
     // SelectedState : 0 -> 포트 찜하기 / 1 -> 포트 찜 해제
     void ItemZzim(String PortCode, int PortPosition, int SelectedState){
 
@@ -273,6 +422,32 @@ public class FgSingleEnTab extends Fragment {
 //        });
     }
 
+    void MovedDetailPage(String portCode, String portName, int requestCode){
+
+        Intent intent = new Intent(getActivity(), ActivitySingleDetail.class);
+        intent.putExtra("potCode", portCode);
+        intent.putExtra("detailcode", portCode);
+        intent.putExtra("detailtitle", portName);
+        startActivityForResult(intent, requestCode);
+
+        //최근 검색어 저장 이벤트
+        RoomDataInsert(portName, portCode);
+
+        Call<Object> setSearch = RetrofitClient.getInstance().getService().setSearch(5, portName);
+        setSearch.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if(response.code() == 200) {
+
+                }
+            }
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.e("레트로핏 실패","값 : "+t.getMessage());
+            }
+        });
+    }
+
     void RoomDataInsert(String PortName, String PortCode){
 
         new Thread(new Runnable() {
@@ -306,24 +481,24 @@ public class FgSingleEnTab extends Fragment {
             if(resultCode == 500) {
                 int codeD = data.getIntExtra("search_code_D",0);
 
-                zzimInfo.putInt("search_category", 4);
-                zzimInfo.putInt("search_page", 1);
-                zzimInfo.putInt("search_code", codeD);
+                followInfo.putInt("search_category", 4);
+                followInfo.putInt("search_page", 1);
+                followInfo.putInt("search_code", codeD);
 
-                zzimInfo.putBoolean("search_zzim_state", true);
-                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
+                followInfo.putBoolean("search_zzim_state", true);
+                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, followInfo));
 
                 DataManager.get_INstance().setCheckTab1(true);
             }
             else if(resultCode == 501) {
                 int codeD = data.getIntExtra("search_code_D",0);
 
-                zzimInfo.putInt("search_category", 4);
-                zzimInfo.putInt("search_page", 1);
-                zzimInfo.putInt("search_code", codeD);
+                followInfo.putInt("search_category", 4);
+                followInfo.putInt("search_page", 1);
+                followInfo.putInt("search_code", codeD);
 
-                zzimInfo.putBoolean("search_zzim_state", false);
-                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, zzimInfo));
+                followInfo.putBoolean("search_zzim_state", false);
+                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, followInfo));
 
                 DataManager.get_INstance().setCheckTab1(true);
             }
