@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.data.Entry;
@@ -20,8 +22,10 @@ import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 import com.quantec.moneypot.databinding.ActivitySingleDetailBinding;
 
 /**
@@ -51,6 +55,13 @@ public class ActivitySingleDetail extends AppCompatActivity {
     LineDataSet lineDataSet2;
     LineData lineData2;
 
+    //종목 팔로우 여부
+    boolean followState = false;
+    //팔로우 클릭 여부
+    boolean followClick = false;
+    String code;
+    int position, follow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +83,10 @@ public class ActivitySingleDetail extends AppCompatActivity {
         }
 
         stableEntries = new ArrayList<>();
+        Intent intent1 = getIntent();
+        code = intent1.getStringExtra("portCode");
+        position = intent1.getIntExtra("potPosition", 0);
+
 
         Chip chip = new Chip(this);
         chip.setText("#애플");
@@ -221,6 +236,37 @@ public class ActivitySingleDetail extends AppCompatActivity {
         modelLikeEnters.add(new ModelLikeEnter("","삼성","",5.83));
 
         adapterLikeEnter.notifyDataSetChanged();
-    }
+
+        RxView.clicks(binding.followBt).throttleFirst(600, TimeUnit.MILLISECONDS).subscribe(empty -> {
+
+            followClick = true;
+
+            if(followState){
+                follow = 1;
+            }else{
+                follow = 0;
+            }
+
+        });
+
+        binding.backBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(followClick){
+                    Intent intent = new Intent();
+                    intent.putExtra("searched_code", code);
+                    intent.putExtra("potPosition", position);
+                    intent.putExtra("potFollow", follow);
+                    setResult(500, intent);
+                    finish();
+                }
+                else{
+                    finish();
+                }
+            }
+        });
+
+    }// onCreate 끝
 
 }

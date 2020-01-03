@@ -1,10 +1,13 @@
 package com.quantec.moneypot.activity.propensity;
 
 import android.content.Context;
+import android.media.Image;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +26,7 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private final int INTRO = 0;
     private final int HOPE = 1;
+    private final int RECOM = -1;
     private final int YEARINPUT = 2;
     private final int FINANCERATE = 3;
     private final int INVESTEXP = 4;
@@ -35,6 +39,7 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int WEEKFINANCE = 11;
     private final int INVESTVALIDITY = 12;
     private final int MYCHAT = 13;
+    private final int YIELD = 14;
     private final int SPACE = 20;
 
     ArrayList<ModelPropensity> modelPropensities;
@@ -51,11 +56,6 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.dp = dp;
         this.modelItemClicks = modelItemClicks;
     }
-
-    //    public AdapterPropensity(ArrayList<ModelPropensity> modelPropensities, Context context) {
-//        this.modelPropensities = modelPropensities;
-//        this.context = context;
-//    }
 
     private YearInputOneClick yearInputOneClick;
     public interface YearInputOneClick {
@@ -184,23 +184,6 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.investMddRate30Click = investMddRate30Click;
     }
 
-    private InvestMddRate40Click investMddRate40Click;
-    public interface InvestMddRate40Click {
-        public void onClick(int position);
-    }
-
-    public void setInvestMddRate40Click(InvestMddRate40Click investMddRate40Click) {
-        this.investMddRate40Click = investMddRate40Click;
-    }
-
-    private InvestMddRateUpClick investMddRateUpClick;
-    public interface InvestMddRateUpClick {
-        public void onClick(int position);
-    }
-
-    public void setInvestMddRateUpClick(InvestMddRateUpClick investMddRateUpClick) {
-        this.investMddRateUpClick = investMddRateUpClick;
-    }
 
     private FinanceKnowOneClick financeKnowOneClick;
     public interface FinanceKnowOneClick {
@@ -236,6 +219,43 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void setFinanceKnowForeClick(FinanceKnowForeClick financeKnowForeClick) {
         this.financeKnowForeClick = financeKnowForeClick;
+    }
+
+
+    private YieldClick1 yieldClick1;
+    public interface YieldClick1{
+        public void onClick(int position);
+    }
+
+    public void setYieldClick1(YieldClick1 yieldClick1) {
+        this.yieldClick1 = yieldClick1;
+    }
+
+    private YieldClick2 yieldClick2;
+    public interface YieldClick2{
+        public void onClick(int position);
+    }
+
+    public void setYieldClick2(YieldClick2 yieldClick2) {
+        this.yieldClick2 = yieldClick2;
+    }
+
+    private YieldClick3 yieldClick3;
+    public interface YieldClick3{
+        public void onClick(int position);
+    }
+
+    public void setYieldClick3(YieldClick3 yieldClick3) {
+        this.yieldClick3 = yieldClick3;
+    }
+
+    private YieldClick4 yieldClick4;
+    public interface YieldClick4{
+        public void onClick(int position);
+    }
+
+    public void setYieldClick4(YieldClick4 yieldClick4) {
+        this.yieldClick4 = yieldClick4;
     }
 
     private InvestDeriExpOneClick investDeriExpOneClick;
@@ -355,6 +375,33 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.investPupoItemTenClick = investPupoItemTenClick;
     }
 
+    private InvestPupoItemLayout11 investPopoItemLayout11;
+    public interface InvestPupoItemLayout11{
+        public void onClick(int position);
+    }
+
+    public void setInvestPopoItemLayout11(InvestPupoItemLayout11 investPopoItemLayout11) {
+        this.investPopoItemLayout11 = investPopoItemLayout11;
+    }
+
+    private InvestPupoItemLayout12 investPupoItemLayout12;
+    public interface InvestPupoItemLayout12{
+        public void onClick(int position);
+    }
+
+    public void setInvestPupoItemLayout12(InvestPupoItemLayout12 investPupoItemLayout12) {
+        this.investPupoItemLayout12 = investPupoItemLayout12;
+    }
+
+    private InvestPupoItemLayout13 investPupoItemLayout13;
+    public interface InvestPupoItemLayout13{
+        public void onClick(int position);
+    }
+
+    public void setInvestPupoItemLayout13(InvestPupoItemLayout13 investPupoItemLayout13) {
+        this.investPupoItemLayout13 = investPupoItemLayout13;
+    }
+
     private InvestPupoItemOkClick investPupoItemOkClick;
     public interface InvestPupoItemOkClick{
         public void onClick(int position);
@@ -392,6 +439,17 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.investItemDateThreeClick = investItemDateThreeClick;
     }
 
+    private WeekFinanceClick weekFinanceClick;
+    public interface WeekFinanceClick{
+        public void onClick(int position);
+    }
+
+    public void setWeekFinanceClick(WeekFinanceClick weekFinanceClick) {
+        this.weekFinanceClick = weekFinanceClick;
+    }
+
+    ImageView preChecked1, preChecked2, preChecked3, preChecked4, preChecked5, preChecked6, preChecked7, preChecked8;
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -400,6 +458,8 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return new IntroViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_propensity_intro, parent, false));
             case 1:
                 return new HopeViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_propensity_hope, parent, false));
+            case -1:
+                return new RecomViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_propensity_recom, parent, false));
             case 2:
                 return new YearInputViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_propensity_yearinput, parent, false));
             case 3:
@@ -416,6 +476,8 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return new InvestMddRateViewHodler(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_propensity_investmddrate, parent, false));
             case 9:
                 return new FinanceKnowViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_propensity_financeknow, parent, false));
+            case 14:
+                return new YieldViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_propensity_yield, parent, false));
             case 10:
                 return new InvestDeriExpViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_propensity_investderiexp, parent, false));
             case 11:
@@ -448,14 +510,29 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
         else if(holder instanceof HopeViewHolder){
 
         }
+        else if(holder instanceof RecomViewHolder){
+
+        }
 
         else if(holder instanceof YearInputViewHolder){
+
 
             ((YearInputViewHolder)holder).firstLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(yearInputOneClick != null){
                         yearInputOneClick.onClick(position);
+                    }
+
+                    if(preChecked1 == null){
+                        preChecked1 = ((YearInputViewHolder)holder).firstImage;
+                        preChecked1.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+
+                        preChecked1.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((YearInputViewHolder)holder).firstImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked1 = ((YearInputViewHolder)holder).firstImage;
+
                     }
                 }
             });
@@ -466,6 +543,17 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(yearInputTwoClick != null) {
                         yearInputTwoClick.onClick(position);
                     }
+
+                    if(preChecked1 == null){
+                        preChecked1 = ((YearInputViewHolder)holder).secondImage;
+                        preChecked1.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+
+                        preChecked1.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((YearInputViewHolder)holder).secondImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked1 = ((YearInputViewHolder)holder).secondImage;
+
+                    }
                 }
             });
 
@@ -474,6 +562,17 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View v) {
                     if(yearInputThreeClick != null){
                         yearInputThreeClick.onClick(position);
+                    }
+
+                    if(preChecked1 == null){
+                        preChecked1 = ((YearInputViewHolder)holder).thirdImage;
+                        preChecked1.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+
+                        preChecked1.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((YearInputViewHolder)holder).thirdImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked1 = ((YearInputViewHolder)holder).thirdImage;
+
                     }
                 }
             });
@@ -487,6 +586,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(financeRate5Click != null){
                         financeRate5Click.onClick(position);
                     }
+
+                    if(preChecked2 == null){
+                        preChecked2 = ((FinanceRateViewHolder)holder).per5Image;
+                        preChecked2.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked2.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((FinanceRateViewHolder)holder).per5Image.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked2 = ((FinanceRateViewHolder)holder).per5Image;
+                    }
                 }
             });
 
@@ -495,6 +603,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View v) {
                     if(financeRate10Click != null){
                         financeRate10Click.onClick(position);
+                    }
+
+                    if(preChecked2 == null){
+                        preChecked2 = ((FinanceRateViewHolder)holder).per10Image;
+                        preChecked2.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked2.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((FinanceRateViewHolder)holder).per10Image.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked2 = ((FinanceRateViewHolder)holder).per10Image;
                     }
                 }
             });
@@ -505,6 +622,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(financeRate20Click != null){
                         financeRate20Click.onClick(position);
                     }
+
+                    if(preChecked2 == null){
+                        preChecked2 = ((FinanceRateViewHolder)holder).per20Image;
+                        preChecked2.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked2.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((FinanceRateViewHolder)holder).per20Image.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked2 = ((FinanceRateViewHolder)holder).per20Image;
+                    }
                 }
             });
 
@@ -514,6 +640,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(financeRate30Click != null){
                         financeRate30Click.onClick(position);
                     }
+
+                    if(preChecked2 == null){
+                        preChecked2 = ((FinanceRateViewHolder)holder).per30Image;
+                        preChecked2.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked2.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((FinanceRateViewHolder)holder).per30Image.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked2 = ((FinanceRateViewHolder)holder).per30Image;
+                    }
                 }
             });
 
@@ -522,6 +657,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View v) {
                     if(financeRate30UpClick != null){
                         financeRate30UpClick.onClick(position);
+                    }
+
+                    if(preChecked2 == null){
+                        preChecked2 = ((FinanceRateViewHolder)holder).per30UpImage;
+                        preChecked2.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked2.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((FinanceRateViewHolder)holder).per30UpImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked2 = ((FinanceRateViewHolder)holder).per30UpImage;
                     }
                 }
             });
@@ -551,55 +695,77 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             }
 
-            if(modelItemClicks.get(0).isItemClick()){
-                ((InvestPupoItemViewHolder)holder).oneLayout.setBackgroundColor(context.getResources().getColor(R.color.red_text_color));
+            if(modelItemClicks.get(0).getTotal() > 0){
+                ((InvestPupoItemViewHolder)holder).countLayout.setVisibility(View.VISIBLE);
+                ((InvestPupoItemViewHolder)holder).countText.setText(modelItemClicks.get(0).getTotal()+"/13개 선택");
             }else{
-                ((InvestPupoItemViewHolder)holder).oneLayout.setBackgroundColor(context.getResources().getColor(R.color.text_white_color));
+                ((InvestPupoItemViewHolder)holder).countLayout.setVisibility(View.GONE);
+            }
+
+            if(modelItemClicks.get(0).isItemClick()){
+                ((InvestPupoItemViewHolder)holder).stockImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+            }else{
+                ((InvestPupoItemViewHolder)holder).stockImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
             }
             if(modelItemClicks.get(1).isItemClick()){
-                ((InvestPupoItemViewHolder)holder).twoLayout.setBackgroundColor(context.getResources().getColor(R.color.red_text_color));
+                ((InvestPupoItemViewHolder)holder).warpImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
             }else{
-                ((InvestPupoItemViewHolder)holder).twoLayout.setBackgroundColor(context.getResources().getColor(R.color.text_white_color));
+                ((InvestPupoItemViewHolder)holder).warpImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
             }
             if(modelItemClicks.get(2).isItemClick()){
-                ((InvestPupoItemViewHolder)holder).threeLayout.setBackgroundColor(context.getResources().getColor(R.color.red_text_color));
+                ((InvestPupoItemViewHolder)holder).mixImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
             }else{
-                ((InvestPupoItemViewHolder)holder).threeLayout.setBackgroundColor(context.getResources().getColor(R.color.text_white_color));
+                ((InvestPupoItemViewHolder)holder).mixImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
             }
             if(modelItemClicks.get(3).isItemClick()){
-                ((InvestPupoItemViewHolder)holder).foreLayout.setBackgroundColor(context.getResources().getColor(R.color.red_text_color));
+                ((InvestPupoItemViewHolder)holder).fundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
             }else{
-                ((InvestPupoItemViewHolder)holder).foreLayout.setBackgroundColor(context.getResources().getColor(R.color.text_white_color));
+                ((InvestPupoItemViewHolder)holder).fundImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
             }
             if(modelItemClicks.get(4).isItemClick()){
-                ((InvestPupoItemViewHolder)holder).fiveLayout.setBackgroundColor(context.getResources().getColor(R.color.red_text_color));
+                ((InvestPupoItemViewHolder)holder).outImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
             }else{
-                ((InvestPupoItemViewHolder)holder).fiveLayout.setBackgroundColor(context.getResources().getColor(R.color.text_white_color));
+                ((InvestPupoItemViewHolder)holder).outImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
             }
             if(modelItemClicks.get(5).isItemClick()){
-                ((InvestPupoItemViewHolder)holder).sixLayout.setBackgroundColor(context.getResources().getColor(R.color.red_text_color));
+                ((InvestPupoItemViewHolder)holder).optionImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
             }else{
-                ((InvestPupoItemViewHolder)holder).sixLayout.setBackgroundColor(context.getResources().getColor(R.color.text_white_color));
+                ((InvestPupoItemViewHolder)holder).optionImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
             }
             if(modelItemClicks.get(6).isItemClick()){
-                ((InvestPupoItemViewHolder)holder).sevenLayout.setBackgroundColor(context.getResources().getColor(R.color.red_text_color));
+                ((InvestPupoItemViewHolder)holder).trustImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
             }else{
-                ((InvestPupoItemViewHolder)holder).sevenLayout.setBackgroundColor(context.getResources().getColor(R.color.text_white_color));
+                ((InvestPupoItemViewHolder)holder).trustImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
             }
             if(modelItemClicks.get(7).isItemClick()){
-                ((InvestPupoItemViewHolder)holder).eightLayout.setBackgroundColor(context.getResources().getColor(R.color.red_text_color));
+                ((InvestPupoItemViewHolder)holder).bondImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
             }else{
-                ((InvestPupoItemViewHolder)holder).eightLayout.setBackgroundColor(context.getResources().getColor(R.color.text_white_color));
+                ((InvestPupoItemViewHolder)holder).bondImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
             }
             if(modelItemClicks.get(8).isItemClick()){
-                ((InvestPupoItemViewHolder)holder).nineLayout.setBackgroundColor(context.getResources().getColor(R.color.red_text_color));
+                ((InvestPupoItemViewHolder)holder).elwImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
             }else{
-                ((InvestPupoItemViewHolder)holder).nineLayout.setBackgroundColor(context.getResources().getColor(R.color.text_white_color));
+                ((InvestPupoItemViewHolder)holder).elwImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
             }
             if(modelItemClicks.get(9).isItemClick()){
-                ((InvestPupoItemViewHolder)holder).tenLayout.setBackgroundColor(context.getResources().getColor(R.color.red_text_color));
+                ((InvestPupoItemViewHolder)holder).elsImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
             }else{
-                ((InvestPupoItemViewHolder)holder).tenLayout.setBackgroundColor(context.getResources().getColor(R.color.text_white_color));
+                ((InvestPupoItemViewHolder)holder).elsImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+            }
+            if(modelItemClicks.get(10).isItemClick()){
+                ((InvestPupoItemViewHolder)holder).Image11.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+            }else{
+                ((InvestPupoItemViewHolder)holder).Image11.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+            }
+            if(modelItemClicks.get(11).isItemClick()){
+                ((InvestPupoItemViewHolder)holder).Image12.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+            }else{
+                ((InvestPupoItemViewHolder)holder).Image12.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+            }
+            if(modelItemClicks.get(12).isItemClick()){
+                ((InvestPupoItemViewHolder)holder).Image13.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+            }else{
+                ((InvestPupoItemViewHolder)holder).Image13.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
             }
 
 
@@ -703,6 +869,35 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     }
                 }
             });
+
+
+            ((InvestPupoItemViewHolder)holder).layout11.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(investPopoItemLayout11 != null){
+                        investPopoItemLayout11.onClick(position);
+                    }
+                }
+            });
+
+            ((InvestPupoItemViewHolder)holder).layout12.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(investPupoItemLayout12 != null){
+                        investPupoItemLayout12.onClick(position);
+                    }
+                }
+            });
+
+            ((InvestPupoItemViewHolder)holder).layout13.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(investPupoItemLayout13 != null){
+                        investPupoItemLayout13.onClick(position);
+                    }
+                }
+            });
+
         }
 
         else if(holder instanceof InvestItemDateViewHolder){
@@ -713,6 +908,16 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(investItemDateOneClick != null){
                         investItemDateOneClick.onClick(position);
                     }
+
+
+                    if(preChecked8 == null){
+                        preChecked8 = ((InvestItemDateViewHolder)holder).firstImage;
+                        preChecked8.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked8.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((InvestItemDateViewHolder)holder).firstImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked8 = ((InvestItemDateViewHolder)holder).firstImage;
+                    }
                 }
             });
 
@@ -722,6 +927,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(investItemDateTwoClick != null){
                         investItemDateTwoClick.onClick(position);
                     }
+
+                    if(preChecked8 == null){
+                        preChecked8 = ((InvestItemDateViewHolder)holder).secondImage;
+                        preChecked8.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked8.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((InvestItemDateViewHolder)holder).secondImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked8 = ((InvestItemDateViewHolder)holder).secondImage;
+                    }
                 }
             });
 
@@ -730,6 +944,14 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View v) {
                     if(investItemDateThreeClick != null){
                         investItemDateThreeClick.onClick(position);
+                    }
+                    if(preChecked8 == null){
+                        preChecked8 = ((InvestItemDateViewHolder)holder).thirdImage;
+                        preChecked8.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked8.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((InvestItemDateViewHolder)holder).thirdImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked8 = ((InvestItemDateViewHolder)holder).thirdImage;
                     }
                 }
             });
@@ -743,6 +965,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(investPupoOneClick != null){
                         investPupoOneClick.onClick(position);
                     }
+
+                    if(preChecked3 == null){
+                        preChecked3 = ((InvestPupoViewHolder)holder).firstImage;
+                        preChecked3.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked3.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((InvestPupoViewHolder)holder).firstImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked3 = ((InvestPupoViewHolder)holder).firstImage;
+                    }
                 }
             });
 
@@ -752,6 +983,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(investPupoTwoClick != null){
                         investPupoTwoClick.onClick(position);
                     }
+
+                    if(preChecked3 == null){
+                        preChecked3 = ((InvestPupoViewHolder)holder).secondImage;
+                        preChecked3.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked3.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((InvestPupoViewHolder)holder).secondImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked3 = ((InvestPupoViewHolder)holder).secondImage;
+                    }
                 }
             });
 
@@ -760,6 +1000,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View v) {
                     if(investPupoThreeClick != null){
                         investPupoThreeClick.onclick(position);
+                    }
+
+                    if(preChecked3 == null){
+                        preChecked3 = ((InvestPupoViewHolder)holder).thirdImage;
+                        preChecked3.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked3.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((InvestPupoViewHolder)holder).thirdImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked3 = ((InvestPupoViewHolder)holder).thirdImage;
                     }
                 }
             });
@@ -774,6 +1023,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(investMddRate10Click != null){
                         investMddRate10Click.onClick(position);
                     }
+
+                    if(preChecked4 == null){
+                        preChecked4 = ((InvestMddRateViewHodler)holder).per10Image;
+                        preChecked4.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked4.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((InvestMddRateViewHodler)holder).per10Image.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked4 = ((InvestMddRateViewHodler)holder).per10Image;
+                    }
                 }
             });
 
@@ -782,6 +1040,16 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View v) {
                     if(investMddRate20Click != null){
                         investMddRate20Click.onClick(position);
+                    }
+
+
+                    if(preChecked4 == null){
+                        preChecked4 = ((InvestMddRateViewHodler)holder).per20Image;
+                        preChecked4.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked4.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((InvestMddRateViewHodler)holder).per20Image.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked4 = ((InvestMddRateViewHodler)holder).per20Image;
                     }
                 }
             });
@@ -792,23 +1060,14 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(investMddRate30Click != null){
                         investMddRate30Click.onClick(position);
                     }
-                }
-            });
 
-            ((InvestMddRateViewHodler)holder).per40Layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(investMddRate40Click != null){
-                        investMddRate40Click.onClick(position);
-                    }
-                }
-            });
-
-            ((InvestMddRateViewHodler)holder).perNoLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(investMddRateUpClick != null){
-                        investMddRateUpClick.onClick(position);
+                    if(preChecked4 == null){
+                        preChecked4 = ((InvestMddRateViewHodler)holder).per30Image;
+                        preChecked4.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked4.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((InvestMddRateViewHodler)holder).per30Image.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked4 = ((InvestMddRateViewHodler)holder).per30Image;
                     }
                 }
             });
@@ -823,6 +1082,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(financeKnowOneClick != null){
                         financeKnowOneClick.onClick(position);
                     }
+
+                    if(preChecked5 == null){
+                        preChecked5 = ((FinanceKnowViewHolder)holder).oneImage;
+                        preChecked5.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked5.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((FinanceKnowViewHolder)holder).oneImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked5 = ((FinanceKnowViewHolder)holder).oneImage;
+                    }
                 }
             });
 
@@ -831,6 +1099,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View v) {
                     if(financeKnowTwoClick != null){
                         financeKnowTwoClick.onClick(position);
+                    }
+
+                    if(preChecked5 == null){
+                        preChecked5 = ((FinanceKnowViewHolder)holder).twoImage;
+                        preChecked5.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked5.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((FinanceKnowViewHolder)holder).twoImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked5 = ((FinanceKnowViewHolder)holder).twoImage;
                     }
                 }
             });
@@ -841,6 +1118,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(financeKnowThreeClick != null){
                         financeKnowThreeClick.onClick(position);
                     }
+
+                    if(preChecked5 == null){
+                        preChecked5 = ((FinanceKnowViewHolder)holder).threeImage;
+                        preChecked5.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked5.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((FinanceKnowViewHolder)holder).threeImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked5 = ((FinanceKnowViewHolder)holder).threeImage;
+                    }
                 }
             });
 
@@ -849,6 +1135,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View v) {
                     if(financeKnowForeClick != null){
                         financeKnowForeClick.onClick(position);
+                    }
+
+                    if(preChecked5 == null){
+                        preChecked5 = ((FinanceKnowViewHolder)holder).foreImage;
+                        preChecked5.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked5.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((FinanceKnowViewHolder)holder).foreImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked5 = ((FinanceKnowViewHolder)holder).foreImage;
                     }
                 }
             });
@@ -863,6 +1158,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(investDeriExpOneClick != null){
                         investDeriExpOneClick.onClick(position);
                     }
+
+                    if(preChecked6 == null){
+                        preChecked6 = ((InvestDeriExpViewHolder)holder).firstImage;
+                        preChecked6.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked6.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((InvestDeriExpViewHolder)holder).firstImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked6 = ((InvestDeriExpViewHolder)holder).firstImage;
+                    }
                 }
             });
 
@@ -871,6 +1175,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View v) {
                     if(investDeriExpTwoClick != null){
                         investDeriExpTwoClick.onClick(position);
+                    }
+
+                    if(preChecked6 == null){
+                        preChecked6 = ((InvestDeriExpViewHolder)holder).secondImage;
+                        preChecked6.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked6.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((InvestDeriExpViewHolder)holder).secondImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked6 = ((InvestDeriExpViewHolder)holder).secondImage;
                     }
                 }
             });
@@ -881,6 +1194,15 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(investDeriExpThreeClick != null){
                         investDeriExpThreeClick.onClick(position);
                     }
+
+                    if(preChecked6 == null){
+                        preChecked6 = ((InvestDeriExpViewHolder)holder).thirdImage;
+                        preChecked6.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked6.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((InvestDeriExpViewHolder)holder).thirdImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked6 = ((InvestDeriExpViewHolder)holder).thirdImage;
+                    }
                 }
             });
 
@@ -890,7 +1212,9 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((WeekFinanceViewHolder)holder).infoBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "취약점 공시", Toast.LENGTH_SHORT).show();
+                    if(weekFinanceClick != null){
+                        weekFinanceClick.onClick(position);
+                    }
                 }
             });
         }
@@ -909,6 +1233,84 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         }
 
+
+        else if(holder instanceof YieldViewHolder) {
+            ((YieldViewHolder)holder).oneLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(yieldClick1 != null){
+                        yieldClick1.onClick(position);
+                    }
+
+                    if(preChecked7 == null){
+                        preChecked7 = ((YieldViewHolder)holder).oneImage;
+                        preChecked7.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked7.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((YieldViewHolder)holder).oneImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked7 = ((YieldViewHolder)holder).oneImage;
+                    }
+                }
+            });
+
+            ((YieldViewHolder)holder).twoLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(yieldClick2 != null){
+                        yieldClick2.onClick(position);
+                    }
+
+                    if(preChecked7 == null){
+                        preChecked7 = ((YieldViewHolder)holder).twoImage;
+                        preChecked7.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked7.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((YieldViewHolder)holder).twoImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked7 = ((YieldViewHolder)holder).twoImage;
+                    }
+                }
+            });
+
+            ((YieldViewHolder)holder).threeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(yieldClick3 != null){
+                        yieldClick3.onClick(position);
+                    }
+
+                    if(preChecked7 == null){
+                        preChecked7 = ((YieldViewHolder)holder).threeImage;
+                        preChecked7.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked7.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((YieldViewHolder)holder).threeImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked7 = ((YieldViewHolder)holder).threeImage;
+                    }
+                }
+            });
+
+            ((YieldViewHolder)holder).foreLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(yieldClick4 != null){
+                        yieldClick4.onClick(position);
+                    }
+
+                    if(preChecked7 == null){
+                        preChecked7 = ((YieldViewHolder)holder).foreImage;
+                        preChecked7.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                    }else{
+                        preChecked7.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_off_whitegray));
+                        ((YieldViewHolder)holder).foreImage.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_checkbox_on_blue));
+                        preChecked7 = ((YieldViewHolder)holder).foreImage;
+                    }
+                }
+            });
+        }
+
     }
 
     @Override
@@ -924,6 +1326,8 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return INTRO;
             case 1:
                 return HOPE;
+            case -1:
+                return RECOM;
             case 2:
                 return YEARINPUT;
             case 3:
@@ -948,6 +1352,8 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return INVESTVALIDITY;
             case 13:
                 return MYCHAT;
+            case 14:
+                return YIELD;
             case 20:
                 return SPACE;
             default:
@@ -955,6 +1361,26 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    public class YieldViewHolder extends RecyclerView.ViewHolder {
+
+        ConstraintLayout oneLayout, twoLayout, threeLayout, foreLayout;
+        ImageView oneImage, twoImage, threeImage, foreImage;
+
+        public YieldViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            oneLayout = itemView.findViewById(R.id.oneLayout);
+            twoLayout = itemView.findViewById(R.id.twoLayout);
+            threeLayout = itemView.findViewById(R.id.threeLayout);
+            foreLayout = itemView.findViewById(R.id.foreLayout);
+
+            oneImage = itemView.findViewById(R.id.oneImage);
+            twoImage = itemView.findViewById(R.id.twoImage);
+            threeImage = itemView.findViewById(R.id.threeImage);
+            foreImage = itemView.findViewById(R.id.foreImage);
+
+        }
+    }
 
     public class IntroViewHolder extends RecyclerView.ViewHolder {
         public IntroViewHolder(@NonNull View itemView) {
@@ -968,9 +1394,16 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    public class RecomViewHolder extends RecyclerView.ViewHolder {
+        public RecomViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
     public class YearInputViewHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout firstLayout, secondLayout, thirdLayout;
+        ImageView firstImage, secondImage ,thirdImage;
 
         public YearInputViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -979,12 +1412,16 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
             secondLayout = itemView.findViewById(R.id.secondLayout);
             thirdLayout = itemView.findViewById(R.id.thirdLayout);
 
+            firstImage = itemView.findViewById(R.id.firstImage);
+            secondImage = itemView.findViewById(R.id.secondImage);
+            thirdImage = itemView.findViewById(R.id.thirdImage);
         }
     }
 
     public class FinanceRateViewHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout per5Layout, per10Layout, per20Layout, per30Layout, per30UpLayout;
+        ImageView per5Image, per10Image, per20Image, per30Image, per30UpImage;
 
         public FinanceRateViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -994,6 +1431,14 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
             per20Layout = itemView.findViewById(R.id.per20Layout);
             per30Layout = itemView.findViewById(R.id.per30Layout);
             per30UpLayout = itemView.findViewById(R.id.per30UpLayout);
+
+            per5Image = itemView.findViewById(R.id.per5Image);
+            per10Image = itemView.findViewById(R.id.per10Image);
+            per20Image = itemView.findViewById(R.id.per20Image);
+            per30Image = itemView.findViewById(R.id.per30Image);
+            per30UpImage = itemView.findViewById(R.id.per30UpImage);
+
+
         }
     }
 
@@ -1005,8 +1450,10 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public class InvestPupoItemViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout oneLayout, twoLayout, threeLayout, foreLayout, fiveLayout, sixLayout, sevenLayout, eightLayout, nineLayout, tenLayout;
-        TextView okText;
+        ConstraintLayout oneLayout, twoLayout, threeLayout, foreLayout, fiveLayout, sixLayout, sevenLayout, eightLayout, nineLayout, tenLayout, layout11, layout12, layout13, countLayout;
+        ImageView stockImage, warpImage, mixImage, fundImage, outImage, optionImage, trustImage, bondImage, elwImage, elsImage, Image11, Image12, Image13;
+        TextView okText, countText;
+        Space space;
 
         public InvestPupoItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1022,25 +1469,55 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
             nineLayout = itemView.findViewById(R.id.nineLayout);
             tenLayout = itemView.findViewById(R.id.tenLayout);
 
+            layout11 = itemView.findViewById(R.id.layout11);
+            layout12 = itemView.findViewById(R.id.layout12);
+            layout13 = itemView.findViewById(R.id.layout13);
+
             okText = itemView.findViewById(R.id.okText);
+
+            stockImage = itemView.findViewById(R.id.stockImage);
+            warpImage = itemView.findViewById(R.id.warpImage);
+            mixImage = itemView.findViewById(R.id.mixImage);
+            fundImage = itemView.findViewById(R.id.fundImage);
+            outImage = itemView.findViewById(R.id.outImage);
+            optionImage = itemView.findViewById(R.id.optionImage);
+            trustImage = itemView.findViewById(R.id.trustImage);
+            bondImage = itemView.findViewById(R.id.bondImage);
+            elwImage = itemView.findViewById(R.id.elwImage);
+            elsImage = itemView.findViewById(R.id.elsImage);
+            Image11 = itemView.findViewById(R.id.Image11);
+            Image12 = itemView.findViewById(R.id.Image12);
+            Image13 = itemView.findViewById(R.id.Image13);
+
+            countLayout = itemView.findViewById(R.id.countLayout);
+            countText = itemView.findViewById(R.id.countText);
+
+            space = itemView.findViewById(R.id.space);
         }
     }
 
     public class InvestItemDateViewHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout firstLayout, secondLayout, thirdLayout;
+        ImageView firstImage, secondImage, thirdImage;
 
         public InvestItemDateViewHolder(@NonNull View itemView) {
             super(itemView);
             firstLayout = itemView.findViewById(R.id.firstLayout);
             secondLayout = itemView.findViewById(R.id.secondLayout);
             thirdLayout = itemView.findViewById(R.id.thirdLayout);
+
+            firstImage = itemView.findViewById(R.id.firstImage);
+            secondImage = itemView.findViewById(R.id.secondImage);
+            thirdImage = itemView.findViewById(R.id.thirdImage);
+
         }
     }
 
     public class InvestPupoViewHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout firstLayout, secondLayout, thirdLayout;
+        ImageView firstImage, secondImage, thirdImage;
 
         public InvestPupoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1048,12 +1525,18 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
             firstLayout = itemView.findViewById(R.id.firstLayout);
             secondLayout = itemView.findViewById(R.id.secondLayout);
             thirdLayout = itemView.findViewById(R.id.thirdLayout);
+
+            firstImage = itemView.findViewById(R.id.firstImage);
+            secondImage = itemView.findViewById(R.id.secondImage);
+            thirdImage = itemView.findViewById(R.id.thirdImage);
+
         }
     }
 
     public class InvestMddRateViewHodler extends RecyclerView.ViewHolder {
 
-        ConstraintLayout per10Layout, per20Layout, per30Layout, per40Layout, perNoLayout;
+        ConstraintLayout per10Layout, per20Layout, per30Layout;
+        ImageView per10Image, per20Image, per30Image;
 
         public InvestMddRateViewHodler(@NonNull View itemView) {
             super(itemView);
@@ -1061,15 +1544,17 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
             per10Layout = itemView.findViewById(R.id.per10Layout);
             per20Layout = itemView.findViewById(R.id.per20Layout);
             per30Layout = itemView.findViewById(R.id.per30Layout);
-            per40Layout = itemView.findViewById(R.id.per40Layout);
-            perNoLayout = itemView.findViewById(R.id.perNoLayout);
 
+            per10Image = itemView.findViewById(R.id.per10Image);
+            per20Image = itemView.findViewById(R.id.per20Image);
+            per30Image = itemView.findViewById(R.id.per30Image);
         }
     }
 
     public class FinanceKnowViewHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout oneLayout, twoLayout, threeLayout, foreLayout;
+        ImageView oneImage, twoImage, threeImage, foreImage;
 
         public FinanceKnowViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1078,12 +1563,19 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
             twoLayout = itemView.findViewById(R.id.twoLayout);
             threeLayout = itemView.findViewById(R.id.threeLayout);
             foreLayout = itemView.findViewById(R.id.foreLayout);
+
+            oneImage = itemView.findViewById(R.id.oneImage);
+            twoImage = itemView.findViewById(R.id.twoImage);
+            threeImage = itemView.findViewById(R.id.threeImage);
+            foreImage = itemView.findViewById(R.id.foreImage);
+
         }
     }
 
     public class InvestDeriExpViewHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout firstLayout, secondLayout, thirdLayout;
+        ImageView firstImage, secondImage, thirdImage;
 
         public InvestDeriExpViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1091,6 +1583,10 @@ public class AdapterPropensity extends RecyclerView.Adapter<RecyclerView.ViewHol
             firstLayout = itemView.findViewById(R.id.firstLayout);
             secondLayout = itemView.findViewById(R.id.secondLayout);
             thirdLayout = itemView.findViewById(R.id.thirdLayout);
+
+            firstImage = itemView.findViewById(R.id.firstImage);
+            secondImage = itemView.findViewById(R.id.secondImage);
+            thirdImage = itemView.findViewById(R.id.thirdImage);
 
         }
     }

@@ -241,7 +241,7 @@ public class FgAllTab extends Fragment {
         adapterAllTabSingleEn.setSingleItemClick(new AdapterAllTabSingleEn.SingleItemClick() {
             @Override
             public void onClick(int position) {
-                MovedDetailPage(modelPreSingleEns.get(position).getCode(), modelPreSingleEns.get(position).getTitle(), 600);
+                MovedDetailPage(modelPreSingleEns.get(position).getCode(), modelPreSingleEns.get(position).getTitle(), position, 600);
             }
         });
 
@@ -325,12 +325,13 @@ public class FgAllTab extends Fragment {
     }//onViewCreated 끝
 
     // 각 카테고리에서 상세페이지로 이동
-    void MovedDetailPage(String portCode, String portName, int requestCode){
+    void MovedDetailPage(String portCode, String portName, int position, int requestCode){
 
         Intent intent = new Intent(getActivity(), ActivitySingleDetail.class);
         intent.putExtra("potCode", portCode);
         intent.putExtra("detailcode", portCode);
         intent.putExtra("detailtitle", portName);
+        intent.putExtra("potPosition", position);
         startActivityForResult(intent, requestCode);
 
         //최근 검색어 저장 이벤트
@@ -350,6 +351,7 @@ public class FgAllTab extends Fragment {
             }
         });
     }
+
     //최근 검색어 저장 이벤트
     void RoomDataInsert(String PortName, String PortCode){
         new Thread(new Runnable() {
@@ -382,29 +384,33 @@ public class FgAllTab extends Fragment {
 
         if(requestCode == 600) {
             if(resultCode == 500) {
-                String codeD = data.getStringExtra("search_code_D");
+                String code = data.getStringExtra("searched_code");
 
-                followInfo.putInt("search_category", 4);
-                followInfo.putInt("search_page", 0);
-                followInfo.putString("search_code", codeD);
+                Log.e("받은 코드값1", "값 : "+code);
 
-                followInfo.putBoolean("search_zzim_state", true);
-                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, followInfo));
-
-                DataManager.get_INstance().setCheckTab1(true);
+//                followInfo.putInt("search_type", 4);
+//                followInfo.putInt("search_page", 0);
+//                followInfo.putString("search_code", codeD);
+//
+//                followInfo.putBoolean("search_follow", true);
+//                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, followInfo));
+//
+//                DataManager.get_INstance().setCheckTab1(true);
 
             }
             else if(resultCode == 501) {
-                String codeD = data.getStringExtra("search_code_D");
+                String code = data.getStringExtra("searched_code");
 
-                followInfo.putInt("search_category", 4);
-                followInfo.putInt("search_page", 0);
-                followInfo.putString("search_code", codeD);
+                Log.e("받은 코드값2", "값 : "+code);
 
-                followInfo.putBoolean("search_zzim_state", false);
-                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, followInfo));
-
-                DataManager.get_INstance().setCheckTab1(true);
+//                followInfo.putInt("search_type", 4);
+//                followInfo.putInt("search_page", 0);
+//                followInfo.putString("search_code", codeD);
+//
+//                followInfo.putBoolean("search_follow", false);
+//                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_CLICK_ZZIM, followInfo));
+//
+//                DataManager.get_INstance().setCheckTab1(true);
             }
         }
     }

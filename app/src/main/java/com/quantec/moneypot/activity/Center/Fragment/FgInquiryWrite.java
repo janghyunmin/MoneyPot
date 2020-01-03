@@ -108,7 +108,6 @@ public class FgInquiryWrite extends Fragment implements View.OnClickListener {
     private View.OnClickListener selectedAccountBt = new View.OnClickListener() {
         public void onClick(View v) {
 
-
             category.setText("계좌 관련 문의");
             category.setTextColor(getResources().getColor(R.color.normal_text_color));
             categoryNumber = "02";
@@ -119,7 +118,6 @@ public class FgInquiryWrite extends Fragment implements View.OnClickListener {
     };
     private View.OnClickListener selectedProductBt = new View.OnClickListener() {
         public void onClick(View v) {
-
 
             category.setText("상품 관련 문의");
             category.setTextColor(getResources().getColor(R.color.normal_text_color));

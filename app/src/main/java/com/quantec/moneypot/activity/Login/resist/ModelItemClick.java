@@ -2,12 +2,22 @@ package com.quantec.moneypot.activity.Login.resist;
 
 public class ModelItemClick {
 
+    int total;
     boolean itemClick;
     String title;
 
-    public ModelItemClick(boolean itemClick, String title) {
+    public ModelItemClick(int total, boolean itemClick, String title) {
+        this.total = total;
         this.itemClick = itemClick;
         this.title = title;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     public boolean isItemClick() {

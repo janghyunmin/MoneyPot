@@ -2,16 +2,19 @@
 <resources>
 
     <string-array name="propensity">
-        <item>주식 신용 거래</item>
-        <item>투자 자문 / 일임(wrap)</item>
-        <item>채권 / 혼합형 펀드</item>
+        <item>주식 신용거래</item>
+        <item>선물/옵션</item>
+        <item>ELW</item>
+        <item>원금비보장형 ELS/DLS/ELF</item>
+        <item>주식</item>
         <item>주식형 펀드</item>
-        <item>외화 증권</item>
-        <item>선물 / 옵션</item>
+        <item>해외펀드</item>
+        <item>원금보장형 ELS/DLS/ELF</item>
+        <item>투자자문/일임(Wrap)</item>
+        <item>외화증권</item>
+        <item>채권/혼합형 펀드</item>
         <item>신탁</item>
         <item>채권</item>
-        <item>ELW</item>
-        <item>원금 비보장형 ELS / DLS / ELF</item>
     </string-array>
 
     <string-array name="rootingpath">

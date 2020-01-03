@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="투자자 성향조사"
         android:textSize="12dp"
-        android:textColor="@color/text_black_color"
+        android:textColor="@color/c_3d3f42"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -42,7 +42,7 @@
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="68dp"
-        android:background="#f4f4f4"
+        android:background="#fafafa"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="parent"
@@ -51,17 +51,78 @@
             android:id="@+id/yesBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="권유를 원함"
+            android:text="정보제공"
+            android:background="@drawable/item_propensity_bottom"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textColor="@color/c_3d3f42"
+            android:layout_marginStart="45dp"
+            />
+        <TextView
+            android:id="@+id/noBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="정보 제공하지 않음"
+            android:background="@drawable/item_propensity_bottom"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textColor="@color/c_3d3f42"
+            android:layout_marginStart="12dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dupliNext"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="#f4f4f4"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="parent"
+        >
+        <TextView
+            android:id="@+id/dupliNextBt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="동의합니다"
             android:background="@drawable/item_propensity_bottom"
             android:paddingTop="7dp"
             android:paddingBottom="7dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:textColor="@color/text_black_color"
+            android:layout_marginStart="130dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="#fafafa"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="parent"
+        >
+        <TextView
+            android:id="@+id/yesBt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="권유를 원함"
+            android:background="@drawable/item_propensity_bottom"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textColor="@color/c_3d3f42"
             android:layout_marginStart="45dp"
             />
         <TextView
-            android:id="@+id/noBt"
+            android:id="@+id/noBt1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="권유를 원하지 않음"
@@ -70,10 +131,11 @@
             android:paddingBottom="7dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:textColor="@color/text_black_color"
+            android:textColor="@color/c_3d3f42"
             android:layout_marginStart="12dp"
             />
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/bottomLayout2"

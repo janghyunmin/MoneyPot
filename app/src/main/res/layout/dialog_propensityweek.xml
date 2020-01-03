@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="328dp"
+    android:layout_height="334dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/dialog_radius_10dp"
+    android:layout_gravity="center">
+
+    <ImageView
+        android:id="@+id/closeBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_closebox_gray"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:textColor="@color/c_3d3f42"
+        app:layout_constraintTop_toBottomOf="@+id/closeBt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="취약 금융소비자란?"
+        />
+
+    <TextView
+        android:id="@+id/subTitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:textSize="12dp"
+        android:textColor="@color/c_3d3f42"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:lineSpacingMultiplier="1.4"
+        android:layout_marginStart="48dp"
+        android:paddingEnd="48dp"
+        />
+    <TextView
+        android:id="@+id/subTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="12dp"
+        android:textColor="@color/c_3d3f42"
+        app:layout_constraintTop_toBottomOf="@+id/subTitle1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:lineSpacingMultiplier="1.4"
+        android:layout_marginStart="48dp"
+        android:paddingEnd="48dp"
+        android:text="단, 취약 금융소비자에 대한 정보제공을 거부하는 경우 [금융소비자보호 모범규준] 상 강화된 적합성원칙 및 설명의무의 적용이 배제됩니다."
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
