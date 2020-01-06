@@ -13,9 +13,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 import com.quantec.moneypot.activity.prefer.ModelEnterList;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class AdapterEnter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -65,12 +67,10 @@ public class AdapterEnter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 ((EnterViewHolder)holder).imageSelected.setImageDrawable(null);
             }
 
-            ((EnterViewHolder)holder).image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(sectorItemClick != null){
-                        sectorItemClick.onClick(position);
-                    }
+
+            RxView.clicks(((EnterViewHolder)holder).image).throttleFirst(700, TimeUnit.MILLISECONDS).subscribe(empty -> {
+                if(sectorItemClick != null){
+                    sectorItemClick.onClick(position);
                 }
             });
 

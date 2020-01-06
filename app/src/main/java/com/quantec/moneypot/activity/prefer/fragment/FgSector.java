@@ -133,7 +133,7 @@ public class FgSector extends Fragment {
                     totalCount--;
 
                     if(clickItem2 != null){
-                        clickItem2.onClick2(false, totalCount, modelSectorLists.get(position).getImage(),"분야",modelSectorLists.get(position).getTitle(), position);
+                        clickItem2.onClick2(false, totalCount, modelSectorLists.get(position).getImage(),"분야", modelSectorLists.get(position).getTitle(), position);
                     }
                     adapterSector.notifyItemChanged(position);
                 }else{
@@ -143,7 +143,7 @@ public class FgSector extends Fragment {
                         adapterSector.notifyItemChanged(position);
 
                         if(clickItem2 != null){
-                            clickItem2.onClick2(true, totalCount, modelSectorLists.get(position).getImage(),"분야",modelSectorLists.get(position).getTitle(), position);
+                            clickItem2.onClick2(true, totalCount, modelSectorLists.get(position).getImage(),"분야", modelSectorLists.get(position).getTitle(), position);
                         }
 
                     }else{

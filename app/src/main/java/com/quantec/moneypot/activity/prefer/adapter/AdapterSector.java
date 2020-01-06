@@ -12,9 +12,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 import com.quantec.moneypot.activity.prefer.ModelSectorList;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class AdapterSector extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -62,12 +64,11 @@ public class AdapterSector extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((SectorViewHolder)holder).imageSelected.setImageDrawable(null);
             }
 
-            ((SectorViewHolder)holder).image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(sectorItemClick != null){
-                        sectorItemClick.onClick(position);
-                    }
+
+
+            RxView.clicks(((SectorViewHolder)holder).image).throttleFirst(700, TimeUnit.MILLISECONDS).subscribe(empty -> {
+                if(sectorItemClick != null){
+                    sectorItemClick.onClick(position);
                 }
             });
 

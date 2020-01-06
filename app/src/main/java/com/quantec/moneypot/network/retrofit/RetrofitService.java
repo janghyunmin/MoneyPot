@@ -329,4 +329,15 @@ public interface RetrofitService {
     @POST("pot/getAssetsCustom/{code}")
     Call<ModelAssetsCustom> getAssetsCustom(@Header("Content-Type") String content_type, @Path("code") String type);
 
+
+    /**
+     *
+     * 사용자 투자성향 저장
+     * {’propensity’: '1|1|6|3|1,4|0|0’} 값만 전달, 별도 계산 없이 적극형으로 적용 or 신한에서 계산로직 전달 받아야함.
+     * 앞두자리는 동의항목임
+     * 투자성향 파트너사로 전달하는 sh_api필요
+     *
+     */
+    @POST("auth/setPropensity")
+    Call<Object> setPropensity(@Header("Content-Type") String content_type, @Body Object juserPropensity);
 }

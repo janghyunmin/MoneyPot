@@ -39,11 +39,11 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".activity.propensity.ActivityPropensity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -87,7 +87,13 @@
                     android:scheme="testdeep" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.prefer.ActivityPrefer" />
+        <activity android:name=".activity.prefer.ActivityPrefer" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity android:name=".activity.splash.ActivitySplash" />
         <activity android:name=".activity.simulationsearch.ActivitySimulationSearch" />
         <activity android:name=".activity.PotDetail.ActivityPackDetail" />
@@ -181,13 +187,11 @@
         <activity
             android:name=".activity.Intro.ActivityIntro"
             android:screenOrientation="portrait">
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
 
         <provider

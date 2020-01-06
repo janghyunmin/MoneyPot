@@ -28,6 +28,8 @@ import com.quantec.moneypot.activity.Main.ActivityMain;
 import com.quantec.moneypot.activity.prefer.adapter.AdapterThumbImage;
 import com.quantec.moneypot.activity.prefer.fragment.FgEnter;
 import com.quantec.moneypot.activity.prefer.fragment.FgSector;
+import com.quantec.moneypot.datamodel.nmodel.ModelUserFollow;
+import com.quantec.moneypot.network.retrofit.RetrofitClient;
 import com.quantec.moneypot.rxandroid.RxEvent;
 import com.quantec.moneypot.rxandroid.RxEventBus;
 
@@ -37,6 +39,12 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import com.quantec.moneypot.datamodel.dmodel.ModelUserSelectDto;
+import com.quantec.moneypot.datamodel.dmodel.userselectdto.Select;
 
 public class ActivityPrefer extends AppCompatActivity implements FgSector.ClickItem2, FgEnter.ClickItem {
 
@@ -316,6 +324,39 @@ public class ActivityPrefer extends AppCompatActivity implements FgSector.ClickI
             }
         });
 
+        okBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                List<Select> selects = new ArrayList<>();
+//                Select select = new Select();
+//                select.setIsDam(0);
+//                select.setIsZim(0);
+//                select.setIsFollow(0);
+//
+//                select.setCode("APPLE");
+//                select.setIsLike(1);
+//                select.setType(0);
+//                selects.add(select);
+//
+//                ModelUserSelectDto modelUserSelectDto = new ModelUserSelectDto();
+//                modelUserSelectDto.setSelects(selects);
+//
+//                Call<Object> getReList = RetrofitClient.getInstance().getService().setUserSelect("application/json", "follow", modelUserSelectDto);
+//                getReList.enqueue(new Callback<Object>() {
+//                    @Override
+//                    public void onResponse(Call<Object> call, Response<Object> response) {
+//                        if (response.code() == 200) {
+//
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(Call<Object> call, Throwable t) {
+//                        Log.e("실패","실패"+t.getMessage());
+//                    }
+//                });
+            }
+        });
+
     }//onCreate 끝
 
     private void setupViewPager(ViewPager viewPager) {
@@ -410,7 +451,8 @@ public class ActivityPrefer extends AppCompatActivity implements FgSector.ClickI
         countNum.setText(count+"/5");
 
         if(selected){
-            int resource = getResources().getIdentifier("ci_"+name+"_thumbnail", "drawable", getPackageName());
+//            int resource = getResources().getIdentifier("ci_"+name+"_thumbnail", "drawable", getPackageName());
+            int resource = getResources().getIdentifier("ci_"+name+"_small", "drawable", getPackageName());
 
             if(image1.getTag().equals("")){
                 image1.setVisibility(View.VISIBLE);

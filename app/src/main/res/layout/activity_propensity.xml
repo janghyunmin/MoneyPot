@@ -88,7 +88,7 @@
             android:id="@+id/dupliNextBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="동의합니다"
+            android:text="다음"
             android:background="@drawable/item_propensity_bottom"
             android:paddingTop="7dp"
             android:paddingBottom="7dp"
