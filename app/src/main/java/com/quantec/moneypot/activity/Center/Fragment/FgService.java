@@ -1,4 +1,4 @@
-package com.quantec.moneypot.activity.Center.Fragment;
+package com.quantec.moneypot.activity.center.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import com.quantec.moneypot.activity.Center.ActivityWebViewQuestion;
-import com.quantec.moneypot.activity.Center.Adapter.AdapterService;
+//import com.quantec.moneypot.activity.center.ActivityWebViewQuestion;
+import com.quantec.moneypot.activity.center.Adapter.AdapterService;
 import com.quantec.moneypot.datamodel.dmodel.ModelServiceList;
 import com.quantec.moneypot.R;
 
@@ -58,12 +58,12 @@ public class FgService extends Fragment {
         serviceLists.add(new ModelServiceList("머니포트의 유래는 무엇인가요?","http://pizzaplanet.tistory.com/"));
         adapterService.notifyDataSetChanged();
 
-        adapterService.setServiceTitleClick(position -> {
-
-            Intent intent = new Intent(getActivity(), ActivityWebViewQuestion.class);
-            intent.putExtra("url", serviceLists.get(position).getUrl());
-            startActivity(intent);
-        });
+//        adapterService.setServiceTitleClick(position -> {
+//
+//            Intent intent = new Intent(getActivity(), ActivityWebViewQuestion.class);
+//            intent.putExtra("url", serviceLists.get(position).getUrl());
+//            startActivity(intent);
+//        });
 
     }
 }

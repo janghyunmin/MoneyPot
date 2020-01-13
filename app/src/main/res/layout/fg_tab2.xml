@@ -17,13 +17,13 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
             android:text="팔로우"
             android:textColor="@color/c_3d3f42"
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/searchBt"
+            app:layout_constraintBottom_toBottomOf="@+id/searchBt"/>
 
         <ImageView
             android:id="@+id/userBt"

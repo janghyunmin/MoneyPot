@@ -1,4 +1,4 @@
-package com.quantec.moneypot.activity.Center;
+package com.quantec.moneypot.activity.center;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,8 @@ public class ActivityAppVersion extends AppCompatActivity implements View.OnClic
 
     ImageView backBt;
     TextView recentlyVersion, nowVersion, versionUpBt;
+    String preVersion, thisVersion;
+    boolean version = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,21 +28,41 @@ public class ActivityAppVersion extends AppCompatActivity implements View.OnClic
         nowVersion = findViewById(R.id.nowVersion);
         versionUpBt = findViewById(R.id.versionUpBt);
 
-        recentlyVersion.setText("v.01.11");
-        nowVersion.setText("v.01.01");
-
         backBt.setOnClickListener(this);
         versionUpBt.setOnClickListener(this);
 
+        preVersion = "v.01.11";
+        thisVersion = "v.01.11";
+
+        recentlyVersion.setText(thisVersion);
+        nowVersion.setText(preVersion);
+
+        if(preVersion.equals(thisVersion)){
+            versionUpBt.setText("현재 최신 버전입니다.");
+            versionUpBt.setTextColor(getResources().getColor(R.color.c_cccccc));
+            versionUpBt.setBackground(getResources().getDrawable(R.drawable.rectangle_dark_gray));
+
+            version = false;
+        }else{
+            versionUpBt.setText("업데이트가 필요합니다.");
+            versionUpBt.setTextColor(getResources().getColor(R.color.text_white_color));
+            versionUpBt.setBackground(getResources().getDrawable(R.drawable.rectangle_able));
+
+            version = true;
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
 
-
             case R.id.versionUpBt:
-                Toast.makeText(ActivityAppVersion.this, "버전을 업그레이드 합니다.", Toast.LENGTH_SHORT).show();
+                if(version){
+
+                    Toast.makeText(ActivityAppVersion.this, "버전을 업그레이드 합니다.", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(ActivityAppVersion.this, "현재 최신 버전입니다.", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.backBt:

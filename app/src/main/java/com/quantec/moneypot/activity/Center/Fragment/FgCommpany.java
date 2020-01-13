@@ -1,4 +1,4 @@
-package com.quantec.moneypot.activity.Center.Fragment;
+package com.quantec.moneypot.activity.center.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import com.quantec.moneypot.activity.Center.ActivityWebViewQuestion;
-import com.quantec.moneypot.activity.Center.Adapter.AdapterCommpany;
+//import com.quantec.moneypot.activity.center.ActivityWebViewQuestion;
+import com.quantec.moneypot.activity.center.Adapter.AdapterCommpany;
 import com.quantec.moneypot.datamodel.dmodel.ModelCommpanyList;
 import com.quantec.moneypot.R;
 
@@ -58,14 +58,14 @@ public class FgCommpany extends Fragment {
         commpanyLists.add(new ModelCommpanyList("머니포트의 유래는 무엇인가요?","http://pizzaplanet.tistory.com/"));
         adapterCommpany.notifyDataSetChanged();
 
-        adapterCommpany.setCommpanyTitleClick(new AdapterCommpany.CommpanyTitleClick() {
-            @Override
-            public void onClick(int position) {
-
-                Intent intent = new Intent(getActivity(), ActivityWebViewQuestion.class);
-                intent.putExtra("url", commpanyLists.get(position).getUrl());
-                startActivity(intent);
-            }
-        });
+//        adapterCommpany.setCommpanyTitleClick(new AdapterCommpany.CommpanyTitleClick() {
+//            @Override
+//            public void onClick(int position) {
+//
+//                Intent intent = new Intent(getActivity(), ActivityWebViewQuestion.class);
+//                intent.putExtra("url", commpanyLists.get(position).getUrl());
+//                startActivity(intent);
+//            }
+//        });
     }
 }

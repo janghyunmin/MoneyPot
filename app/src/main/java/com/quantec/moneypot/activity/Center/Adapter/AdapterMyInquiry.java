@@ -1,4 +1,4 @@
-package com.quantec.moneypot.activity.Center.Adapter;
+package com.quantec.moneypot.activity.center.Adapter;
 
 import android.animation.ValueAnimator;
 import android.content.Context;

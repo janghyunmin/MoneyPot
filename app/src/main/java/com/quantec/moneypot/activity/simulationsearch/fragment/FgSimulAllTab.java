@@ -63,7 +63,6 @@ public class FgSimulAllTab extends Fragment {
         InitRecyclerView();
 
         //검색시 Fragment_SearchPage에서 받은 데이터를 가져옴
-//        getSearchedData = new Bundle();
         getSearchedData = getArguments();
 
         recomTitle = getArguments();
@@ -91,9 +90,13 @@ public class FgSimulAllTab extends Fragment {
         try {
             preAddCode.addAll(recomTitle.getStringArrayList("preAddCode"));
         }catch (Exception e){}
+        try {
+            modelSimulSingles.addAll(getSearchedData.getParcelableArrayList("singleEn"));
+        }catch (Exception e){}
+        try {
+            modelSimulSums.addAll(getSearchedData.getParcelableArrayList("sumEn"));
+        }catch (Exception e){}
 
-        modelSimulSingles.addAll(getSearchedData.getParcelableArrayList("singleEn"));
-        modelSimulSums.addAll(getSearchedData.getParcelableArrayList("sumEn"));
 
         if(modelSimulSingles.size() > 0){
             int size;

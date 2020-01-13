@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.SnapHelper;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.activity.Main.ActivityMain;
+import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 import com.quantec.moneypot.activity.simulationsearch.ActivitySimulationSearch;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Code;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Ex;
@@ -36,11 +37,14 @@ import com.quantec.moneypot.activity.PotDetail.DecorationItemHorizontal;
 import com.quantec.moneypot.activity.simulation.ActivitySimulation;
 import com.quantec.moneypot.datamanager.ChartManager;
 import com.quantec.moneypot.datamodel.dmodel.ModelTransChartList;
+import com.quantec.moneypot.datamodel.nmodel.ModelUserFollow;
+import com.quantec.moneypot.dialog.DialogLoadingMakingPort;
 import com.quantec.moneypot.dialog.DialogSimul;
 import com.quantec.moneypot.dialog.ModelSimulList;
 import com.quantec.moneypot.network.retrofit.RetrofitClient;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -78,6 +82,8 @@ public class FgTab3 extends Fragment {
     ArrayList<ModelTransChartList> modelTransChartLists;
 
     ArrayList<ModelPreChartList> modelPreChartLists;
+
+    private DialogLoadingMakingPort loading;
 
     public FgTab3() {
     }
@@ -177,16 +183,14 @@ public class FgTab3 extends Fragment {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
-        searchBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activityMain, ActivitySimulationSearch.class);
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(activityMain, (View)floatingSearchView, "searchView");
-                intent.putParcelableArrayListExtra("chartData", modelPreChartLists);
-                startActivityForResult(intent, 100, options.toBundle());
-            }
+        RxView.clicks(searchBt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            Intent intent = new Intent(activityMain, ActivitySimulationSearch.class);
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(activityMain, (View)floatingSearchView, "searchView");
+            intent.putParcelableArrayListExtra("chartData", modelPreChartLists);
+            startActivityForResult(intent, 100, options.toBundle());
         });
+
 
         floatingSearchView.setQueryTextSize(12);
         floatingSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
@@ -196,20 +200,48 @@ public class FgTab3 extends Fragment {
             }
         });
 
-        modelFgTab3Follows.add(new ModelFgTab3Follow("맥도날드", "MCD", 0.603, 0,false));
 
-        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키2", "NKE1", 28.90, 0,false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키3", "NKE2", 28.90, 0,false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키4", "NKE3", 28.90, 0,false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키5", "NKE4", 28.90, 0,false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키6", "NKE5", 28.90, 0,false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키7", "NKE6", 28.90, 0,false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키8", "NKE7", 28.90, 0,false));
 
-        modelFgTab3Follows.add(new ModelFgTab3Follow("세계적인 대세 IT 기업들 모음", "묶음기업", 6.11, 1,false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키", "NKE", 28.90, 0,false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("제이피모건", "JPM", -2.16, 0,false));
-        modelFgTab3Follows.add(new ModelFgTab3Follow("세계적인 대세 IT 기업들 모음", "묶음기업", 6.11, 1,false));
+        Call<ModelUserFollow> getReList = RetrofitClient.getInstance().getService().getUserSelect("application/json", "follow");
+        getReList.enqueue(new Callback<ModelUserFollow>() {
+            @Override
+            public void onResponse(Call<ModelUserFollow> call, Response<ModelUserFollow> response) {
+                if (response.code() == 200) {
+                    if(response.body().getStatus() == 200){
+
+                       for(int index = 0; index < response.body().getContent().size(); index++){
+                           modelFgTab3Follows.add(new ModelFgTab3Follow(response.body().getContent().get(index).getName(),
+                                   response.body().getContent().get(index).getCode(),
+                                   response.body().getContent().get(index).getRate(),
+                                   response.body().getContent().get(index).getType(),false));
+                       }
+                        adapterFgTab3.notifyDataSetChanged();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ModelUserFollow> call, Throwable t) {
+                Log.e("실패","실패"+t.getMessage());
+            }
+        });
+
+
+
+
+//        modelFgTab3Follows.add(new ModelFgTab3Follow("맥도날드", "MCD", 0.603, 0,false));
+//
+//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키2", "NKE1", 28.90, 0,false));
+//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키3", "NKE2", 28.90, 0,false));
+//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키4", "NKE3", 28.90, 0,false));
+//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키5", "NKE4", 28.90, 0,false));
+//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키6", "NKE5", 28.90, 0,false));
+//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키7", "NKE6", 28.90, 0,false));
+//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키8", "NKE7", 28.90, 0,false));
+//
+//        modelFgTab3Follows.add(new ModelFgTab3Follow("세계적인 대세 IT 기업들 모음", "묶음기업", 6.11, 1,false));
+//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키", "NKE", 28.90, 0,false));
+//        modelFgTab3Follows.add(new ModelFgTab3Follow("제이피모건", "JPM", -2.16, 0,false));
+//        modelFgTab3Follows.add(new ModelFgTab3Follow("세계적인 대세 IT 기업들 모음", "묶음기업", 6.11, 1,false));
 
         adapterFgTab3.setFollowAddClick(new AdapterFgTab3.FollowAddClick() {
             @Override
@@ -370,7 +402,6 @@ public class FgTab3 extends Fragment {
                     resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_nonselected));
                     resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_cccccc));
                 }
-
                 adapterSelectedItem.notifyDataSetChanged();
             }
         });
@@ -381,62 +412,69 @@ public class FgTab3 extends Fragment {
             }
         });
 
-        resultBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        RxView.clicks(resultBt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            if(count < 2){
+                Toast.makeText(activityMain, "2개 이상을 선택해 주세요.", Toast.LENGTH_SHORT).show();
+            }
+            else{
 
-                if(count < 2){
-                    Toast.makeText(activityMain, "2개 이상을 선택해 주세요.", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                loading = new DialogLoadingMakingPort(activityMain, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
+                loading.show();
 
-                    ModelSimulCode modelSimulCode = new ModelSimulCode();
-                    modelSimulCode.setCode("");
-                    modelSimulCode.setDescript("");
-                    modelSimulCode.setName("");
-                    modelSimulCode.setPeriod("all");
-                    modelSimulCode.setPropensity(701);
-                    modelSimulCode.setRate(0);
-                    modelSimulCode.setType(0);
+                ModelSimulCode modelSimulCode = new ModelSimulCode();
+                modelSimulCode.setCode("");
+                modelSimulCode.setDescript("");
+                modelSimulCode.setName("");
+                modelSimulCode.setPeriod("all");
+                modelSimulCode.setPropensity(701);
+                modelSimulCode.setRate(0);
+                modelSimulCode.setType(0);
+
+                ArrayList<Code> codes = new ArrayList<>();
+
+
+                for(int index = 0 ; index < modelPreChartLists.size(); index++){
 
                     Code code1 = new Code();
+                    code1.setCode(modelPreChartLists.get(index).getCode());
+                    code1.setType(0);
+                    code1.setPtCode("");
+                    code1.setWeight(0);
 
-                    for(int index = 0 ; index < modelPreChartLists.size(); index++){
+                    codes.add(code1);
+                }
 
-                        code1.setCode(modelPreChartLists.get(index).getCode());
-                        code1.setType(0);
-                        code1.setPtCode("");
-                        code1.setWeight(0);
-                        modelSimulCode.getCodes().add(code1);
-                    }
+                modelSimulCode.setCodes(codes);
 
-                    Call<ModelPotSimul> getReList = RetrofitClient.getInstance().getService().getPotSimul("application/json", modelSimulCode);
-                    getReList.enqueue(new Callback<ModelPotSimul>() {
-                        @Override
-                        public void onResponse(Call<ModelPotSimul> call, Response<ModelPotSimul> response) {
-                            if (response.code() == 200) {
-                                if(response.body().getStatus() == 200){
+                Call<ModelPotSimul> getList = RetrofitClient.getInstance().getService().getPotSimul("application/json", modelSimulCode);
+                getList.enqueue(new Callback<ModelPotSimul>() {
+                    @Override
+                    public void onResponse(Call<ModelPotSimul> call, Response<ModelPotSimul> response) {
+                        if (response.code() == 200) {
+                            if(response.body().getStatus() == 200){
 
-                                    modelTransChartLists.clear();
-                                    for(int index = 0 ; index < response.body().getContent().getChart().size() ; index++) {
-                                        modelTransChartLists.add(new ModelTransChartList(response.body().getContent().getChart().get(index).getDate(),
-                                                response.body().getContent().getChart().get(index).getPrice(),
-                                                response.body().getContent().getChart().get(index).getExp()));
-                                    }
-                                    ChartManager.get_Instance().setTransChartLists(modelTransChartLists);
-                                    Intent intent = new Intent(activityMain, ActivitySimulation.class);
-                                    intent.putExtra("rate", response.body().getContent().getCore().getRate());
-                                    intent.putParcelableArrayListExtra("chartData", modelPreChartLists);
-                                    startActivityForResult(intent, 100);
+                                modelTransChartLists.clear();
+                                for(int index = 0 ; index < response.body().getContent().getChart().size() ; index++) {
+                                    modelTransChartLists.add(new ModelTransChartList(response.body().getContent().getChart().get(index).getDate(),
+                                            response.body().getContent().getChart().get(index).getPrice(),
+                                            response.body().getContent().getChart().get(index).getExp()));
                                 }
+                                ChartManager.get_Instance().setTransChartLists(modelTransChartLists);
+                                Intent intent = new Intent(activityMain, ActivitySimulation.class);
+                                intent.putExtra("rate", response.body().getContent().getCore().getRate());
+                                intent.putParcelableArrayListExtra("chartData", modelPreChartLists);
+                                startActivityForResult(intent, 100);
+
+                                loading.dismiss();
                             }
                         }
-                        @Override
-                        public void onFailure(Call<ModelPotSimul> call, Throwable t) {
-                            Log.e("실패","실패"+t.getMessage());
-                        }
-                    });
-                }
+                    }
+                    @Override
+                    public void onFailure(Call<ModelPotSimul> call, Throwable t) {
+                        Log.e("실패","실패"+t.getMessage());
+                        loading.dismiss();
+                    }
+                });
             }
         });
     }

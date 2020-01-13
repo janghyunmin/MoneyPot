@@ -3,13 +3,13 @@ package com.quantec.moneypot.activity.Main.Fragment.tab4;
 public class ModelNotice {
 
     String title;
-    String url;
     String date;
+    String url;
 
-    public ModelNotice(String title, String url, String date) {
+    public ModelNotice(String title, String date, String url) {
         this.title = title;
-        this.url = url;
         this.date = date;
+        this.url = url;
     }
 
     public String getTitle() {
@@ -20,19 +20,19 @@ public class ModelNotice {
         this.title = title;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getDate() {
         return date;
     }
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

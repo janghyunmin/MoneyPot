@@ -1,4 +1,4 @@
-package com.quantec.moneypot.activity.Center.Fragment;
+package com.quantec.moneypot.activity.center.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
-import com.quantec.moneypot.activity.Center.ActivityWebViewQuestion;
-import com.quantec.moneypot.activity.Center.Adapter.AdapterProductCraft;
+//import com.quantec.moneypot.activity.center.ActivityWebViewQuestion;
+import com.quantec.moneypot.activity.center.Adapter.AdapterProductCraft;
 import com.quantec.moneypot.datamodel.dmodel.ModelProductCraftList;
 import com.quantec.moneypot.R;
 
@@ -54,11 +54,11 @@ public class FgProductCraft extends Fragment {
         productCraftLists.add(new ModelProductCraftList("머니포트의 유래는 무엇인가요?","http://pizzaplanet.tistory.com/"));
         adapterProductCraft.notifyDataSetChanged();
 
-        adapterProductCraft.setProductCraftClick(position -> {
-
-            Intent intent = new Intent(getActivity(), ActivityWebViewQuestion.class);
-            intent.putExtra("url", productCraftLists.get(position).getUrl());
-            startActivity(intent);
-        });
+//        adapterProductCraft.setProductCraftClick(position -> {
+//
+//            Intent intent = new Intent(getActivity(), ActivityWebViewQuestion.class);
+//            intent.putExtra("url", productCraftLists.get(position).getUrl());
+//            startActivity(intent);
+//        });
     }
 }

@@ -25,7 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
 //    private static String baseUrl = "https://dev.quantec.co.kr:7777/api/";
-    private static String baseUrl = "https://api.quantec.co.kr:9000/v1/";
+//    private static String baseUrl = "https://api.quantec.co.kr:9000/v1/";
+    private static String baseUrl = "https://dev.quantec.co.kr:9000/v1/";
 
     private static int CONNECT_TIMEOUT = 20;
     private static int WRITE_TIMEOUT = 20;

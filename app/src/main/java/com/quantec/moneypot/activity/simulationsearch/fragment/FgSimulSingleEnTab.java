@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Ex;
 import com.quantec.moneypot.activity.simulationsearch.ActivitySimulationSearch;
 import com.quantec.moneypot.activity.simulationsearch.ModelSimulSingle;
 import com.quantec.moneypot.activity.simulationsearch.adapter.AdapterSimulSingleEnTab;
@@ -77,7 +78,9 @@ public class FgSimulSingleEnTab extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        modelSimulSingles.addAll(bundle.getParcelableArrayList("singleEn"));
+        try {
+            modelSimulSingles.addAll(bundle.getParcelableArrayList("singleEn"));
+        }catch (Exception e){}
 
 
         adapterSingleEn.setSingleEnRecomBt1(new AdapterSimulSingleEnTab.SingleEnRecomBt1() {

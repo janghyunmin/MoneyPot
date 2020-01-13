@@ -20,6 +20,7 @@ import com.quantec.moneypot.activity.Main.Fragment.Tab3.FgTab3;
 import com.quantec.moneypot.activity.Main.Fragment.tab4.FgTab4;
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.databinding.ActivityMainBinding;
+import com.quantec.moneypot.util.statusBar.UtilStatusBar;
 
 public class ActivityMain extends AppCompatActivity {
 
@@ -50,6 +51,7 @@ public class ActivityMain extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 

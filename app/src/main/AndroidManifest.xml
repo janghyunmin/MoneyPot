@@ -28,7 +28,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.propensity.ActivityPropensityFinish"></activity>
+        <activity android:name=".activity.center.ActivityQuestionWebView" />
+        <activity android:name=".activity.center.ActivityInfoWebView" />
+        <activity android:name=".activity.center.ActivityInfo" />
+        <activity android:name=".activity.propensity.ActivityPropensityFinish" />
         <activity android:name=".activity.Main.Fragment.tab4.ActivityNotiWebView">
 
             <!-- <intent-filter> -->
@@ -39,11 +42,13 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".activity.propensity.ActivityPropensity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -87,12 +92,14 @@
                     android:scheme="testdeep" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.prefer.ActivityPrefer" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".activity.prefer.ActivityPrefer">
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".activity.splash.ActivitySplash" />
         <activity android:name=".activity.simulationsearch.ActivitySimulationSearch" />
@@ -122,19 +129,16 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".activity.Center.ActivityWebViewQuestion"
+            android:name=".activity.center.ActivityAppVersion"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Center.ActivityAppVersion"
+            android:name=".activity.center.ActivityInquiry"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Center.ActivityInquiry"
+            android:name=".activity.center.ActivityUseGuide"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Center.ActivityUseGuide"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.Center.ActivityQuestion"
+            android:name=".activity.center.ActivityQuestion"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MyInfo.ActivityChangedEmail"
@@ -155,7 +159,7 @@
             android:name=".activity.Notice.ActivityNotice"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Center.ActivityClientCenter"
+            android:name=".activity.center.ActivityClientCenter"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MyInfo.ActivityMyInfo"
@@ -187,11 +191,11 @@
         <activity
             android:name=".activity.Intro.ActivityIntro"
             android:screenOrientation="portrait">
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <provider
@@ -228,7 +232,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Login.resist.ActivityPhoneConfirm"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
         <activity
             android:name=".fido.AuthenticationActivity"
             android:label="Authentication"

@@ -1,4 +1,4 @@
-package com.quantec.moneypot.activity.Center;
+package com.quantec.moneypot.activity.center;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -14,8 +14,8 @@ import android.view.WindowManager;
 
 import com.google.android.material.tabs.TabLayout;
 
-import com.quantec.moneypot.activity.Center.Fragment.FgInquiryWrite;
-import com.quantec.moneypot.activity.Center.Fragment.FgMyInquiry;
+import com.quantec.moneypot.activity.center.Fragment.FgInquiryWrite;
+import com.quantec.moneypot.activity.center.Fragment.FgMyInquiry;
 import com.quantec.moneypot.R;
 
 public class ActivityInquiry extends AppCompatActivity {
@@ -41,7 +41,6 @@ public class ActivityInquiry extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-
 
         //Initializing the TabLayout;
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);

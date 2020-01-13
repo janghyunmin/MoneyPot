@@ -1,4 +1,4 @@
-package com.quantec.moneypot.activity.Center.Fragment;
+package com.quantec.moneypot.activity.center.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.quantec.moneypot.activity.Center.ActivityInquiry;
+import com.quantec.moneypot.activity.center.ActivityInquiry;
 import com.quantec.moneypot.dialog.DialogInquiryCategory;
 import com.quantec.moneypot.R;
 
@@ -73,7 +73,7 @@ public class FgInquiryWrite extends Fragment implements View.OnClickListener {
         okBt.setBackgroundResource(R.drawable.rectangle_dark_gray);
         okBt.setEnabled(false);
 
-        agreeBt.setBackgroundResource(R.drawable.ic_checkbox_gray);
+        agreeBt.setBackgroundResource(R.drawable.btn_back_off_whitegray);
         contentsCount.setText("0 / 3000");
 
 
@@ -190,13 +190,13 @@ public class FgInquiryWrite extends Fragment implements View.OnClickListener {
 
                 if(agreeState){
                     agreeState = false;
-                    agreeBt.setBackgroundResource(R.drawable.ic_checkbox_gray);
+                    agreeBt.setBackgroundResource(R.drawable.btn_back_off_whitegray);
                     checkedOkBt();
 
                 }
                 else{
                     agreeState = true;
-                    agreeBt.setBackgroundResource(R.drawable.ic_checkbox_red);
+                    agreeBt.setBackgroundResource(R.drawable.btn_checkbox_on_blue);
                     checkedOkBt();
                 }
 

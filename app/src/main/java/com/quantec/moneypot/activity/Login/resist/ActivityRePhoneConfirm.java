@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,48 +25,64 @@ import com.quantec.moneypot.activity.FIDO.ActivityAuthFidoSingle;
 import com.quantec.moneypot.activity.Login.Model.dModel.IdentifyDto;
 import com.quantec.moneypot.activity.Login.Model.dModel.ModelConfrimIdentifyData;
 import com.quantec.moneypot.activity.Login.Model.nModel.ModelIdentifyData;
+import com.quantec.moneypot.activity.Login.loginPage.ActivityLoginPage;
+import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 import com.quantec.moneypot.dialog.DialogBottomSheet;
 import com.quantec.moneypot.dialog.DialogLoadingMakingPort;
 import com.quantec.moneypot.dialog.DialogSMS;
 import com.quantec.moneypot.network.retrofit.RetrofitClient;
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.databinding.ActivityRePhoneConfirmBinding;
+import com.quantec.moneypot.util.NetworkStateCheck.NetworkStateCheck;
 import com.quantec.moneypot.util.SharedPreference.SharedPreferenceUtil;
 import com.quantec.moneypot.util.view.keyboardevent.KeyboardVisibilityEvent;
 import com.quantec.moneypot.util.view.keyboardevent.KeyboardVisibilityEventListener;
 import com.quantec.moneypot.util.view.keyboardevent.Unregistrar;
+
+import java.util.concurrent.TimeUnit;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityRePhoneConfirm extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener{
+public class ActivityRePhoneConfirm extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
 
     ActivityRePhoneConfirmBinding binding;
+
     private DialogBottomSheet dialogBottomSheet;
     // 기본값(통신사) : 00 / "SKT:01, KT:02, LGT:03, SKT_MVNO:04, KT_MVNO:05, LG_MVNO : 06"
     String agencyNumber = "00";
 
     ModelIdentifyData modelLoginData = new ModelIdentifyData();
-
     CountDownTimer countDownTimer;
     final int MILLISINFUTURE = 300 * 1000;
     final int COUNT_DOWN_INTERVAL = 1000;
 
     InputMethodManager imm;
-
     boolean openedConfirmNumber;
     DialogSMS dialogSMS;
 
+    private DialogLoadingMakingPort loadingCustomMakingPort;
+    String phoneNum;
+
     String passwordPage;
     Unregistrar unregistrar;
-
-    private DialogLoadingMakingPort loadingCustomMakingPort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(ActivityRePhoneConfirm.this, R.layout.activity_re_phone_confirm);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_re_phone_confirm);
+        binding.nextBt.setBackground(getResources().getDrawable(R.drawable.unselect_bt));
+
+        binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.custom_bt_unselected_5dp);
+        binding.myinfoPhoneNumberNumberBt.setText("인증 요청");
+        binding.myinfoPhoneNumberNumberBt.setTextColor(getResources().getColor(R.color.c_cccccc));
+        binding.myinfoPhoneNumberNumberBt.setEnabled(false);
+
+        Intent intent = getIntent();
+        passwordPage = intent.getStringExtra("passwordPage");
+
         //스테이터스 바 색상 변경 -> 화이트
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Window w = getWindow(); // in Activity's onCreate() for instance
@@ -81,14 +98,14 @@ public class ActivityRePhoneConfirm extends AppCompatActivity implements View.On
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
+//        actList.add(this);
+
         binding.myinfoNameEditText.addTextChangedListener(new MyTextWatcher(binding.myinfoNameEditText));
         binding.myinfoCertifyNumberEditText.addTextChangedListener(new MyTextWatcher(binding.myinfoCertifyNumberEditText));
         binding.myinfoCertifyNumberEditText2.addTextChangedListener(new MyTextWatcher(binding.myinfoCertifyNumberEditText2));
         binding.myinfoPhoneNumberEditText.addTextChangedListener(new MyTextWatcher(binding.myinfoPhoneNumberEditText));
 
-        binding.myinfoPhoneNumberNumberBt.setOnClickListener(this);
         binding.myinfoPhoneNumberSelectText.setOnClickListener(this);
-        binding.nextBt.setOnClickListener(this);
         binding.backBt.setOnClickListener(this);
 
         binding.myinfoPhoneNumberEditText.setOnFocusChangeListener(this);
@@ -99,9 +116,7 @@ public class ActivityRePhoneConfirm extends AppCompatActivity implements View.On
         binding.myinfoConfirmNumberEditText.setOnFocusChangeListener(this);
 
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        Intent intent = getIntent();
-        passwordPage = intent.getStringExtra("passwordPage");
+        binding.myinfoPhoneNumberEditText.setText(phoneNum);
 
         unregistrar = KeyboardVisibilityEvent.registerEventListener(this, new KeyboardVisibilityEventListener() {
             @Override
@@ -113,212 +128,49 @@ public class ActivityRePhoneConfirm extends AppCompatActivity implements View.On
                     imm.hideSoftInputFromWindow(binding.myinfoPhoneNumberEditText.getWindowToken(), 0);
 
                     requestFocus2(binding.myinfoNameEditText);
-
                 }
             }
         });
 
-    }//onCreate 끝
-
-
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
-    }
-
-    private void requestFocus2(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        }
-    }
-
-    private void statedNumBt(boolean isClicked){
-
-        imm.hideSoftInputFromWindow(binding.myinfoNameEditText.getWindowToken(), 0);
-        imm.hideSoftInputFromWindow(binding.myinfoCertifyNumberEditText.getWindowToken(), 0);
-        imm.hideSoftInputFromWindow(binding.myinfoCertifyNumberEditText2.getWindowToken(), 0);
-        imm.hideSoftInputFromWindow(binding.myinfoPhoneNumberEditText.getWindowToken(), 0);
-
-        if(isClicked){
-            binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.rectangle_red_5dp);
-            binding.myinfoPhoneNumberNumberBt.setText("재인증");
-            binding.myinfoPhoneNumberNumberBt.setTextColor(getResources().getColor(R.color.text_white_color));
-
-            requestFocus2(binding.myinfoNameEditText);
-            visibleCertNum(true);
-
-        }else{
-            binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.rectangle_red_5dp);
-            binding.myinfoPhoneNumberNumberBt.setText("인증 요청");
-            binding.myinfoPhoneNumberNumberBt.setTextColor(getResources().getColor(R.color.text_white_color));
-
-            visibleCertNum(false);
-        }
-    }
-
-    private void visibleCertNum(boolean isVisible){
-        if(isVisible){
-
-            enabledNextBt(true);
-
-            countDownTimer = new CountDownTimer(MILLISINFUTURE, COUNT_DOWN_INTERVAL) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-
-                    long AuthCount = millisUntilFinished / 1000;
-
-                    //초가 10보다 크면 그냥 출력
-                    if((AuthCount - ((AuthCount / 60) *60)) >= 10){
-                        binding.myinfoConfirmNumberCountText.setText((AuthCount / 60)+ " : " + (AuthCount - ((AuthCount / 60) * 60)));
-                    }
-                    else if((AuthCount - ((AuthCount / 60) *60)) < 10 && AuthCount >= 1) {
-                        binding.myinfoConfirmNumberCountText.setText((AuthCount / 60) + " : 0" + (AuthCount - ((AuthCount / 60) * 60)));
-                    }else if(AuthCount == 0){
-                        countDownTimer.cancel();
-                        countDownTimer.onFinish();
-                    }
-                }
-                @Override
-                public void onFinish() {
-                    statedNumBt(false);
-                }
-            }.start();
-
-        }else{
-            enabledNextBt(false);
-        }
-    }
-
-    private void enabledNextBt(boolean isEnable){
-        if(isEnable){
-            openedConfirmNumber = true;
-
-            binding.nextBt.setEnabled(true);
-            binding.nextBt.setBackground(getResources().getDrawable(R.drawable.custom_bt_selected_5dp));
-            binding.nextBt.setBackgroundColor(getResources().getColor(R.color.c_ffffff));
-            binding.nextBt.setTextColor(getResources().getColor(R.color.text_white_color));
-
-            binding.myinfoConfirmNumber.setVisibility(View.VISIBLE);
-            binding.myinfoConfirmNumberEditText.setVisibility(View.VISIBLE);
-            binding.myinfoConfirmNumberCountText.setVisibility(View.VISIBLE);
-            binding.myinfoConfirmNumberEditTextLine.setVisibility(View.VISIBLE);
-
-        }else{
-
-            binding.myinfoConfirmNumberEditText.setText("");
-
-            openedConfirmNumber = false;
-
-            binding.nextBt.setEnabled(false);
-            binding.nextBt.setBackgroundColor(getResources().getColor(R.color.button_enable));
-            binding.nextBt.setTextColor(getResources().getColor(R.color.button_enable_text));
-
-
-            binding.myinfoConfirmNumber.setVisibility(View.INVISIBLE);
-            binding.myinfoConfirmNumberEditText.setVisibility(View.INVISIBLE);
-            binding.myinfoConfirmNumberCountText.setVisibility(View.INVISIBLE);
-            binding.myinfoConfirmNumberEditTextLine.setVisibility(View.INVISIBLE);
-
-        }
-    }
-
-    private boolean validateDay(String Birth1, String Birth2){
-
-        if(Birth1.equals("3") || Birth1.equals("4") || Birth1.equals("7") || Birth1.equals("8")){
-            Birth1 = "20";
-        }else{
-            Birth1 = "19";
-        }
-
-        int BirthY = Integer.valueOf(Birth1 + Birth2.substring(0,2));
-        int BirthM =  Integer.valueOf(Birth2.substring(2, 4));
-        int BirthD = Integer.valueOf(Birth2.substring(4, 6));
-        //윤년일때
-        if(((BirthY%4==0)&&(BirthY%100!=0))||(BirthY%400==0)){
-            //월 일 날짜 범위 불 일치
-            if(!(BirthM > 0 && BirthM < 13) || !(BirthD > 0 && BirthD < 32)){
-                return false;
-            }
-            //월 일 날짜 범위 일치
-            else{
-                return true;
-            }
-        }
-        //윤년아닐때
-        else{
-            //윤년이 아닌데 2월이면서 29일 이상일때
-            if(BirthM == 2 && BirthD >= 29) {
-                return false;
-            }
-            //2월이 아닐때
-            else{
-
-                if(!(BirthM > 0 && BirthM < 13) || !(BirthD > 0 && BirthD < 32)){
-                    return false;
-                }else{
-                    return true;
-                }
-            }
-        }
-    }
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-
-            case R.id.myinfoPhoneNumber_selectText:
-
-                imm.hideSoftInputFromWindow(binding.myinfoNameEditText.getWindowToken(), 0);
-                imm.hideSoftInputFromWindow(binding.myinfoCertifyNumberEditText.getWindowToken(), 0);
-                imm.hideSoftInputFromWindow(binding.myinfoCertifyNumberEditText2.getWindowToken(), 0);
-                imm.hideSoftInputFromWindow(binding.myinfoPhoneNumberEditText.getWindowToken(), 0);
-
+        RxView.clicks(binding.myinfoPhoneNumberNumberBt).throttleFirst(5000, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            if (binding.myinfoNameEditText.getText().toString().isEmpty()) {
                 requestFocus2(binding.myinfoNameEditText);
+                Toast.makeText(getApplicationContext(), "이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            } else {
 
-                dialogBottomSheet = new DialogBottomSheet(ActivityRePhoneConfirm.this, agencyNumber, sktListener, ktListener, lgListener, sktRListener, ktRListener, lgRListener, closeListener);
-                dialogBottomSheet.show();
-                break;
+                if(binding.myinfoCertifyNumberEditText.getText().toString().isEmpty()){
+                    requestFocus2(binding.myinfoCertifyNumberEditText);
+                    Toast.makeText(getApplicationContext(), "주민 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                }else{
 
-            case R.id.myinfoPhoneNumber_NumberBt:
-
-                if (binding.myinfoNameEditText.getText().toString().isEmpty()) {
-                    requestFocus2(binding.myinfoNameEditText);
-                    Toast.makeText(getApplicationContext(), "이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    if(binding.myinfoCertifyNumberEditText.getText().toString().isEmpty()){
+                    if(binding.myinfoCertifyNumberEditText.getText().length() < 6){
                         requestFocus2(binding.myinfoCertifyNumberEditText);
-                        Toast.makeText(getApplicationContext(), "주민 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "생년월일을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     }else{
 
-
-                        if(binding.myinfoCertifyNumberEditText.getText().length() < 6){
-                            requestFocus2(binding.myinfoCertifyNumberEditText);
-                            Toast.makeText(getApplicationContext(), "생년월일을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        if(binding.myinfoCertifyNumberEditText2.getText().toString().isEmpty()){
+                            requestFocus2(binding.myinfoCertifyNumberEditText2);
+                            Toast.makeText(getApplicationContext(), "주민 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
                         }else{
 
-                            if(binding.myinfoCertifyNumberEditText2.getText().toString().isEmpty()){
-                                requestFocus2(binding.myinfoCertifyNumberEditText2);
-                                Toast.makeText(getApplicationContext(), "주민 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
-                            }else{
+                            if (validateDay(binding.myinfoCertifyNumberEditText2.getText().toString(), binding.myinfoCertifyNumberEditText.getText().toString())) {
 
-                                if (validateDay(binding.myinfoCertifyNumberEditText2.getText().toString(), binding.myinfoCertifyNumberEditText.getText().toString())) {
+                                if(binding.myinfoPhoneNumberEditText.getText().toString().isEmpty()){
+                                    requestFocus2(binding.myinfoPhoneNumberEditText);
+                                    Toast.makeText(getApplicationContext(), "전화 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                                }else{
 
-                                    if(binding.myinfoPhoneNumberEditText.getText().toString().isEmpty()){
-                                        requestFocus2(binding.myinfoPhoneNumberEditText);
-                                        Toast.makeText(getApplicationContext(), "전화 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                                    if(agencyNumber.equals("00")){
+                                        imm.hideSoftInputFromWindow(binding.myinfoNameEditText.getWindowToken(), 0);
+                                        imm.hideSoftInputFromWindow(binding.myinfoCertifyNumberEditText.getWindowToken(), 0);
+                                        imm.hideSoftInputFromWindow(binding.myinfoCertifyNumberEditText2.getWindowToken(), 0);
+                                        imm.hideSoftInputFromWindow(binding.myinfoPhoneNumberEditText.getWindowToken(), 0);
+
+                                        requestFocus2(binding.myinfoNameEditText);
+                                        Toast.makeText(getApplicationContext(), "통신사를 선택해 주세요.", Toast.LENGTH_SHORT).show();
                                     }else{
 
-                                        if(agencyNumber.equals("00")){
-                                            imm.hideSoftInputFromWindow(binding.myinfoNameEditText.getWindowToken(), 0);
-                                            imm.hideSoftInputFromWindow(binding.myinfoCertifyNumberEditText.getWindowToken(), 0);
-                                            imm.hideSoftInputFromWindow(binding.myinfoCertifyNumberEditText2.getWindowToken(), 0);
-                                            imm.hideSoftInputFromWindow(binding.myinfoPhoneNumberEditText.getWindowToken(), 0);
-
-                                            requestFocus2(binding.myinfoNameEditText);
-                                            Toast.makeText(getApplicationContext(), "통신사를 선택해 주세요.", Toast.LENGTH_SHORT).show();
-                                        }else{
+                                        if(NetworkStateCheck.getNetworkState(this)){
 
                                             loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityRePhoneConfirm.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
                                             loadingCustomMakingPort.show();
@@ -332,14 +184,14 @@ public class ActivityRePhoneConfirm extends AppCompatActivity implements View.On
                                                 birthY = "19";
                                             }
 
-                                            IdentifyDto loginData = new IdentifyDto(birthY+binding.myinfoCertifyNumberEditText.getText().toString(), "", "", "",
+                                            IdentifyDto loginData = new IdentifyDto(birthY + binding.myinfoCertifyNumberEditText.getText().toString(), "", "", "",
                                                     binding.myinfoCertifyNumberEditText2.getText().toString(), "000000", "", binding.myinfoPhoneNumberEditText.getText().toString(), binding.myinfoNameEditText.getText().toString(), "0", "", agencyNumber, "auth", "0000000000");
 
                                             Gson gson = new GsonBuilder().create();
                                             String jsonItentifyData = gson.toJson(loginData).replace("\\n", "").replace(" ", "")
                                                     .replace("\\", "").replace("\"{", "{").replace("}\"", "}");
 
-                                            Call<ModelIdentifyData> getReList = RetrofitClient.getInstance(ActivityRePhoneConfirm.this).getService().getIdentifyData("application/json",  jsonItentifyData);
+                                            Call<ModelIdentifyData> getReList = RetrofitClient.getInstance(ActivityRePhoneConfirm.this).getService().getIdentifyData("application/json", jsonItentifyData);
                                             getReList.enqueue(new Callback<ModelIdentifyData>() {
                                                 @Override
                                                 public void onResponse(Call<ModelIdentifyData> call, Response<ModelIdentifyData> response) {
@@ -347,8 +199,8 @@ public class ActivityRePhoneConfirm extends AppCompatActivity implements View.On
 
                                                         loadingCustomMakingPort.dismiss();
 
-                                                        if(response.body().getStatus() == 200){
-                                                            if(response.body().getContent().getCode().equals("0000")){
+                                                        if (response.body().getStatus() == 200) {
+                                                            if (response.body().getContent().getCode().equals("0000")) {
                                                                 modelLoginData = response.body();
 
                                                                 if (countDownTimer != null) {
@@ -357,40 +209,49 @@ public class ActivityRePhoneConfirm extends AppCompatActivity implements View.On
                                                                 }
 
                                                                 statedNumBt(true);
-                                                            }
-                                                            else if(response.body().getContent().getCode().equals("0011")){
+                                                            } else if (response.body().getContent().getCode().equals("0011")) {
                                                                 requestFocus2(binding.myinfoCertifyNumberEditText);
                                                                 Toast.makeText(getApplicationContext(), "본인인증을 위한 성명/생년월일/휴대폰 번호를 다시 입력해주세요", Toast.LENGTH_SHORT).show();
                                                                 closedCertNum();
-                                                            }else{
+                                                            } else {
                                                                 Toast.makeText(getApplicationContext(), "네트워크가 불안정 합니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
                                                     }
                                                 }
+
                                                 @Override
                                                 public void onFailure(Call<ModelIdentifyData> call, Throwable t) {
                                                     loadingCustomMakingPort.dismiss();
                                                 }
                                             });
+
                                         }
+                                        else{
+                                            Toast.makeText(getApplicationContext(), "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
+                                        }
+
                                     }
                                 }
-                                else {
-                                    requestFocus2(binding.myinfoCertifyNumberEditText);
-                                    Toast.makeText(getApplicationContext(), "생년월일 정보가 올바르지 않습니다.", Toast.LENGTH_SHORT).show();
-                                }
+                            }
+                            else {
+                                requestFocus2(binding.myinfoCertifyNumberEditText);
+                                Toast.makeText(getApplicationContext(), "생년월일 정보가 올바르지 않습니다.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
                 }
-                break;
+            }
+        });
 
-            case R.id.nextBt:
-                if(binding.myinfoConfirmNumberEditText.getText().toString().isEmpty() || binding.myinfoConfirmNumberEditText.getText().length() < 6){
-                    Toast.makeText(getApplicationContext(), "인증번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
-                }
-                else{
+        //0:설치, 1:가입시작, 10:가입완료, 20:간편인증 등록완료, 99 해지
+        RxView.clicks(binding.nextBt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            if(binding.myinfoConfirmNumberEditText.getText().toString().isEmpty() || binding.myinfoConfirmNumberEditText.getText().length() < 6){
+                Toast.makeText(getApplicationContext(), "인증번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            }
+            else{
+
+                if(NetworkStateCheck.getNetworkState(this)){
 
                     modelLoginData.getContent().setType("confirm");
                     modelLoginData.getContent().setInputCode(binding.myinfoConfirmNumberEditText.getText().toString());
@@ -443,7 +304,189 @@ public class ActivityRePhoneConfirm extends AppCompatActivity implements View.On
                         public void onFailure(Call<ModelIdentifyData> call, Throwable t) {
                         }
                     });
+
                 }
+                else{
+                    Toast.makeText(getApplicationContext(), "네트워크가 끊겼습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    } // onCreate 끝
+
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
+    private void requestFocus2(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        }
+    }
+
+    private void statedNumBt(boolean isClicked){
+
+        imm.hideSoftInputFromWindow(binding.myinfoNameEditText.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(binding.myinfoCertifyNumberEditText.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(binding.myinfoCertifyNumberEditText2.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(binding.myinfoPhoneNumberEditText.getWindowToken(), 0);
+
+        if(isClicked){
+            binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.custom_bt_unselected_5dp);
+            binding.myinfoPhoneNumberNumberBt.setText("재인증");
+            binding.myinfoPhoneNumberNumberBt.setTextColor(getResources().getColor(R.color.c_cccccc));
+
+            requestFocus2(binding.myinfoNameEditText);
+            visibleCertNum(true);
+
+        }else{
+            binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.custom_bt_selected_5dp);
+            binding.myinfoPhoneNumberNumberBt.setText("인증 요청");
+            binding.myinfoPhoneNumberNumberBt.setTextColor(getResources().getColor(R.color.text_white_color));
+
+            visibleCertNum(false);
+        }
+    }
+
+    void stateBt(boolean check){
+        if(check){
+            binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.custom_bt_selected_5dp);
+            binding.myinfoPhoneNumberNumberBt.setText("인증 요청");
+            binding.myinfoPhoneNumberNumberBt.setTextColor(getResources().getColor(R.color.text_white_color));
+
+            binding.myinfoPhoneNumberNumberBt.setEnabled(true);
+        }else{
+            binding.myinfoPhoneNumberNumberBt.setBackgroundResource(R.drawable.custom_bt_unselected_5dp);
+            binding.myinfoPhoneNumberNumberBt.setText("인증 요청");
+            binding.myinfoPhoneNumberNumberBt.setTextColor(getResources().getColor(R.color.c_cccccc));
+
+            binding.myinfoPhoneNumberNumberBt.setEnabled(false);
+        }
+    }
+
+    private void visibleCertNum(boolean isVisible){
+
+        if(countDownTimer != null){
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
+
+        if(isVisible){
+
+            enabledNextBt(true);
+            countDownTimer = new CountDownTimer(MILLISINFUTURE, COUNT_DOWN_INTERVAL) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                    long AuthCount = millisUntilFinished / 1000;
+                    //초가 10보다 크면 그냥 출력
+                    if((AuthCount - ((AuthCount / 60) *60)) >= 10){
+                        binding.myinfoConfirmNumberCountText.setText((AuthCount / 60)+ " : " + (AuthCount - ((AuthCount / 60) * 60)));
+                    }
+                    else if((AuthCount - ((AuthCount / 60) *60)) < 10 && AuthCount >= 1) {
+                        binding.myinfoConfirmNumberCountText.setText((AuthCount / 60) + " : 0" + (AuthCount - ((AuthCount / 60) * 60)));
+                    }else if(AuthCount == 0){
+                        countDownTimer.cancel();
+                        countDownTimer.onFinish();
+                    }
+                }
+                @Override
+                public void onFinish() {
+                    statedNumBt(false);
+                }
+            }.start();
+        }else{
+            enabledNextBt(false);
+        }
+    }
+
+    private void enabledNextBt(boolean isEnable){
+        if(isEnable){
+            openedConfirmNumber = true;
+
+            binding.nextBt.setEnabled(true);
+            binding.nextBt.setBackground(getResources().getDrawable(R.drawable.select_bt));
+            binding.nextBt.setTextColor(getResources().getColor(R.color.text_white_color));
+
+            binding.myinfoConfirmNumber.setVisibility(View.VISIBLE);
+            binding.myinfoConfirmNumberEditText.setVisibility(View.VISIBLE);
+            binding.myinfoConfirmNumberCountText.setVisibility(View.VISIBLE);
+            binding.myinfoConfirmNumberEditTextLine.setVisibility(View.VISIBLE);
+
+        }else{
+
+            binding.myinfoConfirmNumberEditText.setText("");
+
+            openedConfirmNumber = false;
+
+            binding.nextBt.setEnabled(false);
+            binding.nextBt.setBackground(getResources().getDrawable(R.drawable.unselect_bt));
+            binding.nextBt.setTextColor(getResources().getColor(R.color.button_enable_text));
+
+            binding.myinfoConfirmNumber.setVisibility(View.INVISIBLE);
+            binding.myinfoConfirmNumberEditText.setVisibility(View.INVISIBLE);
+            binding.myinfoConfirmNumberCountText.setVisibility(View.INVISIBLE);
+            binding.myinfoConfirmNumberEditTextLine.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private boolean validateDay(String Birth1, String Birth2){
+
+        if(Birth1.equals("3") || Birth1.equals("4") || Birth1.equals("7") || Birth1.equals("8")){
+            Birth1 = "20";
+        }else{
+            Birth1 = "19";
+        }
+        int BirthY = Integer.valueOf(Birth1 + Birth2.substring(0,2));
+        int BirthM =  Integer.valueOf(Birth2.substring(2, 4));
+        int BirthD = Integer.valueOf(Birth2.substring(4, 6));
+        //윤년일때
+        if(((BirthY%4==0)&&(BirthY%100!=0))||(BirthY%400==0)){
+            //월 일 날짜 범위 불 일치
+            if(!(BirthM > 0 && BirthM < 13) || !(BirthD > 0 && BirthD < 32)){
+                return false;
+            }
+            //월 일 날짜 범위 일치
+            else{
+                return true;
+            }
+        }
+        //윤년아닐때
+        else{
+            //윤년이 아닌데 2월이면서 29일 이상일때
+            if(BirthM == 2 && BirthD >= 29) {
+                return false;
+            }
+            //2월이 아닐때
+            else{
+                if(!(BirthM > 0 && BirthM < 13) || !(BirthD > 0 && BirthD < 32)){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.myinfoPhoneNumber_selectText:
+
+                imm.hideSoftInputFromWindow(binding.myinfoNameEditText.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(binding.myinfoCertifyNumberEditText.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(binding.myinfoCertifyNumberEditText2.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(binding.myinfoPhoneNumberEditText.getWindowToken(), 0);
+
+                requestFocus2(binding.myinfoNameEditText);
+
+                dialogBottomSheet = new DialogBottomSheet(ActivityRePhoneConfirm.this, agencyNumber, sktListener, ktListener, lgListener, sktRListener, ktRListener, lgRListener, closeListener);
+                dialogBottomSheet.show();
                 break;
 
             case R.id.backBt:
@@ -624,6 +667,15 @@ public class ActivityRePhoneConfirm extends AppCompatActivity implements View.On
                 }
             }
 
+            if(!binding.myinfoNameEditText.getText().toString().equals("")
+                    & !binding.myinfoCertifyNumberEditText.getText().toString().equals("")
+                    & !binding.myinfoCertifyNumberEditText2.getText().toString().equals("")
+                    & !binding.myinfoPhoneNumberEditText.getText().toString().equals("")
+            ){
+                stateBt(true);
+            }else{
+                stateBt(false);
+            }
         }
     }
 

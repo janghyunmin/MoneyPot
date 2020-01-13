@@ -1,4 +1,4 @@
-package com.quantec.moneypot.activity.Center;
+package com.quantec.moneypot.activity.center;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
-import com.quantec.moneypot.activity.Center.Adapter.AdapterUseGuide;
+import com.quantec.moneypot.activity.center.Adapter.AdapterUseGuide;
 import com.quantec.moneypot.datamodel.dmodel.ModelUseGuideList;
 import com.quantec.moneypot.R;
 

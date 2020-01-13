@@ -1,7 +1,6 @@
 package com.quantec.moneypot.activity.Main.Fragment.tab4;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,16 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.quantec.moneypot.activity.Center.ActivityClientCenter;
 import com.quantec.moneypot.activity.Main.ActivityMain;
 import com.quantec.moneypot.activity.Main.Fragment.tab4.fragment.FgCenter;
 import com.quantec.moneypot.activity.Main.Fragment.tab4.fragment.FgMyInfo;
 import com.quantec.moneypot.activity.Main.Fragment.tab4.fragment.FgNotice;
 import com.quantec.moneypot.activity.Main.Fragment.tab4.fragment.FgPush;
-import com.quantec.moneypot.activity.history.ActivityHistory;
-import com.quantec.moneypot.activity.MyInfo.ActivityMyInfo;
-import com.quantec.moneypot.activity.Notice.ActivityNotice;
-import com.quantec.moneypot.activity.Setting.ActivitySetting;
 import com.quantec.moneypot.R;
 
 public class FgTab4 extends Fragment implements View.OnClickListener {

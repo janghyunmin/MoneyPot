@@ -1,4 +1,4 @@
-package com.quantec.moneypot.activity.Center;
+package com.quantec.moneypot.activity.center;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;

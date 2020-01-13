@@ -57,6 +57,38 @@ public class ActivityNotiWebView extends AppCompatActivity {
         webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setDomStorageEnabled(true);
 
+
+//        WebView webview = new WebView(this);
+//        setContentView(webview);
+//        String url = "http://www.example.com";
+//        String postData = "username=" + URLEncoder.encode(my_username, "UTF-8") + "&password=" + URLEncoder.encode(my_password, "UTF-8");
+//        webview.postUrl(url,postData.getBytes());
+
+
+//        HttpClient httpclient = new DefaultHttpClient();
+//        HttpPost httppost = new HttpPost("http://www.yoursite.com/");
+//
+//        try {
+//            // Add your data
+//
+//            JSONObject user = new JSONObject();
+//            user.put("Name", "a");
+//            user.put("pass", "123");
+//
+//            // Create StringEntity
+//            StringEntity se = new StringEntity( user.toString());
+//            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+//            httppost.setEntity(se);
+//
+//            // Execute HTTP Post Request
+//            HttpResponse response = httpclient.execute(httppost);
+//
+//        } catch (ClientProtocolException e) {
+//            // TODO Auto-generated catch block
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//        }
+
         webView.loadUrl("https://mdev3.shinhaninvest.com/moneypot/account/new-account.jsp?token=ldb");
         webView.setWebChromeClient(new WebChromeClient(){
 
@@ -73,6 +105,7 @@ public class ActivityNotiWebView extends AppCompatActivity {
                 Log.e("받음리턴","값");
                 return super.onJsConfirm(view, url, message, result);
             }
+
         });
         webView.setWebViewClient(new WebViewClient(){
 
@@ -88,6 +121,9 @@ public class ActivityNotiWebView extends AppCompatActivity {
                 Intent marketIntent = new Intent(Intent.ACTION_VIEW);
                 marketIntent.setData(Uri.parse(url));
                 startActivityForResult(marketIntent, 100);
+
+
+
 
                 return true;
             }
@@ -117,6 +153,7 @@ public class ActivityNotiWebView extends AppCompatActivity {
                 super.onReceivedHttpError(view, request, errorResponse);
                 Log.e("받은 에러", "값 : "+errorResponse.getEncoding());
             }
+
         });
 
     }//onCreate 끝

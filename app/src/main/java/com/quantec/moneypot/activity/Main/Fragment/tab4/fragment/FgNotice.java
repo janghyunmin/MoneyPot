@@ -70,13 +70,13 @@ public class FgNotice extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        modelNotices.add(new ModelNotice("", "", ""));
-        modelNotices.add(new ModelNotice("", "", ""));
-        modelNotices.add(new ModelNotice("", "", ""));
-        modelNotices.add(new ModelNotice("", "", ""));
-        modelNotices.add(new ModelNotice("", "", ""));
-        modelNotices.add(new ModelNotice("", "", ""));
-        modelNotices.add(new ModelNotice("", "", ""));
+        modelNotices.add(new ModelNotice("자문서비스 출시 안내", "2020. 06. 30", ""));
+        modelNotices.add(new ModelNotice("[진행중] 만우절 해외주식 구매 이벤트", "2020. 04. 04", ""));
+        modelNotices.add(new ModelNotice("[진행중] 신금투 X 머니포트 봄 맞이 …", "2020. 03. 24", ""));
+        modelNotices.add(new ModelNotice("[서버점검] 2월 2일 긴급 서버점검 안내", "2020. 02. 01", ""));
+        modelNotices.add(new ModelNotice("[진행중] 머니포트 출시 기념 이벤트 …", "2020. 01. 12", ""));
+        modelNotices.add(new ModelNotice("안드로이드 정식 출시 안내", "2020. 01. 05", ""));
+        modelNotices.add(new ModelNotice("앱 베타버전 서비스 종료 예정 안내", "2020. 01. 01", ""));
         modelNotices.add(new ModelNotice("", "", ""));
         modelNotices.add(new ModelNotice("", "", ""));
         modelNotices.add(new ModelNotice("", "", ""));

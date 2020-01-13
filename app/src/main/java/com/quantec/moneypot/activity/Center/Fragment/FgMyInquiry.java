@@ -1,4 +1,4 @@
-package com.quantec.moneypot.activity.Center.Fragment;
+package com.quantec.moneypot.activity.center.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import com.quantec.moneypot.activity.Center.ActivityInquiry;
-import com.quantec.moneypot.activity.Center.Adapter.AdapterMyInquiry;
+import com.quantec.moneypot.activity.center.ActivityInquiry;
+import com.quantec.moneypot.activity.center.Adapter.AdapterMyInquiry;
 import com.quantec.moneypot.datamodel.dmodel.ModelMyInquiryList;
 import com.quantec.moneypot.R;
 

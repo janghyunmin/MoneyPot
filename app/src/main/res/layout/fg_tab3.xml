@@ -6,17 +6,26 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
+
+    <ImageView
+        android:id="@+id/searchBt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_search_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="자산커스텀"
         android:textColor="@color/text_black_color"
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/searchBt1"
+        app:layout_constraintBottom_toBottomOf="@+id/searchBt1"/>
 
     <ImageView
         android:id="@+id/userBt"

@@ -517,17 +517,15 @@ public class FgMyInfo extends Fragment implements View.OnClickListener{
     }
 
 
-
-
     private void checkedUseFido(){
 
         if(mFidoUtil.isAvailableFIDO(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE) && mFidoUtil.isAvailableFIDO(LOCAL_AUTH_TYPE.LOCAL_FINGERPRINT_TYPE)){
-            passwordBt.setVisibility(View.VISIBLE);
+            passwordBt.setVisibility(View.GONE);
             easyPasswordBt.setVisibility(View.VISIBLE);
             fingerBt.setVisibility(View.VISIBLE);
         }
         else if(mFidoUtil.isAvailableFIDO(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE)){
-            passwordBt.setVisibility(View.VISIBLE);
+            passwordBt.setVisibility(View.GONE);
             easyPasswordBt.setVisibility(View.VISIBLE);
             fingerBt.setVisibility(View.GONE);
         }

@@ -47,14 +47,6 @@ public class DialogBottomSheet extends Dialog {
         lgRBt.setOnClickListener(lgRListen);
         closeBt.setOnClickListener(closeListen);
 
-        sktBt.setBackgroundResource(R.drawable.bottom_sheet_line);
-        ktBt.setBackgroundResource(R.drawable.bottom_sheet_line);
-        lgBt.setBackgroundResource(R.drawable.bottom_sheet_line);
-        sktRBt.setBackgroundResource(R.drawable.bottom_sheet_line);
-        ktRBt.setBackgroundResource(R.drawable.bottom_sheet_line);
-        lgRBt.setBackgroundResource(R.drawable.bottom_sheet_line);
-        closeBt.setBackgroundResource(R.drawable.bottom_sheet_line);
-
         if(agencyNumber.equals("01")){
             sktBt.setTextColor(context.getResources().getColor(R.color.c_7f61fd));
             sktBt.setBackgroundResource(R.drawable.bottom_sheet_on);

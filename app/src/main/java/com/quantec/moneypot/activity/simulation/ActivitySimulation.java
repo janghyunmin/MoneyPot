@@ -13,10 +13,12 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,8 +37,15 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPotSimul;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPreChartList;
+import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelSimulCode;
+import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Code;
+import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 import com.quantec.moneypot.datamanager.ChartManager;
+import com.quantec.moneypot.datamodel.dmodel.ModelTransChartList;
+import com.quantec.moneypot.dialog.DialogLoadingMakingPort;
+import com.quantec.moneypot.network.retrofit.RetrofitClient;
 import com.quantec.moneypot.util.DecimalScale.DecimalScale;
 
 import java.text.ParseException;
@@ -46,12 +55,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivitySimulation extends AppCompatActivity {
 
     ArrayList<ModelPreChartList> modelPreChartLists;
 
-    TextView rate, per, num;
+    TextView rate, per, num, mon1, mon3, mon6, monAll, preChartBt;
     ChipGroup chipGroup;
     ImageView backBt;
 
@@ -63,12 +77,18 @@ public class ActivitySimulation extends AppCompatActivity {
     LineData lineData2;
     float currentX, maxX, chartExp;
     List<DateMathDtoResult> resultDate;
-    List<Entry> monThEntries;
+    List<Entry> monTh1Entries, monTh3Entries, monTh6Entries;
     double exp = 0.0;
 
     ArrayList<DateMathDto> date;
 
-    String stCode, nowDate;
+    String stCode, nowDate, exAllRate, ex1Rate, ex3Rate, ex6Rate;
+
+    boolean monTh1 = true;
+    boolean monTh3 = true;
+    boolean monTh6 = true;
+
+    LinearLayout loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +109,27 @@ public class ActivitySimulation extends AppCompatActivity {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
+        loading = findViewById(R.id.loading);
+        loading.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
+        mon1 = findViewById(R.id.mon1);
+        mon3 = findViewById(R.id.mon3);
+        mon6 = findViewById(R.id.mon6);
+        monAll = findViewById(R.id.monAll);
+
+        preChartBt = monAll;
+
         entries = new ArrayList<>();
         date = new ArrayList<>();
         resultDate = new ArrayList<>();
-        monThEntries = new ArrayList<>();
+        monTh1Entries = new ArrayList<>();
+        monTh3Entries = new ArrayList<>();
+        monTh6Entries = new ArrayList<>();
 
         chartView = findViewById(R.id.chartView);
         chartView.setNoDataText("");
@@ -109,7 +146,9 @@ public class ActivitySimulation extends AppCompatActivity {
         chipGroup = findViewById(R.id.chipGroup);
 
         Intent intent1 = getIntent();
-        rate.setText(String.valueOf(intent1.getDoubleExtra("rate", 0)));
+        exAllRate = String.valueOf(intent1.getDoubleExtra("rate", 0));
+        rate.setText(exAllRate);
+
 
         if(intent1.getDoubleExtra("rate", 0) < 0){
             rate.setTextColor(getResources().getColor(R.color.blue_color));
@@ -184,53 +223,50 @@ public class ActivitySimulation extends AppCompatActivity {
         nowDate = date.get(date.size()-1).getDate();
         drawLineChart(entries);
 
+
+        RxView.clicks(mon1).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            if(monTh1) {
+                loading.setVisibility(View.VISIBLE);
+                changedChartBt(mon1);
+                monTh1 = false;
+                chartData("one");
+            }else{
+                changedChartBt(mon1);
+                drawLineChart(monTh1Entries);
+                rate.setText(ex1Rate);
+            }
+        });
+        RxView.clicks(mon3).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            if(monTh3){
+                loading.setVisibility(View.VISIBLE);
+                changedChartBt(mon3);
+                monTh3 = false;
+                chartData("thr");
+            }else{
+                changedChartBt(mon3);
+                drawLineChart(monTh3Entries);
+                rate.setText(ex3Rate);
+            }
+        });
+        RxView.clicks(mon6).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            if(monTh6){
+                loading.setVisibility(View.VISIBLE);
+                changedChartBt(mon6);
+                monTh6 = false;
+                chartData("six");
+            }else{
+                changedChartBt(mon6);
+                drawLineChart(monTh6Entries);
+                rate.setText(ex6Rate);
+            }
+        });
+        RxView.clicks(monAll).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            changedChartBt(monAll);
+            drawLineChart(entries);
+            rate.setText(exAllRate);
+        });
+
     }//onCreate 끝
-
-
-    private String startDate(String endDate, int month){
-        exp = 0.0;
-        resultDate.clear();
-        monThEntries.clear();
-
-        String laterDay = null;
-        try {
-            Calendar cal = Calendar.getInstance();
-            Date originDate = new Date();
-            Date laterDate = new Date();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); //날짜 형식에 따라서 달리 할 수 있다.
-            originDate = format.parse(endDate);
-            cal.setTime(laterDate);
-            cal.add(Calendar.MONTH, month);        //laterCnt 만큼 후의 날짜를 구한다. laterCnt 자리에 -7 을 입력하면 일주일전에 날짜를 구할 수 있다.
-            laterDate = cal.getTime();
-            laterDay = format.format(laterDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return laterDay;
-    }
-
-    private void calDate(String startDate, boolean monTh){
-        for(int index = 0 ; index < date.size(); index++){
-            if(monTh){
-                exp += (date.get(index).getPrice() / date.get(index-1).getPrice()) -1;
-                resultDate.add(new DateMathDtoResult(date.get(index).getDate(), exp));
-            }
-            if(date.get(index).getDate().equals(startDate) && !monTh){
-                monTh =true;
-                resultDate.add(new DateMathDtoResult(date.get(index).getDate(), exp));
-            }
-        }
-        for(int index = 0 ; index < resultDate.size() ; index++){
-//            monThEntries.add(new Entry(index, DecimalScale.decimalScale2(String.valueOf(resultDate.get(index).getExp()*100), 2, 2),
-//                    resultDate.get(index).getDate()));
-            monThEntries.add(new Entry(index, DecimalScale.decimalScale2(String.valueOf(resultDate.get(index).getExp()), 2, 2),
-                    resultDate.get(index).getDate()));
-        }
-
-//        chartExp = DecimalScale.decimalScale2(String.valueOf(resultDate.get(resultDate.size()-1).getExp()*100), 2, 2);
-        chartExp = DecimalScale.decimalScale2(String.valueOf(resultDate.get(resultDate.size()-1).getExp()), 2, 2);
-    }
-
 
     private void drawLineChart(List<Entry> chartData){
 
@@ -330,4 +366,92 @@ public class ActivitySimulation extends AppCompatActivity {
             super.draw(canvas, posX, posY);
         }
     }
+
+    void changedChartBt(TextView chartBt) {
+        if(preChartBt != null){
+            preChartBt.setBackground(getResources().getDrawable(R.drawable.custom_no_line));
+            preChartBt.setTextColor(getResources().getColor(R.color.c_9a9a9a));
+        }
+        preChartBt = chartBt;
+
+        chartBt.setBackground(getResources().getDrawable(R.drawable.custom_bt_line_blue_15dp));
+        chartBt.setTextColor(getResources().getColor(R.color.c_4e7cff));
+    }
+
+    void chartData(String date){
+        ModelSimulCode modelSimulCode = new ModelSimulCode();
+        modelSimulCode.setCode("");
+        modelSimulCode.setDescript("");
+        modelSimulCode.setName("");
+        modelSimulCode.setPeriod(date);
+        modelSimulCode.setPropensity(701);
+        modelSimulCode.setRate(0);
+        modelSimulCode.setType(0);
+
+        ArrayList<Code> codes = new ArrayList<>();
+
+
+        for(int index = 0 ; index < modelPreChartLists.size(); index++){
+
+            Code code1 = new Code();
+            code1.setCode(modelPreChartLists.get(index).getCode());
+            code1.setType(0);
+            code1.setPtCode("");
+            code1.setWeight(0);
+
+            codes.add(code1);
+        }
+
+        modelSimulCode.setCodes(codes);
+
+        Call<ModelPotSimul> getReList = RetrofitClient.getInstance().getService().getPotSimul("application/json", modelSimulCode);
+        getReList.enqueue(new Callback<ModelPotSimul>() {
+            @Override
+            public void onResponse(Call<ModelPotSimul> call, Response<ModelPotSimul> response) {
+                if (response.code() == 200) {
+                    if(response.body().getStatus() == 200){
+
+                        for(int index = 0 ; index < response.body().getContent().getChart().size() ; index++) {
+
+                            if(date.equals("one")){
+
+                                monTh1Entries.add(new Entry(index,
+                                        DecimalScale.decimalScale2(String.valueOf(response.body().getContent().getChart().get(index).getExp()), 2, 2),
+                                        response.body().getContent().getChart().get(index).getDate()));
+                            }else if(date.equals("thr")){
+                                monTh3Entries.add(new Entry(index,
+                                        DecimalScale.decimalScale2(String.valueOf(response.body().getContent().getChart().get(index).getExp()), 2, 2),
+                                        response.body().getContent().getChart().get(index).getDate()));
+                            }else{
+                                monTh6Entries.add(new Entry(index,
+                                        DecimalScale.decimalScale2(String.valueOf(response.body().getContent().getChart().get(index).getExp()), 2, 2),
+                                        response.body().getContent().getChart().get(index).getDate()));
+                            }
+                        }
+
+                        if(date.equals("one")){
+                            drawLineChart(monTh1Entries);
+                            ex1Rate = String.valueOf(monTh1Entries.get(monTh1Entries.size()-1).getY());
+                            rate.setText(ex1Rate);
+                        }else if(date.equals("thr")){
+                            drawLineChart(monTh3Entries);
+                            ex3Rate = String.valueOf(monTh3Entries.get(monTh3Entries.size()-1).getY());
+                            rate.setText(ex3Rate);
+                        }else{
+                            drawLineChart(monTh6Entries);
+                            ex6Rate = String.valueOf(monTh6Entries.get(monTh6Entries.size()-1).getY());
+                            rate.setText(ex6Rate);
+                        }
+                        loading.setVisibility(View.GONE);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ModelPotSimul> call, Throwable t) {
+                Log.e("실패","실패"+t.getMessage());
+                loading.setVisibility(View.GONE);
+            }
+        });
+    }
+
 }

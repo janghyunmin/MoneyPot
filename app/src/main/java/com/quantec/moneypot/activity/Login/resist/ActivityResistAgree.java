@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,12 +31,11 @@ public class ActivityResistAgree extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_agree_page);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_agree_page);
 
         Intent intent = getIntent();
         phoneNum = intent.getStringExtra("passPhoneNum");
-
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_agree_page);
 
         binding.nextBt.setBackground(getResources().getDrawable(R.drawable.unselect_bt));
 
