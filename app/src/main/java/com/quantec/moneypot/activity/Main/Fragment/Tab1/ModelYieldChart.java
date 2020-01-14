@@ -1,260 +1,144 @@
 package com.quantec.moneypot.activity.Main.Fragment.Tab1;
 
+import java.util.ArrayList;
+
 public class ModelYieldChart {
 
-    String firstChartTitle;
-    String scondChartTitle;
-    String thirdChartTitle;
-    String firstChartCode;
-    String scondChartCode;
-    String thirdChartCode;
-    String firstChartImage;
-    String scondChartImage;
-    String thirdChartImage;
-    double firstChartRate;
-    double scondChartRate;
-    double thirdChartRate;
-    long firstChartPrice;
-    long scondChartPrice;
-    long thirdChartPrice;
+    int type;
 
-    String firstSumTitle;
-    String scondSumtTitle;
-    String thirdSumTitle;
-    String firstSumCode;
-    String scondSumtCode;
-    String thirdSumCode;
-    String firstSumImage;
-    String scondSumtImage;
-    String thirdSumImage;
+    String title1;
+    String title2;
+    String title3;
 
-    int page;
+    String code1;
+    String code2;
+    String code3;
 
-    public ModelYieldChart(String firstChartTitle, String scondChartTitle, String thirdChartTitle, String firstChartCode, String scondChartCode, String thirdChartCode, String firstChartImage, String scondChartImage, String thirdChartImage, double firstChartRate, double scondChartRate, double thirdChartRate, long firstChartPrice, long scondChartPrice, long thirdChartPrice, String firstSumTitle, String scondSumtTitle, String thirdSumTitle, String firstSumCode, String scondSumtCode, String thirdSumCode, String firstSumImage, String scondSumtImage, String thirdSumImage, int page) {
-        this.firstChartTitle = firstChartTitle;
-        this.scondChartTitle = scondChartTitle;
-        this.thirdChartTitle = thirdChartTitle;
-        this.firstChartCode = firstChartCode;
-        this.scondChartCode = scondChartCode;
-        this.thirdChartCode = thirdChartCode;
-        this.firstChartImage = firstChartImage;
-        this.scondChartImage = scondChartImage;
-        this.thirdChartImage = thirdChartImage;
-        this.firstChartRate = firstChartRate;
-        this.scondChartRate = scondChartRate;
-        this.thirdChartRate = thirdChartRate;
-        this.firstChartPrice = firstChartPrice;
-        this.scondChartPrice = scondChartPrice;
-        this.thirdChartPrice = thirdChartPrice;
-        this.firstSumTitle = firstSumTitle;
-        this.scondSumtTitle = scondSumtTitle;
-        this.thirdSumTitle = thirdSumTitle;
-        this.firstSumCode = firstSumCode;
-        this.scondSumtCode = scondSumtCode;
-        this.thirdSumCode = thirdSumCode;
-        this.firstSumImage = firstSumImage;
-        this.scondSumtImage = scondSumtImage;
-        this.thirdSumImage = thirdSumImage;
-        this.page = page;
+    double rate1;
+    double rate2;
+    double rate3;
+
+    int price1;
+    int price2;
+    int price3;
+
+    public ModelYieldChart(int type, String title1, String title2, String title3, String code1, String code2, String code3, double rate1, double rate2, double rate3, int price1, int price2, int price3) {
+        this.type = type;
+        this.title1 = title1;
+        this.title2 = title2;
+        this.title3 = title3;
+        this.code1 = code1;
+        this.code2 = code2;
+        this.code3 = code3;
+        this.rate1 = rate1;
+        this.rate2 = rate2;
+        this.rate3 = rate3;
+        this.price1 = price1;
+        this.price2 = price2;
+        this.price3 = price3;
     }
 
-    public String getFirstChartTitle() {
-        return firstChartTitle;
+    public int getType() {
+        return type;
     }
 
-    public void setFirstChartTitle(String firstChartTitle) {
-        this.firstChartTitle = firstChartTitle;
+    public void setType(int type) {
+        this.type = type;
     }
 
-    public String getScondChartTitle() {
-        return scondChartTitle;
+    public String getTitle1() {
+        return title1;
     }
 
-    public void setScondChartTitle(String scondChartTitle) {
-        this.scondChartTitle = scondChartTitle;
+    public void setTitle1(String title1) {
+        this.title1 = title1;
     }
 
-    public String getThirdChartTitle() {
-        return thirdChartTitle;
+    public String getTitle2() {
+        return title2;
     }
 
-    public void setThirdChartTitle(String thirdChartTitle) {
-        this.thirdChartTitle = thirdChartTitle;
+    public void setTitle2(String title2) {
+        this.title2 = title2;
     }
 
-    public String getFirstChartCode() {
-        return firstChartCode;
+    public String getTitle3() {
+        return title3;
     }
 
-    public void setFirstChartCode(String firstChartCode) {
-        this.firstChartCode = firstChartCode;
+    public void setTitle3(String title3) {
+        this.title3 = title3;
     }
 
-    public String getScondChartCode() {
-        return scondChartCode;
+    public String getCode1() {
+        return code1;
     }
 
-    public void setScondChartCode(String scondChartCode) {
-        this.scondChartCode = scondChartCode;
+    public void setCode1(String code1) {
+        this.code1 = code1;
     }
 
-    public String getThirdChartCode() {
-        return thirdChartCode;
+    public String getCode2() {
+        return code2;
     }
 
-    public void setThirdChartCode(String thirdChartCode) {
-        this.thirdChartCode = thirdChartCode;
+    public void setCode2(String code2) {
+        this.code2 = code2;
     }
 
-    public String getFirstChartImage() {
-        return firstChartImage;
+    public String getCode3() {
+        return code3;
     }
 
-    public void setFirstChartImage(String firstChartImage) {
-        this.firstChartImage = firstChartImage;
+    public void setCode3(String code3) {
+        this.code3 = code3;
     }
 
-    public String getScondChartImage() {
-        return scondChartImage;
+    public double getRate1() {
+        return rate1;
     }
 
-    public void setScondChartImage(String scondChartImage) {
-        this.scondChartImage = scondChartImage;
+    public void setRate1(double rate1) {
+        this.rate1 = rate1;
     }
 
-    public String getThirdChartImage() {
-        return thirdChartImage;
+    public double getRate2() {
+        return rate2;
     }
 
-    public void setThirdChartImage(String thirdChartImage) {
-        this.thirdChartImage = thirdChartImage;
+    public void setRate2(double rate2) {
+        this.rate2 = rate2;
     }
 
-    public double getFirstChartRate() {
-        return firstChartRate;
+    public double getRate3() {
+        return rate3;
     }
 
-    public void setFirstChartRate(double firstChartRate) {
-        this.firstChartRate = firstChartRate;
+    public void setRate3(double rate3) {
+        this.rate3 = rate3;
     }
 
-    public double getScondChartRate() {
-        return scondChartRate;
+    public int getPrice1() {
+        return price1;
     }
 
-    public void setScondChartRate(double scondChartRate) {
-        this.scondChartRate = scondChartRate;
+    public void setPrice1(int price1) {
+        this.price1 = price1;
     }
 
-    public double getThirdChartRate() {
-        return thirdChartRate;
+    public int getPrice2() {
+        return price2;
     }
 
-    public void setThirdChartRate(double thirdChartRate) {
-        this.thirdChartRate = thirdChartRate;
+    public void setPrice2(int price2) {
+        this.price2 = price2;
     }
 
-    public long getFirstChartPrice() {
-        return firstChartPrice;
+    public int getPrice3() {
+        return price3;
     }
 
-    public void setFirstChartPrice(long firstChartPrice) {
-        this.firstChartPrice = firstChartPrice;
-    }
-
-    public long getScondChartPrice() {
-        return scondChartPrice;
-    }
-
-    public void setScondChartPrice(long scondChartPrice) {
-        this.scondChartPrice = scondChartPrice;
-    }
-
-    public long getThirdChartPrice() {
-        return thirdChartPrice;
-    }
-
-    public void setThirdChartPrice(long thirdChartPrice) {
-        this.thirdChartPrice = thirdChartPrice;
-    }
-
-    public String getFirstSumTitle() {
-        return firstSumTitle;
-    }
-
-    public void setFirstSumTitle(String firstSumTitle) {
-        this.firstSumTitle = firstSumTitle;
-    }
-
-    public String getScondSumtTitle() {
-        return scondSumtTitle;
-    }
-
-    public void setScondSumtTitle(String scondSumtTitle) {
-        this.scondSumtTitle = scondSumtTitle;
-    }
-
-    public String getThirdSumTitle() {
-        return thirdSumTitle;
-    }
-
-    public void setThirdSumTitle(String thirdSumTitle) {
-        this.thirdSumTitle = thirdSumTitle;
-    }
-
-    public String getFirstSumCode() {
-        return firstSumCode;
-    }
-
-    public void setFirstSumCode(String firstSumCode) {
-        this.firstSumCode = firstSumCode;
-    }
-
-    public String getScondSumtCode() {
-        return scondSumtCode;
-    }
-
-    public void setScondSumtCode(String scondSumtCode) {
-        this.scondSumtCode = scondSumtCode;
-    }
-
-    public String getThirdSumCode() {
-        return thirdSumCode;
-    }
-
-    public void setThirdSumCode(String thirdSumCode) {
-        this.thirdSumCode = thirdSumCode;
-    }
-
-    public String getFirstSumImage() {
-        return firstSumImage;
-    }
-
-    public void setFirstSumImage(String firstSumImage) {
-        this.firstSumImage = firstSumImage;
-    }
-
-    public String getScondSumtImage() {
-        return scondSumtImage;
-    }
-
-    public void setScondSumtImage(String scondSumtImage) {
-        this.scondSumtImage = scondSumtImage;
-    }
-
-    public String getThirdSumImage() {
-        return thirdSumImage;
-    }
-
-    public void setThirdSumImage(String thirdSumImage) {
-        this.thirdSumImage = thirdSumImage;
-    }
-
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
+    public void setPrice3(int price3) {
+        this.price3 = price3;
     }
 }

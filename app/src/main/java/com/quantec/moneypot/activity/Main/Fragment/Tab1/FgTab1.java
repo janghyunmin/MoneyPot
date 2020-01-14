@@ -26,6 +26,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.asksira.loopingviewpager.LoopingPagerAdapter;
 import com.asksira.loopingviewpager.LoopingViewPager;
+import com.quantec.moneypot.activity.Main.Fragment.Tab1.Adapter.AdapterFgTab1;
+import com.quantec.moneypot.activity.Main.Fragment.Tab1.Adapter.AdapterFollowHome;
 import com.quantec.moneypot.activity.Main.Fragment.tab4.ActivityNotiWebView;
 import com.quantec.moneypot.activity.Search.ActivitySearch;
 import com.quantec.moneypot.rxandroid.RxView;
@@ -64,7 +66,26 @@ public class FgTab1 extends Fragment {
     }
 
     AdapterScroll adapterScroll;
-    ArrayList<String> modelString;
+//    ArrayList<String> modelString;
+
+    ArrayList<ModelRecomList> modelRecomLists;
+
+    AdapterFgTab1 adapterFgTab1;
+    LoopingViewPager viewPager;
+    PageIndicatorView indicatorView;
+
+    ArrayList<ModelYieldChart> modelYieldCharts;
+
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+
+    ArrayList<ModelFollowHome> modelFollowHomes;
+    AdapterFollowHome adapterFollowHome;
+
+    ArrayList<ModelFollowHome> modelFollowHomes3;
+    ArrayList<ModelFollowHome> modelFollowHomeAll;
+
+    boolean addViewState = false;
 
     @Nullable
     @Override
@@ -73,29 +94,95 @@ public class FgTab1 extends Fragment {
 
         initializeViews();
 
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        layoutManager = new LinearLayoutManager(activityMain);
+        recyclerView.setLayoutManager(layoutManager);
+
+        modelFollowHomes = new ArrayList<>();
+        modelFollowHomes3 = new ArrayList<>();
+        modelFollowHomeAll = new ArrayList<>();
+
+        modelFollowHomeAll.add(new ModelFollowHome(false, "", "", 0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "넷플릭스", "", 1.0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "애플", "", 1.0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "테슬라", "", 1.0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "삼성", "", 1.0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "하이닉스", "", 1.0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "반도체", "", 1.0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "현대", "", 1.0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "대우", "", 1.0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "해양", "", 1.0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "조선", "", 1.0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "접기", "", 0, 0));
+
+        modelFollowHomes3.add(new ModelFollowHome(false, "", "", 0, 0));
+        modelFollowHomes3.add(new ModelFollowHome(false, "넷플릭스", "", 1.0, 0));
+        modelFollowHomes3.add(new ModelFollowHome(false, "애플", "", 1.0, 0));
+        modelFollowHomes3.add(new ModelFollowHome(false, "테슬라", "", 1.0, 0));
+        modelFollowHomes3.add(new ModelFollowHome(false, "더보기", "", 0, 0));
+
+        modelFollowHomes.addAll(modelFollowHomes3);
+
+        adapterFollowHome = new AdapterFollowHome(modelFollowHomes, activityMain);
+
+        recyclerView.setAdapter(adapterFollowHome);
+
+        modelYieldCharts = new ArrayList<>();
+
+        indicatorView = view.findViewById(R.id.indicator);
+        indicatorView.setAlpha(0.7f);
+        indicatorView.setSelectedColor(activityMain.getResources().getColor(R.color.c_4e7cff));
+        indicatorView.setUnselectedColor(activityMain.getResources().getColor(R.color.c_dedede));
+        indicatorView.setAnimationType(AnimationType.THIN_WORM);
+        viewPager = view.findViewById(R.id.viewPager);
+
         searchBt = view.findViewById(R.id.searchBt);
         userBt = view.findViewById(R.id.userBt);
 
         scrollView = view.findViewById(R.id.picker);
 
-        scrollView.setItemTransitionTimeMillis(10);
+        scrollView.setItemTransitionTimeMillis(500);
         scrollView.setItemTransformer(new ScaleTransformer.Builder()
                 .setMinScale(0.8f)
                 .build());
+        scrollView.bringToFront();
 
-        modelString = new ArrayList<>();
+//        modelString = new ArrayList<>();
+        modelRecomLists = new ArrayList<>();
 
-        modelString.add("안녕하세요 1");
-        modelString.add("안녕하세요 2");
-        modelString.add("안녕하세요 3");
-        modelString.add("안녕하세요 4");
-        modelString.add("안녕하세요 5");
-        modelString.add("안녕하세요 6");
-        adapterScroll = new AdapterScroll(modelString, activityMain);
+        modelRecomLists.add(new ModelRecomList("나이키", "", "세계적인 운동화 브랜드,\nJUST DO IT!", 23.48));
+        modelRecomLists.add(new ModelRecomList("쉑쉑버거", "", "브랜드 설명", 23.48));
+        modelRecomLists.add(new ModelRecomList("인텔", "", "인텔", 23.48));
 
-//        scrollView.setAdapter(adapterScroll);
+        adapterScroll = new AdapterScroll(modelRecomLists, activityMain);
+
         InfiniteScrollAdapter wrapper = InfiniteScrollAdapter.wrap(adapterScroll);
         scrollView.setAdapter(wrapper);
+
+
+        scrollView.addScrollStateChangeListener(new DiscreteScrollView.ScrollStateChangeListener<RecyclerView.ViewHolder>() {
+            @Override
+            public void onScrollStart(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+            }
+
+            @Override
+            public void onScrollEnd(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+                Log.e("포지션1", "값 : "+wrapper.getRealPosition(i));
+            }
+
+            @Override
+            public void onScroll(float v, int i, int i1, @Nullable RecyclerView.ViewHolder viewHolder, @Nullable RecyclerView.ViewHolder t1) {
+            }
+        });
+
+//        adapterFgTab1 = new AdapterFgTab1(activityMain, modelYieldCharts, true);
+//        viewPager.setAdapter(adapterFgTab1);
+//        viewPager.setClipToPadding(false);
+//        viewPager.setPageMargin(12);
 
         return view;
     }
@@ -121,6 +208,67 @@ public class FgTab1 extends Fragment {
             }
         });
 
+        adapterScroll.setScrollItemClick(new AdapterScroll.ScrollItemClick() {
+            @Override
+            public void onClick(int position) {
+                Log.e("데이터","값 : "+modelRecomLists.get(position).getCode());
+            }
+        });
+
+        modelYieldCharts.add(new ModelYieldChart(0,
+                "스타벅스", "애브비", "마이크론테크", "A1", "A2", "A3", 11.02, 11.02 , 11.02, 292030 , 292030 , 292030));
+
+        modelYieldCharts.add(new ModelYieldChart(1,
+                "마법의 공식", "돼지열병과 싸우고 있는 기...", "세계적인 IT 기업들", "B1", "B2", "B3", 11.02, 11.02 , 11.02, 292030 , 292030 , 292030));
+
+        modelYieldCharts.add(new ModelYieldChart(2,
+                "한국", "미국", "일본", "C1", "C2", "C3", 11.02, 11.02 , 11.02, 292030 , 292030 , 292030));
+
+
+        adapterFgTab1 = new AdapterFgTab1(activityMain, modelYieldCharts, true);
+        viewPager.setAdapter(adapterFgTab1);
+        viewPager.setClipToPadding(false);
+        viewPager.setPageMargin(12);
+
+        //Custom bind indicator
+        indicatorView.setCount(viewPager.getIndicatorCount());
+        viewPager.setIndicatorPageChangeListener(new LoopingViewPager.IndicatorPageChangeListener() {
+            @Override
+            public void onIndicatorProgress(int selectingPosition, float progress) {
+                indicatorView.setProgress(selectingPosition, progress);
+            }
+
+            @Override
+            public void onIndicatorPageChange(int newIndicatorPosition) {
+            }
+        });
+
+
+        adapterFgTab1.setItemClick(new AdapterFgTab1.ItemClick() {
+            @Override
+            public void onClick(String code) {
+                Log.e("클릭 이벤트", "종목코드 : "+code);
+            }
+        });
+
+        adapterFollowHome.setFollowHomeClick(new AdapterFollowHome.FollowHomeClick() {
+            @Override
+            public void onClick(int position) {
+                modelFollowHomes.clear();
+
+                if(addViewState){
+                    addViewState = false;
+                    modelFollowHomes.addAll(modelFollowHomes3);
+                }else{
+                    addViewState = true;
+                    modelFollowHomes.addAll(modelFollowHomeAll);
+                }
+
+                adapterFollowHome.notifyDataSetChanged();
+            }
+        });
+
+
     }//onViewCreate 끝
 
 
@@ -135,6 +283,148 @@ public class FgTab1 extends Fragment {
             activityMain = (ActivityMain) context;
         }
     }
+
+
+//        public class DemoInfiniteAdapter extends LoopingPagerAdapter<ModelYieldChart> {
+//
+//        private final int VIEWPAGE_1 = 0;
+//        private final int VIEWPAGE_2 = 1;
+//        private final int VIEWPAGE_3 = 2;
+//
+//        ArrayList<ModelYieldChart> itemList;
+//
+//        public DemoInfiniteAdapter(Context context, ArrayList<ModelYieldChart> itemList, boolean isInfinite) {
+//            super(context, itemList, isInfinite);
+//            this.itemList = itemList;
+//        }
+//
+//        private ItemClick itemClick;
+//        interface ItemClick{
+//            public void onClick(int position);
+//        }
+//
+//        @Override
+//        protected int getItemViewType(int listPosition) {
+//
+//            if (itemList.get(listPosition).getType() == 0) {
+//                return VIEWPAGE_1;
+//            } else if(itemList.get(listPosition).getType() == 1){
+//                return VIEWPAGE_2;
+//            }else{
+//                return VIEWPAGE_3;
+//            }
+//        }
+//
+//        @Override
+//        protected View inflateView(int viewType, ViewGroup container, int listPosition) {
+//
+//            if (viewType == VIEWPAGE_1) {
+//                return LayoutInflater.from(activityMain).inflate(R.layout.item_fgtab1_yieldpage0, container, false);
+//            } else if(viewType == VIEWPAGE_2){
+//                return LayoutInflater.from(activityMain).inflate(R.layout.item_fgtab1_yieldpage1, container, false);
+//            }else{
+//                return LayoutInflater.from(activityMain).inflate(R.layout.item_fgtab1_yieldpage2, container, false);
+//            }
+//        }
+//
+//            @Override
+//            public float getPageWidth(int position) {
+//                return 0.93f;
+//            }
+//
+//            @Override
+//        protected void bindView(View convertView, int listPosition, int viewType) {
+//
+//            TextView topTitle, title1, title2, title3, rate1, rate2, rate3, price1, price2, price3;
+//            ConstraintLayout itemLayout;
+//
+//            if (viewType == VIEWPAGE_1) {
+//
+//                topTitle = convertView.findViewById(R.id.topTitle);
+//                title1 = convertView.findViewById(R.id.title1);
+//                title2 = convertView.findViewById(R.id.title2);
+//                title3 = convertView.findViewById(R.id.title3);
+//
+//                rate1 = convertView.findViewById(R.id.rate1);
+//                rate2 = convertView.findViewById(R.id.rate2);
+//                rate3 = convertView.findViewById(R.id.rate3);
+//
+//                price1 = convertView.findViewById(R.id.price1);
+//                price2 = convertView.findViewById(R.id.price2);
+//                price3 = convertView.findViewById(R.id.price3);
+//
+//
+//                topTitle.setText("해외기업 차트");
+//                title1.setText(itemList.get(listPosition).getTitle1());
+//                title2.setText(itemList.get(listPosition).getTitle2());
+//                title3.setText(itemList.get(listPosition).getTitle3());
+//
+//                rate1.setText(String.valueOf(itemList.get(listPosition).getRate1()));
+//                rate2.setText(String.valueOf(itemList.get(listPosition).getRate2()));
+//                rate3.setText(String.valueOf(itemList.get(listPosition).getRate3()));
+//
+//                price1.setText(String.valueOf(itemList.get(listPosition).getPrice1()));
+//                price2.setText(String.valueOf(itemList.get(listPosition).getPrice2()));
+//                price3.setText(String.valueOf(itemList.get(listPosition).getPrice3()));
+//            }
+//
+//            if (viewType == VIEWPAGE_2) {
+//                topTitle = convertView.findViewById(R.id.topTitle);
+//                title1 = convertView.findViewById(R.id.title1);
+//                title2 = convertView.findViewById(R.id.title2);
+//                title3 = convertView.findViewById(R.id.title3);
+//
+//                rate1 = convertView.findViewById(R.id.rate1);
+//                rate2 = convertView.findViewById(R.id.rate2);
+//                rate3 = convertView.findViewById(R.id.rate3);
+//
+//                price1 = convertView.findViewById(R.id.price1);
+//                price2 = convertView.findViewById(R.id.price2);
+//                price3 = convertView.findViewById(R.id.price3);
+//
+//                topTitle.setText("묶음기업 차트");
+//                title1.setText(itemList.get(listPosition).getTitle1());
+//                title2.setText(itemList.get(listPosition).getTitle2());
+//                title3.setText(itemList.get(listPosition).getTitle3());
+//
+//                rate1.setText(String.valueOf(itemList.get(listPosition).getRate1()));
+//                rate2.setText(String.valueOf(itemList.get(listPosition).getRate2()));
+//                rate3.setText(String.valueOf(itemList.get(listPosition).getRate3()));
+//
+//                price1.setText(String.valueOf(itemList.get(listPosition).getPrice1()));
+//                price2.setText(String.valueOf(itemList.get(listPosition).getPrice2()));
+//                price3.setText(String.valueOf(itemList.get(listPosition).getPrice3()));
+//            }
+//
+//            if(viewType == VIEWPAGE_3){
+//                topTitle = convertView.findViewById(R.id.topTitle);
+//                title1 = convertView.findViewById(R.id.title1);
+//                title2 = convertView.findViewById(R.id.title2);
+//                title3 = convertView.findViewById(R.id.title3);
+//
+//                rate1 = convertView.findViewById(R.id.rate1);
+//                rate2 = convertView.findViewById(R.id.rate2);
+//                rate3 = convertView.findViewById(R.id.rate3);
+//
+//                price1 = convertView.findViewById(R.id.price1);
+//                price2 = convertView.findViewById(R.id.price2);
+//                price3 = convertView.findViewById(R.id.price3);
+//
+//                topTitle.setText("S&P500을 이기고 있는 기업들");
+//                title1.setText(itemList.get(listPosition).getTitle1());
+//                title2.setText(itemList.get(listPosition).getTitle2());
+//                title3.setText(itemList.get(listPosition).getTitle3());
+//
+//                rate1.setText(String.valueOf(itemList.get(listPosition).getRate1()));
+//                rate2.setText(String.valueOf(itemList.get(listPosition).getRate2()));
+//                rate3.setText(String.valueOf(itemList.get(listPosition).getRate3()));
+//
+//                price1.setText(String.valueOf(itemList.get(listPosition).getPrice1()));
+//                price2.setText(String.valueOf(itemList.get(listPosition).getPrice2()));
+//                price3.setText(String.valueOf(itemList.get(listPosition).getPrice3()));
+//            }
+//        }
+//    }
 
 }
 
