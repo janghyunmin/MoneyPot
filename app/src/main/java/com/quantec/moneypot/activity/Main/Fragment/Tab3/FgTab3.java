@@ -28,20 +28,24 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.activity.Main.ActivityMain;
 import com.quantec.moneypot.activity.buttondoublecheck.RxView;
+import com.quantec.moneypot.activity.simulation.Code;
 import com.quantec.moneypot.activity.simulationsearch.ActivitySimulationSearch;
-import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Code;
+//import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Code;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Ex;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.adapter.AdapterFgTab3;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.adapter.AdapterSelectedItem;
 import com.quantec.moneypot.activity.PotDetail.DecorationItemHorizontal;
 import com.quantec.moneypot.activity.simulation.ActivitySimulation;
 import com.quantec.moneypot.datamanager.ChartManager;
+import com.quantec.moneypot.datamanager.DataManager;
 import com.quantec.moneypot.datamodel.dmodel.ModelTransChartList;
 import com.quantec.moneypot.datamodel.nmodel.ModelUserFollow;
 import com.quantec.moneypot.dialog.DialogLoadingMakingPort;
 import com.quantec.moneypot.dialog.DialogSimul;
 import com.quantec.moneypot.dialog.ModelSimulList;
 import com.quantec.moneypot.network.retrofit.RetrofitClient;
+import com.quantec.moneypot.rxandroid.RxEvent;
+import com.quantec.moneypot.rxandroid.RxEventBus;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -120,7 +124,6 @@ public class FgTab3 extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         modelFgTab3Follows = new ArrayList<>();
-        modelFgTab3Follows.add(new ModelFgTab3Follow("", "", 0, 0,false));
         adapterFgTab3 = new AdapterFgTab3(modelFgTab3Follows, activityMain);
         recyclerView.setAdapter(adapterFgTab3);
 
@@ -201,47 +204,7 @@ public class FgTab3 extends Fragment {
         });
 
 
-
-        Call<ModelUserFollow> getReList = RetrofitClient.getInstance().getService().getUserSelect("application/json", "follow");
-        getReList.enqueue(new Callback<ModelUserFollow>() {
-            @Override
-            public void onResponse(Call<ModelUserFollow> call, Response<ModelUserFollow> response) {
-                if (response.code() == 200) {
-                    if(response.body().getStatus() == 200){
-
-                       for(int index = 0; index < response.body().getContent().size(); index++){
-                           modelFgTab3Follows.add(new ModelFgTab3Follow(response.body().getContent().get(index).getName(),
-                                   response.body().getContent().get(index).getCode(),
-                                   response.body().getContent().get(index).getRate(),
-                                   response.body().getContent().get(index).getType(),false));
-                       }
-                        adapterFgTab3.notifyDataSetChanged();
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<ModelUserFollow> call, Throwable t) {
-                Log.e("실패","실패"+t.getMessage());
-            }
-        });
-
-
-
-
-//        modelFgTab3Follows.add(new ModelFgTab3Follow("맥도날드", "MCD", 0.603, 0,false));
-//
-//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키2", "NKE1", 28.90, 0,false));
-//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키3", "NKE2", 28.90, 0,false));
-//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키4", "NKE3", 28.90, 0,false));
-//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키5", "NKE4", 28.90, 0,false));
-//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키6", "NKE5", 28.90, 0,false));
-//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키7", "NKE6", 28.90, 0,false));
-//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키8", "NKE7", 28.90, 0,false));
-//
-//        modelFgTab3Follows.add(new ModelFgTab3Follow("세계적인 대세 IT 기업들 모음", "묶음기업", 6.11, 1,false));
-//        modelFgTab3Follows.add(new ModelFgTab3Follow("나이키", "NKE", 28.90, 0,false));
-//        modelFgTab3Follows.add(new ModelFgTab3Follow("제이피모건", "JPM", -2.16, 0,false));
-//        modelFgTab3Follows.add(new ModelFgTab3Follow("세계적인 대세 IT 기업들 모음", "묶음기업", 6.11, 1,false));
+        initData();
 
         adapterFgTab3.setFollowAddClick(new AdapterFgTab3.FollowAddClick() {
             @Override
@@ -462,6 +425,7 @@ public class FgTab3 extends Fragment {
                                 ChartManager.get_Instance().setTransChartLists(modelTransChartLists);
                                 Intent intent = new Intent(activityMain, ActivitySimulation.class);
                                 intent.putExtra("rate", response.body().getContent().getCore().getRate());
+                                intent.putExtra("nowPrice", response.body().getContent().getCore().getNowPrice());
                                 intent.putParcelableArrayListExtra("chartData", modelPreChartLists);
                                 startActivityForResult(intent, 100);
 
@@ -555,8 +519,72 @@ public class FgTab3 extends Fragment {
                     adapterSelectedItem.notifyDataSetChanged();
             }
             else {
-                Toast.makeText(activityMain, "더이상 추가할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activityMain.getApplicationContext(), "더이상 추가할 수 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }else if(requestCode == 100 && resultCode == 200){
+            Toast.makeText(activityMain.getApplicationContext(), "자산커스텀 저장", Toast.LENGTH_SHORT).show();
+
+            count = 0;
+            modelSelectItems.clear();
+            modelSimulLists.clear();
+            modelTransChartLists.clear();
+            modelPreChartLists.clear();
+            adapterSelectedItem.notifyDataSetChanged();
+
+            itemEmptyLayout.setVisibility(View.VISIBLE);
+            itemLayout.setVisibility(View.GONE);
+
+            RxEventBus.getInstance().post(new RxEvent(RxEvent.POTCUSTOM_REFRESH, null));
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            if(DataManager.get_INstance().isCheckTab1()){
+                DataManager.get_INstance().setCheckTab1(false);
+
+                initData();
             }
         }
     }
+
+
+    void initData(){
+
+        Call<ModelUserFollow> getReList = RetrofitClient.getInstance().getService().getUserSelect("application/json", "follow");
+        getReList.enqueue(new Callback<ModelUserFollow>() {
+            @Override
+            public void onResponse(Call<ModelUserFollow> call, Response<ModelUserFollow> response) {
+                if (response.code() == 200) {
+                    if(response.body().getStatus() == 200){
+
+                        modelFgTab3Follows.clear();
+
+                        if(response.body().getTotalElements() == 0){
+                            modelFgTab3Follows.add(new ModelFgTab3Follow("", "", 0, 0,true));
+                        }else{
+
+                            modelFgTab3Follows.add(new ModelFgTab3Follow("", "", 0, 0,false));
+                            for(int index = 0; index < response.body().getContent().size(); index++){
+                                modelFgTab3Follows.add(new ModelFgTab3Follow(response.body().getContent().get(index).getName(),
+                                        response.body().getContent().get(index).getCode(),
+                                        response.body().getContent().get(index).getRate(),
+                                        response.body().getContent().get(index).getType(),false));
+                            }
+                        }
+                        adapterFgTab3.notifyDataSetChanged();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ModelUserFollow> call, Throwable t) {
+                Log.e("실패","실패"+t.getMessage());
+            }
+        });
+
+    }
+
+
 }

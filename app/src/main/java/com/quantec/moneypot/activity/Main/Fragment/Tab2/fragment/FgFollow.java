@@ -20,6 +20,7 @@ import com.quantec.moneypot.R;
 import com.quantec.moneypot.activity.Main.ActivityMain;
 import com.quantec.moneypot.activity.Main.Fragment.Tab2.adapter.AdapterFollow;
 import com.quantec.moneypot.activity.PotDetail.ActivitySingleDetail;
+import com.quantec.moneypot.datamanager.DataManager;
 import com.quantec.moneypot.datamodel.dmodel.ModelFgAllPage;
 import com.quantec.moneypot.datamodel.dmodel.ModelUserSelectDto;
 import com.quantec.moneypot.datamodel.dmodel.userselectdto.Select;
@@ -140,6 +141,9 @@ public class FgFollow extends Fragment {
         myAdapter.setSelectZzimClick(new AdapterFollow.SelectZzimClick() {
             @Override
             public void onClick(int position) {
+
+                DataManager.get_INstance().setCheckTab1(true);
+
                 if(myData.get(position).getFollow() == 0){
                     followClick(position, myData.get(position).getCode(), 1, myData.get(position).getType());
                 }else{

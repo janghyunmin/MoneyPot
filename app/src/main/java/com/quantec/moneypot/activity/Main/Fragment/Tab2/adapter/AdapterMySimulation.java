@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,15 @@ public class AdapterMySimulation extends RecyclerView.Adapter<RecyclerView.ViewH
         this.context = context;
     }
 
+    private MySimulModifyClick mySimulModifyClick;
+    public interface MySimulModifyClick{
+        public void onClick(int position);
+    }
+
+    public void setMySimulModifyClick(MySimulModifyClick mySimulModifyClick) {
+        this.mySimulModifyClick = mySimulModifyClick;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -41,6 +51,36 @@ public class AdapterMySimulation extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        if(holder instanceof MySimulationItemViewHolder){
+
+            ((MySimulationItemViewHolder)holder).title.setText(modelMySimulations.get(position).getTitle());
+            ((MySimulationItemViewHolder)holder).rate.setText(String.valueOf(modelMySimulations.get(position).getRate()));
+            if(modelMySimulations.get(position).getRate() < 0){
+                ((MySimulationItemViewHolder)holder).rate.setTextColor(context.getResources().getColor(R.color.c_4e7cff));
+                ((MySimulationItemViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.c_4e7cff));
+            }else{
+                ((MySimulationItemViewHolder)holder).rate.setTextColor(context.getResources().getColor(R.color.c_f02654));
+                ((MySimulationItemViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.c_f02654));
+            }
+        }
+
+        if(holder instanceof MySimulationTopViewHolder){
+            ((MySimulationTopViewHolder)holder).num.setText(modelMySimulations.get(0).getTotal()+"/10개");
+            ((MySimulationTopViewHolder)holder).modifyBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mySimulModifyClick != null){
+                        mySimulModifyClick.onClick(position);
+                    }
+                }
+            });
+        }
+
+        if(holder instanceof MySimulationEmptyViewHolder){
+
+
+        }
 
     }
 
@@ -63,14 +103,28 @@ public class AdapterMySimulation extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class MySimulationItemViewHolder extends RecyclerView.ViewHolder {
+
+        TextView title, rate, per;
+
         public MySimulationItemViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            title = itemView.findViewById(R.id.title);
+            rate = itemView.findViewById(R.id.rate);
+            per = itemView.findViewById(R.id.per);
+
         }
     }
 
     public class MySimulationTopViewHolder extends RecyclerView.ViewHolder {
+
+        TextView num, modifyBt;
+
         public MySimulationTopViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            num = itemView.findViewById(R.id.num);
+            modifyBt = itemView.findViewById(R.id.modifyBt);
         }
     }
 

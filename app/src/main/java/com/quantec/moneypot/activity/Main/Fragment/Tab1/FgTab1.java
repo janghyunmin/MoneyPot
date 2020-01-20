@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,10 +27,13 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.asksira.loopingviewpager.LoopingPagerAdapter;
 import com.asksira.loopingviewpager.LoopingViewPager;
+import com.quantec.moneypot.activity.Main.Fragment.Tab1.Activity.ActivityYieldChart;
 import com.quantec.moneypot.activity.Main.Fragment.Tab1.Adapter.AdapterFgTab1;
 import com.quantec.moneypot.activity.Main.Fragment.Tab1.Adapter.AdapterFollowHome;
 import com.quantec.moneypot.activity.Main.Fragment.tab4.ActivityNotiWebView;
 import com.quantec.moneypot.activity.Search.ActivitySearch;
+import com.quantec.moneypot.rxandroid.RxEvent;
+import com.quantec.moneypot.rxandroid.RxEventBus;
 import com.quantec.moneypot.rxandroid.RxView;
 import com.rd.PageIndicatorView;
 import com.rd.animation.type.AnimationType;
@@ -54,6 +58,8 @@ import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.InfiniteScrollAdapter;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
+import org.w3c.dom.Text;
+
 public class FgTab1 extends Fragment {
 
     ImageView searchBt, userBt;
@@ -66,7 +72,6 @@ public class FgTab1 extends Fragment {
     }
 
     AdapterScroll adapterScroll;
-//    ArrayList<String> modelString;
 
     ArrayList<ModelRecomList> modelRecomLists;
 
@@ -85,7 +90,11 @@ public class FgTab1 extends Fragment {
     ArrayList<ModelFollowHome> modelFollowHomes3;
     ArrayList<ModelFollowHome> modelFollowHomeAll;
 
+    TextView topTitle;
+
     boolean addViewState = false;
+
+    LinearLayout yieldBt, followBt;
 
     @Nullable
     @Override
@@ -93,6 +102,25 @@ public class FgTab1 extends Fragment {
         View view = inflater.inflate(R.layout.fg_tab1, container, false);
 
         initializeViews();
+
+        // 스테이터스 바 색상 변경 -> 화이트
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Window w = activityMain.getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }else{
+            Window window = activityMain.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.c_667ffe));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                window.getDecorView().setSystemUiVisibility(0);
+        }
+
+        yieldBt = view.findViewById(R.id.yieldBt);
+        followBt = view.findViewById(R.id.followBt);
+
+        topTitle = view.findViewById(R.id.topTitle);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -105,10 +133,10 @@ public class FgTab1 extends Fragment {
         modelFollowHomeAll = new ArrayList<>();
 
         modelFollowHomeAll.add(new ModelFollowHome(false, "", "", 0, 0));
-        modelFollowHomeAll.add(new ModelFollowHome(false, "넷플릭스", "", 1.0, 0));
-        modelFollowHomeAll.add(new ModelFollowHome(false, "애플", "", 1.0, 0));
-        modelFollowHomeAll.add(new ModelFollowHome(false, "테슬라", "", 1.0, 0));
-        modelFollowHomeAll.add(new ModelFollowHome(false, "삼성", "", 1.0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "넷플릭스", "", 11.02, 5000));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "애플", "", -1.0, 454720));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "테슬라", "", -11.0, 0));
+        modelFollowHomeAll.add(new ModelFollowHome(false, "삼성", "", 14.50, 0));
         modelFollowHomeAll.add(new ModelFollowHome(false, "하이닉스", "", 1.0, 0));
         modelFollowHomeAll.add(new ModelFollowHome(false, "반도체", "", 1.0, 0));
         modelFollowHomeAll.add(new ModelFollowHome(false, "현대", "", 1.0, 0));
@@ -149,12 +177,12 @@ public class FgTab1 extends Fragment {
                 .build());
         scrollView.bringToFront();
 
-//        modelString = new ArrayList<>();
         modelRecomLists = new ArrayList<>();
 
-        modelRecomLists.add(new ModelRecomList("나이키", "", "세계적인 운동화 브랜드,\nJUST DO IT!", 23.48));
-        modelRecomLists.add(new ModelRecomList("쉑쉑버거", "", "브랜드 설명", 23.48));
-        modelRecomLists.add(new ModelRecomList("인텔", "", "인텔", 23.48));
+        modelRecomLists.add(new ModelRecomList("나이키", "NIKE", "세계적인 운동화 브랜드,\nJUST DO IT!", 23.48, "콴텍님 나이키 운동화 말고,\n나이키의 주주는 어떠세요?"));
+        modelRecomLists.add(new ModelRecomList("쉑쉑버거", "SHAKESHACK", "브랜드 설명", 23.48, "콴텍님 버거먹지 말고,\n쉑쉑버거 주주는 어떠세요?"));
+        modelRecomLists.add(new ModelRecomList("인텔", "INTEL", "인텔", 23.48, "콴텍님 컴퓨터 말고,\n인텔의 주주는 어떠세요?"));
+
 
         adapterScroll = new AdapterScroll(modelRecomLists, activityMain);
 
@@ -165,24 +193,16 @@ public class FgTab1 extends Fragment {
         scrollView.addScrollStateChangeListener(new DiscreteScrollView.ScrollStateChangeListener<RecyclerView.ViewHolder>() {
             @Override
             public void onScrollStart(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
             }
 
             @Override
             public void onScrollEnd(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
-                Log.e("포지션1", "값 : "+wrapper.getRealPosition(i));
+                topTitle.setText(modelRecomLists.get(wrapper.getRealPosition(i)).getTopTitle());
             }
-
             @Override
             public void onScroll(float v, int i, int i1, @Nullable RecyclerView.ViewHolder viewHolder, @Nullable RecyclerView.ViewHolder t1) {
             }
         });
-
-//        adapterFgTab1 = new AdapterFgTab1(activityMain, modelYieldCharts, true);
-//        viewPager.setAdapter(adapterFgTab1);
-//        viewPager.setClipToPadding(false);
-//        viewPager.setPageMargin(12);
 
         return view;
     }
@@ -191,6 +211,14 @@ public class FgTab1 extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+        yieldBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activityMain, ActivityYieldChart.class);
+                startActivity(intent);
+            }
+        });
 
         searchBt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -268,6 +296,12 @@ public class FgTab1 extends Fragment {
             }
         });
 
+        followBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RxEventBus.getInstance().post(new RxEvent(RxEvent.FOLLOWPAGE_MOVE, null));
+            }
+        });
 
     }//onViewCreate 끝
 

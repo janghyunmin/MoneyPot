@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout android:id="@+id/topLayout"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="50dp"
+    app:layout_constraintTop_toTopOf="parent"
+    android:gravity="bottom"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -11,19 +16,14 @@
         android:text="팔로우 리스트"
         android:textSize="13dp"
         android:textColor="@color/c_3d3f42"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="24dp"
-        android:layout_marginBottom="5dp"
         />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_question"
-        app:layout_constraintTop_toTopOf="@+id/title"
-        app:layout_constraintBottom_toBottomOf="@+id/title"
-        app:layout_constraintStart_toEndOf="@+id/title"
+        android:layout_marginStart="2dp"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

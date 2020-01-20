@@ -68,7 +68,7 @@ public class SinaRefreshView extends FrameLayout implements IHeaderView {
 
 //    private String pullDownStr = "새로고침 입니다.";
     private String pullDownStr;
-    private String releaseRefreshStr = "머니팟 고만 댕겨요... 힘들어요";
+    private String releaseRefreshStr = "머니팟 그만 댕겨줘요... 힘들어요ㅜㅜ";
     private String refreshingStr = "고쳐지는 중....";
 
     @Override

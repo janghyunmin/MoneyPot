@@ -17,6 +17,7 @@ import com.quantec.moneypot.datamodel.nmodel.ModelAssetsCustom;
 import com.quantec.moneypot.datamodel.nmodel.ModelChartData;
 import com.quantec.moneypot.datamodel.nmodel.ModelChkNicName;
 import com.quantec.moneypot.datamodel.nmodel.ModelCommonData;
+import com.quantec.moneypot.datamodel.nmodel.ModelNCustomDel;
 import com.quantec.moneypot.datamodel.nmodel.ModelDeleteLife;
 import com.quantec.moneypot.datamodel.nmodel.ModelInsertLife;
 import com.quantec.moneypot.datamodel.nmodel.ModelLifeList;
@@ -340,4 +341,36 @@ public interface RetrofitService {
      */
     @POST("auth/setPropensity")
     Call<Object> setPropensity(@Header("Content-Type") String content_type, @Body Object juserPropensity);
+
+
+    /**
+     *
+     * type: 11(자산)|12(챌린지), propensity: 701|703|704, period: one|thr|six|all
+     * code: 시뮬레이션(getCoreData)때 내려준 코드, name: 제목, descript: 내용
+     * codes [{ type: 0(개별종목)|1(묶음) , code: 코드, ptCode: 묶음코드(없으면 공백) }]
+     *
+     */
+    @POST("pot/setAssetsCustom")
+    Call<Object> setAssetsCustom(@Header("Content-Type") String content_type, @Body Object request);
+
+
+    /**
+     * 자산커스텀 포트 수정
+     *
+     * name, descript만 수정 / 이미지 수정은 Common/uploadsImg/{type}/{code} 사용
+     * {"code":"", "name":"", "descript":""}
+     *
+     */
+    @POST("pot/upAssetsCustom")
+    Call<Object> upAssetsCustom(@Header("Content-Type") String content_type, @Body Object upPotMap);
+
+    /**
+     * 자산커스텀 포트 DeActive
+     *
+     * 초기화는 getAssetsCustom 리스트 전체 코드를 주면됨.
+     *
+     */
+    @POST("pot/delAssetsCustom")
+    Call<ModelNCustomDel> delAssetsCustom(@Header("Content-Type") String content_type, @Body Object deActiveAssetsMap);
 }
+

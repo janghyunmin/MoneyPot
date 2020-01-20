@@ -20,7 +20,13 @@ import com.quantec.moneypot.activity.Main.Fragment.Tab3.FgTab3;
 import com.quantec.moneypot.activity.Main.Fragment.tab4.FgTab4;
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.databinding.ActivityMainBinding;
+import com.quantec.moneypot.rxandroid.RxEvent;
+import com.quantec.moneypot.rxandroid.RxEventBus;
 import com.quantec.moneypot.util.statusBar.UtilStatusBar;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 public class ActivityMain extends AppCompatActivity {
 
@@ -38,19 +44,19 @@ public class ActivityMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 스테이터스 바 색상 변경 -> 화이트
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            Window w = getWindow(); // in Activity's onCreate() for instance
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }else{
-            Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.main_page_status_bar_color));
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
+//        // 스테이터스 바 색상 변경 -> 화이트
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            Window w = getWindow(); // in Activity's onCreate() for instance
+//            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//        }else{
+//            Window window = getWindow();
+//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            window.setStatusBarColor(getResources().getColor(R.color.main_page_status_bar_color));
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+//                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//        }
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -70,6 +76,8 @@ public class ActivityMain extends AppCompatActivity {
                         .setInactiveIcon(getResources().getDrawable(R.drawable.tab_setting_inactive)).setInActiveColorResource(R.color.c_9a9a9a))
                 .setFirstSelectedPosition(0)
                 .initialise();
+
+
 
         transaction = getSupportFragmentManager().beginTransaction();
         if(fgTab1 == null) {
@@ -100,6 +108,21 @@ public class ActivityMain extends AppCompatActivity {
                             transaction.hide(currentFragment).show(fgTab1).commit();
                             currentFragment = fgTab1;
                         }
+
+                        // 스테이터스 바 색상 변경 -> 화이트
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                            Window w = getWindow(); // in Activity's onCreate() for instance
+                            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+                        }else{
+                            Window window = getWindow();
+                            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                            window.setStatusBarColor(getResources().getColor(R.color.c_667ffe));
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                                window.getDecorView().setSystemUiVisibility(0);
+                        }
+
                     }else if(position == 1){
 
                         if(fgTab2 == null) {
@@ -110,17 +133,45 @@ public class ActivityMain extends AppCompatActivity {
                             transaction.hide(currentFragment).show(fgTab2).commit();
                             currentFragment = fgTab2;
                         }
+
+                        //스테이터스 바 색상 변경 -> 화이트
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                            Window w = getWindow(); // in Activity's onCreate() for instance
+                            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+                        } else {
+                            Window window = getWindow();
+                            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                            window.setStatusBarColor(getResources().getColor(R.color.main_page_status_bar_color));
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                        }
                     }
 
                     else if(position == 2){
 
                         if(fgTab3 == null) {
                             fgTab3 = new FgTab3();
-                            transaction.hide(currentFragment).add(R.id.ContainerContain, fgTab3).commit();
+                            transaction.hide(currentFragment).add(R.id.ContainerContain, fgTab3).commitAllowingStateLoss();
                             currentFragment = fgTab3;
                         }else{
-                            transaction.hide(currentFragment).show(fgTab3).commit();
+                            transaction.hide(currentFragment).show(fgTab3).commitAllowingStateLoss();
                             currentFragment = fgTab3;
+                        }
+
+                        //스테이터스 바 색상 변경 -> 화이트
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                            Window w = getWindow(); // in Activity's onCreate() for instance
+                            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+                        } else {
+                            Window window = getWindow();
+                            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                            window.setStatusBarColor(getResources().getColor(R.color.main_page_status_bar_color));
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                         }
                     }
 
@@ -134,6 +185,20 @@ public class ActivityMain extends AppCompatActivity {
                             transaction.hide(currentFragment).show(fgTab4).commit();
                             currentFragment = fgTab4;
                         }
+
+                        //스테이터스 바 색상 변경 -> 화이트
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                            Window w = getWindow(); // in Activity's onCreate() for instance
+                            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+                        } else {
+                            Window window = getWindow();
+                            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                            window.setStatusBarColor(getResources().getColor(R.color.main_page_status_bar_color));
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                        }
                     }
             }
             @Override
@@ -143,6 +208,47 @@ public class ActivityMain extends AppCompatActivity {
             public void onTabReselected(int position) {
             }
         });
+
+
+        RxEventBus.getInstance()
+                .filteredObservable(RxEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RxEvent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(RxEvent rxEvent) {
+
+                        switch (rxEvent.getActiion()) {
+
+                            case RxEvent.FOLLOWPAGE_MOVE:
+
+                                transaction = getSupportFragmentManager().beginTransaction();
+                                if (fgTab2 == null) {
+                                    fgTab2 = new FgTab2();
+                                    transaction.hide(currentFragment).add(R.id.ContainerContain, fgTab2).commit();
+                                    currentFragment = fgTab2;
+                                } else {
+                                    transaction.hide(currentFragment).show(fgTab2).commit();
+                                    currentFragment = fgTab2;
+                                }
+                                binding.bottombar.setFirstSelectedPosition(1)
+                                    .initialise();
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
     }
 
     @Override

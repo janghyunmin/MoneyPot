@@ -40,7 +40,6 @@ import com.quantec.moneypot.R;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPotSimul;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPreChartList;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelSimulCode;
-import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Code;
 import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 import com.quantec.moneypot.datamanager.ChartManager;
 import com.quantec.moneypot.datamodel.dmodel.ModelTransChartList;
@@ -65,7 +64,7 @@ public class ActivitySimulation extends AppCompatActivity {
 
     ArrayList<ModelPreChartList> modelPreChartLists;
 
-    TextView rate, per, num, mon1, mon3, mon6, monAll, preChartBt;
+    TextView rate, per, num, mon1, mon3, mon6, monAll, preChartBt, saveBt;
     ChipGroup chipGroup;
     ImageView backBt;
 
@@ -90,6 +89,8 @@ public class ActivitySimulation extends AppCompatActivity {
 
     LinearLayout loading;
 
+    double nowPrice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +109,8 @@ public class ActivitySimulation extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+
+        saveBt = findViewById(R.id.saveBt);
 
         loading = findViewById(R.id.loading);
         loading.setOnTouchListener(new View.OnTouchListener() {
@@ -148,7 +151,7 @@ public class ActivitySimulation extends AppCompatActivity {
         Intent intent1 = getIntent();
         exAllRate = String.valueOf(intent1.getDoubleExtra("rate", 0));
         rate.setText(exAllRate);
-
+        nowPrice = intent1.getDoubleExtra("nowPrice", 0);
 
         if(intent1.getDoubleExtra("rate", 0) < 0){
             rate.setTextColor(getResources().getColor(R.color.blue_color));
@@ -159,7 +162,10 @@ public class ActivitySimulation extends AppCompatActivity {
             per.setTextColor(getResources().getColor(R.color.red_text_color));
         }
 
+        ArrayList<Code> codes = new ArrayList<>();
+
         modelPreChartLists = intent1.getParcelableArrayListExtra("chartData");
+
         for(ModelPreChartList data : modelPreChartLists){
 
             sp1 = new SpannableStringBuilder(data.getName());
@@ -191,7 +197,17 @@ public class ActivitySimulation extends AppCompatActivity {
             });
 
             chipGroup.addView(chip);
+
+            Code code = new Code();
+            code.setCode(data.getCode());
+            code.setPtCode("");
+            code.setType(0);
+            code.setWeight(0);
+
+            codes.add(code);
+
         }
+
         num.setText(String.valueOf(modelPreChartLists.size()));
 
         backBt.setOnClickListener(new View.OnClickListener() {
@@ -206,17 +222,12 @@ public class ActivitySimulation extends AppCompatActivity {
             date.add(new DateMathDto(ChartManager.get_Instance().getTransChartLists().get(xCount).getDate(),
                     ChartManager.get_Instance().getTransChartLists().get(xCount).getPrice(),
                     ChartManager.get_Instance().getTransChartLists().get(xCount).getRate()));
-
-//            entries.add(new Entry(xCount,
-//                    DecimalScale.decimalScale2(String.valueOf(ChartManager.get_Instance().getTransChartLists().get(xCount).getRate()*100), 2, 2), ChartManager.get_Instance().getTransChartLists().get(xCount).getDate()
-//
             entries.add(new Entry(xCount,
                     DecimalScale.decimalScale2(String.valueOf(ChartManager.get_Instance().getTransChartLists().get(xCount).getRate()), 2, 2), ChartManager.get_Instance().getTransChartLists().get(xCount).getDate()
 
             ));
         }
 
-//        chartExp = DecimalScale.decimalScale2(String.valueOf(date.get(date.size()-1).getRate()*100), 2, 2);
         chartExp = DecimalScale.decimalScale2(String.valueOf(date.get(date.size()-1).getRate()), 2, 2);
 
         //최근 날짜 받음 -> 몇개월뒤 날짜 계산을 위해서
@@ -264,6 +275,38 @@ public class ActivitySimulation extends AppCompatActivity {
             changedChartBt(monAll);
             drawLineChart(entries);
             rate.setText(exAllRate);
+        });
+
+        saveBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ModelSimulation modelSimulation = new ModelSimulation();
+                modelSimulation.setCodes(codes);
+                modelSimulation.setDescript("");
+                modelSimulation.setName("");
+                modelSimulation.setPeriod("");
+                modelSimulation.setRate(intent1.getDoubleExtra("rate", 0));
+                modelSimulation.setType(11);
+                modelSimulation.setCode("");
+                modelSimulation.setNowPrice(nowPrice);
+
+                Call<Object> getReList = RetrofitClient.getInstance().getService().setAssetsCustom("application/json", modelSimulation);
+                getReList.enqueue(new Callback<Object>() {
+                    @Override
+                    public void onResponse(Call<Object> call, Response<Object> response) {
+                        if (response.code() == 200) {
+
+                            setResult(200);
+                            finish();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Object> call, Throwable t) {
+                        Log.e("실패","실패"+t.getMessage());
+                    }
+                });
+            }
         });
 
     }//onCreate 끝

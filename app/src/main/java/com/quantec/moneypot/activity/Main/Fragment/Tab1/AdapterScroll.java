@@ -49,13 +49,15 @@ public class AdapterScroll extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((ScrollViewHolder)holder).desc.setText(modelRecomLists.get(position).getDesc());
             ((ScrollViewHolder)holder).rate.setText(String.valueOf(modelRecomLists.get(position).getRate()));
 
-            if(position == 0){
-                ((ScrollViewHolder)holder).image.setImageDrawable(context.getResources().getDrawable(R.drawable.img_reco_nike));
-            }else if(position == 1){
-                ((ScrollViewHolder)holder).image.setImageDrawable(context.getResources().getDrawable(R.drawable.img_reco_shakeshack));
-            }else{
-                ((ScrollViewHolder)holder).image.setImageDrawable(context.getResources().getDrawable(R.drawable.img_reco_intel));
-            }
+            int resource =context.getResources().getIdentifier("img_reco_"+modelRecomLists.get(position).getCode().toLowerCase(), "drawable", context.getPackageName());
+            ((ScrollViewHolder)holder).image.setImageDrawable(context.getResources().getDrawable(resource));
+//            if(position == 0){
+//                ((ScrollViewHolder)holder).image.setImageDrawable(context.getResources().getDrawable(R.drawable.img_reco_nike));
+//            }else if(position == 1){
+//                ((ScrollViewHolder)holder).image.setImageDrawable(context.getResources().getDrawable(R.drawable.img_reco_shakeshack));
+//            }else{
+//                ((ScrollViewHolder)holder).image.setImageDrawable(context.getResources().getDrawable(R.drawable.img_reco_intel));
+//            }
 
             ((ScrollViewHolder)holder).itemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override

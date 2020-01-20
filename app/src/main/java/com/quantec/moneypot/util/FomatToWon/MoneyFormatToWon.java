@@ -4,9 +4,9 @@ import java.text.DecimalFormat;
 
 public class MoneyFormatToWon {
 
-    public static String moneyFormatToWon(String originNumber) {
+    public static String moneyFormatToWon(int originNumber) {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0");
 
-        return String.valueOf(decimalFormat.format(Long.valueOf(originNumber)));
+        return String.valueOf(decimalFormat.format(originNumber));
     }
 }

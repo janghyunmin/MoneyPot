@@ -2,7 +2,8 @@ package com.quantec.moneypot.activity.Main.Fragment.Tab3;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Code;
+import com.quantec.moneypot.activity.simulation.Code;
+//import com.quantec.moneypot.activity.Main.Fragment.Tab3.aaa.Code;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -144,6 +145,7 @@ public class ActivityAuthFidoDouble extends AppCompatActivity {
                     dialogFidoCancle.show();
                     // 실패 사유
                     switch (fidoResult.getErrorCode()) {
+
                         case FidoResult.RESULT_USER_CANCEL:
                             dialogExitApp = new DialogExitApp(ActivityAuthFidoDouble.this, exitApp);
                             dialogExitApp.show();

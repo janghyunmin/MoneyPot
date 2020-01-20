@@ -31,6 +31,9 @@ public class RxEvent {
 
     public static final String SIMUL_SEARCH_TITLE = "simul_search_title";
 
+    public static final String FOLLOWPAGE_MOVE = "followpage_move";
+
+    public static final String POTCUSTOM_REFRESH = "potcustom_refresh";
 
     private String action;
     private Bundle bundle;

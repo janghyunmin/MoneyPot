@@ -122,16 +122,27 @@ public class AdapterFgTab3 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-        if(position == 0){
-            return TOPITEM;
-        }else{
 
-            if(modelFgTab3Follows.get(position).isEmpty()){
-                return EMPTY;
+        if(modelFgTab3Follows.get(position).isEmpty()){
+            return EMPTY;
+        }else{
+            if(position == 0){
+                return TOPITEM;
             }else{
                 return ITEM;
             }
         }
+
+//        if(position == 0){
+//            return TOPITEM;
+//        }else{
+//
+//            if(modelFgTab3Follows.get(position).isEmpty()){
+//                return EMPTY;
+//            }else{
+//                return ITEM;
+//            }
+//        }
     }
 
     public class FgTab3ViewHolder extends RecyclerView.ViewHolder {

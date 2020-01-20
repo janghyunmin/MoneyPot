@@ -168,6 +168,8 @@ public class ActivityAuthFidoSingle extends AppCompatActivity {
                             break;
                         // 에러코드 2002: 적합한 인증장치가 없음
                         case FidoResult.ERROR_NETWORK_STATE:
+
+                                    Log.e("원인","내용 : "+fidoResult.getDescription());
                             dialogNetworkError = new DialogNetworkError(ActivityAuthFidoSingle.this, networkError);
                             dialogNetworkError.show();
                             break;
