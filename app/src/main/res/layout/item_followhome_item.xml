@@ -9,7 +9,6 @@
         android:id="@+id/image1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_sector_coffee"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,12 +23,10 @@
         app:layout_constraintBottom_toBottomOf="@+id/image1"
         app:layout_constraintEnd_toEndOf="parent"
         />
-
     <TextView
         android:id="@+id/title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="스타벅스"
         android:textSize="13dp"
         android:textColor="@color/c_3d3f42"
         app:layout_constraintTop_toTopOf="@+id/image1"
@@ -37,27 +34,45 @@
         app:layout_constraintStart_toEndOf="@+id/image1"
         android:layout_marginStart="11dp"
         />
-
     <TextView
         android:id="@+id/rate1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="11.02%"
+        app:layout_constraintEnd_toStartOf="@+id/per"
+        app:layout_constraintBottom_toBottomOf="@+id/per"
+        android:textSize="13dp"
+        android:textColor="@color/c_f02654"
+        android:layout_marginEnd="1dp"
+        />
+    <TextView
+        android:id="@+id/per"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%"
+        android:textSize="11dp"
         app:layout_constraintBottom_toTopOf="@+id/line1"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
-        android:textSize="13dp"
         android:textColor="@color/c_f02654"
         />
     <TextView
         android:id="@+id/price1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="292,030원"
+        android:textSize="12dp"
+        android:textColor="@color/c_9a9a9a"
+        app:layout_constraintEnd_toStartOf="@+id/won"
+        app:layout_constraintBottom_toBottomOf="@+id/won"
+        />
+    <TextView
+        android:id="@+id/won"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="원"
         app:layout_constraintTop_toBottomOf="@+id/line1"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
-        android:textSize="12dp"
+        android:textSize="10dp"
         android:textColor="@color/c_9a9a9a"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

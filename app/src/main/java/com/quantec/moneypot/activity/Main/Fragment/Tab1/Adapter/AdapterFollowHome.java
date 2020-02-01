@@ -63,7 +63,15 @@ public class AdapterFollowHome extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((FollowHomeViewHolder)holder).rate1.setText(String.valueOf(modelFollowHomes.get(position).getRate()));
             ((FollowHomeViewHolder)holder).price1.setText(String.valueOf(modelFollowHomes.get(position).getPrice()));
 
-
+            if(modelFollowHomes.get(position).getRate() < 0){
+                ((FollowHomeViewHolder)holder).rate1.setTextColor(context.getResources().getColor(R.color.c_4e7cff));
+                ((FollowHomeViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.c_4e7cff));
+                ((FollowHomeViewHolder)holder).image1.setBackgroundResource(R.drawable.ic_follow_cloudy);
+            }else{
+                ((FollowHomeViewHolder)holder).rate1.setTextColor(context.getResources().getColor(R.color.c_f02654));
+                ((FollowHomeViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.c_f02654));
+                ((FollowHomeViewHolder)holder).image1.setBackgroundResource(R.drawable.ic_follow_sunny);
+            }
         }
 
         if(holder instanceof FollowHomeEmptyViewHolder){
@@ -96,13 +104,19 @@ public class AdapterFollowHome extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public class FollowHomeViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title1, rate1, price1;
+        TextView title1, rate1, price1, per, won;
+        ImageView image1;
 
         public FollowHomeViewHolder(@NonNull View itemView) {
             super(itemView);
             title1 = itemView.findViewById(R.id.title1);
             rate1 = itemView.findViewById(R.id.rate1);
             price1 = itemView.findViewById(R.id.price1);
+
+            per = itemView.findViewById(R.id.per);
+            won = itemView.findViewById(R.id.won);
+
+            image1 = itemView.findViewById(R.id.image1);
         }
     }
 
@@ -137,13 +151,31 @@ public class AdapterFollowHome extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             if(position == 0){
                 return TOP;
-            }
-            else if(position == modelFollowHomes.size()-1){
-                return BOTTOM;
-            }
-            else{
-                return ITEM;
+            }else{
+                if(modelFollowHomes.get(position).isBottom()){
+                    return BOTTOM;
+                }else{
+                    return ITEM;
+                }
             }
         }
     }
+
+//    @Override
+//    public int getItemViewType(int position) {
+//        if(modelFollowHomes.get(position).isEmpty()){
+//            return EMPTY;
+//        }else {
+//
+//            if(position == 0){
+//                return TOP;
+//            }
+//            else if(position == modelFollowHomes.size()-1){
+//                return BOTTOM;
+//            }
+//            else{
+//                return ITEM;
+//            }
+//        }
+//    }
 }

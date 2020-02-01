@@ -70,7 +70,6 @@
                     android:id="@+id/topTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="관택님 나이키 운동화 말고,\n나이키의 주주는 어떠세요?"
                     app:layout_constraintTop_toBottomOf="@+id/title"
                     app:layout_constraintStart_toStartOf="parent"
                     android:textColor="@color/c_ffffff"

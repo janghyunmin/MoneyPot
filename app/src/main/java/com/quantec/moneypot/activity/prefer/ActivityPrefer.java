@@ -24,10 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.activity.Intro.ActivityIntro;
 import com.quantec.moneypot.activity.Main.ActivityMain;
 import com.quantec.moneypot.activity.prefer.adapter.AdapterThumbImage;
 import com.quantec.moneypot.activity.prefer.fragment.FgEnter;
 import com.quantec.moneypot.activity.prefer.fragment.FgSector;
+import com.quantec.moneypot.datamodel.nmodel.ModelGetRateList;
 import com.quantec.moneypot.datamodel.nmodel.ModelUserFollow;
 import com.quantec.moneypot.network.retrofit.RetrofitClient;
 import com.quantec.moneypot.rxandroid.RxEvent;
@@ -299,7 +301,6 @@ public class ActivityPrefer extends AppCompatActivity implements FgSector.ClickI
                 adapterThumbImage.notifyDataSetChanged();
 
                 if(totalCount == 0){
-                    totalCount = 0;
                     modelThumbImage.clear();
                     okLayout.setTranslationY(dpToPx(ActivityPrefer.this, 110));
 
@@ -318,7 +319,7 @@ public class ActivityPrefer extends AppCompatActivity implements FgSector.ClickI
         closedBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(ActivityPrefer.this, ActivityMain.class);
+                Intent intent1 = new Intent(ActivityPrefer.this, ActivityIntro.class);
                 startActivity(intent1);
                 finish();
             }
@@ -327,35 +328,71 @@ public class ActivityPrefer extends AppCompatActivity implements FgSector.ClickI
         okBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                List<Select> selects = new ArrayList<>();
+
+
+                List<Select> selects = new ArrayList<>();
 //                Select select = new Select();
 //                select.setIsDam(0);
 //                select.setIsZim(0);
 //                select.setIsFollow(0);
 //
-//                select.setCode("APPLE");
 //                select.setIsLike(1);
 //                select.setType(0);
 //                selects.add(select);
-//
-//                ModelUserSelectDto modelUserSelectDto = new ModelUserSelectDto();
-//                modelUserSelectDto.setSelects(selects);
-//
-//                Call<Object> getReList = RetrofitClient.getInstance().getService().setUserSelect("application/json", "follow", modelUserSelectDto);
-//                getReList.enqueue(new Callback<Object>() {
-//                    @Override
-//                    public void onResponse(Call<Object> call, Response<Object> response) {
-//                        if (response.code() == 200) {
-//
-//                        }
-//                    }
-//                    @Override
-//                    public void onFailure(Call<Object> call, Throwable t) {
-//                        Log.e("실패","실패"+t.getMessage());
-//                    }
-//                });
+
+                for(int index= 0; index < modelThumbImage.size(); index++){
+
+                    Select select = new Select();
+                    select.setIsDam(0);
+                    select.setIsZim(0);
+                    select.setIsFollow(1);
+
+                    select.setIsLike(0);
+                    select.setType(1);
+
+                    select.setCode(modelThumbImage.get(index).getImage());
+
+                    selects.add(select);
+                }
+
+                ModelUserSelectDto modelUserSelectDto = new ModelUserSelectDto();
+                modelUserSelectDto.setSelects(selects);
+
+                Call<Object> getReList = RetrofitClient.getInstance().getService().setUserSelect("application/json", "follow", modelUserSelectDto);
+                getReList.enqueue(new Callback<Object>() {
+                    @Override
+                    public void onResponse(Call<Object> call, Response<Object> response) {
+                        if (response.code() == 200) {
+                            finish();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Object> call, Throwable t) {
+                        Log.e("실패","실패"+t.getMessage());
+                    }
+                });
             }
         });
+
+
+//        Call<ModelGetRateList> setSearch = RetrofitClient.getInstance(this).getService().getRateList("one");
+//        setSearch.enqueue(new Callback<ModelGetRateList>() {
+//            @Override
+//            public void onResponse(Call<ModelGetRateList> call, Response<ModelGetRateList> response) {
+//                if(response.code() == 200) {
+//                    for(int index = 0; index < response.body().getContent().size(); index++){
+//                        if(response.body().getContent().get(index).getType() == 1){
+//                            Log.e("단일기업", "이름 : "+response.body().getContent().get(index).getName());
+//                        }
+//
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ModelGetRateList> call, Throwable t) {
+//                Log.e("레트로핏 실패","값 : "+t.getMessage());
+//            }
+//        });
 
     }//onCreate 끝
 
@@ -452,7 +489,7 @@ public class ActivityPrefer extends AppCompatActivity implements FgSector.ClickI
 
         if(selected){
 //            int resource = getResources().getIdentifier("ci_"+name+"_thumbnail", "drawable", getPackageName());
-            int resource = getResources().getIdentifier("ci_"+name+"_small", "drawable", getPackageName());
+            int resource = getResources().getIdentifier("ci_it"+"_small", "drawable", getPackageName());
 
             if(image1.getTag().equals("")){
                 image1.setVisibility(View.VISIBLE);

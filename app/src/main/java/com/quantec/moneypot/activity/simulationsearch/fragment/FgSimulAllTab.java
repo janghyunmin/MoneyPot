@@ -24,9 +24,18 @@ import com.quantec.moneypot.activity.simulationsearch.ModelSimulSingle;
 import com.quantec.moneypot.activity.simulationsearch.ModelSimulSum;
 import com.quantec.moneypot.activity.simulationsearch.adapter.AdapterSimulAllTabSingle;
 import com.quantec.moneypot.activity.simulationsearch.adapter.AdapterSimulAllTabSum;
+import com.quantec.moneypot.datamodel.nmodel.ModelElSumList;
+import com.quantec.moneypot.dialog.DialogSimul;
+import com.quantec.moneypot.dialog.DialogSimulSum;
+import com.quantec.moneypot.dialog.ModelSimulList;
+import com.quantec.moneypot.network.retrofit.RetrofitClient;
 import com.quantec.moneypot.rxandroid.RxEvent;
 import com.quantec.moneypot.rxandroid.RxEventBus;
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FgSimulAllTab extends Fragment {
 
@@ -44,8 +53,12 @@ public class FgSimulAllTab extends Fragment {
     ArrayList<ModelPreSimulSingle> modelPreSimulSingles;
     ArrayList<ModelPreSimulSum> modelPreSimulSums;
 
-    Bundle getSearchedData, recomTitle;
+    Bundle getSearchedData, recomTitle, MovedTab;
     ArrayList<String> preAddCode;
+
+    private DialogSimulSum dialogSimul;
+
+    ArrayList<ModelSimulList> modelSimulLists;
 
     public FgSimulAllTab() {
     }
@@ -66,8 +79,11 @@ public class FgSimulAllTab extends Fragment {
         getSearchedData = getArguments();
 
         recomTitle = getArguments();
-        preAddCode = new ArrayList<>();
 
+        preAddCode = new ArrayList<>();
+        MovedTab = new Bundle();
+
+        modelSimulLists = new ArrayList<>();
         return view;
     }
 
@@ -86,10 +102,8 @@ public class FgSimulAllTab extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        preAddCode.addAll(recomTitle.getStringArrayList("preAddCode"));
 
-        try {
-            preAddCode.addAll(recomTitle.getStringArrayList("preAddCode"));
-        }catch (Exception e){}
         try {
             modelSimulSingles.addAll(getSearchedData.getParcelableArrayList("singleEn"));
         }catch (Exception e){}
@@ -127,14 +141,16 @@ public class FgSimulAllTab extends Fragment {
         adapterSimulAllTabSingle.setSingleEnDetailBt(new AdapterSimulAllTabSingle.SingleEnDetailBt() {
             @Override
             public void onClick(int position) {
-
+                MovedTab.putInt("moveTab", 0);
+                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_TRANS_PAGE, MovedTab));
             }
         });
 
         adapterSimulAllTabSum.setSumEnDetailBt(new AdapterSimulAllTabSum.SumEnDetailBt() {
             @Override
             public void onClick(int position) {
-
+                MovedTab.putInt("moveTab", 1);
+                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_TRANS_PAGE, MovedTab));
             }
         });
 
@@ -187,7 +203,7 @@ public class FgSimulAllTab extends Fragment {
                 if (checkedPreAddCode(modelPreSimulSingles.get(position).getCode())) {
 
                     Toast.makeText(activitySimulationSearch.getApplicationContext(), "중복된 주식 입니다.", Toast.LENGTH_SHORT).show();
-                    activitySimulationSearch.finish();
+                    activitySimulationSearch.supportFinishAfterTransition();
                 }
                 else {
 
@@ -196,12 +212,76 @@ public class FgSimulAllTab extends Fragment {
                     intent1.putExtra("addCode", modelPreSimulSingles.get(position).getCode());
                     intent1.putExtra("addRate", modelPreSimulSingles.get(position).getRate());
                     activitySimulationSearch.setResult(100, intent1);
-                    activitySimulationSearch.finish();
+                    activitySimulationSearch.supportFinishAfterTransition();
                 }
-
             }
         });
+
+
+        adapterSimulAllTabSum.setSumEnClick(new AdapterSimulAllTabSum.SumEnClick() {
+            @Override
+            public void onClick(int position) {
+
+                Call<ModelElSumList> getReList = RetrofitClient.getInstance().getService().getElTopList("application/json", modelPreSimulSums.get(position).getCode(), 5);
+                getReList.enqueue(new Callback<ModelElSumList>() {
+                    @Override
+                    public void onResponse(Call<ModelElSumList> call, Response<ModelElSumList> response) {
+                        if (response.code() == 200) {
+                            if(response.body().getStatus() == 200){
+
+                                modelSimulLists.clear();
+
+                                for(int index = 0; index < response.body().getTotalElements(); index++){
+                                    modelSimulLists.add(new ModelSimulList(response.body().getContent().get(index).getName(),
+                                            response.body().getContent().get(index).getCode(),
+                                            response.body().getContent().get(index).getRate()));
+                                }
+
+                                dialogSimul = new DialogSimulSum(activitySimulationSearch, response.body().getTotalElements(), modelSimulLists, modelPreSimulSums.get(position).getTitle(), preAddCode, closeListener);
+                                dialogSimul.show();
+
+
+                                dialogSimul.setDialogSimulResult(new DialogSimulSum.OnDialogSimuResult() {
+                                    @Override
+                                    public void finish(String title, String code, double rate) {
+
+                                        if (checkedPreAddCode(code)) {
+
+                                            activitySimulationSearch.supportFinishAfterTransition();
+                                            dialogSimul.dismiss();
+                                            Toast.makeText(activitySimulationSearch.getApplicationContext(), "중복된 주식 입니다.", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else {
+
+                                            Intent intent1 = new Intent();
+                                            intent1.putExtra("addTitle", title);
+                                            intent1.putExtra("addCode", code);
+                                            intent1.putExtra("addRate", rate);
+                                            activitySimulationSearch.setResult(100, intent1);
+                                            activitySimulationSearch.supportFinishAfterTransition();
+                                            dialogSimul.dismiss();
+                                        }
+                                    }
+                                });
+
+                            }
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ModelElSumList> call, Throwable t) {
+                        Log.e("실패","실패"+t.getMessage());
+                    }
+                });
+            }
+        });
+
     }//onViewCreate 끝
+
+    private View.OnClickListener closeListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            dialogSimul.dismiss();
+        }
+    };
 
     //리사이클러뷰 초기화
     void InitRecyclerView(){

@@ -55,7 +55,7 @@ public class AdapterSelectedItem extends RecyclerView.Adapter<RecyclerView.ViewH
         if(viewType == ITEM){
             return new SelectedItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fgtab3_selectitem, parent, false));
         }else{
-            return new SelectedEmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fgtab3_empty, parent, false));
+            return new SelectedEmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fgtab3_selectempty, parent, false));
         }
     }
 

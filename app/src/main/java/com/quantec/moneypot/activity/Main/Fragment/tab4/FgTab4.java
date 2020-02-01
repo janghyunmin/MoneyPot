@@ -2,6 +2,7 @@ package com.quantec.moneypot.activity.Main.Fragment.tab4;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,17 @@ import com.quantec.moneypot.activity.Main.Fragment.tab4.fragment.FgMyInfo;
 import com.quantec.moneypot.activity.Main.Fragment.tab4.fragment.FgNotice;
 import com.quantec.moneypot.activity.Main.Fragment.tab4.fragment.FgPush;
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.activity.buttondoublecheck.RxView;
+import com.quantec.moneypot.dialog.DialogProfileImg;
+import com.quantec.moneypot.util.SharedPreference.SharedPreferenceUtil;
 
-public class FgTab4 extends Fragment implements View.OnClickListener {
+import java.util.concurrent.TimeUnit;
+
+public class FgTab4 extends Fragment{
 
     TextView topMyInfo, myInfoTab, centerTab, noticeTab, pushTab, currentTab;
     View myInfoB, centerB, noticeB, pushB, currentView;
-    ImageView myInfoImage, centerImage, noticeImage, pushImage, currentImage;
+    ImageView myInfoImage, centerImage, noticeImage, pushImage, currentImage, profileImg;
     FrameLayout containerLayout;
 
     FgMyInfo fgMyInfo;
@@ -36,6 +42,9 @@ public class FgTab4 extends Fragment implements View.OnClickListener {
     FragmentTransaction transaction;
 
     private ActivityMain activityMain;
+
+    DialogProfileImg dialogProfileImg;
+    int img;
 
     public FgTab4() {
     }
@@ -57,6 +66,8 @@ public class FgTab4 extends Fragment implements View.OnClickListener {
         noticeB = view.findViewById(R.id.noticeB);
         pushB = view.findViewById(R.id.pushB);
 
+        profileImg = view.findViewById(R.id.profileImg);
+
         myInfoImage = view.findViewById(R.id.myInfoImage);
         centerImage = view.findViewById(R.id.centerImage);
         noticeImage = view.findViewById(R.id.noticeImage);
@@ -64,7 +75,8 @@ public class FgTab4 extends Fragment implements View.OnClickListener {
 
         containerLayout = view.findViewById(R.id.containerLayout);
 
-
+        img = SharedPreferenceUtil.getInstance(activityMain).getIntExtra("profileImg");
+        changedImg(img);
 
         transaction = activityMain.getSupportFragmentManager().beginTransaction();
         if(fgMyInfo == null) {
@@ -253,81 +265,48 @@ public class FgTab4 extends Fragment implements View.OnClickListener {
                 }
             }
         });
+
+        RxView.clicks(profileImg).throttleFirst(500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+
+            img = SharedPreferenceUtil.getInstance(activityMain).getIntExtra("profileImg");
+
+            dialogProfileImg = new DialogProfileImg(activityMain, img, okListener, closeListener);
+            dialogProfileImg.show();
+
+            dialogProfileImg.setOnDialogResult(new DialogProfileImg.OnDialogResult() {
+                @Override
+                public void finish(int img) {
+                    SharedPreferenceUtil.getInstance(activityMain).putProfileImg("profileImg", img);
+                    changedImg(img);
+                    dialogProfileImg.dismiss();
+                }
+            });
+        });
+
+    }//onViewCreate 끝
+
+    private View.OnClickListener okListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            dialogProfileImg.dismiss();
+        }
+    };
+
+    private View.OnClickListener closeListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            dialogProfileImg.dismiss();
+        }
+    };
+
+    void changedImg(int img){
+        if(img == 0 || img == 1){
+            profileImg.setBackgroundResource(R.drawable.char_profile_edit_1);
+        }else if(img == 2){
+            profileImg.setBackgroundResource(R.drawable.char_profile_edit_2);
+        }else if(img == 3){
+            profileImg.setBackgroundResource(R.drawable.char_profile_edit_3);
+        }else{
+            profileImg.setBackgroundResource(R.drawable.char_profile_edit_4);
+        }
     }
 
-    @Override
-    public void onClick(View v) {
-
-//        if(position == 0) {
-//
-//            if(fgMyInfo == null) {
-//                fgMyInfo = new FgMyInfo();
-//                transaction.add(R.id.ContainerContain, fgMyInfo).commit();
-//                currentFragment = fgMyInfo;
-//            }else {
-//
-//                transaction.hide(currentFragment).show(fgMyInfo).commit();
-//                currentFragment = fgMyInfo;
-//            }
-//        }else if(position == 1){
-//
-//            if(fgCenter == null) {
-//                fgCenter = new FgCenter();
-//                transaction.hide(currentFragment).add(R.id.ContainerContain, fgCenter).commit();
-//                currentFragment = fgCenter;
-//            }else{
-//                transaction.hide(currentFragment).show(fgCenter).commit();
-//                currentFragment = fgCenter;
-//            }
-//
-//        }
-//
-//        else if(position == 2){
-//
-//            if(fgNotice == null) {
-//                fgNotice = new FgNotice();
-//                transaction.hide(currentFragment).add(R.id.ContainerContain, fgNotice).commit();
-//                currentFragment = fgNotice;
-//            }else{
-//                transaction.hide(currentFragment).show(fgNotice).commit();
-//                currentFragment = fgNotice;
-//            }
-//        }
-//
-//        else if(position == 3){
-//
-//            if(fgPush == null) {
-//                fgPush = new FgPush();
-//                transaction.hide(currentFragment).add(R.id.ContainerContain, fgPush).commit();
-//                currentFragment = fgPush;
-//            }else{
-//                transaction.hide(currentFragment).show(fgPush).commit();
-//                currentFragment = fgPush;
-//            }
-//        }
-
-
-//        switch (v.getId()) {
-//            case R.id.topMyInfo:
-//                Intent intent = new Intent(getActivity(), ActivityMyInfo.class);
-//                startActivity(intent);
-//                break;
-//            case R.id.center:
-//                Intent intent1 = new Intent(getActivity(), ActivityClientCenter.class);
-//                startActivity(intent1);
-//                break;
-//            case R.id.notice:
-//                Intent intent2 = new Intent(getActivity(), ActivityNotice.class);
-//                startActivity(intent2);
-//                break;
-//            case R.id.setting:
-//                Intent intent3 = new Intent(getActivity(), ActivitySetting.class);
-//                startActivity(intent3);
-//                break;
-//            case R.id.history:
-//                Intent intent4 = new Intent(getActivity(), ActivityHistory.class);
-//                startActivity(intent4);
-//                break;
-//        }
-    }
 }

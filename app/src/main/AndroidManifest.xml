@@ -28,8 +28,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.Main.Fragment.Tab2.activity.ActivityModifyFollow"/>
-        <activity android:name=".activity.Main.Fragment.Tab1.Activity.ActivityYieldChart"/>
+        <activity android:name=".activity.webview.ActivityWebViewArticle"></activity>
+        <activity android:name=".activity.Main.Fragment.Tab2.activity.ActivityModifyFollow" />
+        <activity android:name=".activity.Main.Fragment.Tab1.Activity.ActivityYieldChart" />
         <activity android:name=".activity.center.ActivityQuestionWebView" />
         <activity android:name=".activity.center.ActivityInfoWebView" />
         <activity android:name=".activity.center.ActivityInfo" />
@@ -117,7 +118,7 @@
             android:process=":remote" />
 
         <activity
-            android:name=".activity.PotDetail.ActivityArticle"
+            android:name=".activity.article.ActivityArticle"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Search.ActivitySearch"

@@ -35,6 +35,8 @@ public class RxEvent {
 
     public static final String POTCUSTOM_REFRESH = "potcustom_refresh";
 
+    public static final String FOLLOW_REFRESH = "follow_refresh";
+
     private String action;
     private Bundle bundle;
 

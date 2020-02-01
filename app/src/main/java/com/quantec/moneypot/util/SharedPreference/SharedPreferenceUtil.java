@@ -66,6 +66,11 @@ public class SharedPreferenceUtil {
         editor.apply();
     }
 
+    public void putProfileImg(String key, int img){
+        editor.putInt(key, img);
+        editor.apply();
+    }
+
 
     public int getIntExtra(String key){
         return sharedPreferences.getInt(key, 0);

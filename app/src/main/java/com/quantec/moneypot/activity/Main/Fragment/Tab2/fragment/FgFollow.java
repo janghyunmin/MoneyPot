@@ -27,6 +27,8 @@ import com.quantec.moneypot.datamodel.dmodel.userselectdto.Select;
 import com.quantec.moneypot.datamodel.nmodel.ModelUserFollow;
 import com.quantec.moneypot.dialog.DialogBasketFilter;
 import com.quantec.moneypot.network.retrofit.RetrofitClient;
+import com.quantec.moneypot.rxandroid.RxEvent;
+import com.quantec.moneypot.rxandroid.RxEventBus;
 import com.quantec.moneypot.util.view.refresh.Footer.LoadingView;
 import com.quantec.moneypot.util.view.refresh.RefreshListenerAdapter;
 import com.quantec.moneypot.util.view.refresh.TwinklingRefreshLayout;
@@ -35,6 +37,9 @@ import com.quantec.moneypot.util.view.refresh.header.SinaRefreshView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -143,6 +148,8 @@ public class FgFollow extends Fragment {
             public void onClick(int position) {
 
                 DataManager.get_INstance().setCheckTab1(true);
+                DataManager.get_INstance().setCheckTab2(true);
+                DataManager.get_INstance().setCheckHome(true);
 
                 if(myData.get(position).getFollow() == 0){
                     followClick(position, myData.get(position).getCode(), 1, myData.get(position).getType());
@@ -171,6 +178,33 @@ public class FgFollow extends Fragment {
         });
 
         getFollowList();
+
+
+        RxEventBus.getInstance()
+                .filteredObservable(RxEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RxEvent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+                    @Override
+                    public void onNext(RxEvent rxEvent) {
+
+                        switch (rxEvent.getActiion()) {
+
+                            case RxEvent.FOLLOW_REFRESH:
+                                getFollowList();
+                                break;
+                        }
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
 
     }//onViewCreate 끝
 
@@ -330,4 +364,5 @@ public class FgFollow extends Fragment {
             }
         });
     }
+
 }

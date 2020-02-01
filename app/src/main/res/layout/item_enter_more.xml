@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="86dp">
+
+    <TextView
+        android:id="@+id/moreBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="찾으시는 기업이 없으신가요?"
+        android:textSize="11dp"
+        android:textColor="@color/c_9a9a9a"
+        android:background="@drawable/custom_bt_line_14dp"
+        android:paddingLeft="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f2f2f2"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

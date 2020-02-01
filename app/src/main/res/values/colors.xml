@@ -70,6 +70,7 @@
     <color name="c_5182ff">#5182ff</color>
     <color name="c_696b6d">#696b6d</color>
     <color name="c_667ffe">#667ffe</color>
+    <color name="c_a8a7a7">#a8a7a7</color>
 
     <drawable name="cc">@drawable/custom_bt
     </drawable>

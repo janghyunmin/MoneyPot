@@ -418,6 +418,10 @@ public class FgAllTab extends Fragment {
 
     void FollowClick(int follow, int type, int position){
 
+        DataManager.get_INstance().setCheckTab1(true);
+        DataManager.get_INstance().setCheckTab2(true);
+        DataManager.get_INstance().setCheckHome(true);
+
         if(type == 0){
 
             followInfo.putInt("search_type", 0);

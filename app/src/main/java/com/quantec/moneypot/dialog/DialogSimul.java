@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPreChartList;
+import com.quantec.moneypot.activity.simulationsearch.ModelSimulSum;
 
 import java.util.ArrayList;
 

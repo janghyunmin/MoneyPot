@@ -78,6 +78,15 @@ public class AdapterSimulSumEnTab extends RecyclerView.Adapter<RecyclerView.View
         this.singleEnRecomBt5 = singleEnRecomBt5;
     }
 
+    private SimulSumEnClick simulSumEnClick;
+    public interface SimulSumEnClick{
+        public void onClick(int position);
+    }
+
+    public void setSimulSumEnClick(SimulSumEnClick simulSumEnClick) {
+        this.simulSumEnClick = simulSumEnClick;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -106,6 +115,12 @@ public class AdapterSimulSumEnTab extends RecyclerView.Adapter<RecyclerView.View
                 ((SimulSumEnTabViewHolder)holder).rate.setTextColor(context.getResources().getColor(R.color.red_text_color));
                 ((SimulSumEnTabViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.red_text_color));
             }
+
+            RxView.clicks(((SimulSumEnTabViewHolder)holder).addBt).throttleFirst(500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+                if(simulSumEnClick != null){
+                    simulSumEnClick.onClick(position);
+                }
+            });
         }
 
         if(holder instanceof SimulSumEnTabTopViewHolder){

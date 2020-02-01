@@ -44,21 +44,6 @@ public class ActivityMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        // 스테이터스 바 색상 변경 -> 화이트
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//            Window w = getWindow(); // in Activity's onCreate() for instance
-//            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-//        }else{
-//            Window window = getWindow();
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            window.setStatusBarColor(getResources().getColor(R.color.main_page_status_bar_color));
-//
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-//                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-//        }
-
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
@@ -82,11 +67,11 @@ public class ActivityMain extends AppCompatActivity {
         transaction = getSupportFragmentManager().beginTransaction();
         if(fgTab1 == null) {
             fgTab1 = new FgTab1();
-            transaction.add(R.id.ContainerContain, fgTab1).commit();
+            transaction.add(R.id.ContainerContain, fgTab1).commitAllowingStateLoss();
             currentFragment = fgTab1;
         }else {
 
-            transaction.hide(currentFragment).show(fgTab1).commit();
+            transaction.hide(currentFragment).show(fgTab1).commitAllowingStateLoss();
             currentFragment = fgTab1;
         }
 
@@ -101,11 +86,11 @@ public class ActivityMain extends AppCompatActivity {
 
                         if(fgTab1 == null) {
                             fgTab1 = new FgTab1();
-                            transaction.add(R.id.ContainerContain, fgTab1).commit();
+                            transaction.add(R.id.ContainerContain, fgTab1).commitAllowingStateLoss();
                             currentFragment = fgTab1;
                         }else {
 
-                            transaction.hide(currentFragment).show(fgTab1).commit();
+                            transaction.hide(currentFragment).show(fgTab1).commitAllowingStateLoss();
                             currentFragment = fgTab1;
                         }
 
@@ -127,10 +112,10 @@ public class ActivityMain extends AppCompatActivity {
 
                         if(fgTab2 == null) {
                             fgTab2 = new FgTab2();
-                            transaction.hide(currentFragment).add(R.id.ContainerContain, fgTab2).commit();
+                            transaction.hide(currentFragment).add(R.id.ContainerContain, fgTab2).commitAllowingStateLoss();
                             currentFragment = fgTab2;
                         }else{
-                            transaction.hide(currentFragment).show(fgTab2).commit();
+                            transaction.hide(currentFragment).show(fgTab2).commitAllowingStateLoss();
                             currentFragment = fgTab2;
                         }
 
@@ -179,10 +164,10 @@ public class ActivityMain extends AppCompatActivity {
 
                         if(fgTab4 == null) {
                             fgTab4 = new com.quantec.moneypot.activity.Main.Fragment.tab4.FgTab4();
-                            transaction.hide(currentFragment).add(R.id.ContainerContain, fgTab4).commit();
+                            transaction.hide(currentFragment).add(R.id.ContainerContain, fgTab4).commitAllowingStateLoss();
                             currentFragment = fgTab4;
                         }else{
-                            transaction.hide(currentFragment).show(fgTab4).commit();
+                            transaction.hide(currentFragment).show(fgTab4).commitAllowingStateLoss();
                             currentFragment = fgTab4;
                         }
 
@@ -228,10 +213,10 @@ public class ActivityMain extends AppCompatActivity {
                                 transaction = getSupportFragmentManager().beginTransaction();
                                 if (fgTab2 == null) {
                                     fgTab2 = new FgTab2();
-                                    transaction.hide(currentFragment).add(R.id.ContainerContain, fgTab2).commit();
+                                    transaction.hide(currentFragment).add(R.id.ContainerContain, fgTab2).commitAllowingStateLoss();
                                     currentFragment = fgTab2;
                                 } else {
-                                    transaction.hide(currentFragment).show(fgTab2).commit();
+                                    transaction.hide(currentFragment).show(fgTab2).commitAllowingStateLoss();
                                     currentFragment = fgTab2;
                                 }
                                 binding.bottombar.setFirstSelectedPosition(1)

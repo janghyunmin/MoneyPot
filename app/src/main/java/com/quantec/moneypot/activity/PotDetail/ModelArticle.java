@@ -2,18 +2,34 @@ package com.quantec.moneypot.activity.PotDetail;
 
 public class ModelArticle {
 
+    int total;
     String title;
     String newspaper;
     String date;
     String url;
     String img;
+    boolean empty;
+    boolean bottom;
+    boolean bottomState;
 
-    public ModelArticle(String title, String newspaper, String date, String url, String img) {
+    public ModelArticle(int total, String title, String newspaper, String date, String url, String img, boolean empty, boolean bottom, boolean bottomState) {
+        this.total = total;
         this.title = title;
         this.newspaper = newspaper;
         this.date = date;
         this.url = url;
         this.img = img;
+        this.empty = empty;
+        this.bottom = bottom;
+        this.bottomState = bottomState;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     public String getTitle() {
@@ -54,5 +70,29 @@ public class ModelArticle {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public boolean isEmpty() {
+        return empty;
+    }
+
+    public void setEmpty(boolean empty) {
+        this.empty = empty;
+    }
+
+    public boolean isBottom() {
+        return bottom;
+    }
+
+    public void setBottom(boolean bottom) {
+        this.bottom = bottom;
+    }
+
+    public boolean isBottomState() {
+        return bottomState;
+    }
+
+    public void setBottomState(boolean bottomState) {
+        this.bottomState = bottomState;
     }
 }

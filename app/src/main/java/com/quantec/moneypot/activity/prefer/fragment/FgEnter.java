@@ -2,6 +2,7 @@ package com.quantec.moneypot.activity.prefer.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.quantec.moneypot.activity.Main.Fragment.Tab1.DecorationItemVertical;
 import com.quantec.moneypot.activity.prefer.ActivityPrefer;
 import com.quantec.moneypot.activity.prefer.ModelEnterList;
 import com.quantec.moneypot.activity.prefer.adapter.AdapterEnter;
+import com.quantec.moneypot.datamodel.nmodel.ModelGetRateList;
+import com.quantec.moneypot.network.retrofit.RetrofitClient;
 import com.quantec.moneypot.rxandroid.RxEvent;
 import com.quantec.moneypot.rxandroid.RxEventBus;
 
@@ -26,6 +29,9 @@ import java.util.ArrayList;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.quantec.moneypot.activity.prefer.ActivityPrefer.totalCount;
 
@@ -42,6 +48,8 @@ public class FgEnter extends Fragment {
     Bundle preferItem;
 
     boolean countState = true;
+
+    ArrayList<ModelEnterList> addList;
 
     private ClickItem clickItem;
     public interface ClickItem{
@@ -69,25 +77,50 @@ public class FgEnter extends Fragment {
 
         modelEnterLists = new ArrayList<>();
 
-        modelEnterLists.add(new ModelEnterList("알파벳", "alphabet",false, false));
-        modelEnterLists.add(new ModelEnterList("애플", "apple",false, false));
-        modelEnterLists.add(new ModelEnterList("맥도날드", "mcdonald",false, false));
-
-        modelEnterLists.add(new ModelEnterList("코카콜라", "cocacola",false, false));
-        modelEnterLists.add(new ModelEnterList("아마존", "amazon",false, false));
-        modelEnterLists.add(new ModelEnterList("페이스북", "facebook",false, false));
-
-        modelEnterLists.add(new ModelEnterList("3M", "3_m",false, false));
-        modelEnterLists.add(new ModelEnterList("비자", "visa",false, false));
-        modelEnterLists.add(new ModelEnterList("마이크로소프트", "microsoft",false, false));
-
-        modelEnterLists.add(new ModelEnterList("펩시", "pepsi",false, false));
-        modelEnterLists.add(new ModelEnterList("알리바바", "alibaba",false, false));
-        modelEnterLists.add(new ModelEnterList("넷플릭스", "netflix",false, false));
-
         recyclerView.addItemDecoration(new DecorationItemVertical(activityPrefer, 23));
         adapterEnter = new AdapterEnter(modelEnterLists, getContext());
         recyclerView.setAdapter(adapterEnter);
+
+        addList = new ArrayList<>();
+
+        Call<ModelGetRateList> setSearch = RetrofitClient.getInstance(activityPrefer).getService().getRateList("one");
+        setSearch.enqueue(new Callback<ModelGetRateList>() {
+            @Override
+            public void onResponse(Call<ModelGetRateList> call, Response<ModelGetRateList> response) {
+                if(response.code() == 200) {
+                    if(response.body().getStatus() == 200){
+                        for(int index = 0; index < 9; index++){
+                            if(response.body().getContent().get(index).getType() == 0){
+
+                                modelEnterLists.add(new ModelEnterList(response.body().getContent().get(index).getName(),
+                                        response.body().getContent().get(index).getCode(),
+                                        response.body().getContent().get(index).getCode(),
+                                        false, false, 2, false, false));
+                            }
+                        }
+
+                        modelEnterLists.add(new ModelEnterList("","",
+                                "",
+                                false, false, 0, false, false));
+
+                        for(int index = 9; index < response.body().getTotalElements(); index++){
+                            if(response.body().getContent().get(index).getType() == 0){
+
+                                addList.add(new ModelEnterList(response.body().getContent().get(index).getName(),
+                                        response.body().getContent().get(index).getCode(),
+                                        response.body().getContent().get(index).getCode(),
+                                        false, false, 3, false, false));
+                            }
+                        }
+                        adapterEnter.notifyDataSetChanged();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ModelGetRateList> call, Throwable t) {
+                Log.e("레트로핏 실패","값 : "+t.getMessage());
+            }
+        });
 
         return view;
     }
@@ -109,6 +142,16 @@ public class FgEnter extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if(modelEnterLists.get(position).getCategory() == 2){
+                    return 1;
+                }else{
+                    return 3;
+                }
+            }
+        });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -127,40 +170,27 @@ public class FgEnter extends Fragment {
             @Override
             public void onClick(int position) {
 
-                if(modelEnterLists.get(position).isSelect()){
+                if (modelEnterLists.get(position).isSelect()) {
                     modelEnterLists.get(position).setSelect(false);
-
                     totalCount--;
-
                     if(clickItem != null){
                         clickItem.onClick(false, totalCount, modelEnterLists.get(position).getImage(),"기업",modelEnterLists.get(position).getTitle(), position);
                     }
-                    adapterEnter.notifyItemChanged(position);
-                }else{
-                    if(totalCount < 5){
+
+                }else {
+
+                    if (totalCount < 5) {
                         modelEnterLists.get(position).setSelect(true);
                         totalCount++;
-                        adapterEnter.notifyItemChanged(position);
-
-                        if(clickItem != null){
-                            clickItem.onClick(true, totalCount, modelEnterLists.get(position).getImage(),"기업",modelEnterLists.get(position).getTitle(), position);
+                        if (clickItem != null) {
+                            clickItem.onClick(true, totalCount, modelEnterLists.get(position).getImage(), "기업", modelEnterLists.get(position).getTitle(), position);
                         }
 
-                    }else{
+                    } else {
                         Toast.makeText(activityPrefer, "최대 5개까지 선택 가능합니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-                if(totalCount == 1 && countState){
-                    countState = false;
-                    modelEnterLists.add(new ModelEnterList("", "",false, true));
-                    adapterEnter.notifyItemChanged(position);
-                }
-                if(totalCount == 0){
-                    countState = true;
-                    modelEnterLists.remove(modelEnterLists.size()-1);
-                    adapterEnter.notifyDataSetChanged();
-                }
+                adapterEnter.notifyItemChanged(position);
             }
         });
 
@@ -197,5 +227,34 @@ public class FgEnter extends Fragment {
                     public void onComplete() {
                     }
                 });
-    }
+
+        adapterEnter.setEnterMoreClick(new AdapterEnter.EnterMoreClick() {
+            @Override
+            public void onClick(int position) {
+                modelEnterLists.remove(position);
+                modelEnterLists.get(0).setVisible(true);
+
+                modelEnterLists.add(new ModelEnterList("",
+                        "", "",
+                        false, false, 4, false, false));
+                modelEnterLists.addAll(addList);
+                adapterEnter.notifyDataSetChanged();
+            }
+        });
+
+        adapterEnter.setEnterCate2Click(new AdapterEnter.EnterCate2Click() {
+            @Override
+            public void onClick(int position) {
+
+                if(modelEnterLists.get(position).isCate2Click()){
+                    modelEnterLists.get(position).setCate2Click(false);
+                }else{
+                    modelEnterLists.get(position).setCate2Click(true);
+                }
+
+                adapterEnter.notifyItemChanged(position);
+            }
+        });
+
+    }//onViewCreated 끝
 }

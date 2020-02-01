@@ -28,13 +28,24 @@
         android:id="@+id/topTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:text="자전거 테마 상품"
-        android:textColor="#000000"
+        android:layout_marginTop="9dp"
+        android:text="애플"
+        android:textColor="@color/c_3d3f42"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/topCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AAPL"
+        android:textSize="12dp"
+        android:textColor="@color/c_3d3f42"
+        app:layout_constraintTop_toBottomOf="@+id/topTitle"
+        app:layout_constraintStart_toStartOf="@+id/topTitle"
+        app:layout_constraintEnd_toEndOf="@+id/topTitle"
+        />
 
     <ImageView
         android:id="@+id/followBt"
@@ -51,7 +62,7 @@
         android:background="#f4f4f4"
         app:layout_constraintTop_toBottomOf="@+id/backBt" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -64,14 +75,14 @@
             layout="@layout/layout_activitysingledetail"
             app:user="@{user}"
             />
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <TextView
         android:id="@+id/investBt"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/green_basket_color"
+        android:background="@drawable/prefer_bt"
         android:text="투자하기"
         android:gravity="center"
         android:textColor="@color/text_white_color"

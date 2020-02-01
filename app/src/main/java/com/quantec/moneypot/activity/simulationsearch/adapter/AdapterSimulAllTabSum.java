@@ -12,9 +12,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 import com.quantec.moneypot.activity.simulationsearch.ModelPreSimulSum;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class AdapterSimulAllTabSum extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -38,6 +40,15 @@ public class AdapterSimulAllTabSum extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void setSumEnDetailBt(SumEnDetailBt sumEnDetailBt) {
         this.sumEnDetailBt = sumEnDetailBt;
+    }
+
+    private SumEnClick sumEnClick;
+    public interface SumEnClick{
+        public void onClick(int position);
+    }
+
+    public void setSumEnClick(SumEnClick sumEnClick) {
+        this.sumEnClick = sumEnClick;
     }
 
     @NonNull
@@ -71,6 +82,12 @@ public class AdapterSimulAllTabSum extends RecyclerView.Adapter<RecyclerView.Vie
                 ((SimulAllTabSumViewHolder)holder).rate.setTextColor(context.getResources().getColor(R.color.red_text_color));
                 ((SimulAllTabSumViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.red_text_color));
             }
+
+            RxView.clicks(((SimulAllTabSumViewHolder)holder).addBt).throttleFirst(500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+                if(sumEnClick != null){
+                    sumEnClick.onClick(position);
+                }
+            });
         }
 
         if(holder instanceof SimulAllTabSumTopViewHolder){

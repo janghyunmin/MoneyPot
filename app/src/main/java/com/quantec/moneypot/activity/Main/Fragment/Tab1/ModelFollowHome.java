@@ -2,18 +2,28 @@ package com.quantec.moneypot.activity.Main.Fragment.Tab1;
 
 public class ModelFollowHome {
 
+    boolean bottom;
     boolean empty;
     String title;
     String code;
     double rate;
-    int price;
+    double price;
 
-    public ModelFollowHome(boolean empty, String title, String code, double rate, int price) {
+    public ModelFollowHome(boolean bottom, boolean empty, String title, String code, double rate, double price) {
+        this.bottom = bottom;
         this.empty = empty;
         this.title = title;
         this.code = code;
         this.rate = rate;
         this.price = price;
+    }
+
+    public boolean isBottom() {
+        return bottom;
+    }
+
+    public void setBottom(boolean bottom) {
+        this.bottom = bottom;
     }
 
     public boolean isEmpty() {
@@ -48,11 +58,11 @@ public class ModelFollowHome {
         this.rate = rate;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }

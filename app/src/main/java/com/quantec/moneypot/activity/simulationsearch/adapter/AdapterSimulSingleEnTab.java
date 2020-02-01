@@ -78,6 +78,15 @@ public class AdapterSimulSingleEnTab extends RecyclerView.Adapter<RecyclerView.V
         this.singleEnRecomBt5 = singleEnRecomBt5;
     }
 
+    private SimulSingleEnClick simulSingleEnClick;
+    public interface SimulSingleEnClick{
+        public void onClick(int position);
+    }
+
+    public void setSimulSingleEnClick(SimulSingleEnClick simulSingleEnClick) {
+        this.simulSingleEnClick = simulSingleEnClick;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -105,6 +114,16 @@ public class AdapterSimulSingleEnTab extends RecyclerView.Adapter<RecyclerView.V
                 ((SimulSingleEnViewHolder)holder).rate.setTextColor(context.getResources().getColor(R.color.red_text_color));
                 ((SimulSingleEnViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.red_text_color));
             }
+
+            ((SimulSingleEnViewHolder)holder).addBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(simulSingleEnClick != null){
+                        simulSingleEnClick.onClick(position);
+                    }
+                }
+            });
+
         }
 
         if(holder instanceof SimulSingleEnTopViewHolder){

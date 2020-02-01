@@ -39,6 +39,7 @@ import com.quantec.moneypot.activity.simulation.ActivitySimulation;
 import com.quantec.moneypot.datamanager.ChartManager;
 import com.quantec.moneypot.datamanager.DataManager;
 import com.quantec.moneypot.datamodel.dmodel.ModelTransChartList;
+import com.quantec.moneypot.datamodel.nmodel.ModelElSumList;
 import com.quantec.moneypot.datamodel.nmodel.ModelUserFollow;
 import com.quantec.moneypot.dialog.DialogLoadingMakingPort;
 import com.quantec.moneypot.dialog.DialogSimul;
@@ -270,59 +271,77 @@ public class FgTab3 extends Fragment {
                     }
                 }else {
 
-                    modelSimulLists.clear();
 
-                    modelSimulLists.add(new ModelSimulList("","", 0));
-                    modelSimulLists.add(new ModelSimulList("엔비디아","NVDA", 20.41));
-                    modelSimulLists.add(new ModelSimulList("AMD","AMD", -2.99));
-
-                    modelSimulLists.add(new ModelSimulList("블리자드","ATVI", 10.01));
-                    modelSimulLists.add(new ModelSimulList("나이키","NKE", -8.66));
-
-                    dialogSimul = new DialogSimul(activityMain, count, modelSimulLists, modelFgTab3Follows.get(position).getTitle(), modelPreChartLists, closeListener);
-                    dialogSimul.show();
-
-                    dialogSimul.setDialogSimulResult(new DialogSimul.OnDialogSimuResult() {
+                    Call<ModelElSumList> getReList = RetrofitClient.getInstance().getService().getElTopList("application/json", "FP0002", 5);
+                    getReList.enqueue(new Callback<ModelElSumList>() {
                         @Override
-                        public void finish(String title, String code, double rate) {
-                            if (count == 0) {
-                                itemEmptyLayout.setVisibility(View.GONE);
-                                itemLayout.setVisibility(View.VISIBLE);
+                        public void onResponse(Call<ModelElSumList> call, Response<ModelElSumList> response) {
+                            if (response.code() == 200) {
+                                if(response.body().getStatus() == 200){
+
+                                    modelSimulLists.clear();
+
+                                    for(int index = 0; index < response.body().getTotalElements(); index++){
+                                        modelSimulLists.add(new ModelSimulList(response.body().getContent().get(index).getName(),
+                                                response.body().getContent().get(index).getCode(),
+                                                response.body().getContent().get(index).getRate()));
+                                    }
+
+                                    dialogSimul = new DialogSimul(activityMain, count, modelSimulLists, modelFgTab3Follows.get(position).getTitle(), modelPreChartLists, closeListener);
+                                    dialogSimul.show();
+
+
+                                    dialogSimul.setDialogSimulResult(new DialogSimul.OnDialogSimuResult() {
+                                        @Override
+                                        public void finish(String title, String code, double rate) {
+                                            if (count == 0) {
+                                                itemEmptyLayout.setVisibility(View.GONE);
+                                                itemLayout.setVisibility(View.VISIBLE);
+                                            }
+                                            count++;
+                                            itemNum.setText("("+count+"/10)");
+
+                                            if(count >= 2 ){
+                                                resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_selected));
+                                                resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_ffffff));
+                                            }else{
+                                                resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_nonselected));
+                                                resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_cccccc));
+                                            }
+
+                                            if (count == 1) {
+                                                modelSelectItems.add(new ModelSelectItem(title, code, rate, false));
+                                                modelPreChartLists.add(new ModelPreChartList(title, code, rate));
+
+                                                modelSelectItems.add(new ModelSelectItem("", "", 0, true));
+                                                modelSelectItems.add(new ModelSelectItem("", "", 0, true));
+                                            } else if (count == 2) {
+                                                modelSelectItems.set(1, new ModelSelectItem(title, code, rate, false));
+                                                modelPreChartLists.add(new ModelPreChartList(title, code, rate));
+
+                                            } else if (count == 3) {
+                                                modelSelectItems.set(2, new ModelSelectItem(title, code, rate, false));
+                                                modelPreChartLists.add(new ModelPreChartList(title, code, rate));
+
+                                            } else {
+                                                modelSelectItems.add(new ModelSelectItem(title, code, rate, false));
+                                                modelPreChartLists.add(new ModelPreChartList(title, code, rate));
+
+                                            }
+                                            adapterSelectedItem.notifyDataSetChanged();
+                                            dialogSimul.dismiss();
+                                        }
+                                    });
+
+                                }
                             }
-                            count++;
-                            itemNum.setText("("+count+"/10)");
-
-                            if(count >= 2 ){
-                                resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_selected));
-                                resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_ffffff));
-                            }else{
-                                resultBt.setBackground(activityMain.getResources().getDrawable(R.drawable.custom_bt_nonselected));
-                                resultBt.setTextColor(activityMain.getResources().getColor(R.color.c_cccccc));
-                            }
-
-                            if (count == 1) {
-                                modelSelectItems.add(new ModelSelectItem(title, code, rate, false));
-                                modelPreChartLists.add(new ModelPreChartList(title, code, rate));
-
-                                modelSelectItems.add(new ModelSelectItem("", "", 0, true));
-                                modelSelectItems.add(new ModelSelectItem("", "", 0, true));
-                            } else if (count == 2) {
-                                modelSelectItems.set(1, new ModelSelectItem(title, code, rate, false));
-                                modelPreChartLists.add(new ModelPreChartList(title, code, rate));
-
-                            } else if (count == 3) {
-                                modelSelectItems.set(2, new ModelSelectItem(title, code, rate, false));
-                                modelPreChartLists.add(new ModelPreChartList(title, code, rate));
-
-                            } else {
-                                modelSelectItems.add(new ModelSelectItem(title, code, rate, false));
-                                modelPreChartLists.add(new ModelPreChartList(title, code, rate));
-
-                            }
-                            adapterSelectedItem.notifyDataSetChanged();
-                            dialogSimul.dismiss();
+                        }
+                        @Override
+                        public void onFailure(Call<ModelElSumList> call, Throwable t) {
+                            Log.e("실패","실패"+t.getMessage());
                         }
                     });
+
                 }
             }
         });
@@ -542,8 +561,8 @@ public class FgTab3 extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if(!hidden){
-            if(DataManager.get_INstance().isCheckTab1()){
-                DataManager.get_INstance().setCheckTab1(false);
+            if(DataManager.get_INstance().isCheckTab2()){
+                DataManager.get_INstance().setCheckTab2(false);
 
                 initData();
             }

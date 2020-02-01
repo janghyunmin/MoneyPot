@@ -54,7 +54,7 @@ public class AdapterSector extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             ((SectorViewHolder)holder).title.setText(modelSectorLists.get(position).getTitle());
             int resource = context.getResources().getIdentifier("ci_"+modelSectorLists.get(position).getImage(), "drawable", context.getPackageName());
-            ((SectorViewHolder)holder).image.setImageDrawable(context.getResources().getDrawable(resource));
+//            ((SectorViewHolder)holder).image.setImageDrawable(context.getResources().getDrawable(resource));
 
             if(modelSectorLists.get(position).isSelect()){
 
@@ -65,8 +65,7 @@ public class AdapterSector extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
 
 
-
-            RxView.clicks(((SectorViewHolder)holder).image).throttleFirst(700, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            RxView.clicks(((SectorViewHolder)holder).image).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
                 if(sectorItemClick != null){
                     sectorItemClick.onClick(position);
                 }

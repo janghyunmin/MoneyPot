@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/addBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="관련 기사 더보기"
+        android:textSize="11dp"
+        android:textColor="@color/c_9a9a9a"
+        android:background="@drawable/custom_bt_line_14dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="23dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

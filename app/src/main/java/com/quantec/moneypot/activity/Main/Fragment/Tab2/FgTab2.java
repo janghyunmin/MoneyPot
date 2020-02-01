@@ -24,6 +24,8 @@ import com.quantec.moneypot.datamanager.DataManager;
 import com.quantec.moneypot.R;
 
 import com.quantec.moneypot.dialog.DialogBasketFilter;
+import com.quantec.moneypot.rxandroid.RxEvent;
+import com.quantec.moneypot.rxandroid.RxEventBus;
 
 public class FgTab2 extends Fragment {
 
@@ -87,96 +89,6 @@ public class FgTab2 extends Fragment {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
-//        SinaRefreshView headerView = new SinaRefreshView(activityMain);
-//        headerView.setArrowResource(R.drawable.anim_loading_view);
-//        headerView.setTextColor(0xff745D5C);
-//        binding.refresh.setHeaderView(headerView);
-//
-//        LoadingView loadingView = new LoadingView(activityMain);
-//        binding.refresh.setBottomView(loadingView);
-//        binding.refresh.setOnRefreshListener(new RefreshListenerAdapter(){
-//            @Override
-//            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        refreshLayout.finishRefreshing();
-//                        Toast.makeText(activityMain.getApplicationContext(), "탑입니다.", Toast.LENGTH_SHORT).show();
-//                    }
-//                },2000);
-//            }
-//            @Override
-//            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(activityMain.getApplicationContext(), "바텀입니다.", Toast.LENGTH_SHORT).show();
-//                        refreshLayout.finishLoadmore();
-//                    }
-//                },2000);
-//            }
-//        });
-
-//        //팟 찜 클릭
-//        myAdapter.setSelectZzimClick(new AdapterFollow.SelectZzimClick() {
-//            @Override
-//            public void onClick(int position) {
-//
-////                if(myData.get(position).isZim()){
-//////                    setZimPot(myData.get(position).getCode(), false, "del", position);
-////                }else{
-//////                    setZimPot(myData.get(position).getCode(), true, "add", position);
-////                }
-//            }
-//        });
-//
-//        //팟 아이템 클릭
-//        myAdapter.setItemClick(new AdapterFollow.ItemClick() {
-//            @Override
-//            public void onClick(int position) {
-//                Intent intent1 = new Intent(activityMain, ActivitySingleDetail.class);
-//                intent1.putExtra("potCode", myData.get(position).getCode());
-//                startActivity(intent1);
-//            }
-//        });
-//
-//        myAdapter.setFilterBtClick(new AdapterFollow.FilterBtClick() {
-//            @Override
-//            public void onClick(int position) {
-////                myData.get(position).setFilterText("단일 기업 순");
-////                myAdapter.notifyItemChanged(position);
-//                dialogBasketFilter = new DialogBasketFilter(activityMain, filterNumber, selectedAppBt, selectedAccountBt, selectedProductBt);
-//                dialogBasketFilter.show();
-//            }
-//        });
-//
-//        Call<ModelUserFollow> getReList = RetrofitClient.getInstance().getService().getUserSelect("application/json", 0);
-//        getReList.enqueue(new Callback<ModelUserFollow>() {
-//            @Override
-//            public void onResponse(Call<ModelUserFollow> call, Response<ModelUserFollow> response) {
-//                if (response.code() == 200) {
-//                    if(response.body().getStatus() == 200){
-//                        for(int index = 0 ; index < response.body().getContent().size(); index++){
-//
-//                            myData.add(new ModelFgAllPage(false,
-//                                    response.body().getContent().get(index).getType(),
-//                                    response.body().getContent().get(index).getName(),
-//                                    response.body().getContent().get(index).getCode(),
-//                                    response.body().getContent().get(index).getRate(),
-//                                    response.body().getContent().get(index).getUserSelect().getIsFollow(),
-//                                    "전체"));
-//                        }
-//                        myAdapter.notifyDataSetChanged();
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ModelUserFollow> call, Throwable t) {
-//                Log.e("실패","실패"+t.getMessage());
-//            }
-//        });
-
-        //Creating adapter
         TabPagerAdapter pagerAdapter = new TabPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount());
         viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(pagerAdapter);
@@ -237,6 +149,7 @@ public class FgTab2 extends Fragment {
         if(!hidden){
             if(DataManager.get_INstance().isCheckTab1()){
                 DataManager.get_INstance().setCheckTab1(false);
+                RxEventBus.getInstance().post(new RxEvent(RxEvent.FOLLOW_REFRESH, null));
             }
         }
     }

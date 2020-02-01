@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.quantec.moneypot.R;
@@ -37,6 +38,15 @@ public class AdapterMySimulation extends RecyclerView.Adapter<RecyclerView.ViewH
         this.mySimulModifyClick = mySimulModifyClick;
     }
 
+    private MySimulClick mySimulClick;
+    public interface MySimulClick{
+        public void onClick(int position);
+    }
+
+    public void setMySimulClick(MySimulClick mySimulClick) {
+        this.mySimulClick = mySimulClick;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,6 +73,15 @@ public class AdapterMySimulation extends RecyclerView.Adapter<RecyclerView.ViewH
                 ((MySimulationItemViewHolder)holder).rate.setTextColor(context.getResources().getColor(R.color.c_f02654));
                 ((MySimulationItemViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.c_f02654));
             }
+
+            ((MySimulationItemViewHolder)holder).itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mySimulClick != null){
+                        mySimulClick.onClick(position);
+                    }
+                }
+            });
         }
 
         if(holder instanceof MySimulationTopViewHolder){
@@ -105,6 +124,7 @@ public class AdapterMySimulation extends RecyclerView.Adapter<RecyclerView.ViewH
     public class MySimulationItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView title, rate, per;
+        ConstraintLayout itemLayout;
 
         public MySimulationItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -112,6 +132,7 @@ public class AdapterMySimulation extends RecyclerView.Adapter<RecyclerView.ViewH
             title = itemView.findViewById(R.id.title);
             rate = itemView.findViewById(R.id.rate);
             per = itemView.findViewById(R.id.per);
+            itemLayout = itemView.findViewById(R.id.itemLayout);
 
         }
     }

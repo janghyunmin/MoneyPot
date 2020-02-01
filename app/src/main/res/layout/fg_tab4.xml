@@ -29,129 +29,16 @@
         android:layout_marginTop="5dp"
         android:textColor="@color/gray_brown_color"
         />
-    <!--<TextView-->
-        <!--android:id="@+id/topMyInfo"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/topTitle"-->
-        <!--app:layout_constraintBottom_toTopOf="@+id/topEmail"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--android:text="내 정보 수정"-->
-        <!--android:layout_marginRight="24dp"-->
-        <!--android:textSize="14dp"-->
-        <!--android:textColor="@color/text_black_color"-->
-        <!--/>-->
+
     <ImageView
+        android:id="@+id/profileImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/setting_character"
         app:layout_constraintTop_toTopOf="@+id/topTitle"
         app:layout_constraintBottom_toBottomOf="@+id/topEmail"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         />
-    <!--<View-->
-        <!--android:id="@+id/topLine"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="6dp"-->
-        <!--android:background="#f4f4f4"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/topEmail"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--/>-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/center"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/topLine"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--android:src="@drawable/ic_customer_service"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--android:layout_marginLeft="42dp"-->
-        <!--/>-->
-    <!--<TextView-->
-        <!--android:id="@+id/center_text"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="고객센터"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/center"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/center"-->
-        <!--app:layout_constraintEnd_toEndOf="@+id/center"-->
-        <!--android:textSize="14dp"-->
-        <!--android:layout_marginTop="6dp"-->
-        <!--android:textColor="@color/text_black_color"-->
-        <!--/>-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/notice"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/topLine"-->
-        <!--app:layout_constraintStart_toEndOf="@+id/center"-->
-        <!--android:src="@drawable/ic_notice"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--android:layout_marginStart="60dp"-->
-        <!--/>-->
-    <!--<TextView-->
-        <!--android:id="@+id/notice_text"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="공지사항"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/notice"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/notice"-->
-        <!--app:layout_constraintEnd_toEndOf="@+id/notice"-->
-        <!--android:textSize="14dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:textColor="@color/text_black_color"-->
-        <!--/>-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/setting"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/topLine"-->
-        <!--app:layout_constraintStart_toEndOf="@+id/notice"-->
-        <!--android:src="@drawable/ic_control"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--android:layout_marginStart="60dp"-->
-        <!--/>-->
-    <!--<TextView-->
-        <!--android:id="@+id/setting_text"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="설정"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/setting"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/setting"-->
-        <!--app:layout_constraintEnd_toEndOf="@+id/setting"-->
-        <!--android:textSize="14dp"-->
-        <!--android:layout_marginTop="5dp"-->
-        <!--android:textColor="@color/text_black_color"-->
-        <!--/>-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/history"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/topLine"-->
-        <!--app:layout_constraintStart_toEndOf="@+id/setting"-->
-        <!--android:src="@drawable/ic_control"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--android:layout_marginStart="60dp"-->
-        <!--/>-->
-    <!--<TextView-->
-        <!--android:id="@+id/history_text"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="히스토리"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/history"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/history"-->
-        <!--app:layout_constraintEnd_toEndOf="@+id/history"-->
-        <!--android:textSize="14dp"-->
-        <!--android:layout_marginTop="5dp"-->
-        <!--android:textColor="@color/text_black_color"-->
-        <!--/>-->
-
-
     <View
         android:id="@+id/middleLine"
         android:layout_width="match_parent"

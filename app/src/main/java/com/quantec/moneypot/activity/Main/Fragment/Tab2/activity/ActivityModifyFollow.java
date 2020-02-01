@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.quantec.moneypot.R;
 import com.quantec.moneypot.activity.Main.Fragment.Tab2.ModelCustomDel;
@@ -44,6 +46,8 @@ public class ActivityModifyFollow extends AppCompatActivity {
     int selectPosition;
     ArrayList<String> delCode, allDelCode;
 
+    TextView saveBt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +66,8 @@ public class ActivityModifyFollow extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+
+        saveBt = findViewById(R.id.saveBt);
 
         delCode = new ArrayList<>();
         allDelCode = new ArrayList<>();
@@ -169,7 +175,17 @@ public class ActivityModifyFollow extends AppCompatActivity {
                 dialogModiTitle.dismiss();
             }
         });
-    }
+
+        saveBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                setResult(100);
+                finish();
+            }
+        });
+
+    }//onCreate끝
 
     private View.OnClickListener okClick = new View.OnClickListener() {
         public void onClick(View v) {

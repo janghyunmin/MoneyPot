@@ -13,10 +13,14 @@ import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPotSimul;
 import com.quantec.moneypot.datamodel.nmodel.ModelAccountExist;
 import com.quantec.moneypot.datamodel.nmodel.ModelAccounts;
 import com.quantec.moneypot.datamodel.nmodel.ModelApiToken;
+import com.quantec.moneypot.datamodel.nmodel.ModelArticle;
 import com.quantec.moneypot.datamodel.nmodel.ModelAssetsCustom;
 import com.quantec.moneypot.datamodel.nmodel.ModelChartData;
 import com.quantec.moneypot.datamodel.nmodel.ModelChkNicName;
 import com.quantec.moneypot.datamodel.nmodel.ModelCommonData;
+import com.quantec.moneypot.datamodel.nmodel.ModelCustomDetail;
+import com.quantec.moneypot.datamodel.nmodel.ModelElSumList;
+import com.quantec.moneypot.datamodel.nmodel.ModelGetRateList;
 import com.quantec.moneypot.datamodel.nmodel.ModelNCustomDel;
 import com.quantec.moneypot.datamodel.nmodel.ModelDeleteLife;
 import com.quantec.moneypot.datamodel.nmodel.ModelInsertLife;
@@ -29,6 +33,7 @@ import com.quantec.moneypot.datamodel.nmodel.ModelRecommendList;
 import com.quantec.moneypot.datamodel.nmodel.ModelSearchDb;
 import com.quantec.moneypot.datamodel.nmodel.ModelSearchOrder;
 import com.quantec.moneypot.datamodel.nmodel.ModelSearchedPageList;
+import com.quantec.moneypot.datamodel.nmodel.ModelTopCompare;
 import com.quantec.moneypot.datamodel.nmodel.ModelUserFollow;
 import com.quantec.moneypot.datamodel.nmodel.ModelZimData;
 import com.quantec.moneypot.datamodel.nmodel.ModelZimPotList;
@@ -240,7 +245,7 @@ public interface RetrofitService {
      * 시뮬레이션 차트 데이터
      *
      */
-    @POST("pot/getCoreData")
+    @POST("core/getCoreData")
     Call<ModelPotSimul> getPotSimul(@Header("Content-Type") String content_type, @Body Object ex);
 
 
@@ -372,5 +377,73 @@ public interface RetrofitService {
      */
     @POST("pot/delAssetsCustom")
     Call<ModelNCustomDel> delAssetsCustom(@Header("Content-Type") String content_type, @Body Object deActiveAssetsMap);
+
+
+    /**
+     *
+     * 묶음기업 개별 종목 리스트
+     *
+     *
+     */
+    @POST("pot/getElTopList/{potCode}/{count}")
+    Call<ModelElSumList> getElTopList(@Header("Content-Type") String content_type, @Path("potCode") String potCode, @Path("count") int count);
+
+
+    /**
+     *
+     * 상세페이지
+     *type: 0|1|2 (0:단일종목, 1:콴텍묶음, 2:사용자묶음)
+     * 기사평가: newsPlus, newsMinus 조합.
+     *
+     */
+    @POST("pot/getDetailData/{type}/{code}/{period}/{propensity}")
+    Call<ModelCustomDetail> getDetailData(@Header("Content-Type") String content_type, @Path("type") int type, @Path("code") String code, @Path("period") String period, @Path("propensity") int propensity);
+
+    /**
+     *
+     * 묶음기업 개별 종목 리스트
+     *
+     *
+     */
+    @POST("core/getNewsSearch/{page}/{cnt}/{search}")
+    Call<Object> getNewsSearch(@Header("Content-Type") String content_type, @Path("page") int page, @Path("cnt") int cnt, @Path("search") String search);
+
+
+    /**
+     *
+     * 단일 묶음 혼합해서 수익률 순위로 뿌려줌
+     *
+     * type: one|three|six|2year
+     * 한달/세달/여섯달/2년기준 (우선은 한달기준만)
+     * 묶음, 단일종목 짬뽕되야 해서 페이징없이 전체 리스트 리턴
+     *
+     */
+    @GET("home/getRateList/{type}")
+    Call<ModelGetRateList> getRateList(@Path("type") String type);
+
+
+    /**
+     *
+     * 관련기사 검색 리턴
+     *
+     * title에 " 이 존재 가능하면 " 로 변경되어 내려감.
+     * cnt --> 페이지당갯수 10|20…
+     * code --> 코드 BABA|FP0001
+     * page --> 페이지 0|1… (단일|묶음)
+     * type --> 타입 0|1 (단일|묶음)
+     */
+    @POST("core/getNewsData/{page}/{cnt}/{type}/{code}")
+    Call<com.quantec.moneypot.datamodel.nmodel.ModelArticle> getNewsData(@Path("page") int page, @Path("cnt") int cnt, @Path("type") String type, @Path("code") String code);
+
+    /**
+     *
+     * 홈화면에서 상단 비교 대상 항목들
+     *
+     * cnt 는 불러온 갯수
+     *
+     */
+    @GET("home/getTopCompare/{cnt}")
+    Call<ModelTopCompare> getTopCompare(@Path("cnt") int cnt);
+
 }
 

@@ -103,6 +103,9 @@ public class ActivitySimulationSearch extends AppCompatActivity {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
+        bundle = new Bundle();
+
+
         modelPreChartLists = new ArrayList<>();
         preAddCode = new ArrayList<>();
         preAddCode.clear();
@@ -112,9 +115,9 @@ public class ActivitySimulationSearch extends AppCompatActivity {
         modelPreChartLists = intent1.getParcelableArrayListExtra("chartData");
 
         for(ModelPreChartList mChart : modelPreChartLists){
-            Log.e("이미 추가한것", "이름 : "+mChart.getName() + " | 코드 : "+mChart.getCode());
             preAddCode.add(mChart.getCode());
         }
+        bundle.putStringArrayList("preAddCode", preAddCode);
 
         modelSimulSingles = new ArrayList<>();
         modelSimulSums = new ArrayList<>();
@@ -130,7 +133,7 @@ public class ActivitySimulationSearch extends AppCompatActivity {
         preTab = tab1;
 
         viewPager.setOffscreenPageLimit(3);
-        bundle = new Bundle();
+
 
         searchPortAdapter = new SearchPortAdapter(getSupportFragmentManager());
 
@@ -178,13 +181,9 @@ public class ActivitySimulationSearch extends AppCompatActivity {
         });
 
         InputStream XmlFileInputStream = getResources().openRawResource(R.raw.blog);
-        //2 This reads your JSON file
         String jsonString = readTextFile(XmlFileInputStream);
-        // create a gson object
         Gson gson = new Gson();
-        // read your json file into an array
         ModelBlog[] modelBlogs =  gson.fromJson(jsonString, ModelBlog[].class);
-        // convert your array to a list using the Arrays utility class
         name = Arrays.asList(modelBlogs);
 
         tab1.setOnClickListener(new View.OnClickListener() {
@@ -271,7 +270,6 @@ public class ActivitySimulationSearch extends AppCompatActivity {
         });
 
 
-
         RxEventBus.getInstance()
                 .filteredObservable(RxEvent.class)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -311,6 +309,17 @@ public class ActivitySimulationSearch extends AppCompatActivity {
                                     }
                                 }
 
+                                break;
+
+                            case RxEvent.SEARCH_TRANS_PAGE:
+
+                                if(rxEvent.getBundle().getInt("moveTab") == 0) {
+                                    clickTab(tab2);
+                                    viewPager.setCurrentItem(1, true);
+                                }else{
+                                    clickTab(tab3);
+                                    viewPager.setCurrentItem(2, true);
+                                }
                                 break;
                         }
                     }
@@ -372,13 +381,11 @@ public class ActivitySimulationSearch extends AppCompatActivity {
                             modelSimulSums.add(new ModelSimulSum(false, roomEntity2s.size(), roomEntity2s.get(index).getName(), roomEntity2s.get(index).getCode(),
                                     roomEntity2s.get(index).getElStock(), roomEntity2s.get(index).getRate()));
                         }
-                        Log.e("찾음 데이터","값 : "+roomEntity2s.get(index).getName());
                     }
                 }
                 else{
                     modelSimulSingles.add(new ModelSimulSingle(true, 0, "", "", 0));
                     modelSimulSums.add(new ModelSimulSum(true, 0, "", "", "", 0));
-                    Log.e("찾은 데어터", "값 : 룸에 데이터가 없습니다.");
                 }
                 bundle.putParcelableArrayList("singleEn", modelSimulSingles);
                 bundle.putParcelableArrayList("sumEn", modelSimulSums);
@@ -424,9 +431,7 @@ public class ActivitySimulationSearch extends AppCompatActivity {
 
         preTab.setBackgroundResource(0);
         preTab.setTextColor(getResources().getColor(R.color.dark_gray_color));
-
         preTab = tab;
-
         tab.setBackgroundResource(R.drawable.custom_bt);
         tab.setTextColor(getResources().getColor(R.color.normal_title_color));
     }

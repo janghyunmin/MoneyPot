@@ -199,6 +199,9 @@ public class FgSumEnTab extends Fragment {
     void FollowClick(int follow, int position){
 
 //      SharedPreferenceUtil.getInstance(activitySearch).putIntZzimCount("PortZzimCount", response.body().getNum());
+        DataManager.get_INstance().setCheckTab1(true);
+        DataManager.get_INstance().setCheckTab2(true);
+        DataManager.get_INstance().setCheckHome(true);
 
         followInfo.putInt("search_type", 1);
         followInfo.putInt("search_page", 1);

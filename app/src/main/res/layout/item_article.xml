@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="94dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemLayout"
+    >
 
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="18dp"
         android:layout_marginStart="24dp"
-        app:layout_constraintTop_toTopOf="@+id/image"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/image"
-        android:layout_marginEnd="20dp"
-        android:textSize="14dp"
-        android:textColor="@color/text_black_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="24dp"
+        android:textSize="12dp"
+        android:textColor="@color/c_3d3f42"
+        android:text="작년 4분기 사상 최대 매출 애플도 '우한 폐렴'발 차이나리스크 우려"
+        />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_write_gray"
+        app:layout_constraintBottom_toTopOf="@+id/line"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="22dp"
+        android:layout_marginBottom="20dp"
         />
 
     <TextView
@@ -23,10 +37,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="한국경제"
-        android:textSize="11dp"
-        app:layout_constraintStart_toStartOf="@+id/title"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        android:layout_marginTop="15dp"
+        android:textSize="10dp"
+        android:textColor="@color/c_9a9a9a"
+        app:layout_constraintStart_toEndOf="@+id/image"
+        app:layout_constraintTop_toTopOf="@+id/image"
+        app:layout_constraintBottom_toBottomOf="@+id/image"
+        android:layout_marginStart="1dp"
+        />
+
+    <ImageView
+        android:id="@+id/image2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_clock_gray"
+        app:layout_constraintTop_toTopOf="@+id/image"
+        app:layout_constraintBottom_toBottomOf="@+id/image"
+        app:layout_constraintStart_toEndOf="@+id/newspaper"
+        android:layout_marginStart="7dp"
         />
 
     <TextView
@@ -34,30 +61,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="19.04.10"
-        android:textSize="11dp"
-        app:layout_constraintStart_toEndOf="@+id/newspaper"
-        app:layout_constraintTop_toTopOf="@+id/newspaper"
-        app:layout_constraintBottom_toBottomOf="@+id/newspaper"
-        android:layout_marginStart="20dp"
-        />
-
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/img_newspaper"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="24dp"
+        android:textSize="10dp"
+        android:textColor="@color/c_9a9a9a"
+        app:layout_constraintStart_toEndOf="@+id/image2"
+        app:layout_constraintTop_toTopOf="@+id/image2"
+        app:layout_constraintBottom_toBottomOf="@+id/image2"
+        android:layout_marginStart="1dp"
         />
 
     <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/text_gray_color"
-        app:layout_constraintTop_toBottomOf="@+id/image"
-        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#eaeaea"
         />
 
 

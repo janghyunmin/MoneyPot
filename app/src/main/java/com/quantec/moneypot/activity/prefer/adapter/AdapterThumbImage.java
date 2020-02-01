@@ -46,7 +46,7 @@ public class AdapterThumbImage extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if(holder instanceof ThumbImageViewHolder){
 
-            int resource = context.getResources().getIdentifier("ci_"+modelThumbImages.get(position).getImage()+"_small", "drawable", context.getPackageName());
+            int resource = context.getResources().getIdentifier("ci_it"+"_small", "drawable", context.getPackageName());
             ((ThumbImageViewHolder)holder).image.setImageDrawable(context.getResources().getDrawable(resource));
 
             ((ThumbImageViewHolder)holder).title.setText(modelThumbImages.get(position).getTitle());
