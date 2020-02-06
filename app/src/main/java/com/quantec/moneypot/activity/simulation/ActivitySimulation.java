@@ -41,19 +41,13 @@ import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPotSimul;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPreChartList;
 import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelSimulCode;
 import com.quantec.moneypot.activity.buttondoublecheck.RxView;
+import com.quantec.moneypot.activity.invest.ActivityCustomInvest;
 import com.quantec.moneypot.datamanager.ChartManager;
-import com.quantec.moneypot.datamodel.dmodel.ModelTransChartList;
-import com.quantec.moneypot.dialog.DialogLoadingMakingPort;
 import com.quantec.moneypot.network.retrofit.RetrofitClient;
 import com.quantec.moneypot.util.DecimalScale.DecimalScale;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.StringJoiner;
 import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
@@ -64,7 +58,7 @@ public class ActivitySimulation extends AppCompatActivity {
 
     ArrayList<ModelPreChartList> modelPreChartLists;
 
-    TextView rate, per, num, mon1, mon3, mon6, monAll, preChartBt, saveBt;
+    TextView rate, per, num, mon1, mon3, mon6, monAll, preChartBt, saveBt, investBt;
     ChipGroup chipGroup;
     ImageView backBt;
 
@@ -89,7 +83,7 @@ public class ActivitySimulation extends AppCompatActivity {
 
     LinearLayout loading;
 
-    double nowPrice;
+    int nowPrice, price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +134,7 @@ public class ActivitySimulation extends AppCompatActivity {
         chartView.invalidate();
 
         backBt = findViewById(R.id.backBt);
+        investBt = findViewById(R.id.investBt);
 
         modelPreChartLists = new ArrayList<>();
         rate = findViewById(R.id.rate);
@@ -151,7 +146,8 @@ public class ActivitySimulation extends AppCompatActivity {
         Intent intent1 = getIntent();
         exAllRate = String.valueOf(intent1.getDoubleExtra("rate", 0));
         rate.setText(exAllRate);
-        nowPrice = intent1.getDoubleExtra("nowPrice", 0);
+        nowPrice = intent1.getIntExtra("nowPrice", 0);
+        price = intent1.getIntExtra("price", 0);
 
         if(intent1.getDoubleExtra("rate", 0) < 0){
             rate.setTextColor(getResources().getColor(R.color.blue_color));
@@ -308,6 +304,16 @@ public class ActivitySimulation extends AppCompatActivity {
                 });
             }
         });
+
+
+        RxView.clicks(investBt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+
+            Intent intent = new Intent(this, ActivityCustomInvest.class);
+            intent.putParcelableArrayListExtra("custominvest", modelPreChartLists);
+            intent.putExtra("price", price);
+            startActivity(intent);
+        });
+
 
     }//onCreate 끝
 

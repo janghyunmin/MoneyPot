@@ -12,8 +12,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class AdapterSumTab extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -28,31 +30,40 @@ public class AdapterSumTab extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.context = context;
     }
 
-    private SingleTabFilterClcick singleTabFilterClcick;
-    public interface SingleTabFilterClcick{
+    private SumTabFilterClcick sumTabFilterClcick;
+    public interface SumTabFilterClcick{
         public void onClcick(int position);
     }
 
-    public void setSingleTabFilterClcick(SingleTabFilterClcick singleTabFilterClcick) {
-        this.singleTabFilterClcick = singleTabFilterClcick;
+    public void setSumTabFilterClcick(SumTabFilterClcick sumTabFilterClcick) {
+        this.sumTabFilterClcick = sumTabFilterClcick;
     }
 
-    private SingleTabFollowClick singleTabFollowClick;
-    public interface SingleTabFollowClick{
+    private SumTabFollowClick sumTabFollowClick;
+    public interface SumTabFollowClick{
         public void onClick(int position);
     }
 
-    public void setSingleTabFollowClick(SingleTabFollowClick singleTabFollowClick) {
-        this.singleTabFollowClick = singleTabFollowClick;
+    public void setSumTabFollowClick(SumTabFollowClick sumTabFollowClick) {
+        this.sumTabFollowClick = sumTabFollowClick;
+    }
+
+    private SumTabItemClick sumTabItemClick;
+    public interface SumTabItemClick{
+        public void onClick(int position);
+    }
+
+    public void setSumTabItemClick(SumTabItemClick sumTabItemClick) {
+        this.sumTabItemClick = sumTabItemClick;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType == TOP){
-            return new SumTabTopViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_singletab_top, parent, false));
+            return new SumTabTopViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sumtab_top, parent, false));
         }else{
-            return new SumTabViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_singletab_item, parent, false));
+            return new SumTabViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sumtab_item, parent, false));
         }
     }
 
@@ -80,12 +91,16 @@ public class AdapterSumTab extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((SumTabViewHolder)holder).followBt.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_star_on_blue));
             }
 
-            ((SumTabViewHolder)holder).followBt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(singleTabFollowClick != null){
-                        singleTabFollowClick.onClick(position);
-                    }
+
+            RxView.clicks(((SumTabViewHolder)holder).followBt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+                if(sumTabFollowClick != null){
+                    sumTabFollowClick.onClick(position);
+                }
+            });
+
+            RxView.clicks(((SumTabViewHolder)holder).itemLayout).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+                if(sumTabItemClick != null){
+                    sumTabItemClick.onClick(position);
                 }
             });
 
@@ -95,12 +110,9 @@ public class AdapterSumTab extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             ((SumTabTopViewHolder)holder).title.setText(modelSumTabs.get(0).getFilter());
 
-            ((SumTabTopViewHolder)holder).filterBt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(singleTabFilterClcick != null){
-                        singleTabFilterClcick.onClcick(position);
-                    }
+            RxView.clicks(((SumTabTopViewHolder)holder).filterBt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+                if(sumTabFilterClcick != null){
+                    sumTabFilterClcick.onClcick(position);
                 }
             });
 
@@ -125,7 +137,7 @@ public class AdapterSumTab extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         ImageView image, followBt;
         TextView num, title, rate, per, price;
-
+        ConstraintLayout itemLayout;
 
         public SumTabViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -137,6 +149,8 @@ public class AdapterSumTab extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             rate = itemView.findViewById(R.id.rate);
             per = itemView.findViewById(R.id.per);
             price = itemView.findViewById(R.id.price);
+
+            itemLayout = itemView.findViewById(R.id.itemLayout);
         }
     }
 

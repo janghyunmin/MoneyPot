@@ -35,6 +35,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.quantec.moneypot.util.replacetag.ReplaceTag.ReplaceTag;
+
 public class ActivityArticle extends AppCompatActivity {
 
     ImageView backBt;
@@ -43,7 +45,7 @@ public class ActivityArticle extends AppCompatActivity {
     ArrayList<ModelArticle> modelArticles;
     AdapterArticle adapterArticle;
 
-    String code;
+    String code, type;
 
     TwinklingRefreshLayout refresh;
     int nextPage = 0;
@@ -69,6 +71,7 @@ public class ActivityArticle extends AppCompatActivity {
 
         Intent intent = getIntent();
         code = intent.getStringExtra("code");
+        type = intent.getStringExtra("type");
 
         refresh = findViewById(R.id.refresh);
 
@@ -84,7 +87,7 @@ public class ActivityArticle extends AppCompatActivity {
         adapterArticle = new AdapterArticle(modelArticles, this);
         recyclerView.setAdapter(adapterArticle);
 
-        Call<com.quantec.moneypot.datamodel.nmodel.ModelArticle> tt = RetrofitClient.getInstance(this).getService().getNewsData(nextPage, 20, "0", code);
+        Call<com.quantec.moneypot.datamodel.nmodel.ModelArticle> tt = RetrofitClient.getInstance(this).getService().getNewsData(nextPage, 20, type, code);
         tt.enqueue(new Callback<com.quantec.moneypot.datamodel.nmodel.ModelArticle>() {
 
             @Override
@@ -104,7 +107,6 @@ public class ActivityArticle extends AppCompatActivity {
                 }
                 adapterArticle.notifyDataSetChanged();
             }
-
             @Override
             public void onFailure(Call<com.quantec.moneypot.datamodel.nmodel.ModelArticle> call, Throwable t) {
             }
@@ -148,8 +150,14 @@ public class ActivityArticle extends AppCompatActivity {
             }
         });
 
-    }//onCreate 끝.
+        backBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
+    }//onCreate 끝.
 
 
     void getFollowList(TwinklingRefreshLayout refreshLayout, int page, boolean init){
@@ -197,51 +205,5 @@ public class ActivityArticle extends AppCompatActivity {
 
             }
         });
-    }
-
-
-    public String ReplaceTag(String Expression, String type){
-        String result = "";
-        if (Expression==null || Expression.equals("")) return "";
-
-        if (type == "encode") {
-            result = ReplaceString(Expression, "&", "&amp;");
-            result = ReplaceString(result, "\"", "&quot;");
-
-            result = ReplaceString(result, "'", "&apos;");
-            result = ReplaceString(result, "<", "&lt;");
-            result = ReplaceString(result, ">", "&gt;");
-            result = ReplaceString(result, "\r", "<br>");
-            result = ReplaceString(result, "\n", "<p>");
-        }
-        else if (type == "decode") {
-            result = ReplaceString(Expression, "&amp;", "&");
-            result = ReplaceString(result, "&quot;", "\"");
-
-            result = ReplaceString(result, "&apos;", "'");
-            result = ReplaceString(result, "&lt;", "<");
-            result = ReplaceString(result, "&gt;", ">");
-            result = ReplaceString(result, "<br>", "\r");
-            result = ReplaceString(result, "<p>", "\n");
-        }
-
-        return result;
-    }
-
-    public String ReplaceString(String Expression, String Pattern, String Rep)
-    {
-        if (Expression==null || Expression.equals("")) return "";
-
-        int s = 0;
-        int e = 0;
-        StringBuffer result = new StringBuffer();
-
-        while ((e = Expression.indexOf(Pattern, s)) >= 0) {
-            result.append(Expression.substring(s, e));
-            result.append(Rep);
-            s = e + Pattern.length();
-        }
-        result.append(Expression.substring(s));
-        return result.toString();
     }
 }

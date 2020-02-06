@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class Core {
     @SerializedName("nowPrice")
     @Expose
-    private Double nowPrice;
+    private Integer nowPrice;
     @SerializedName("period")
     @Expose
     private String period;
@@ -15,16 +15,16 @@ public class Core {
     private Double rate;
     @SerializedName("minPrice")
     @Expose
-    private Double minPrice;
+    private Integer minPrice;
     @SerializedName("totPrice")
     @Expose
-    private Double totPrice;
+    private Integer totPrice;
 
-    public Double getNowPrice() {
+    public Integer getNowPrice() {
         return nowPrice;
     }
 
-    public void setNowPrice(Double nowPrice) {
+    public void setNowPrice(Integer nowPrice) {
         this.nowPrice = nowPrice;
     }
 
@@ -44,19 +44,19 @@ public class Core {
         this.rate = rate;
     }
 
-    public Double getMinPrice() {
-        return minPrice;
-    }
-
-    public void setMinPrice(Double minPrice) {
+    public void setMinPrice(Integer minPrice) {
         this.minPrice = minPrice;
     }
 
-    public Double getTotPrice() {
-        return totPrice;
+    public void setTotPrice(Integer totPrice) {
+        this.totPrice = totPrice;
     }
 
-    public void setTotPrice(Double totPrice) {
-        this.totPrice = totPrice;
+    public Integer getMinPrice() {
+        return minPrice;
+    }
+
+    public Integer getTotPrice() {
+        return totPrice;
     }
 }

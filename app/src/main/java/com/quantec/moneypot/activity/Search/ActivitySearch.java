@@ -7,9 +7,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.LoginFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -30,6 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.quantec.moneypot.activity.PotDetail.ActivitySingleDetail;
 import com.quantec.moneypot.activity.Search.BasicPage.FgBasicPage;
 import com.quantec.moneypot.activity.Search.SearchedPage.FgSearchedPage;
 import com.quantec.moneypot.activity.Search.SearchedPage.Fragment.FgAllTab;
@@ -39,6 +42,7 @@ import com.quantec.moneypot.database.room.local.RoomDao;
 import com.quantec.moneypot.database.room.local.SearchRoomDatabase;
 import com.quantec.moneypot.database.room.viewmodel.SearchViewModel2;
 import com.quantec.moneypot.databinding.ActivitySearchBinding;
+import com.quantec.moneypot.datamodel.nmodel.ModelArticle;
 import com.quantec.moneypot.datamodel.nmodel.ModelSearchDb;
 import com.quantec.moneypot.network.retrofit.RetrofitClient;
 
@@ -126,6 +130,8 @@ public class ActivitySearch extends AppCompatActivity implements TextView.OnEdit
             public void onClick(View v) {
                 imm.hideSoftInputFromWindow(binding.searchEditText.getWindowToken(), 0);
                 finish();
+                Intent intent = new Intent(ActivitySearch.this, ActivitySingleDetail.class);
+                startActivity(intent);
             }
         });
 
@@ -221,6 +227,22 @@ public class ActivitySearch extends AppCompatActivity implements TextView.OnEdit
         });
 
 
+//        Call<ModelArticle> tt = RetrofitClient.getInstance(this).getService().getNewsSearch(0, 20, "애");
+//        tt.enqueue(new Callback<ModelArticle>() {
+//
+//            @Override
+//            public void onResponse(Call<ModelArticle> call, Response<ModelArticle> response) {
+//                if(response.code() == 200) {
+//                    for(int index = 0; index < response.body().getContent().getNewsData().size(); index++){
+//                        Log.e("신문 검색", "제목 : "+response.body().getContent().getNewsData().get(index).getTitle());
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ModelArticle> call, Throwable t) {
+//            }
+//        });
+
 
     }//onCreate 끝
 
@@ -289,5 +311,4 @@ public class ActivitySearch extends AppCompatActivity implements TextView.OnEdit
         currentPage = 1;
         debounceStae = true;
     }
-
 }

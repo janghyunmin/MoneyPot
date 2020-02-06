@@ -7,13 +7,15 @@ public class ModelRecomList {
     String desc;
     double rate;
     String topTitle;
+    int price;
 
-    public ModelRecomList(String title, String code, String desc, double rate, String topTitle) {
+    public ModelRecomList(String title, String code, String desc, double rate, String topTitle, int price) {
         this.title = title;
         this.code = code;
         this.desc = desc;
         this.rate = rate;
         this.topTitle = topTitle;
+        this.price = price;
     }
 
     public String getTitle() {
@@ -54,5 +56,13 @@ public class ModelRecomList {
 
     public void setTopTitle(String topTitle) {
         this.topTitle = topTitle;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

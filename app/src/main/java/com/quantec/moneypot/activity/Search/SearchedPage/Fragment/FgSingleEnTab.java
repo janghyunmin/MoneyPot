@@ -53,7 +53,6 @@ public class FgSingleEnTab extends Fragment {
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     AdapterSingleEn adapterSingleEn;
-//    ArrayList<ModelPostTitleItem> postTitleItemModels;
 
     Bundle bundle, followInfo;
 

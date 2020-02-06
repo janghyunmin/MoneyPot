@@ -28,7 +28,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.webview.ActivityWebViewArticle"></activity>
+        <activity android:name=".activity.invest.ActivityTrDetail"></activity>
+        <activity android:name=".activity.invest.ActivityTradeReport" />
+        <activity android:name=".activity.invest.ActivityCustomInvest" />
+        <activity android:name=".activity.webview.ActivityWebViewArticle" />
         <activity android:name=".activity.Main.Fragment.Tab2.activity.ActivityModifyFollow" />
         <activity android:name=".activity.Main.Fragment.Tab1.Activity.ActivityYieldChart" />
         <activity android:name=".activity.center.ActivityQuestionWebView" />

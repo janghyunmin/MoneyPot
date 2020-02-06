@@ -331,7 +331,6 @@ public class ActivitySimulationSearch extends AppCompatActivity {
                     }
                 });
 
-
     }//onCreate 끝
 
     @Override

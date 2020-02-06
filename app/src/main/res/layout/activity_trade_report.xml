@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="activitytradereport"
+            type="com.quantec.moneypot.databinding.ActivityTradeReportBinding" />
+
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.quantec.moneypot.activity.invest.ActivityTradeReport">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="매수내역 확인"
+        android:textColor="@color/c_3d3f42"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintBottom_toTopOf="@+id/bottomLayout"
+        android:layout_marginTop="18dp"
+        android:overScrollMode="never"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:src="@drawable/img_asset_result"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="커스텀 매수"
+                android:textColor="@color/c_3d3f42"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image" />
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="커스텀을 통해 매수할 경우 구매 수량 변경이 불가합니다."
+                android:textColor="@color/c_9a9a9a"
+                android:textSize="13dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title2" />
+
+            <ImageView
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginEnd="24dp"
+                android:src="@drawable/dash_line"
+                app:layout_constraintTop_toBottomOf="@+id/desc"
+                android:layerType="software"
+                />
+
+            <TextView
+                android:id="@+id/stockTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="18dp"
+                android:text="종목명"
+                android:textColor="@color/c_3d3f42"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line" />
+
+            <TextView
+                android:id="@+id/stock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:textColor="@color/c_3d3f42"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="@+id/stockNum"
+                app:layout_constraintEnd_toStartOf="@+id/stockNum"
+                app:layout_constraintTop_toTopOf="@+id/stockNum" />
+
+            <TextView
+                android:id="@+id/stockNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/custom_bt_line_14dp"
+                android:paddingStart="14dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="3dp"
+                app:layout_constraintBottom_toBottomOf="@+id/stockTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/stockTitle" />
+
+            <View
+                android:id="@+id/dashLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="24dp"
+                android:background="#efefef"
+                app:layout_constraintTop_toBottomOf="@+id/stockTitle" />
+
+            <TextView
+                android:id="@+id/num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="18dp"
+                android:text="주문 수량"
+                android:textColor="@color/c_3d3f42"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dashLine" />
+
+            <TextView
+                android:id="@+id/detailBt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/custom_bt_line_14dp"
+                android:paddingStart="14dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="4dp"
+                android:text="자세히보기"
+                android:textColor="@color/c_3d3f42"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/num"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/num" />
+
+            <View
+                android:id="@+id/numLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="24dp"
+                android:background="#efefef"
+                app:layout_constraintTop_toBottomOf="@+id/num" />
+
+            <TextView
+                android:id="@+id/exTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:text="예상 투자금액"
+                android:textColor="@color/c_3d3f42"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numLine" />
+
+            <TextView
+                android:id="@+id/exPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:textColor="@color/c_3d3f42"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="@+id/exTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/exTitle"/>
+
+            <View
+                android:id="@+id/exLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="24dp"
+                android:background="#efefef"
+                app:layout_constraintTop_toBottomOf="@+id/exTitle" />
+
+            <TextView
+                android:id="@+id/saveTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="가격 변동 예비금"
+                android:textSize="12dp"
+                android:textColor="@color/c_3d3f42"
+                app:layout_constraintTop_toBottomOf="@+id/exLine"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="24dp"
+                />
+
+            <TextView
+                android:id="@+id/saveRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                app:layout_constraintEnd_toStartOf="@+id/savePer"
+                app:layout_constraintTop_toTopOf="@+id/saveTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/saveTitle"
+                android:textSize="14dp"
+                android:textColor="@color/c_3d3f42"
+                />
+            <TextView
+                android:id="@+id/savePer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"
+                app:layout_constraintEnd_toStartOf="@+id/saveDesc"
+                app:layout_constraintBottom_toBottomOf="@+id/saveRate"
+                android:textSize="12dp"
+                android:textColor="@color/c_3d3f42"
+                android:layout_marginEnd="5dp"
+                />
+            <TextView
+                android:id="@+id/saveDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(남을 시 환급)"
+                app:layout_constraintTop_toTopOf="@+id/saveTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/saveTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="12dp"
+                android:textColor="@color/c_3d3f42"
+                android:layout_marginEnd="24dp"
+                />
+
+            <View
+                android:id="@+id/saveLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="24dp"
+                android:background="#efefef"
+                app:layout_constraintTop_toBottomOf="@+id/saveTitle" />
+
+            <TextView
+                android:id="@+id/totalTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="총 합계"
+                android:textSize="12dp"
+                android:textColor="@color/c_3d3f42"
+                app:layout_constraintTop_toBottomOf="@+id/saveLine"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="24dp"
+                />
+
+            <TextView
+                android:id="@+id/totalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:textColor="@color/c_3d3f42"
+                app:layout_constraintTop_toTopOf="@+id/totalTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/totalTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="24dp"
+                />
+            <View
+                android:id="@+id/totalLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="24dp"
+                android:background="#efefef"
+                app:layout_constraintTop_toBottomOf="@+id/totalTitle" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/warningLayout"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                app:layout_constraintTop_toBottomOf="@+id/totalLine"
+                >
+
+                <ImageView
+                    android:id="@+id/warningImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_info_off_black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="34dp"
+                    app:layout_constraintTop_toTopOf="@+id/warningTitle"
+                    app:layout_constraintBottom_toBottomOf="@+id/warningTitle"
+                    />
+
+                <TextView
+                    android:id="@+id/warningTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingStart="4dp"
+                    android:text="투자 유의사항"
+                    android:textColor="@color/c_3d3f42"
+                    android:textSize="14dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/warningImage"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <LinearLayout
+                android:id="@+id/layout2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#fafafa"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/warningLayout">
+                <TextView
+                    android:id="@+id/ansContents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:maxWidth="300dp"
+                    android:text="@string/warring_invest"
+                    android:textColor="@color/dark_gray_color"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        >
+        <TextView
+            android:id="@+id/prevBt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="이전"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:textColor="@color/c_9a9a9a"
+            android:background="@color/c_fafafa"
+            />
+
+        <TextView
+            android:id="@+id/nextBt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="확인"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:textColor="@color/c_ffffff"
+            android:background="@drawable/prefer_bt"
+            />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

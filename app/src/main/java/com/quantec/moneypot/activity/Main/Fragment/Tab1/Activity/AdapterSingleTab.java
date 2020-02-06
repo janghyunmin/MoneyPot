@@ -12,8 +12,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.quantec.moneypot.R;
+import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class AdapterSingleTab extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -44,6 +46,15 @@ public class AdapterSingleTab extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void setSingleTabFollowClick(SingleTabFollowClick singleTabFollowClick) {
         this.singleTabFollowClick = singleTabFollowClick;
+    }
+
+    private SingleTabItemClick singleTabItemClick;
+    public interface SingleTabItemClick{
+        public void onClick(int position);
+    }
+
+    public void setSingleTabItemClick(SingleTabItemClick singleTabItemClick) {
+        this.singleTabItemClick = singleTabItemClick;
     }
 
     @NonNull
@@ -80,12 +91,16 @@ public class AdapterSingleTab extends RecyclerView.Adapter<RecyclerView.ViewHold
                     ((SingleTabViewHolder)holder).followBt.setImageDrawable(context.getResources().getDrawable(R.drawable.btn_star_on_blue));
                 }
 
-                ((SingleTabViewHolder)holder).followBt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(singleTabFollowClick != null){
-                            singleTabFollowClick.onClick(position);
-                        }
+
+                RxView.clicks(((SingleTabViewHolder)holder).followBt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+                    if(singleTabFollowClick != null){
+                        singleTabFollowClick.onClick(position);
+                    }
+                });
+
+                RxView.clicks(((SingleTabViewHolder)holder).itemLayout).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+                    if(singleTabItemClick != null){
+                        singleTabItemClick.onClick(position);
                     }
                 });
 
@@ -125,6 +140,7 @@ public class AdapterSingleTab extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         ImageView image, followBt;
         TextView num, title, rate, per, price;
+        ConstraintLayout itemLayout;
 
 
         public SingleTabViewHolder(@NonNull View itemView) {
@@ -137,6 +153,8 @@ public class AdapterSingleTab extends RecyclerView.Adapter<RecyclerView.ViewHold
             rate = itemView.findViewById(R.id.rate);
             per = itemView.findViewById(R.id.per);
             price = itemView.findViewById(R.id.price);
+
+            itemLayout = itemView.findViewById(R.id.itemLayout);
         }
     }
 

@@ -26,17 +26,16 @@ import io.reactivex.disposables.Disposable;
 
 import com.quantec.moneypot.activity.PotDetail.ActivitySingleDetail;
 import com.quantec.moneypot.activity.Search.ActivitySearch;
-import com.quantec.moneypot.activity.Search.SearchedPage.Adapter.AdapterAllTabDesc;
+import com.quantec.moneypot.activity.Search.SearchedPage.Adapter.AdapterAllTabNewsEn;
 import com.quantec.moneypot.activity.Search.SearchedPage.Adapter.AdapterAllTabSingleEn;
-import com.quantec.moneypot.activity.Search.SearchedPage.Adapter.AdapterAllTabStock;
 import com.quantec.moneypot.activity.Search.SearchedPage.Adapter.AdapterAllTabSumEn;
-import com.quantec.moneypot.activity.Search.SearchedPage.Adapter.AdapterAllTabTitle;
 import com.quantec.moneypot.activity.Search.SearchedPage.ModelNewsEn;
 import com.quantec.moneypot.activity.Search.SearchedPage.ModelPreNewsEn;
 import com.quantec.moneypot.activity.Search.SearchedPage.ModelPreSingleEn;
 import com.quantec.moneypot.activity.Search.SearchedPage.ModelPreSumEn;
 import com.quantec.moneypot.activity.Search.SearchedPage.ModelSingleEn;
 import com.quantec.moneypot.activity.Search.SearchedPage.ModelSumEn;
+import com.quantec.moneypot.activity.webview.ActivityWebViewArticle;
 import com.quantec.moneypot.datamanager.DataManager;
 import com.quantec.moneypot.datamodel.dmodel.ModelDescItem;
 import com.quantec.moneypot.datamodel.dmodel.ModelEmptyItem;
@@ -63,6 +62,7 @@ public class FgAllTab extends Fragment {
 
     AdapterAllTabSingleEn adapterAllTabSingleEn;
     AdapterAllTabSumEn adapterAllTabSumEn;
+    AdapterAllTabNewsEn adapterAllTabNewsEn;
 
     RecyclerView.LayoutManager layoutManagerT, layoutManagerD, layoutManagerS;
 
@@ -159,6 +159,7 @@ public class FgAllTab extends Fragment {
 
         modelSingleEns.addAll(getSearchedData.getParcelableArrayList("singleEn"));
         modelSumEn.addAll(getSearchedData.getParcelableArrayList("sumEn"));
+        modelNewsEns.addAll(getSearchedData.getParcelableArrayList("newsEn"));
 
         if(modelSingleEns.size() > 0){
             int size;
@@ -186,10 +187,28 @@ public class FgAllTab extends Fragment {
             }
         }
 
+
+        if(modelNewsEns.size() > 0){
+            int size;
+            if(modelNewsEns.size() < 7){
+                size = modelNewsEns.size();
+            }else{
+                size = 7;
+            }
+            for(int index = 0 ; index < size; index++){
+                modelPreNewsEns.add(new ModelPreNewsEn(false,
+                        modelNewsEns.get(0).getTotal(),
+                        modelNewsEns.get(index).getTitle(),
+                        modelNewsEns.get(index).getDate(),
+                        modelNewsEns.get(index).getUrl()));
+            }
+        }
+
         RecyclerViewState(0);
 
         adapterAllTabSingleEn.notifyDataSetChanged();
         adapterAllTabSumEn.notifyDataSetChanged();
+
 
         //커스텀 토스트 메시지
         View toastView = View.inflate(getContext(), R.layout.dialog_toast_zzim_count_max, null);
@@ -246,80 +265,96 @@ public class FgAllTab extends Fragment {
         });
 
 
-        RxEventBus.getInstance()
-                .filteredObservable(RxEvent.class)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<RxEvent>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
+        adapterAllTabNewsEn.setAllTabNewsEnBottomClick(new AdapterAllTabNewsEn.AllTabNewsEnBottomClick() {
+            @Override
+            public void onClick(int position) {
+                MovedTab.putInt("moveTab", 2);
+                RxEventBus.getInstance().post(new RxEvent(RxEvent.SEARCH_TRANS_PAGE, MovedTab));
+            }
+        });
 
-                    @Override
-                    public void onNext(RxEvent rxEvent) {
+        adapterAllTabNewsEn.setAllTabNewsEnClick(new AdapterAllTabNewsEn.AllTabNewsEnClick() {
+            @Override
+            public void onClick(int position) {
+                Intent intent = new Intent(activitySearch, ActivityWebViewArticle.class);
+                intent.putExtra("url", modelPreNewsEns.get(position).getUrl());
+                startActivity(intent);
+            }
+        });
 
-                        switch (rxEvent.getActiion()) {
+                RxEventBus.getInstance()
+                        .filteredObservable(RxEvent.class)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<RxEvent>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                            }
 
-                            case RxEvent.SEARCH_CLICK_ZZIM:
-                                String code = rxEvent.getBundle().getString("search_code");
-                                int page = rxEvent.getBundle().getInt("search_page");
-                                int type = rxEvent.getBundle().getInt("search_type");
+                            @Override
+                            public void onNext(RxEvent rxEvent) {
 
-                                if(page == 1){
-                                    if(type == 0){
-                                        if (rxEvent.getBundle().getBoolean("search_follow")) {
-                                            for (int a = 0; a < modelPreSingleEns.size(); a++) {
-                                                if (modelPreSingleEns.get(a).getCode().equals(code)) {
-                                                    modelPreSingleEns.get(a).setFollow(1);
-                                                    adapterAllTabSingleEn.notifyItemChanged(a);
-                                                    break;
+                                switch (rxEvent.getActiion()) {
+
+                                    case RxEvent.SEARCH_CLICK_ZZIM:
+                                        String code = rxEvent.getBundle().getString("search_code");
+                                        int page = rxEvent.getBundle().getInt("search_page");
+                                        int type = rxEvent.getBundle().getInt("search_type");
+
+                                        if (page == 1) {
+                                            if (type == 0) {
+                                                if (rxEvent.getBundle().getBoolean("search_follow")) {
+                                                    for (int a = 0; a < modelPreSingleEns.size(); a++) {
+                                                        if (modelPreSingleEns.get(a).getCode().equals(code)) {
+                                                            modelPreSingleEns.get(a).setFollow(1);
+                                                            adapterAllTabSingleEn.notifyItemChanged(a);
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                //찜 헤제됨
+                                                else {
+                                                    for (int a = 0; a < modelPreSingleEns.size(); a++) {
+                                                        if (modelPreSingleEns.get(a).getCode().equals(code)) {
+                                                            modelPreSingleEns.get(a).setFollow(0);
+                                                            adapterAllTabSingleEn.notifyItemChanged(a);
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+
+                                                if (rxEvent.getBundle().getBoolean("search_follow")) {
+                                                    for (int a = 0; a < modelPreSumEn.size(); a++) {
+                                                        if (modelPreSumEn.get(a).getCode().equals(code)) {
+                                                            modelPreSumEn.get(a).setFollow(1);
+                                                            adapterAllTabSumEn.notifyItemChanged(a);
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                //찜 헤제됨
+                                                else {
+                                                    for (int a = 0; a < modelPreSumEn.size(); a++) {
+                                                        if (modelPreSumEn.get(a).getCode().equals(code)) {
+                                                            modelPreSumEn.get(a).setFollow(0);
+                                                            adapterAllTabSumEn.notifyItemChanged(a);
+                                                            break;
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
-                                        //찜 헤제됨
-                                        else {
-                                            for (int a = 0; a < modelPreSingleEns.size(); a++) {
-                                                if (modelPreSingleEns.get(a).getCode().equals(code)) {
-                                                    modelPreSingleEns.get(a).setFollow(0);
-                                                    adapterAllTabSingleEn.notifyItemChanged(a);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else{
-
-                                        if (rxEvent.getBundle().getBoolean("search_follow")) {
-                                            for (int a = 0; a < modelPreSumEn.size(); a++) {
-                                                if (modelPreSumEn.get(a).getCode().equals(code)) {
-                                                    modelPreSumEn.get(a).setFollow(1);
-                                                    adapterAllTabSumEn.notifyItemChanged(a);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        //찜 헤제됨
-                                        else {
-                                            for (int a = 0; a < modelPreSumEn.size(); a++) {
-                                                if (modelPreSumEn.get(a).getCode().equals(code)) {
-                                                    modelPreSumEn.get(a).setFollow(0);
-                                                    adapterAllTabSumEn.notifyItemChanged(a);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
                                 }
                             }
-                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
+                            @Override
+                            public void onError(Throwable e) {
+                            }
 
-                    @Override
-                    public void onComplete() {
-                    }
-                });
+                            @Override
+                            public void onComplete() {
+                            }
+                        });
 
 
     }//onViewCreated 끝
@@ -418,10 +453,6 @@ public class FgAllTab extends Fragment {
 
     void FollowClick(int follow, int type, int position){
 
-        DataManager.get_INstance().setCheckTab1(true);
-        DataManager.get_INstance().setCheckTab2(true);
-        DataManager.get_INstance().setCheckHome(true);
-
         if(type == 0){
 
             followInfo.putInt("search_type", 0);
@@ -447,6 +478,11 @@ public class FgAllTab extends Fragment {
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
                     if (response.code() == 200) {
+
+                        DataManager.get_INstance().setCheckTab1(true);
+                        DataManager.get_INstance().setCheckTab2(true);
+                        DataManager.get_INstance().setCheckHome(true);
+
                         if(follow == 0){
                             modelPreSingleEns.get(position).setFollow(0);
                             followInfo.putBoolean("search_follow", false);
@@ -543,7 +579,6 @@ public class FgAllTab extends Fragment {
                     Log.e("실패","실패"+t.getMessage());
                 }
             });
-
         }
     }
 
@@ -593,15 +628,15 @@ public class FgAllTab extends Fragment {
 
         modelPreSingleEns = new ArrayList<>();
         modelPreSumEn = new ArrayList<>();
-        modelNewsEns = new ArrayList<>();
+        modelPreNewsEns = new ArrayList<>();
 
         adapterAllTabSingleEn = new AdapterAllTabSingleEn(modelPreSingleEns, activitySearch);
         adapterAllTabSumEn = new AdapterAllTabSumEn(modelPreSumEn, activitySearch);
-//        adapterAllTabSingleEn = new AdapterAllTabSingleEn(modelSingleEns, activitySearch);
-//        adapterAllTabSumEn = new AdapterAllTabSumEn(modelSumEn, activitySearch);
+        adapterAllTabNewsEn = new AdapterAllTabNewsEn(modelPreNewsEns, activitySearch);
 
         binding.recyclerView1.setAdapter(adapterAllTabSingleEn);
         binding.recyclerView2.setAdapter(adapterAllTabSumEn);
+        binding.recyclerView3.setAdapter(adapterAllTabNewsEn);
     }
 }
 

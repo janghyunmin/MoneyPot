@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Content {
+
     @SerializedName("type")
     @Expose
     private Integer type;
@@ -15,12 +16,21 @@ public class Content {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("descript")
+    @Expose
+    private String descript;
+    @SerializedName("descriptEtc")
+    @Expose
+    private String descriptEtc;
     @SerializedName("rate")
     @Expose
     private Double rate;
     @SerializedName("price")
     @Expose
-    private Double price;
+    private Integer price;
+    @SerializedName("minPrice")
+    @Expose
+    private Integer minPrice;
     @SerializedName("elCodes")
     @Expose
     private Object elCodes;
@@ -29,7 +39,7 @@ public class Content {
     private List<File> files = null;
     @SerializedName("userSelect")
     @Expose
-    private Object userSelect;
+    private UserSelect userSelect;
     @SerializedName("searchField")
     @Expose
     private List<String> searchField = null;
@@ -58,6 +68,22 @@ public class Content {
         this.name = name;
     }
 
+    public String getDescript() {
+        return descript;
+    }
+
+    public void setDescript(String descript) {
+        this.descript = descript;
+    }
+
+    public String getDescriptEtc() {
+        return descriptEtc;
+    }
+
+    public void setDescriptEtc(String descriptEtc) {
+        this.descriptEtc = descriptEtc;
+    }
+
     public Double getRate() {
         return rate;
     }
@@ -66,12 +92,16 @@ public class Content {
         this.rate = rate;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public void setMinPrice(Integer minPrice) {
+        this.minPrice = minPrice;
     }
 
     public Object getElCodes() {
@@ -90,11 +120,11 @@ public class Content {
         this.files = files;
     }
 
-    public Object getUserSelect() {
+    public UserSelect getUserSelect() {
         return userSelect;
     }
 
-    public void setUserSelect(Object userSelect) {
+    public void setUserSelect(UserSelect userSelect) {
         this.userSelect = userSelect;
     }
 
@@ -105,4 +135,5 @@ public class Content {
     public void setSearchField(List<String> searchField) {
         this.searchField = searchField;
     }
+
 }

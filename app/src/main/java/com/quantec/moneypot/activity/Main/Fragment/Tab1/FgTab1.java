@@ -31,6 +31,7 @@ import com.quantec.moneypot.activity.Main.Fragment.Tab1.Activity.ActivityYieldCh
 import com.quantec.moneypot.activity.Main.Fragment.Tab1.Adapter.AdapterFgTab1;
 import com.quantec.moneypot.activity.Main.Fragment.Tab1.Adapter.AdapterFollowHome;
 import com.quantec.moneypot.activity.Main.Fragment.tab4.ActivityNotiWebView;
+import com.quantec.moneypot.activity.PotDetail.ActivityPackDetail;
 import com.quantec.moneypot.activity.Search.ActivitySearch;
 import com.quantec.moneypot.activity.prefer.ActivityPrefer;
 import com.quantec.moneypot.datamanager.DataManager;
@@ -49,7 +50,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.quantec.moneypot.activity.Main.ActivityMain;
-import com.quantec.moneypot.activity.Main.Fragment.Tab1.Activity.ActivityPotMarket;
 import com.quantec.moneypot.activity.Main.Fragment.Tab1.Adapter.AdapterAllRankingTop3;
 import com.quantec.moneypot.activity.Main.Fragment.Tab1.Adapter.AdapterMini;
 import com.quantec.moneypot.activity.Main.Fragment.Tab1.Adapter.AdapterThemeTop3;
@@ -198,50 +198,6 @@ public class FgTab1 extends Fragment {
             }
         });
 
-//        Call<ModelUserFollow> getReList = RetrofitClient.getInstance().getService().getUserSelect("application/json", "follow");
-//        getReList.enqueue(new Callback<ModelUserFollow>() {
-//            @Override
-//            public void onResponse(Call<ModelUserFollow> call, Response<ModelUserFollow> response) {
-//                if (response.code() == 200) {
-//                    if(response.body().getStatus() == 200){
-//
-//                        modelFollowHomes3.clear();
-//                        modelFollowHomeAll.clear();
-//
-//                        if(response.body().getTotalElements() == 0){
-//                            modelFollowHomes3.add(new ModelFollowHome(true, "", "", 0, 0));
-//                            modelFollowHomeAll.add(new ModelFollowHome(true, "", "", 0, 0));
-//                        }else{
-//
-//                            modelFollowHomeAll.add(new ModelFollowHome(false, "", "", 0, 0));
-//                            for(int index = 0; index < response.body().getContent().size(); index++){
-//                                modelFollowHomeAll.add(new ModelFollowHome(false, response.body().getContent().get(index).getName(),
-//                                        response.body().getContent().get(index).getCode(),
-//                                        response.body().getContent().get(index).getRate(),
-//                                        response.body().getContent().get(index).getPrice()));
-//                            }
-//                            modelFollowHomeAll.add(new ModelFollowHome(false, "접기", "", 0, 0));
-//
-//                            modelFollowHomes3.add(new ModelFollowHome(false, "", "", 0, 0));
-//                            for(int index = 0; index < 3; index++){
-//                                modelFollowHomes3.add(new ModelFollowHome(false, response.body().getContent().get(index).getName(),
-//                                        response.body().getContent().get(index).getCode(),
-//                                        response.body().getContent().get(index).getRate(),
-//                                        response.body().getContent().get(index).getPrice()));
-//                            }
-//                            modelFollowHomes3.add(new ModelFollowHome(false, "더보기", "", 0, 0));
-//                        }
-//                        modelFollowHomes.addAll(modelFollowHomes3);
-//                        adapterFollowHome.notifyDataSetChanged();
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ModelUserFollow> call, Throwable t) {
-//                Log.e("실패","실패"+t.getMessage());
-//            }
-//        });
-
         modelYieldCharts = new ArrayList<>();
 
         indicatorView = view.findViewById(R.id.indicator);
@@ -264,10 +220,6 @@ public class FgTab1 extends Fragment {
 
         modelRecomLists = new ArrayList<>();
 
-//        modelRecomLists.add(new ModelRecomList("나이키", "NIKE", "세계적인 운동화 브랜드,\nJUST DO IT!", 23.48, "콴텍님 나이키 운동화 말고,\n나이키의 주주는 어떠세요?"));
-//        modelRecomLists.add(new ModelRecomList("쉑쉑버거", "SHAKESHACK", "브랜드 설명", 23.48, "콴텍님 버거먹지 말고,\n쉑쉑버거 주주는 어떠세요?"));
-//        modelRecomLists.add(new ModelRecomList("인텔", "INTEL", "인텔", 23.48, "콴텍님 컴퓨터 말고,\n인텔의 주주는 어떠세요?"));
-
 
         Call<ModelTopCompare> setSearch = RetrofitClient.getInstance(activityMain).getService().getTopCompare(3);
         setSearch.enqueue(new Callback<ModelTopCompare>() {
@@ -279,7 +231,8 @@ public class FgTab1 extends Fragment {
                                 response.body().getContent().get(index).getCode(),
                                 response.body().getContent().get(index).getDescript(),
                                 response.body().getContent().get(index).getRate(),
-                                response.body().getContent().get(index).getDescriptEtc()));
+                                response.body().getContent().get(index).getDescriptEtc(),
+                                response.body().getContent().get(index).getMinPrice()));
                     }
                     topTitle.setText(modelRecomLists.get(0).getTopTitle());
                     adapterScroll.notifyDataSetChanged();
@@ -325,7 +278,7 @@ public class FgTab1 extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activityMain, ActivityYieldChart.class);
-                startActivity(intent);
+                startActivityForResult(intent, 100);
             }
         });
 
@@ -355,7 +308,7 @@ public class FgTab1 extends Fragment {
                 Intent intent = new Intent(activityMain, ActivitySingleDetail.class);
                 intent.putExtra("title", modelRecomLists.get(position).getTitle());
                 intent.putExtra("code", modelRecomLists.get(position).getCode());
-                startActivity(intent);
+                startActivityForResult(intent, 100);
             }
         });
 

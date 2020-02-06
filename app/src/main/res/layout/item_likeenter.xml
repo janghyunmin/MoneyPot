@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="140dp"
-    android:layout_height="160dp"
+    android:layout_height="137dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/itemLayout"
     android:background="@drawable/potmarket_round"
@@ -9,39 +9,39 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/img_gold_medal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="27dp"
+        android:src="@drawable/img_reco_apple"
         />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
-        android:textColor="@color/text_black_color"
+        android:textSize="16dp"
+        android:textColor="@color/c_3d3f42"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp"
-        android:maxLines="2"
-        android:maxLength="15"
-        android:ellipsize="end"
+        android:layout_marginTop="11dp"
         android:gravity="center_horizontal"
+        android:text="애플"
         />
+
     <TextView
         android:id="@+id/rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="30.13"
-        android:textSize="16dp"
+        android:textSize="18dp"
         android:textColor="@color/red_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="10dp"
         />
     <TextView
@@ -49,10 +49,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="%"
-        android:textSize="12dp"
+        android:textSize="13dp"
         app:layout_constraintBottom_toBottomOf="@+id/rate"
         app:layout_constraintStart_toEndOf="@+id/rate"
         android:textColor="@color/red_text_color"
+        android:layout_marginStart="1dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

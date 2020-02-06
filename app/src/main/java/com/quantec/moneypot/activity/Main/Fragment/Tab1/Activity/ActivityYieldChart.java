@@ -77,7 +77,7 @@ public class ActivityYieldChart extends AppCompatActivity {
 
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
-        ActivityPotMarket.Adapter adapter = new ActivityPotMarket.Adapter(getSupportFragmentManager());
+        Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new FgSingleTab(), "단일기업");
         adapter.addFragment(new FgSumTab(), "묶음기업");
         adapter.addFragment(new FgSnpTab(), "S&P 500");

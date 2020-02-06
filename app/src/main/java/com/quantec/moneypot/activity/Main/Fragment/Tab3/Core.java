@@ -7,7 +7,7 @@ public class Core {
 
     @SerializedName("nowPrice")
     @Expose
-    private double nowPrice;
+    private Integer nowPrice;
     @SerializedName("period")
     @Expose
     private String period;
@@ -16,11 +16,19 @@ public class Core {
     private double rate;
     @SerializedName("minPrice")
     @Expose
-    private double minPrice;
+    private Integer minPrice;
     @SerializedName("totPrice")
     @Expose
-    private double totPrice;
+    private Integer totPrice;
 
+
+    public Integer getNowPrice() {
+        return nowPrice;
+    }
+
+    public void setNowPrice(Integer nowPrice) {
+        this.nowPrice = nowPrice;
+    }
 
     public String getPeriod() {
         return period;
@@ -38,27 +46,19 @@ public class Core {
         this.rate = rate;
     }
 
-    public double getNowPrice() {
-        return nowPrice;
-    }
-
-    public void setNowPrice(double nowPrice) {
-        this.nowPrice = nowPrice;
-    }
-
-    public double getMinPrice() {
+    public Integer getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(double minPrice) {
+    public void setMinPrice(Integer minPrice) {
         this.minPrice = minPrice;
     }
 
-    public double getTotPrice() {
+    public Integer getTotPrice() {
         return totPrice;
     }
 
-    public void setTotPrice(double totPrice) {
+    public void setTotPrice(Integer totPrice) {
         this.totPrice = totPrice;
     }
 }

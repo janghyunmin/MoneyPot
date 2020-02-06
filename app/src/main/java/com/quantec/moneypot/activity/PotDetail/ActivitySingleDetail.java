@@ -48,13 +48,24 @@ import com.quantec.moneypot.activity.buttondoublecheck.RxView;
 import com.quantec.moneypot.activity.simulation.Code;
 import com.quantec.moneypot.activity.webview.ActivityWebViewArticle;
 import com.quantec.moneypot.databinding.ActivitySingleDetailBinding;
+import com.quantec.moneypot.datamanager.DataManager;
 import com.quantec.moneypot.datamodel.nmodel.ModelCustomDetail;
+import com.quantec.moneypot.datamodel.nmodel.ModelTopCompare;
+import com.quantec.moneypot.dialog.DialogLoadingMakingPort;
 import com.quantec.moneypot.network.retrofit.RetrofitClient;
+import com.quantec.moneypot.rxandroid.RxEvent;
+import com.quantec.moneypot.rxandroid.RxEventBus;
 import com.quantec.moneypot.util.DecimalScale.DecimalScale;
+import com.quantec.moneypot.util.FomatToWon.MoneyFormatToWon;
+
+import com.quantec.moneypot.datamodel.dmodel.ModelUserSelectDto;
+import com.quantec.moneypot.datamodel.dmodel.userselectdto.Select;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.quantec.moneypot.util.replacetag.ReplaceTag.ReplaceTag;
 
 /**
  *
@@ -67,9 +78,6 @@ import retrofit2.Response;
 public class ActivitySingleDetail extends AppCompatActivity {
 
     ActivitySingleDetailBinding binding;
-    GridLayoutManager gridLayoutManager;
-    AdapterSingleDetail adapterSingleDetail;
-    ArrayList<ModelSingleDetail> modelSingleDetails;
 
     RecyclerView.LayoutManager layoutManager;
     ArrayList<ModelArticle> modelArticles, modelArticlesAll;
@@ -89,7 +97,7 @@ public class ActivitySingleDetail extends AppCompatActivity {
     //팔로우 클릭 여부
     boolean followClick = false;
     String code, title;
-    int position, follow;
+    int position, follow, type;
 
     float currentX, maxX;
 
@@ -99,16 +107,20 @@ public class ActivitySingleDetail extends AppCompatActivity {
 
     LinearLayout loading;
 
-    TextView preChartBt, topTitle, topCode;
+    TextView preChartBt;
     int nowPage, maxPage;
 
     int newsPlus, newsMinus;
 
+    private DialogLoadingMakingPort loadingCustomMakingPort;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_single_detail);
+
+        loadingCustomMakingPort = new DialogLoadingMakingPort(ActivitySingleDetail.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
+        loadingCustomMakingPort.show();
 
         //스테이터스 바 색상 변경 -> 화이트
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -123,9 +135,6 @@ public class ActivitySingleDetail extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-
-        topTitle = findViewById(R.id.topTitle);
-        topCode = findViewById(R.id.topCode);
 
         loading = findViewById(R.id.loading);
         loading.setOnTouchListener(new View.OnTouchListener() {
@@ -156,15 +165,256 @@ public class ActivitySingleDetail extends AppCompatActivity {
         preChartBt = binding.includeSingleDetail.aBt;
         changedChartBt(preChartBt);
 
+        binding.includeSingleDetail.articleRecyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        binding.includeSingleDetail.articleRecyclerView.setLayoutManager(layoutManager);
 
-        Call<ModelCustomDetail> getReList = RetrofitClient.getInstance().getService().getDetailData("application/json", 0, "AMD", "all", 701);
+        modelArticles = new ArrayList<>();
+        modelArticlesAll = new ArrayList<>();
+
+        adapterArticle = new AdapterArticle(modelArticles, this);
+        binding.includeSingleDetail.articleRecyclerView.setAdapter(adapterArticle);
+
+        binding.includeSingleDetail.articleRecyclerView.setLayoutManager(new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+
+
+        binding.includeSingleDetail.likeEnterRecyclerView.setHasFixedSize(true);
+        layoutManager2 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        binding.includeSingleDetail.likeEnterRecyclerView.setLayoutManager(layoutManager2);
+
+        modelLikeEnters = new ArrayList<>();
+        adapterLikeEnter = new AdapterLikeEnter(modelLikeEnters, this);
+
+        binding.includeSingleDetail.likeEnterRecyclerView.addItemDecoration(new DecorationItemHorizontal(this, 10));
+
+        binding.includeSingleDetail.likeEnterRecyclerView.setAdapter(adapterLikeEnter);
+
+        RxView.clicks(binding.followBt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            followClick = true;
+            if(follow == 0){
+                followClick(type, code, 1);
+            }else{
+                followClick(type, code, 0);
+            }
+        });
+
+        binding.backBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(followClick){
+                    Intent intent = new Intent();
+                    intent.putExtra("searched_code", code);
+                    intent.putExtra("potPosition", position);
+                    intent.putExtra("potFollow", follow);
+                    setResult(500, intent);
+                    finish();
+                }
+                else{
+                    finish();
+                }
+            }
+        });
+
+
+        RxView.clicks(binding.includeSingleDetail.m1Bt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            if(monTh1) {
+                loading.setVisibility(View.VISIBLE);
+                changedChartBt(binding.includeSingleDetail.m1Bt);
+                monTh1 = false;
+                chartData("one");
+            }else{
+                changedChartBt(binding.includeSingleDetail.m1Bt);
+                drawLineChart(monTh1Entries);
+            }
+        });
+        RxView.clicks(binding.includeSingleDetail.m3Bt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            if(monTh3){
+                loading.setVisibility(View.VISIBLE);
+                changedChartBt(binding.includeSingleDetail.m3Bt);
+                monTh3 = false;
+                chartData("thr");
+            }else{
+                changedChartBt(binding.includeSingleDetail.m3Bt);
+                drawLineChart(monTh3Entries);
+            }
+        });
+        RxView.clicks(binding.includeSingleDetail.m6Bt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            if(monTh6){
+                loading.setVisibility(View.VISIBLE);
+                changedChartBt(binding.includeSingleDetail.m6Bt);
+                monTh6 = false;
+                chartData("six");
+            }else{
+                changedChartBt(binding.includeSingleDetail.m6Bt);
+                drawLineChart(monTh6Entries);
+            }
+        });
+        RxView.clicks(binding.includeSingleDetail.aBt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
+            changedChartBt(binding.includeSingleDetail.aBt);
+            drawLineChart(entries);
+        });
+
+        adapterArticle.setArticleAddBtClick(new AdapterArticle.ArticleAddBtClick() {
+            @Override
+            public void onClick(int position) {
+
+                if(nowPage >= 10){
+
+                    Intent intent = new Intent(ActivitySingleDetail.this, ActivityArticle.class);
+                    intent.putExtra("code", code);
+                    intent.putExtra("type", "0");
+                    startActivity(intent);
+
+                }else{
+
+                    if((maxPage - nowPage) > 3){
+
+                        if(nowPage == 3){
+
+                            modelArticles.remove(modelArticles.size()-1);
+                            for(int index = 3; index < 6; index++){
+                                modelArticles.add(new ModelArticle(modelArticlesAll.get(index).getTotal(),
+                                        modelArticlesAll.get(index).getTitle(),
+                                        modelArticlesAll.get(index).getNewspaper(),
+                                        modelArticlesAll.get(index).getDate(),
+                                        modelArticlesAll.get(index).getUrl(),
+                                        modelArticlesAll.get(index).getImg(),
+                                        false, false, false));
+                            }
+                            nowPage = 6;
+                            modelArticles.add(new ModelArticle(0,"",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    false, true, true));
+
+                        }else{
+
+                            modelArticles.remove(modelArticles.size()-1);
+                            for(int index = 6; index < 10; index++){
+                                modelArticles.add(new ModelArticle(modelArticlesAll.get(index).getTotal(),
+                                        modelArticlesAll.get(index).getTitle(),
+                                        modelArticlesAll.get(index).getNewspaper(),
+                                        modelArticlesAll.get(index).getDate(),
+                                        modelArticlesAll.get(index).getUrl(),
+                                        modelArticlesAll.get(index).getImg(),
+                                        false, false, false));
+                            }
+                            nowPage = 10;
+                            modelArticles.add(new ModelArticle(0,"",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    false, true, true));
+                        }
+
+                    }else{
+                        modelArticles.remove(modelArticles.size() - 1);
+                        for (int index = nowPage; index < maxPage; index++) {
+                            modelArticles.add(new ModelArticle(modelArticlesAll.get(index).getTotal(),
+                                    modelArticlesAll.get(index).getTitle(),
+                                    modelArticlesAll.get(index).getNewspaper(),
+                                    modelArticlesAll.get(index).getDate(),
+                                    modelArticlesAll.get(index).getUrl(),
+                                    modelArticlesAll.get(index).getImg(),
+                                    false, false, false));
+                        }
+                        modelArticles.add(new ModelArticle(0, "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                false, true, false));
+                    }
+                }
+                adapterArticle.notifyDataSetChanged();
+            }
+        });
+
+        adapterArticle.setArticleEnterClick(new AdapterArticle.ArticleEnterClick() {
+            @Override
+            public void onClick(int position) {
+
+                Intent intent = new Intent(ActivitySingleDetail.this, ActivityWebViewArticle.class);
+                intent.putExtra("url", modelArticles.get(position).getUrl());
+                startActivity(intent);
+
+            }
+        });
+
+
+        Call<ModelCustomDetail> getReList = RetrofitClient.getInstance().getService().getDetailData("application/json", 0, code, "all", 701);
         getReList.enqueue(new Callback<ModelCustomDetail>() {
             @Override
             public void onResponse(Call<ModelCustomDetail> call, Response<ModelCustomDetail> response) {
                 if (response.code() == 200) {
 
-                    binding.includeSingleDetail.price.setText(String.valueOf(response.body().getContent().getCoreData().getCore().getTotPrice()));
+                    type = response.body().getContent().getType();
+
+                    if(response.body().getContent().getUserSelect() != null){
+                        if(response.body().getContent().getUserSelect().getIsFollow() == 0){
+                            binding.followBt.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_off_gray));
+                            follow = 0;
+                        }else{
+                            binding.followBt.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_on_blue));
+                            follow = 1;
+                        }
+                    }else{
+                        binding.followBt.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_off_gray));
+                        follow = 0;
+                    }
+
+                    newsPlus = response.body().getContent().getNewsPlus();
+                    newsMinus = response.body().getContent().getNewsMinus();
+
+                    binding.includeSingleDetail.progress.setProgressBackgroundColor(getResources().getColor(R.color.life_line));
+                    binding.includeSingleDetail.progress.setProgressColor(getResources().getColor(R.color.c_4e7cff));
+                    binding.includeSingleDetail.progress.setProgress(newsPlus);
+                    binding.includeSingleDetail.progressText.setText(String.valueOf(newsPlus));
+
+                    binding.includeSingleDetail.progress2.setProgressBackgroundColor(getResources().getColor(R.color.life_line));
+                    binding.includeSingleDetail.progress2.setProgressColor(getResources().getColor(R.color.c_a8a7a7));
+                    binding.includeSingleDetail.progress2.setProgress(newsMinus);
+                    binding.includeSingleDetail.progressText2.setText(String.valueOf(newsMinus));
+
+                    if((newsPlus==0) && (newsMinus==0)){
+                        binding.includeSingleDetail.aiLayout2.setVisibility(View.GONE);
+                        binding.includeSingleDetail.aiEmpty.setVisibility(View.VISIBLE);
+                    }else{
+
+                        binding.includeSingleDetail.aiLayout2.setVisibility(View.VISIBLE);
+                        binding.includeSingleDetail.aiEmpty.setVisibility(View.GONE);
+
+                        if(newsPlus > newsMinus){
+                            binding.includeSingleDetail.aiImage.setBackgroundResource(R.drawable.img_positive);
+                            binding.includeSingleDetail.aiText.setText("긍정적");
+                            binding.includeSingleDetail.aiText.setTextColor(getResources().getColor(R.color.c_4e7cff));
+                        }else if(newsPlus < newsMinus){
+                            binding.includeSingleDetail.aiImage.setBackgroundResource(R.drawable.img_negative);
+                            binding.includeSingleDetail.aiText.setText("부정적");
+                            binding.includeSingleDetail.aiText.setTextColor(getResources().getColor(R.color.c_9a9a9a));
+                        }else{
+                            binding.includeSingleDetail.aiImage.setBackgroundResource(R.drawable.img_neutral);
+                            binding.includeSingleDetail.aiText.setTextColor(getResources().getColor(R.color.c_cccccc));
+                            binding.includeSingleDetail.aiText.setText("평가동일");
+                        }
+                    }
+
+                    binding.includeSingleDetail.price.setText(MoneyFormatToWon.moneyFormatToWon(response.body().getContent().getCoreData().getCore().getTotPrice()));
                     binding.includeSingleDetail.rate.setText(String.format("%.2f", response.body().getContent().getCoreData().getCore().getRate())+"%");
+                    binding.includeSingleDetail.investPrice.setText(MoneyFormatToWon.moneyFormatToWon(response.body().getContent().getCoreData().getCore().getMinPrice()));
                     if(response.body().getContent().getCoreData().getCore().getRate() < 0){
                         binding.includeSingleDetail.rate.setTextColor(getResources().getColor(R.color.c_4e7cff));
                     }else{
@@ -261,360 +511,52 @@ public class ActivitySingleDetail extends AppCompatActivity {
 
                     adapterArticle.notifyDataSetChanged();
 
-                    newsPlus = response.body().getContent().getNewsPlus();
-                    newsMinus = response.body().getContent().getNewsMinus();
-
-                    binding.includeSingleDetail.progress.setProgressBackgroundColor(getResources().getColor(R.color.life_line));
-                    binding.includeSingleDetail.progress.setProgressColor(getResources().getColor(R.color.c_4e7cff));
-                    binding.includeSingleDetail.progress.setProgress(33f);
-                    binding.includeSingleDetail.progressText.setText("33");
-
-                    binding.includeSingleDetail.progress2.setProgressBackgroundColor(getResources().getColor(R.color.life_line));
-                    binding.includeSingleDetail.progress2.setProgressColor(getResources().getColor(R.color.c_a8a7a7));
-                    binding.includeSingleDetail.progress2.setProgress(20f);
-                    binding.includeSingleDetail.progressText2.setText("20");
-
-                    if(newsPlus > newsMinus){
-                        binding.includeSingleDetail.aiImage.setBackgroundResource(R.drawable.img_positive);
-                        binding.includeSingleDetail.aiText.setText("긍정적");
-                        binding.includeSingleDetail.aiText.setTextColor(getResources().getColor(R.color.c_4e7cff));
-                    }else if(newsPlus < newsMinus){
-                        binding.includeSingleDetail.aiImage.setBackgroundResource(R.drawable.img_negative);
-                        binding.includeSingleDetail.aiText.setText("부정적");
-                        binding.includeSingleDetail.aiText.setTextColor(getResources().getColor(R.color.c_9a9a9a));
-                    }else if((newsPlus == 0) & (newsMinus == 0)) {
-                        binding.includeSingleDetail.aiLayout2.setVisibility(View.GONE);
-                        binding.includeSingleDetail.aiEmpty.setVisibility(View.VISIBLE);
-                    }else{
-                        binding.includeSingleDetail.aiImage.setBackgroundResource(R.drawable.img_neutral);
-                        binding.includeSingleDetail.aiText.setTextColor(getResources().getColor(R.color.c_cccccc));
-                        binding.includeSingleDetail.aiText.setText("평가동일");
-                    }
+                    loadingCustomMakingPort.dismiss();
                 }
             }
             @Override
             public void onFailure(Call<ModelCustomDetail> call, Throwable t) {
                 Log.e("실패","실패"+t.getMessage());
+                loadingCustomMakingPort.dismiss();
             }
         });
 
-//        Call<ModelCustomDetail> getReList = RetrofitClient.getInstance().getService().getDetailData("application/json", 0, "AMD", "one", 701);
-//        getReList.enqueue(new Callback<ModelCustomDetail>() {
-//            @Override
-//            public void onResponse(Call<ModelCustomDetail> call, Response<ModelCustomDetail> response) {
-//                if (response.code() == 200) {
-//
-//                    binding.includeSingleDetail.price.setText(String.valueOf(response.body().getContent().getCoreData().getCore().getTotPrice()));
-//                    binding.includeSingleDetail.rate.setText(String.format("%.2f", response.body().getContent().getCoreData().getCore().getRate())+"%");
-//                    if(response.body().getContent().getCoreData().getCore().getRate() < 0){
-//                        binding.includeSingleDetail.rate.setTextColor(getResources().getColor(R.color.c_4e7cff));
-//                    }else{
-//                        binding.includeSingleDetail.rate.setTextColor(getResources().getColor(R.color.c_f02654));
-//                    }
-//
-//                    for(int index = 0; index < response.body().getContent().getTags().size(); index++){
-//                        Chip chip = new Chip(ActivitySingleDetail.this);
-//                        chip.setText("#"+response.body().getContent().getTags().get(index).getName());
-//                        chip.setTextColor(getResources().getColor(R.color.c_3d3f42));
-//                        chip.setTextSize(11f);
-//                        chip.setChipBackgroundColorResource(R.color.c_ffffff);
-//                        chip.setChipStrokeWidth(1.5f);
-//                        chip.setChipStrokeColorResource(R.color.c_eaeaea);
-//                        chip.setChipStartPadding(15f);
-//                        chip.setChipEndPadding(12f);
-//                        chip.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                Toast.makeText(getApplicationContext(), "검색으로 이동", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                        binding.includeSingleDetail.chipGroup.addView(chip);
-//                    }
-//
-//                    for(int xCount = 0; xCount < response.body().getContent().getCoreData().getChart().size() ; xCount++) {
-//
-//                        entries.add(new Entry(xCount,
-//                                DecimalScale.decimalScale2(String.valueOf(response.body().getContent().getCoreData().getChart().get(xCount).getExp()), 2, 2),
-//                                response.body().getContent().getCoreData().getChart().get(xCount).getDate()
-//                        ));
-//                    }
-//
-//                    drawLineChart(entries);
-//
-//                    if(response.body().getContent().getNewsData().getTotal() == 0){
-//                        modelArticles.add(new ModelArticle(response.body().getContent().getNewsData().getTotal(),"",
-//                                "",
-//                                "",
-//                                "",
-//                                "",
-//                                true, false));
-//                    }else{
-//
-//                        if(response.body().getContent().getNewsData().getTotal() < 3){
-//                            for(int index = 0; index < response.body().getContent().getNewsData().getTotal(); index++){
-//                                modelArticles.add(new ModelArticle(response.body().getContent().getNewsData().getTotal(),
-//                                        ReplaceTag(response.body().getContent().getNewsData().getNewsList().get(index).getTitle(), "decode"),
-//                                        response.body().getContent().getNewsData().getNewsList().get(index).getFrom(),
-//                                        response.body().getContent().getNewsData().getNewsList().get(index).getDate(),
-//                                        response.body().getContent().getNewsData().getNewsList().get(index).getNewsUrl(),
-//                                        response.body().getContent().getNewsData().getNewsList().get(index).getImgUrl(),
-//                                        false, false));
-//                            }
-//                        }else if(response.body().getContent().getNewsData().getTotal() == 3){
-//                            for(int index = 0; index < response.body().getContent().getNewsData().getTotal(); index++){
-//                                modelArticles.add(new ModelArticle(response.body().getContent().getNewsData().getTotal(),
-//                                        ReplaceTag(response.body().getContent().getNewsData().getNewsList().get(index).getTitle(), "decode"),
-//                                        response.body().getContent().getNewsData().getNewsList().get(index).getFrom(),
-//                                        response.body().getContent().getNewsData().getNewsList().get(index).getDate(),
-//                                        response.body().getContent().getNewsData().getNewsList().get(index).getNewsUrl(),
-//                                        response.body().getContent().getNewsData().getNewsList().get(index).getImgUrl(),
-//                                        false, false));
-//                            }
-//
-//                            modelArticles.add(new ModelArticle(response.body().getContent().getNewsData().getTotal(),"",
-//                                    "",
-//                                    "",
-//                                    "",
-//                                    "",
-//                                    false, true));
-//                        }
-//
-////                        for(int index = 0; index < response.body().getContent().getNewsData().getTotal(); index++){
-////                            modelArticles.add(new ModelArticle(response.body().getContent().getNewsData().getTotal(),
-////                                    ReplaceTag(response.body().getContent().getNewsData().getNewsList().get(index).getTitle(), "decode"),
-////                                    response.body().getContent().getNewsData().getNewsList().get(index).getFrom(),
-////                                    response.body().getContent().getNewsData().getNewsList().get(index).getDate(),
-////                                    response.body().getContent().getNewsData().getNewsList().get(index).getNewsUrl(),
-////                                    response.body().getContent().getNewsData().getNewsList().get(index).getImgUrl(),
-////                                    false, false));
-////                        }
-//                        // 1개~2개 / 3개 / 3개 ~ 10개 / 10개 초과
-//
-//                    }
-//
-//                    adapterArticle.notifyDataSetChanged();
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ModelCustomDetail> call, Throwable t) {
-//                Log.e("실패","실패"+t.getMessage());
-//            }
-//        });
 
-//        binding.includeSingleDetail.progress.setProgressBackgroundColor(getResources().getColor(R.color.life_line));
-//        binding.includeSingleDetail.progress.setProgressColor(getResources().getColor(R.color.c_4e7cff));
-//        binding.includeSingleDetail.progress.setProgress(50f);
-//
-//        binding.includeSingleDetail.progress2.setProgressBackgroundColor(getResources().getColor(R.color.life_line));
-//        binding.includeSingleDetail.progress2.setProgressColor(getResources().getColor(R.color.c_a8a7a7));
-//        binding.includeSingleDetail.progress2.setProgress(50f);
-
-        binding.includeSingleDetail.articleRecyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        binding.includeSingleDetail.articleRecyclerView.setLayoutManager(layoutManager);
-
-        modelArticles = new ArrayList<>();
-        modelArticlesAll = new ArrayList<>();
-
-        adapterArticle = new AdapterArticle(modelArticles, this);
-        binding.includeSingleDetail.articleRecyclerView.setAdapter(adapterArticle);
-
-        binding.includeSingleDetail.articleRecyclerView.setLayoutManager(new LinearLayoutManager(this){
+        Call<ModelTopCompare> setSearch = RetrofitClient.getInstance(this).getService().getTopCompare(10);
+        setSearch.enqueue(new Callback<ModelTopCompare>() {
             @Override
-            public boolean canScrollHorizontally() {
-                return false;
-            }
-
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-
-//        modelArticles.add(new ModelArticle("제동 걸린 페이스북 가상화폐 '리브라' 누가? 왜? 해법은?", "", "", "", ""));
-//        modelArticles.add(new ModelArticle("애플이 2020년에 '아이폰 4' 디자인 다시 부활시킬 전망이다", "", "", "", ""));
-//        modelArticles.add(new ModelArticle("신한카드, 넷플릭스와 '전용 멤버십' 내놓는다", "", "", "", ""));
-//
-//        adapterArticle.notifyDataSetChanged();
-
-        binding.includeSingleDetail.likeEnterRecyclerView.setHasFixedSize(true);
-        layoutManager2 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
-        binding.includeSingleDetail.likeEnterRecyclerView.setLayoutManager(layoutManager2);
-
-        modelLikeEnters = new ArrayList<>();
-        adapterLikeEnter = new AdapterLikeEnter(modelLikeEnters, this);
-
-        binding.includeSingleDetail.likeEnterRecyclerView.addItemDecoration(new DecorationItemHorizontal(this, 10));
-
-        binding.includeSingleDetail.likeEnterRecyclerView.setAdapter(adapterLikeEnter);
-
-        modelLikeEnters.add(new ModelLikeEnter("","애플","",23.44));
-        modelLikeEnters.add(new ModelLikeEnter("","아마존","",15.66));
-        modelLikeEnters.add(new ModelLikeEnter("","넷플릭스","",16.44));
-        modelLikeEnters.add(new ModelLikeEnter("","페이스북","",5.33));
-        modelLikeEnters.add(new ModelLikeEnter("","구글","",8.12));
-        modelLikeEnters.add(new ModelLikeEnter("","페이코","",1.4));
-        modelLikeEnters.add(new ModelLikeEnter("","삼성","",5.83));
-
-        adapterLikeEnter.notifyDataSetChanged();
-
-        RxView.clicks(binding.followBt).throttleFirst(600, TimeUnit.MILLISECONDS).subscribe(empty -> {
-
-            followClick = true;
-
-            if(followState){
-                follow = 1;
-            }else{
-                follow = 0;
-            }
-
-        });
-
-        binding.backBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(followClick){
-                    Intent intent = new Intent();
-                    intent.putExtra("searched_code", code);
-                    intent.putExtra("potPosition", position);
-                    intent.putExtra("potFollow", follow);
-                    setResult(500, intent);
-                    finish();
-                }
-                else{
-                    finish();
-                }
-            }
-        });
-
-
-        RxView.clicks(binding.includeSingleDetail.m1Bt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
-            if(monTh1) {
-                loading.setVisibility(View.VISIBLE);
-                changedChartBt(binding.includeSingleDetail.m1Bt);
-                monTh1 = false;
-                chartData("one");
-            }else{
-                changedChartBt(binding.includeSingleDetail.m1Bt);
-                drawLineChart(monTh1Entries);
-            }
-        });
-        RxView.clicks(binding.includeSingleDetail.m3Bt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
-            if(monTh3){
-                loading.setVisibility(View.VISIBLE);
-                changedChartBt(binding.includeSingleDetail.m3Bt);
-                monTh3 = false;
-                chartData("thr");
-            }else{
-                changedChartBt(binding.includeSingleDetail.m3Bt);
-                drawLineChart(monTh3Entries);
-            }
-        });
-        RxView.clicks(binding.includeSingleDetail.m6Bt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
-            if(monTh6){
-                loading.setVisibility(View.VISIBLE);
-                changedChartBt(binding.includeSingleDetail.m6Bt);
-                monTh6 = false;
-                chartData("six");
-            }else{
-                changedChartBt(binding.includeSingleDetail.m6Bt);
-                drawLineChart(monTh6Entries);
-            }
-        });
-        RxView.clicks(binding.includeSingleDetail.aBt).throttleFirst(1500, TimeUnit.MILLISECONDS).subscribe(empty -> {
-            changedChartBt(binding.includeSingleDetail.aBt);
-            drawLineChart(entries);
-        });
-
-        adapterArticle.setArticleAddBtClick(new AdapterArticle.ArticleAddBtClick() {
-            @Override
-            public void onClick(int position) {
-
-                if(nowPage >= 10){
-
-                    Intent intent = new Intent(ActivitySingleDetail.this, ActivityArticle.class);
-                    intent.putExtra("code", code);
-                    startActivity(intent);
-
-                }else{
-
-                    if((maxPage - nowPage) > 3){
-
-                        if(nowPage == 3){
-
-                            modelArticles.remove(modelArticles.size()-1);
-                            for(int index = 3; index < 6; index++){
-                                modelArticles.add(new ModelArticle(modelArticlesAll.get(index).getTotal(),
-                                        modelArticlesAll.get(index).getTitle(),
-                                        modelArticlesAll.get(index).getNewspaper(),
-                                        modelArticlesAll.get(index).getDate(),
-                                        modelArticlesAll.get(index).getUrl(),
-                                        modelArticlesAll.get(index).getImg(),
-                                        false, false, false));
-                            }
-                            nowPage = 6;
-                            modelArticles.add(new ModelArticle(0,"",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    false, true, true));
-
-                        }else{
-
-                            modelArticles.remove(modelArticles.size()-1);
-                            for(int index = 6; index < 10; index++){
-                                modelArticles.add(new ModelArticle(modelArticlesAll.get(index).getTotal(),
-                                        modelArticlesAll.get(index).getTitle(),
-                                        modelArticlesAll.get(index).getNewspaper(),
-                                        modelArticlesAll.get(index).getDate(),
-                                        modelArticlesAll.get(index).getUrl(),
-                                        modelArticlesAll.get(index).getImg(),
-                                        false, false, false));
-                            }
-                            nowPage = 10;
-                            modelArticles.add(new ModelArticle(0,"",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    false, true, true));
+            public void onResponse(Call<ModelTopCompare> call, Response<ModelTopCompare> response) {
+                if(response.code() == 200) {
+                    for(int index = 0; index < response.body().getTotalElements(); index++ ){
+                        if(!response.body().getContent().get(index).getCode().equals(code)){
+                            modelLikeEnters.add(new ModelLikeEnter("",
+                                    response.body().getContent().get(index).getName(),
+                                    response.body().getContent().get(index).getCode(),
+                                    response.body().getContent().get(index).getRate()));
                         }
-
-                    }else{
-                        modelArticles.remove(modelArticles.size() - 1);
-                        for (int index = nowPage; index < maxPage; index++) {
-                            modelArticles.add(new ModelArticle(modelArticlesAll.get(index).getTotal(),
-                                    modelArticlesAll.get(index).getTitle(),
-                                    modelArticlesAll.get(index).getNewspaper(),
-                                    modelArticlesAll.get(index).getDate(),
-                                    modelArticlesAll.get(index).getUrl(),
-                                    modelArticlesAll.get(index).getImg(),
-                                    false, false, false));
-                        }
-                        modelArticles.add(new ModelArticle(0, "",
-                                "",
-                                "",
-                                "",
-                                "",
-                                false, true, false));
                     }
+                    adapterLikeEnter.notifyDataSetChanged();
                 }
-                adapterArticle.notifyDataSetChanged();
+            }
+            @Override
+            public void onFailure(Call<ModelTopCompare> call, Throwable t) {
+                Log.e("레트로핏 실패","값 : "+t.getMessage());
             }
         });
 
-        adapterArticle.setArticleEnterClick(new AdapterArticle.ArticleEnterClick() {
+        adapterLikeEnter.setLikeEnterClick(new AdapterLikeEnter.LikeEnterClick() {
             @Override
             public void onClick(int position) {
 
-                Intent intent = new Intent(ActivitySingleDetail.this, ActivityWebViewArticle.class);
-                intent.putExtra("url", modelArticles.get(position).getUrl());
+                Intent intent = new Intent(ActivitySingleDetail.this, ActivitySingleDetail.class);
+                intent.putExtra("title", modelLikeEnters.get(position).getTitle());
+                intent.putExtra("code", modelLikeEnters.get(position).getCode());
                 startActivity(intent);
+                finish();
 
             }
         });
+
 
     }// onCreate 끝
 
@@ -797,50 +739,64 @@ public class ActivitySingleDetail extends AppCompatActivity {
         });
     }
 
-    public String ReplaceTag(String Expression, String type){
-        String result = "";
-        if (Expression==null || Expression.equals("")) return "";
 
-        if (type == "encode") {
-            result = ReplaceString(Expression, "&", "&amp;");
-            result = ReplaceString(result, "\"", "&quot;");
+    void followClick(int type, String code, int following){
 
-            result = ReplaceString(result, "'", "&apos;");
-            result = ReplaceString(result, "<", "&lt;");
-            result = ReplaceString(result, ">", "&gt;");
-            result = ReplaceString(result, "\r", "<br>");
-            result = ReplaceString(result, "\n", "<p>");
-        }
-        else if (type == "decode") {
-            result = ReplaceString(Expression, "&amp;", "&");
-            result = ReplaceString(result, "&quot;", "\"");
+        List<Select> selects = new ArrayList<>();
+        Select select = new Select();
+        select.setIsDam(0);
+        select.setIsLike(0);
+        select.setIsZim(0);
 
-            result = ReplaceString(result, "&apos;", "'");
-            result = ReplaceString(result, "&lt;", "<");
-            result = ReplaceString(result, "&gt;", ">");
-            result = ReplaceString(result, "<br>", "\r");
-            result = ReplaceString(result, "<p>", "\n");
-        }
+        select.setCode(code);
+        select.setIsFollow(following);
+        select.setType(type);
+        selects.add(select);
 
-        return result;
+        ModelUserSelectDto modelUserSelectDto = new ModelUserSelectDto();
+        modelUserSelectDto.setSelects(selects);
+
+        Call<Object> getUserSelect = RetrofitClient.getInstance().getService().setUserSelect("application/json", "follow", modelUserSelectDto);
+        getUserSelect.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.code() == 200) {
+
+                    DataManager.get_INstance().setCheckTab1(true);
+                    DataManager.get_INstance().setCheckTab2(true);
+                    DataManager.get_INstance().setCheckHome(true);
+
+                    if(following == 1){
+                        follow = 1;
+                        binding.followBt.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_on_blue));
+                        Toast.makeText(ActivitySingleDetail.this.getApplicationContext(), "팔로우", Toast.LENGTH_SHORT).show();
+                    }else{
+                        follow = 0;
+                        binding.followBt.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_off_gray));
+                        Toast.makeText(ActivitySingleDetail.this.getApplicationContext(), "팔로우 취소", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.e("실패","실패"+t.getMessage());
+            }
+        });
     }
 
-    public String ReplaceString(String Expression, String Pattern, String Rep)
-    {
-        if (Expression==null || Expression.equals("")) return "";
+    @Override
+    public void onBackPressed() {
 
-        int s = 0;
-        int e = 0;
-        StringBuffer result = new StringBuffer();
-
-        while ((e = Expression.indexOf(Pattern, s)) >= 0) {
-            result.append(Expression.substring(s, e));
-            result.append(Rep);
-            s = e + Pattern.length();
+        if(followClick){
+            Intent intent = new Intent();
+            intent.putExtra("searched_code", code);
+            intent.putExtra("potPosition", position);
+            intent.putExtra("potFollow", follow);
+            setResult(500, intent);
+            finish();
         }
-        result.append(Expression.substring(s));
-        return result.toString();
+        else{
+            finish();
+        }
     }
-
-
 }

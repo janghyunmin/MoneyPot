@@ -1,5 +1,7 @@
 package com.quantec.moneypot.datamodel.nmodel.topcompare;
 
+import android.content.Intent;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -26,10 +28,10 @@ public class Content {
     private Double rate;
     @SerializedName("price")
     @Expose
-    private Double price;
+    private Integer price;
     @SerializedName("minPrice")
     @Expose
-    private Double minPrice;
+    private Integer minPrice;
     @SerializedName("elCodes")
     @Expose
     private Object elCodes;
@@ -91,19 +93,19 @@ public class Content {
         this.rate = rate;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public Double getMinPrice() {
+    public Integer getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(Double minPrice) {
+    public void setMinPrice(Integer minPrice) {
         this.minPrice = minPrice;
     }
 

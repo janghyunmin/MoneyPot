@@ -13,10 +13,12 @@ import com.quantec.moneypot.activity.Main.Fragment.Tab3.ModelPotSimul;
 import com.quantec.moneypot.datamodel.nmodel.ModelAccountExist;
 import com.quantec.moneypot.datamodel.nmodel.ModelAccounts;
 import com.quantec.moneypot.datamodel.nmodel.ModelApiToken;
+import com.quantec.moneypot.datamodel.nmodel.ModelAppInfo;
 import com.quantec.moneypot.datamodel.nmodel.ModelArticle;
 import com.quantec.moneypot.datamodel.nmodel.ModelAssetsCustom;
 import com.quantec.moneypot.datamodel.nmodel.ModelChartData;
 import com.quantec.moneypot.datamodel.nmodel.ModelChkNicName;
+import com.quantec.moneypot.datamodel.nmodel.ModelChkService;
 import com.quantec.moneypot.datamodel.nmodel.ModelCommonData;
 import com.quantec.moneypot.datamodel.nmodel.ModelCustomDetail;
 import com.quantec.moneypot.datamodel.nmodel.ModelElSumList;
@@ -401,19 +403,19 @@ public interface RetrofitService {
 
     /**
      *
-     * 묶음기업 개별 종목 리스트
+     * 뉴스 제목 검색
      *
      *
      */
     @POST("core/getNewsSearch/{page}/{cnt}/{search}")
-    Call<Object> getNewsSearch(@Header("Content-Type") String content_type, @Path("page") int page, @Path("cnt") int cnt, @Path("search") String search);
+    Call<ModelArticle> getNewsSearch(@Path("page") int page, @Path("cnt") int cnt, @Path("search") String search);
 
 
     /**
      *
      * 단일 묶음 혼합해서 수익률 순위로 뿌려줌
      *
-     * type: one|three|six|2year
+     * type: one|three|six|all
      * 한달/세달/여섯달/2년기준 (우선은 한달기준만)
      * 묶음, 단일종목 짬뽕되야 해서 페이징없이 전체 리스트 리턴
      *
@@ -431,6 +433,7 @@ public interface RetrofitService {
      * code --> 코드 BABA|FP0001
      * page --> 페이지 0|1… (단일|묶음)
      * type --> 타입 0|1 (단일|묶음)
+     *
      */
     @POST("core/getNewsData/{page}/{cnt}/{type}/{code}")
     Call<com.quantec.moneypot.datamodel.nmodel.ModelArticle> getNewsData(@Path("page") int page, @Path("cnt") int cnt, @Path("type") String type, @Path("code") String code);
@@ -444,6 +447,31 @@ public interface RetrofitService {
      */
     @GET("home/getTopCompare/{cnt}")
     Call<ModelTopCompare> getTopCompare(@Path("cnt") int cnt);
+
+    /**
+     *
+     * service 체크
+     *
+     * type:OK(정상)
+     * type:serviceError(서비스점검등 팜업), isStop:1(앱종료)/2(팝업만 닫기)
+     * type:dbError(DB접속 오류 팜업), isStop:1(앱종료)/2(팝업만 닫기)
+     * type:serviceNotice(서비스공지 팜업), isStop:1(앱종료)/2(팝업만 닫기), notice는 list형임.
+     *
+     *
+     */
+    @GET("common/chkService")
+    Call<ModelChkService> chkService();
+
+
+    /**
+     *
+     * AppInfo 리턴
+     *
+     * 리턴되는 버전은 로컬에 저장, 이후 버전이 다를 경우 강제 마켓으로 이동
+     *
+     */
+    @GET("common/getAppInfo")
+    Call<ModelAppInfo> getAppInfo();
 
 }
 

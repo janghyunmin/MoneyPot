@@ -42,6 +42,8 @@ public class ActivityLoginPage extends AppCompatActivity {
     private DialogLoadingMakingPort loadingCustomMakingPort;
     private MagicFIDOUtil mFidoUtil = null;
 
+    private String fcmToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,6 +182,155 @@ public class ActivityLoginPage extends AppCompatActivity {
     }
 
     public void nextMainPage(){
+
+
+        Call<ModelSearchDb> getReList = RetrofitClient.getInstance(ActivityIntro.this).getService().getStockDb();
+        getReList.enqueue(new Callback<ModelSearchDb>() {
+            @Override
+            public void onResponse(Call<ModelSearchDb> call, Response<ModelSearchDb> response) {
+                if (response.code() == 200) {
+
+                    searchViewModel = ViewModelProviders.of(ActivityIntro.this).get(SearchViewModel2.class);
+                    roomDao = SearchRoomDatabase.getINSTANCE(ActivityIntro.this).roomDao();
+                    DeleteAll();
+
+
+                    for (int index = 0; index < response.body().getContent().getRateList().size(); index++) {
+
+                        String elCodes = "";
+                        String descript = "";
+                        int follow = 0;
+
+                        if(response.body().getContent().getRateList().get(index).getUserSelect() != null){
+                            follow = response.body().getContent().getRateList().get(index).getUserSelect().getIsFollow();
+                        }else{
+                            follow = 0;
+                        }
+
+                        if(response.body().getContent().getRateList().get(index).getElCodes() != null){
+                            elCodes = response.body().getContent().getRateList().get(index).getElCodes().toString();
+                        }else{
+                            elCodes = "";
+                        }
+
+                        if(response.body().getContent().getRateList().get(index).getSearchField() != null){
+                            descript = response.body().getContent().getRateList().get(index).getSearchField().toString();
+                        }else{
+                            descript = "";
+                        }
+
+                        RoomDataInsert("",
+                                response.body().getContent().getRateList().get(index).getType(),
+                                response.body().getContent().getRateList().get(index).getCode(),
+                                response.body().getContent().getRateList().get(index).getName(),
+                                elCodes,
+                                descript,
+                                response.body().getContent().getRateList().get(index).getRate(),
+                                follow);
+                    }
+
+
+                    InitReqDto initReqDto = new InitReqDto(authCode, userCid, fcmToken, userId);
+                    Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+                    String jsonItentifyData = gson.toJson(initReqDto).replace("\\n", "").replace(" ", "")
+                            .replace("\\", "").replace("\"{", "{").replace("}\"", "}");
+
+                    Call<ModelAppInit> getReList = RetrofitClient.getInstance().getService().getAppInitData("application/json",jsonItentifyData);
+                    getReList.enqueue(new Callback<ModelAppInit>() {
+                        @Override
+                        public void onResponse(Call<ModelAppInit> call, Response<ModelAppInit> response) {
+                            if (response.code() == 200) {
+                                if(response.body().getStatus() == 200){
+                                    if(response.body().getContent().getActiveStep() >= 10) {
+
+                                        // FIDO PASSCODE 사용 가능 여부 체크
+                                        if(mFidoUtil.isAvailableFIDO(LOCAL_AUTH_TYPE.LOCAL_PACODE_TYPE)){
+
+                                            ModelAuthReqDto initReqDto = new ModelAuthReqDto(authCode, "",userId);
+                                            Call<ModelRegChk> getRegChkData = RetrofitClient.getInstance().getService().getRegChkData("application/json", initReqDto);
+                                            getRegChkData.enqueue(new Callback<ModelRegChk>() {
+                                                @Override
+                                                public void onResponse(Call<ModelRegChk> call, Response<ModelRegChk> response) {
+                                                    if(response.code() == 200) {
+
+                                                        boolean finger = false;
+                                                        boolean passcode = false;
+
+                                                        for(int index = 0 ; index < response.body().getContent().size() ; index++) {
+
+                                                            if(response.body().getContent().get(index).getSite().equals("FINGER")){
+                                                                finger = response.body().getContent().get(index).isFidoReg();
+                                                            }else if(response.body().getContent().get(index).getSite().equals("PASSCODE")){
+                                                                passcode = response.body().getContent().get(index).isFidoReg();
+                                                            }
+                                                        }
+
+                                                        MovedFidoPage(passcode, finger);
+                                                    }
+                                                }
+                                                @Override
+                                                public void onFailure(Call<ModelRegChk> call, Throwable t) {
+                                                    Toast.makeText(getApplicationContext(), "서버가 불안정합니다\n잠시 후 다시 시도해 주세요.",Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                        }else{
+
+                                            loadingCustomMakingPort = new DialogLoadingMakingPort(getApplicationContext(), "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
+                                            loadingCustomMakingPort.show();
+
+                                            Toast.makeText(getApplicationContext(), "파이도 사용 불가능 로그인 페이지 이동", Toast.LENGTH_SHORT).show();
+
+                                            final Intent intent1 = new Intent(ActivityIntro.this, ActivityLoginPage.class);
+                                            Handler mHandler = new Handler();
+                                            mHandler.postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    loadingCustomMakingPort.dismiss();
+                                                    intent1.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                    startActivity(intent1);
+                                                    finish();
+                                                }
+                                            }, 1300);
+                                        }
+                                    }
+                                    else{
+
+                                        loadingCustomMakingPort = new DialogLoadingMakingPort(getApplicationContext(), "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
+                                        loadingCustomMakingPort.show();
+
+                                        Toast.makeText(getApplicationContext(), "액티브스텝이 10이상이 아니므로 가입페이지 이동", Toast.LENGTH_SHORT).show();
+
+                                        Intent intent = new Intent(ActivityIntro.this, ActivityResistIntro.class);
+                                        Handler mHandler = new Handler();
+                                        mHandler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+                                                loadingCustomMakingPort.dismiss();
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        }, 1300);
+                                    }
+                                }
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<ModelAppInit> call, Throwable t) {
+                        }
+                    });
+
+                }
+            }
+            @Override
+            public void onFailure(Call<ModelSearchDb> call, Throwable t) {
+                Log.e("실패","실패"+t.getMessage());
+            }
+        });
+
 
         loadingCustomMakingPort = new DialogLoadingMakingPort(ActivityLoginPage.this, "주식투자는 단기적 수익을 쫒기 보다는\n장기적으로 보아야 성공할 수 있습니다.");
         loadingCustomMakingPort.show();

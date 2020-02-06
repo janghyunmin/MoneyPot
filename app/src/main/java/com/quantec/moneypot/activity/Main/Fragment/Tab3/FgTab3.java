@@ -443,6 +443,7 @@ public class FgTab3 extends Fragment {
                                 }
                                 ChartManager.get_Instance().setTransChartLists(modelTransChartLists);
                                 Intent intent = new Intent(activityMain, ActivitySimulation.class);
+                                intent.putExtra("price", response.body().getContent().getCore().getMinPrice());
                                 intent.putExtra("rate", response.body().getContent().getCore().getRate());
                                 intent.putExtra("nowPrice", response.body().getContent().getCore().getNowPrice());
                                 intent.putParcelableArrayListExtra("chartData", modelPreChartLists);

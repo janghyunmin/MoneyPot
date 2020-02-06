@@ -49,6 +49,20 @@ public class AdapterScroll extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((ScrollViewHolder)holder).desc.setText(modelRecomLists.get(position).getDesc());
             ((ScrollViewHolder)holder).rate.setText(String.valueOf(modelRecomLists.get(position).getRate()));
 
+            if(modelRecomLists.get(position).getPrice() <= 10000){
+                ((ScrollViewHolder)holder).subTitle.setVisibility(View.INVISIBLE);
+            }else{
+                ((ScrollViewHolder)holder).subTitle.setVisibility(View.GONE);
+            }
+
+            if(modelRecomLists.get(position).getRate() < 0){
+                ((ScrollViewHolder)holder).rate.setTextColor(context.getResources().getColor(R.color.c_4e7cff));
+                ((ScrollViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.c_4e7cff));
+            }else{
+                ((ScrollViewHolder)holder).rate.setTextColor(context.getResources().getColor(R.color.c_f02654));
+                ((ScrollViewHolder)holder).per.setTextColor(context.getResources().getColor(R.color.c_f02654));
+            }
+
             int resource =context.getResources().getIdentifier("img_reco_"+modelRecomLists.get(position).getCode().toLowerCase(), "drawable", context.getPackageName());
 //            ((ScrollViewHolder)holder).image.setImageDrawable(context.getResources().getDrawable(resource));
 //            if(position == 0){
@@ -77,7 +91,7 @@ public class AdapterScroll extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class ScrollViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, desc, rate;
+        TextView title, desc, rate, per, subTitle;
         ConstraintLayout itemLayout;
         ImageView image;
 
@@ -87,6 +101,8 @@ public class AdapterScroll extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             title = itemView.findViewById(R.id.title);
             desc = itemView.findViewById(R.id.desc);
             rate = itemView.findViewById(R.id.rate);
+            per = itemView.findViewById(R.id.per);
+            subTitle = itemView.findViewById(R.id.subTitle);
 
             itemLayout = itemView.findViewById(R.id.itemLayout);
             image = itemView.findViewById(R.id.image);
